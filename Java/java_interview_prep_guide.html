@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Interview Prep — Yogesh</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sora',sans-serif;background:#0d0d0d;color:#e8e6df;min-height:100vh;padding:0}
+  a{color:#f5a623;text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .hero{background:linear-gradient(135deg,#0d0d0d 0%,#1a1208 60%,#0d0d0d 100%);border-bottom:1px solid #2a2a2a;padding:2.5rem 2rem 2rem}
+  .hero-badge{display:inline-block;background:#f5a623;color:#0d0d0d;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:1rem}
+  .hero h1{font-size:2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem}
+  .hero h1 span{color:#f5a623}
+  .hero p{font-size:.9rem;color:#888;max-width:600px;line-height:1.6}
+
+  .countdown{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+  .cd-box{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:.75rem 1.25rem;text-align:center;min-width:70px}
+  .cd-num{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:#f5a623;display:block}
+  .cd-label{font-size:.65rem;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+  .nav{display:flex;gap:0;border-bottom:1px solid #1e1e1e;background:#111;overflow-x:auto;position:sticky;top:0;z-index:10}
+  .nav-btn{padding:.8rem 1.25rem;font-size:.8rem;font-weight:500;color:#555;background:none;border:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;font-family:'Sora',sans-serif;transition:all .2s}
+  .nav-btn:hover{color:#ccc}
+  .nav-btn.active{color:#f5a623;border-bottom-color:#f5a623}
+
+  .content{padding:2rem;max-width:860px}
+
+  .section{display:none}
+  .section.active{display:block}
+
+  .day-card{border:1px solid #222;border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
+  .day-header{padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;cursor:pointer;user-select:none}
+  .day-badge{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:3px;letter-spacing:1px}
+  .day1 .day-badge{background:#1e2d1e;color:#4caf50}
+  .day2 .day-badge{background:#1a1e2d;color:#5c9bd6}
+  .day3 .day-badge{background:#2d1e2a;color:#d65c9b}
+  .day-title{font-size:1rem;font-weight:600;flex:1}
+  .day-sub{font-size:.75rem;color:#666}
+  .day-arrow{color:#444;font-size:1rem;transition:transform .2s}
+  .day-card.open .day-arrow{transform:rotate(180deg)}
+  .day-body{display:none;padding:0 1.25rem 1.25rem;border-top:1px solid #1a1a1a}
+  .day-card.open .day-body{display:block}
+
+  .topic{margin-top:1rem}
+  .topic-title{font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#f5a623;margin-bottom:.5rem}
+  .pill-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem}
+  .pill{font-size:.75rem;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;padding:3px 10px;color:#bbb}
+  .pill.known{border-color:#2d3d2d;color:#6abf69;background:#131a13}
+  .pill.new{border-color:#3d2a1a;color:#f5a623;background:#1a1208}
+
+  .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:.5rem}
+  .res-card{background:#111;border:1px solid #222;border-radius:8px;padding:.85rem 1rem;display:flex;flex-direction:column;gap:.35rem}
+  .res-title{font-size:.8rem;font-weight:600;color:#e8e6df}
+  .res-tag{font-size:.65rem;letter-spacing:.5px;padding:2px 7px;border-radius:2px;display:inline-block;width:fit-content}
+  .tag-yt{background:#2a1a1a;color:#e05252}
+  .tag-docs{background:#1a2a1a;color:#5caf6a}
+  .tag-practice{background:#1a1a2a;color:#5c9bd6}
+  .tag-free{background:#2a2a1a;color:#d6b85c}
+  .res-link{font-size:.75rem;color:#f5a623;margin-top:auto}
+
+  .checklist{list-style:none;margin-top:.5rem}
+  .checklist li{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-bottom:1px solid #181818;font-size:.85rem;color:#ccc;line-height:1.5}
+  .checklist li:last-child{border-bottom:none}
+  .chk{width:18px;height:18px;border:1px solid #333;border-radius:3px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:2px;background:#111;transition:all .15s}
+  .chk.done{background:#2d3d2d;border-color:#4caf50}
+  .chk.done::after{content:'✓';font-size:.65rem;color:#4caf50}
+
+  .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+  .compare-box{background:#111;border:1px solid #1e1e1e;border-radius:8px;padding:1rem}
+  .compare-box h4{font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem}
+  .compare-box.cpp h4{color:#5c9bd6}
+  .compare-box.java h4{color:#f5a623}
+  .code-block{font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.7;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:6px;padding:.75rem;overflow-x:auto;color:#ccc;margin-top:.5rem;white-space:pre}
+  .kw{color:#c792ea}
+  .str{color:#c3e88d}
+  .cm{color:#546e7a}
+  .fn{color:#82aaff}
+  .num{color:#f78c6c}
+
+  .qa-item{margin-bottom:1rem;border:1px solid #1e1e1e;border-radius:8px;overflow:hidden}
+  .qa-q{padding:.85rem 1rem;font-size:.85rem;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#111}
+  .qa-q:hover{background:#161616}
+  .qa-a{display:none;padding:.85rem 1rem;font-size:.82rem;color:#aaa;line-height:1.7;border-top:1px solid #1a1a1a;background:#0d0d0d}
+  .qa-a code{font-family:'JetBrains Mono',monospace;background:#1a1a1a;padding:1px 6px;border-radius:3px;font-size:.78rem;color:#f5a623}
+  .qa-item.open .qa-a{display:block}
+  .qa-arr{color:#444;font-size:.8rem;transition:transform .2s}
+  .qa-item.open .qa-arr{transform:rotate(180deg)}
+
+  .progress-bar{height:6px;background:#1a1a1a;border-radius:3px;margin-top:1rem;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#f5a623,#e8793a);border-radius:3px;transition:width .3s}
+
+  .tip-box{background:#1a1208;border:1px solid #3d2a0a;border-left:3px solid #f5a623;border-radius:0 6px 6px 0;padding:.85rem 1rem;margin:.75rem 0;font-size:.82rem;color:#c8a96e;line-height:1.6}
+  .tip-box strong{color:#f5a623}
+
+  .schedule-row{display:flex;gap:.75rem;margin-bottom:.6rem;align-items:flex-start}
+  .time-pill{font-family:'JetBrains Mono',monospace;font-size:.7rem;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:3px;padding:2px 8px;color:#888;white-space:nowrap;min-width:90px;text-align:center;margin-top:2px}
+  .sched-text{font-size:.82rem;color:#ccc;line-height:1.5}
+
+  @media(max-width:520px){
+    .compare-row{grid-template-columns:1fr}
+    .hero h1{font-size:1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🎯 Interview Prep</div>
+  <h1>Java Crash Course<br><span>for NeuralMetrics Interview</span></h1>
+  <p>Tailored for you — you know C++, Node.js, REST APIs, DSA, Docker. You just need Java syntax + Spring Boot. That's it.</p>
+  <div class="countdown" id="countdown">
+    <div class="cd-box"><span class="cd-num" id="cd-d">-</span><span class="cd-label">Days</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-h">-</span><span class="cd-label">Hours</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-m">-</span><span class="cd-label">Mins</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-s">-</span><span class="cd-label">Secs</span></div>
+  </div>
+  <div class="progress-bar" style="margin-top:1.25rem">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <p style="font-size:.72rem;color:#444;margin-top:.4rem" id="progress-text">Track your checklist progress below</p>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showTab('plan')">📅 3-Day Plan</button>
+  <button class="nav-btn" onclick="showTab('java101')">☕ Java vs C++</button>
+  <button class="nav-btn" onclick="showTab('qna')">❓ Mock Q&A</button>
+  <button class="nav-btn" onclick="showTab('resources')">🔗 All Resources</button>
+  <button class="nav-btn" onclick="showTab('day3tips')">🎤 Interview Day</button>
+</nav>
+
+<div class="content">
+
+<!-- PLAN TAB -->
+<div class="section active" id="tab-plan">
+
+  <!-- DAY 1 -->
+  <div class="day-card day1 open">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-badge">DAY 1 — JUN 6</span>
+      <div>
+        <div class="day-title">Java Core Syntax</div>
+        <div class="day-sub">~5 hours · You already know 70% of this conceptually</div>
+      </div>
+      <span class="day-arrow">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="tip-box"><strong>Strategy:</strong> You know C++ OOP. Java OOP is 80% the same — no pointers, no manual memory, everything is a class. Learn the syntax, not the concept.</div>
+      <div class="topic">
+        <div class="topic-title">What to cover</div>
+        <div class="pill-row">
+          <span class="pill new">Java syntax basics</span>
+          <span class="pill new">OOP in Java (classes, interfaces, abstract)</span>
+          <span class="pill known">Already know: OOP concepts ✓</span>
+          <span class="pill new">Collections (ArrayList, HashMap, HashSet)</span>
+          <span class="pill known">Already know: STL equivalent ✓</span>
+          <span class="pill new">Exception handling (try/catch/finally)</span>
+          <span class="pill new">Multithreading basics</span>
+          <span class="pill known">Already know: DSA ✓</span>
+        </div>
+      </div>
+      <div class="topic">
+        <div class="topic-title">Hourly schedule</div>
+        <div class="schedule-row"><span class="time-pill">1:00–2:30</span><span class="sched-text">Watch <a href="https://youtu.be/eIrMbAQSU34" target="_blank">Java Full Course – Amigoscode (2h)</a> — syntax, classes, methods</span></div>
+        <div class="schedule-row"><span class="time-pill">2:30–3:30</span><span class="sched-text">Collections: <a href="https://www.w3schools.com/java/java_arraylist.asp" target="_blank">ArrayList</a>, <a href="https://www.w3schools.com/java/java_hashmap.asp" target="_blank">HashMap</a> — write 5 small programs</span></div>
+        <div class="schedule-row"><span class="time-pill">3:30–4:00</span><span class="sched-text">Exception handling + <a href="https://www.w3schools.com/java/java_interface.asp" target="_blank">Interfaces vs Abstract classes</a></span></div>
+        <div class="schedule-row"><span class="time-pill">4:00–5:00</span><span class="sched-text">Multithreading: Thread, Runnable, synchronized — <a href="https://youtu.be/TCd8QIS-2KI" target="_blank">watch this short video</a></span></div>
+      </div>
+      <div class="topic">
+        <div class="topic-title">Checklist</div>
+        <ul class="checklist" id="cl-day1">
+          <li><span class="chk" onclick="check(this)"></span>Set up Java + IntelliJ / VS Code</li>
+          <li><span class="chk" onclick="check(this)"></span>Write a class with constructors, getters, setters</li>
+          <li><span class="chk" onclick="check(this)"></span>Implement an interface (e.g. Animal → Dog, Cat)</li>
+          <li><span class="chk" onclick="check(this)"></span>Use ArrayList and HashMap in a small program</li>
+          <li><span class="chk" onclick="check(this)"></span>Write a try/catch block with custom exception</li>
+          <li><span class="chk" onclick="check(this)"></span>Create 2 threads using Runnable interface</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-card day2">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-badge">DAY 2 — JUN 7</span>
+      <div>
+        <div class="day-title">Spring Boot + REST APIs</div>
+        <div class="day-sub">~5 hours · You already built this in Node/Express</div>
+      </div>
+      <span class="day-arrow">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="tip-box"><strong>Strategy:</strong> Spring Boot = Express.js but for Java. You already know REST, HTTP methods, routing, DB queries. Just learn the annotations and JPA syntax.</div>
+      <div class="topic">
+        <div class="topic-title">Concept mapping (Express → Spring Boot)</div>
+        <div style="overflow-x:auto">
+        <table style="width:100%;font-size:.78rem;border-collapse:collapse;margin-top:.5rem">
+          <tr style="border-bottom:1px solid #222">
+            <th style="text-align:left;padding:.5rem .75rem;color:#5c9bd6;font-weight:500">Express (you know)</th>
+            <th style="text-align:left;padding:.5rem .75rem;color:#f5a623;font-weight:500">Spring Boot equivalent</th>
+          </tr>
+          <tr style="border-bottom:1px solid #1a1a1a"><td style="padding:.4rem .75rem;color:#999">app.get('/path', fn)</td><td style="padding:.4rem .75rem;color:#ccc">@GetMapping("/path")</td></tr>
+          <tr style="border-bottom:1px solid #1a1a1a"><td style="padding:.4rem .75rem;color:#999">app.post('/path', fn)</td><td style="padding:.4rem .75rem;color:#ccc">@PostMapping("/path")</td></tr>
+          <tr style="border-bottom:1px solid #1a1a1a"><td style="padding:.4rem .75rem;color:#999">req.body</td><td style="padding:.4rem .75rem;color:#ccc">@RequestBody</td></tr>
+          <tr style="border-bottom:1px solid #1a1a1a"><td style="padding:.4rem .75rem;color:#999">req.params.id</td><td style="padding:.4rem .75rem;color:#ccc">@PathVariable Long id</td></tr>
+          <tr style="border-bottom:1px solid #1a1a1a"><td style="padding:.4rem .75rem;color:#999">mongoose.save()</td><td style="padding:.4rem .75rem;color:#ccc">repository.save(entity)</td></tr>
+          <tr><td style="padding:.4rem .75rem;color:#999">process.env</td><td style="padding:.4rem .75rem;color:#ccc">application.properties</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="topic">
+        <div class="topic-title">Hourly schedule</div>
+        <div class="schedule-row"><span class="time-pill">1:00–2:00</span><span class="sched-text">Spring Boot setup: <a href="https://start.spring.io" target="_blank">start.spring.io</a> → generate project, understand folder structure</span></div>
+        <div class="schedule-row"><span class="time-pill">2:00–3:30</span><span class="sched-text">Build CRUD REST API — <a href="https://youtu.be/31KTdfRH6nY" target="_blank">Spring Boot in 1 hour (Amigoscode)</a></span></div>
+        <div class="schedule-row"><span class="time-pill">3:30–4:30</span><span class="sched-text">Connect PostgreSQL using Spring Data JPA — <a href="https://spring.io/guides/gs/accessing-data-jpa" target="_blank">official guide</a></span></div>
+        <div class="schedule-row"><span class="time-pill">4:30–5:00</span><span class="sched-text">Learn @Entity, @Table, @Id, @Column, basic JPA queries</span></div>
+      </div>
+      <div class="topic">
+        <div class="topic-title">What to build today</div>
+        <div class="tip-box" style="margin-top:.25rem">Build a simple <strong>Student CRUD API</strong> — POST /students, GET /students, GET /students/{id}, DELETE /students/{id}. Connect it to PostgreSQL. Takes ~2 hours but covers everything they'll ask.</div>
+      </div>
+      <div class="topic">
+        <div class="topic-title">Checklist</div>
+        <ul class="checklist" id="cl-day2">
+          <li><span class="chk" onclick="check(this)"></span>Generate Spring Boot project from start.spring.io</li>
+          <li><span class="chk" onclick="check(this)"></span>Create @RestController with GET + POST endpoints</li>
+          <li><span class="chk" onclick="check(this)"></span>Add @Entity class and connect to PostgreSQL</li>
+          <li><span class="chk" onclick="check(this)"></span>Use JpaRepository for save/findAll/delete</li>
+          <li><span class="chk" onclick="check(this)"></span>Test all endpoints using Postman or curl</li>
+          <li><span class="chk" onclick="check(this)"></span>Understand @Service and @Repository layers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-card day3">
+    <div class="day-header" onclick="toggleDay(this)">
+      <span class="day-badge">DAY 3 — JUN 8</span>
+      <div>
+        <div class="day-title">Revision + Mock Interview Prep</div>
+        <div class="day-sub">~4 hours · Polish + practice questions</div>
+      </div>
+      <span class="day-arrow">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="tip-box"><strong>Strategy:</strong> Don't learn new things on Day 3. Revise, practice saying answers out loud, and prepare your resume talking points.</div>
+      <div class="topic">
+        <div class="topic-title">Schedule</div>
+        <div class="schedule-row"><span class="time-pill">9:00–10:30</span><span class="sched-text">Revise all Java Core concepts — skim your Day 1 programs</span></div>
+        <div class="schedule-row"><span class="time-pill">10:30–12:00</span><span class="sched-text">Revise Spring Boot — re-read your Student CRUD code</span></div>
+        <div class="schedule-row"><span class="time-pill">12:00–13:00</span><span class="sched-text">Practice Q&A from Mock Q&A tab (answer out loud)</span></div>
+        <div class="schedule-row"><span class="time-pill">13:00–14:00</span><span class="sched-text">Prepare your project explanations (CodeSphere, SwiftQueue)</span></div>
+        <div class="schedule-row"><span class="time-pill">14:00–15:00</span><span class="sched-text">Rest. Do NOT cram new topics.</span></div>
+      </div>
+      <div class="topic">
+        <div class="topic-title">Checklist</div>
+        <ul class="checklist" id="cl-day3">
+          <li><span class="chk" onclick="check(this)"></span>Can explain OOP pillars with Java code examples</li>
+          <li><span class="chk" onclick="check(this)"></span>Can explain HashMap vs ArrayList when to use which</li>
+          <li><span class="chk" onclick="check(this)"></span>Can explain what Spring Boot does in one sentence</li>
+          <li><span class="chk" onclick="check(this)"></span>Can walk through your Student CRUD API code</li>
+          <li><span class="chk" onclick="check(this)"></span>Prepared 2-minute intro about yourself</li>
+          <li><span class="chk" onclick="check(this)"></span>Prepared story about CodeSphere / SwiftQueue</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JAVA 101 TAB -->
+<div class="section" id="tab-java101">
+  <div class="tip-box"><strong>You know C++ and Python.</strong> Below are the most important syntax differences. Read this once, then write the code yourself.</div>
+
+  <div class="compare-row">
+    <div class="compare-box cpp">
+      <h4>C++ / Python</h4>
+      <div class="code-block"><span class="cm">// C++ class</span>
+<span class="kw">class</span> <span class="fn">Animal</span> {
+<span class="kw">public</span>:
+  string name;
+  <span class="fn">Animal</span>(string n) {
+    name = n;
+  }
+  <span class="kw">virtual</span> <span class="kw">void</span> <span class="fn">speak</span>() {}
+};</div>
+    </div>
+    <div class="compare-box java">
+      <h4>Java</h4>
+      <div class="code-block"><span class="cm">// Java class</span>
+<span class="kw">public class</span> <span class="fn">Animal</span> {
+  <span class="kw">private</span> String name;
+  
+  <span class="kw">public</span> <span class="fn">Animal</span>(String n) {
+    <span class="kw">this</span>.name = n;
+  }
+  <span class="kw">public void</span> <span class="fn">speak</span>() {}
+}</div>
+    </div>
+  </div>
+
+  <div class="compare-row" style="margin-top:.75rem">
+    <div class="compare-box cpp">
+      <h4>C++ vector / map</h4>
+      <div class="code-block">vector&lt;string&gt; list;
+list.push_back(<span class="str">"hello"</span>);
+
+map&lt;string,int&gt; m;
+m[<span class="str">"age"</span>] = <span class="num">21</span>;</div>
+    </div>
+    <div class="compare-box java">
+      <h4>Java Collections</h4>
+      <div class="code-block">List&lt;String&gt; list = 
+  <span class="kw">new</span> <span class="fn">ArrayList</span>&lt;&gt;();
+list.<span class="fn">add</span>(<span class="str">"hello"</span>);
+
+Map&lt;String,Integer&gt; m = 
+  <span class="kw">new</span> <span class="fn">HashMap</span>&lt;&gt;();
+m.<span class="fn">put</span>(<span class="str">"age"</span>, <span class="num">21</span>);</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem">
+    <div class="topic-title" style="margin-bottom:.75rem">Key Java-specific things to know</div>
+    <ul class="checklist">
+      <li><span class="chk done" style="cursor:default">✓</span><div><strong style="color:#f5a623">interface vs abstract class</strong> — Interface: multiple inheritance, no state. Abstract: single inheritance, can have state. Use interface when you want a contract.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div><strong style="color:#f5a623">Checked vs Unchecked exceptions</strong> — Checked (IOException) must be declared or caught. Unchecked (NullPointerException) can be ignored.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div><strong style="color:#f5a623">String is immutable</strong> — Every operation creates a new String. Use StringBuilder for concatenation in loops.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div><strong style="color:#f5a623">== vs .equals()</strong> — == compares references. .equals() compares content. Always use .equals() for Strings.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div><strong style="color:#f5a623">No pointers, no delete</strong> — Java has garbage collection. You just stop referencing an object and it gets cleaned up.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div><strong style="color:#f5a623">Everything extends Object</strong> — All Java classes inherit from Object automatically. toString(), hashCode(), equals() come for free.</div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q&A TAB -->
+<div class="section" id="tab-qna">
+  <div class="tip-box" style="margin-bottom:1.25rem"><strong>Practice these out loud.</strong> Tap each question to see a strong answer. These are exactly what a fresher Java interview at an InsurTech company will cover.</div>
+
+  <div style="margin-bottom:.5rem;font-size:.72rem;color:#555;letter-spacing:1px;text-transform:uppercase">Java Core</div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">What is OOP? Explain with an example. <span class="qa-arr">▼</span></div>
+    <div class="qa-a">OOP has 4 pillars: <strong>Encapsulation</strong> (hiding data with private fields + getters/setters), <strong>Inheritance</strong> (subclass extends superclass), <strong>Polymorphism</strong> (same method name, different behavior), <strong>Abstraction</strong> (hiding implementation details via interfaces/abstract classes). Example: <code>Animal</code> is abstract, <code>Dog extends Animal</code> overrides <code>speak()</code> to return "Woof".</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">What's the difference between interface and abstract class? <span class="qa-arr">▼</span></div>
+    <div class="qa-a">Interface: pure contract, no state, a class can implement multiple interfaces. Abstract class: can have fields, constructors, concrete methods, but only single inheritance. Use interface for capabilities (Runnable, Comparable), use abstract class for shared base behavior.</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">What is multithreading? How do you create a thread? <span class="qa-arr">▼</span></div>
+    <div class="qa-a">Multithreading = multiple threads running concurrently. Two ways: (1) extend <code>Thread</code> and override <code>run()</code>, (2) implement <code>Runnable</code> and pass to <code>new Thread(runnable).start()</code>. Prefer Runnable because Java doesn't allow multiple inheritance. Use <code>synchronized</code> keyword to avoid race conditions.</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">What is exception handling? Checked vs Unchecked? <span class="qa-arr">▼</span></div>
+    <div class="qa-a">try block has risky code, catch handles the exception, finally always runs. Checked exceptions (like <code>IOException</code>) must be declared in method signature or caught — compiler enforces this. Unchecked (like <code>NullPointerException</code>) are runtime errors you don't have to declare.</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">ArrayList vs LinkedList vs HashMap — when to use? <span class="qa-arr">▼</span></div>
+    <div class="qa-a"><code>ArrayList</code>: fast random access O(1), slow insert/delete in middle O(n). <code>LinkedList</code>: fast insert/delete O(1), slow access O(n). <code>HashMap</code>: key-value store, average O(1) get/put. Use ArrayList for most lists, HashMap for lookups, LinkedList rarely (queues/deques).</div>
+  </div>
+
+  <div style="margin:.75rem 0 .5rem;font-size:.72rem;color:#555;letter-spacing:1px;text-transform:uppercase">Spring Boot</div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">What is Spring Boot and why use it? <span class="qa-arr">▼</span></div>
+    <div class="qa-a">Spring Boot is a framework to build production-ready Java applications quickly. It provides auto-configuration (no XML setup), embedded server (Tomcat built-in), and starter dependencies. Think of it like Express.js but for Java — handles boilerplate so you focus on business logic.</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">Explain the layers in a Spring Boot app <span class="qa-arr">▼</span></div>
+    <div class="qa-a">Three layers: <code>@RestController</code> (handles HTTP requests, like your Express routes), <code>@Service</code> (business logic layer, like your service files in Node), <code>@Repository</code> (database access layer, like your Mongoose models). Each layer talks to the one below it.</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">What is JPA / Hibernate? <span class="qa-arr">▼</span></div>
+    <div class="qa-a">JPA (Java Persistence API) is a specification for ORM — mapping Java objects to database tables. Hibernate is the most popular implementation. Spring Data JPA wraps Hibernate and gives you <code>JpaRepository</code> with built-in methods: <code>save()</code>, <code>findById()</code>, <code>findAll()</code>, <code>deleteById()</code> — no SQL needed for basic operations.</div>
+  </div>
+
+  <div style="margin:.75rem 0 .5rem;font-size:.72rem;color:#555;letter-spacing:1px;text-transform:uppercase">About You</div>
+
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">Tell me about yourself <span class="qa-arr">▼</span></div>
+    <div class="qa-a">Keep it 90 seconds. Structure: who you are → what you've built → why this role. Example: "I'm a final-year CS student at NIT Hamirpur with strong backend experience in Node.js, databases, and distributed systems. I built CodeSphere, a collaborative coding platform with Docker sandboxing, and SwiftQueue, a distributed task queue with Redis. I'm now transitioning to Java — I've been learning Spring Boot this week and I'm excited about backend engineering at scale."</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-q" onclick="toggleQA(this)">Why Java when you know Node.js? <span class="qa-arr">▼</span></div>
+    <div class="qa-a">"Java's strong typing and mature ecosystem make it ideal for enterprise applications where correctness and scalability matter — exactly the kind of environment NeuralMetrics operates in. My CS fundamentals are solid, and picking up Java syntax has been straightforward. The concepts — REST APIs, OOP, database integration — are identical, just different syntax."</div>
+  </div>
+</div>
+
+<!-- RESOURCES TAB -->
+<div class="section" id="tab-resources">
+  <div style="margin-bottom:1.25rem">
+    <div class="topic-title" style="margin-bottom:.75rem">Java Core — Learn</div>
+    <div class="resource-grid">
+      <div class="res-card">
+        <div class="res-title">Java Full Course – Amigoscode</div>
+        <span class="res-tag tag-yt">YouTube · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Best single video for your background. 2 hours, no fluff.</div>
+        <a class="res-link" href="https://youtu.be/eIrMbAQSU34" target="_blank">Watch →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">W3Schools Java</div>
+        <span class="res-tag tag-docs">Docs · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Quick reference for syntax. Search any concept.</div>
+        <a class="res-link" href="https://www.w3schools.com/java/" target="_blank">Open →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">Java Multithreading – Short</div>
+        <span class="res-tag tag-yt">YouTube · 20 min</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Thread, Runnable, synchronized explained clearly.</div>
+        <a class="res-link" href="https://youtu.be/TCd8QIS-2KI" target="_blank">Watch →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">Java OOP in 1 hour</div>
+        <span class="res-tag tag-yt">YouTube · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Interface vs Abstract, polymorphism, inheritance.</div>
+        <a class="res-link" href="https://youtu.be/pTB0EiLXUC8" target="_blank">Watch →</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.25rem">
+    <div class="topic-title" style="margin-bottom:.75rem">Spring Boot — Build</div>
+    <div class="resource-grid">
+      <div class="res-card">
+        <div class="res-title">Spring Boot in 1 Hour – Amigoscode</div>
+        <span class="res-tag tag-yt">YouTube · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Builds full CRUD REST API with PostgreSQL. Best tutorial.</div>
+        <a class="res-link" href="https://youtu.be/31KTdfRH6nY" target="_blank">Watch →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">Spring Initializr</div>
+        <span class="res-tag tag-docs">Tool · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Generate your Spring Boot project in 30 seconds.</div>
+        <a class="res-link" href="https://start.spring.io" target="_blank">Open →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">Spring Data JPA Guide</div>
+        <span class="res-tag tag-docs">Official Docs</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Official guide for connecting to database using JPA.</div>
+        <a class="res-link" href="https://spring.io/guides/gs/accessing-data-jpa" target="_blank">Open →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">Spring Boot Annotations Cheat Sheet</div>
+        <span class="res-tag tag-free">Article · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">All annotations explained: @RestController, @Entity etc.</div>
+        <a class="res-link" href="https://www.baeldung.com/spring-boot-annotations" target="_blank">Read →</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.25rem">
+    <div class="topic-title" style="margin-bottom:.75rem">Practice / Interview Prep</div>
+    <div class="resource-grid">
+      <div class="res-card">
+        <div class="res-title">Java Interview Questions – JavaPoint</div>
+        <span class="res-tag tag-docs">Docs · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Top 50 Java interview questions for freshers.</div>
+        <a class="res-link" href="https://www.javatpoint.com/corejava-interview-questions" target="_blank">Read →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">Spring Boot Interview Qs – Baeldung</div>
+        <span class="res-tag tag-docs">Article · Free</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Common Spring questions with clear answers.</div>
+        <a class="res-link" href="https://www.baeldung.com/spring-interview-questions" target="_blank">Read →</a>
+      </div>
+      <div class="res-card">
+        <div class="res-title">NeuralMetrics – About</div>
+        <span class="res-tag tag-docs">Company · 10 min</span>
+        <div style="font-size:.75rem;color:#666;margin-top:.25rem">Read about them before the interview. Know the product.</div>
+        <a class="res-link" href="https://www.neuralmetrics.ai" target="_blank">Read →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERVIEW DAY TAB -->
+<div class="section" id="tab-day3tips">
+  <div class="tip-box"><strong>June 9, 5PM.</strong> Here's exactly what to do on the day.</div>
+
+  <div class="topic" style="margin-top:1.25rem">
+    <div class="topic-title">Morning (before 2PM)</div>
+    <ul class="checklist">
+      <li><span class="chk" onclick="check(this)"></span>Light revision only — no new topics</li>
+      <li><span class="chk" onclick="check(this)"></span>Read your own resume once carefully</li>
+      <li><span class="chk" onclick="check(this)"></span>Prepare 2-min intro out loud</li>
+      <li><span class="chk" onclick="check(this)"></span>Read NeuralMetrics website — know what they do</li>
+    </ul>
+  </div>
+
+  <div class="topic" style="margin-top:1.25rem">
+    <div class="topic-title">Technical questions — how to answer</div>
+    <ul class="checklist">
+      <li><span class="chk done" style="cursor:default">✓</span><div>If asked about Java — answer from concepts, mention you've been building with it this week. Confidence matters more than vocabulary.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div>If you don't know something: "I haven't used that yet but I'm familiar with the concept — it's similar to [Node equivalent] which I've worked with." Never say "I don't know" and stop there.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div>Lean on your projects. CodeSphere and SwiftQueue are excellent — distributed systems, Docker, WebSockets, Redis. These are senior-level concepts. Mention them confidently.</div></li>
+      <li><span class="chk done" style="cursor:default">✓</span><div>Codeforces Pupil + 400+ DSA problems + Top 1% JEE — lead with this if asked about problem-solving ability.</div></li>
+    </ul>
+  </div>
+
+  <div class="topic" style="margin-top:1.25rem">
+    <div class="topic-title">Questions to ask them</div>
+    <ul class="checklist">
+      <li><span class="chk done" style="cursor:default">→</span><div>"What does the tech stack look like for the team I'd be joining?"</div></li>
+      <li><span class="chk done" style="cursor:default">→</span><div>"What would my first 30 days look like?"</div></li>
+      <li><span class="chk done" style="cursor:default">→</span><div>"Is there a mentorship structure for juniors on the team?"</div></li>
+    </ul>
+  </div>
+
+  <div class="tip-box" style="margin-top:1.5rem;border-left-color:#4caf50;background:#0f1a0f;border-color:#1e3a1e">
+    <strong style="color:#4caf50">You're strong.</strong> NIT Hamirpur, 8.18 CGPA, 400+ DSA, real production projects, Web3 freelance work, top 1% JEE. They're hiring a fresher. Your background is excellent for this role. Java is just syntax.
+  </div>
+</div>
+
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleDay(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+function toggleQA(qEl) {
+  const item = qEl.parentElement;
+  item.classList.toggle('open');
+}
+
+function check(el) {
+  el.classList.toggle('done');
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.chk[onclick]');
+  const done = document.querySelectorAll('.chk.done[onclick]');
+  const pct = Math.round((done.length / all.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = done.length + ' of ' + all.length + ' tasks done (' + pct + '%)';
+}
+
+function updateCountdown() {
+  const target = new Date('2026-06-09T17:00:00+05:30');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) {
+    document.getElementById('cd-d').textContent = '0';
+    document.getElementById('cd-h').textContent = '0';
+    document.getElementById('cd-m').textContent = '0';
+    document.getElementById('cd-s').textContent = '0';
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-d').textContent = d;
+  document.getElementById('cd-h').textContent = h;
+  document.getElementById('cd-m').textContent = m;
+  document.getElementById('cd-s').textContent = s;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+updateProgress();
+</script>
+</body>
+</html>

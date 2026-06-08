@@ -1,0 +1,2837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Collections Framework — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">Java Collections Framework</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Collections Guide</span>
+                </div>
+                <div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+                <h1>Part 5: Java Collections Framework — Complete Mastery Guide</h1>
+<h3>Internals, Complexity, Thread Safety, C++ STL Comparisons | Backend SDE Interview Handbook</h3>
+<hr />
+<blockquote>
+<p><strong>How to use this document:</strong> Every collection is covered with internal implementation, time/space complexity, real-world use cases, pitfalls, and interview questions. Read all sections for full depth.</p>
+</blockquote>
+<hr />
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#1-collections-framework-overview">Collections Framework Overview</a></li>
+<li><a href="#2-iterable-collection-and-the-hierarchy">Iterable, Collection, and the Hierarchy</a></li>
+<li><a href="#3-arraylist--dynamic-array">ArrayList — Dynamic Array</a></li>
+<li><a href="#4-linkedlist--doubly-linked-list">LinkedList — Doubly Linked List</a></li>
+<li><a href="#5-vector--stack-legacy">Vector &amp; Stack (Legacy)</a></li>
+<li><a href="#6-queue--deque">Queue &amp; Deque</a></li>
+<li><a href="#7-priorityqueue--heap-based-queue">PriorityQueue — Heap-Based Queue</a></li>
+<li><a href="#8-hashmap--hash-table">HashMap — Hash Table</a></li>
+<li><a href="#9-linkedhashmap--insertion-ordered-map">LinkedHashMap — Insertion-Ordered Map</a></li>
+<li><a href="#10-treemap--red-black-tree-map">TreeMap — Red-Black Tree Map</a></li>
+<li><a href="#11-hashset-linkedhashset-treeset">HashSet, LinkedHashSet, TreeSet</a></li>
+<li><a href="#12-concurrenthashmap--thread-safe-collections">ConcurrentHashMap &amp; Thread-Safe Collections</a></li>
+<li><a href="#13-comparable--comparator">Comparable &amp; Comparator</a></li>
+<li><a href="#14-iterators--fail-fast-vs-fail-safe">Iterators — Fail-Fast vs Fail-Safe</a></li>
+<li><a href="#15-generics-in-collections">Generics in Collections</a></li>
+<li><a href="#16-collections-utility-class">Collections Utility Class</a></li>
+<li><a href="#17-c-stl-vs-java-collections">C++ STL vs Java Collections</a></li>
+<li><a href="#18-interview-quick-reference">Interview Quick Reference</a></li>
+</ol>
+<hr />
+<h1>1. Collections Framework Overview</h1>
+<h2>What is the Collections Framework?</h2>
+<p>The Java Collections Framework is a unified architecture for storing and manipulating groups of objects. It provides:
+- <strong>Interfaces</strong> — abstract data types (List, Set, Queue, Map)
+- <strong>Implementations</strong> — concrete classes (ArrayList, HashMap, TreeSet)
+- <strong>Algorithms</strong> — static methods in <code>Collections</code> and <code>Arrays</code> utilities</p>
+<h2>The Full Hierarchy</h2>
+<pre><code>java.lang.Iterable&lt;E&gt;
+    └── java.util.Collection&lt;E&gt;
+            ├── List&lt;E&gt;
+            │     ├── ArrayList&lt;E&gt;
+            │     ├── LinkedList&lt;E&gt;
+            │     ├── Vector&lt;E&gt;
+            │     │     └── Stack&lt;E&gt;
+            │     └── CopyOnWriteArrayList&lt;E&gt;
+            │
+            ├── Set&lt;E&gt;
+            │     ├── HashSet&lt;E&gt;
+            │     │     └── LinkedHashSet&lt;E&gt;
+            │     ├── TreeSet&lt;E&gt;         (implements SortedSet, NavigableSet)
+            │     └── CopyOnWriteArraySet&lt;E&gt;
+            │
+            └── Queue&lt;E&gt;
+                  ├── LinkedList&lt;E&gt;      (also implements List!)
+                  ├── PriorityQueue&lt;E&gt;
+                  ├── ArrayDeque&lt;E&gt;      (also implements Deque)
+                  └── Deque&lt;E&gt;
+                        ├── ArrayDeque&lt;E&gt;
+                        └── LinkedList&lt;E&gt;
+
+java.util.Map&lt;K,V&gt;   (NOT in Collection hierarchy)
+    ├── HashMap&lt;K,V&gt;
+    │     └── LinkedHashMap&lt;K,V&gt;
+    ├── TreeMap&lt;K,V&gt;          (implements SortedMap, NavigableMap)
+    ├── Hashtable&lt;K,V&gt;        (legacy, synchronized)
+    │     └── Properties
+    └── ConcurrentHashMap&lt;K,V&gt;
+</code></pre>
+<h2>Interface Responsibilities</h2>
+<table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Allows Duplicates</th>
+<th>Ordered</th>
+<th>Indexed</th>
+<th>Sorted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>List</code></td>
+<td>Yes</td>
+<td>Yes (insertion)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Set</code></td>
+<td>No</td>
+<td>Depends</td>
+<td>No</td>
+<td>TreeSet only</td>
+</tr>
+<tr>
+<td><code>Queue</code></td>
+<td>Yes</td>
+<td>Yes (FIFO/priority)</td>
+<td>No</td>
+<td>PriorityQueue only</td>
+</tr>
+<tr>
+<td><code>Map</code> (keys)</td>
+<td>No</td>
+<td>Depends</td>
+<td>No</td>
+<td>TreeMap only</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>2. Iterable, Collection, and the Hierarchy</h1>
+<h2>Iterable<E></h2>
+<p>The root of all collections. Implementing this interface enables <code>for-each</code> loop syntax:</p>
+<pre><code class="language-java">public interface Iterable&lt;E&gt; {
+    Iterator&lt;E&gt; iterator();   // must provide an Iterator
+}
+
+// Any class implementing Iterable can be used in for-each:
+class Range implements Iterable&lt;Integer&gt; {
+    private int start, end;
+    Range(int s, int e) { start = s; end = e; }
+
+    @Override
+    public Iterator&lt;Integer&gt; iterator() {
+        return new Iterator&lt;&gt;() {
+            int current = start;
+            public boolean hasNext() { return current &lt; end; }
+            public Integer next()    { return current++; }
+        };
+    }
+}
+
+// Now usable in for-each:
+for (int n : new Range(1, 6)) {
+    System.out.print(n + &quot; &quot;);  // 1 2 3 4 5
+}
+</code></pre>
+<h2>Collection<E></h2>
+<p>Extends Iterable. Adds core operations shared by all collections:</p>
+<pre><code class="language-java">public interface Collection&lt;E&gt; extends Iterable&lt;E&gt; {
+    int size();
+    boolean isEmpty();
+    boolean contains(Object o);
+    boolean add(E e);
+    boolean remove(Object o);
+    boolean containsAll(Collection&lt;?&gt; c);
+    boolean addAll(Collection&lt;? extends E&gt; c);
+    boolean removeAll(Collection&lt;?&gt; c);
+    boolean retainAll(Collection&lt;?&gt; c);  // intersection
+    void clear();
+    Object[] toArray();
+    &lt;T&gt; T[] toArray(T[] a);
+    default Stream&lt;E&gt; stream() { ... }
+    default Stream&lt;E&gt; parallelStream() { ... }
+}
+</code></pre>
+<h2>List<E></h2>
+<p>Extends Collection. Adds positional access and ordered iteration:</p>
+<pre><code class="language-java">public interface List&lt;E&gt; extends Collection&lt;E&gt; {
+    E get(int index);
+    E set(int index, E element);
+    void add(int index, E element);
+    E remove(int index);
+    int indexOf(Object o);
+    int lastIndexOf(Object o);
+    List&lt;E&gt; subList(int fromIndex, int toIndex);
+    ListIterator&lt;E&gt; listIterator();
+}
+</code></pre>
+<hr />
+<h1>3. ArrayList — Dynamic Array</h1>
+<h2>Internal Implementation</h2>
+<p><code>ArrayList</code> is backed by a plain Java array (<code>Object[]</code>). When capacity is exceeded, it grows.</p>
+<pre><code>Initial state (capacity=10):
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │   ← backing array
+└───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
+  ↑   ↑   ↑   ↑
+ [A] [B] [C] [D]  size=4, capacity=10
+
+After adding 7 more elements (size=10=capacity):
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│ A │ B │ C │...│...│...│...│...│...│ K │
+└───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
+                                           ← FULL!
+
+Adding one more triggers resize:
+  newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1)  = 10 + 5 = 15
+  Arrays.copyOf(array, 15) → new array of 15 slots
+  old array eligible for GC
+</code></pre>
+<h3>Source Code (Simplified)</h3>
+<pre><code class="language-java">public class ArrayList&lt;E&gt; {
+    private static final int DEFAULT_CAPACITY = 10;
+    private Object[] elementData;
+    private int size;
+
+    public ArrayList() {
+        this.elementData = new Object[DEFAULT_CAPACITY];
+        this.size = 0;
+    }
+
+    public boolean add(E e) {
+        ensureCapacity(size + 1);
+        elementData[size++] = e;
+        return true;
+    }
+
+    private void ensureCapacity(int minCapacity) {
+        if (minCapacity &gt; elementData.length) {
+            int newCapacity = elementData.length + (elementData.length &gt;&gt; 1); // ×1.5
+            if (newCapacity &lt; minCapacity) newCapacity = minCapacity;
+            elementData = Arrays.copyOf(elementData, newCapacity);  // O(n) copy!
+        }
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public E get(int index) {
+        if (index &gt;= size) throw new IndexOutOfBoundsException();
+        return (E) elementData[index];    // O(1) random access
+    }
+
+    public void add(int index, E element) {
+        ensureCapacity(size + 1);
+        // Shift elements right — O(n)
+        System.arraycopy(elementData, index, elementData, index + 1, size - index);
+        elementData[index] = element;
+        size++;
+    }
+
+    public E remove(int index) {
+        E old = get(index);
+        int numMoved = size - index - 1;
+        if (numMoved &gt; 0)
+            System.arraycopy(elementData, index + 1, elementData, index, numMoved);
+        elementData[--size] = null;  // null out for GC
+        return old;
+    }
+}
+</code></pre>
+<h2>Time Complexity</h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get(i)</code></td>
+<td><strong>O(1)</strong></td>
+<td>Direct array access by index</td>
+</tr>
+<tr>
+<td><code>add(e)</code> (end)</td>
+<td><strong>O(1)</strong> amortized</td>
+<td>O(n) when resize happens</td>
+</tr>
+<tr>
+<td><code>add(i, e)</code> (middle)</td>
+<td><strong>O(n)</strong></td>
+<td>Must shift elements right</td>
+</tr>
+<tr>
+<td><code>remove(i)</code> (middle)</td>
+<td><strong>O(n)</strong></td>
+<td>Must shift elements left</td>
+</tr>
+<tr>
+<td><code>remove(object)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Linear search + shift</td>
+</tr>
+<tr>
+<td><code>contains(o)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Linear scan</td>
+</tr>
+<tr>
+<td><code>size()</code></td>
+<td><strong>O(1)</strong></td>
+<td>Stored as field</td>
+</tr>
+</tbody>
+</table>
+<h2>Space Complexity</h2>
+<p>O(n) for n elements, but capacity may be up to 1.5× the actual size after a resize. You can call <code>trimToSize()</code> to reclaim unused capacity.</p>
+<h2>Usage</h2>
+<pre><code class="language-java">List&lt;String&gt; list = new ArrayList&lt;&gt;();  // always program to interface
+list.add(&quot;apple&quot;);
+list.add(&quot;banana&quot;);
+list.add(0, &quot;cherry&quot;);    // insert at index 0
+
+list.get(0);              // &quot;cherry&quot; — O(1)
+list.size();              // 3
+list.contains(&quot;banana&quot;);  // true — O(n)
+list.remove(&quot;banana&quot;);    // remove by value — O(n)
+list.remove(0);           // remove by index — O(n) shift
+
+// Bulk operations
+list.addAll(Arrays.asList(&quot;d&quot;, &quot;e&quot;, &quot;f&quot;));
+list.removeIf(s -&gt; s.startsWith(&quot;d&quot;));  // Java 8+
+
+// Iteration
+for (String s : list) { System.out.println(s); }
+list.forEach(System.out::println);     // Java 8+
+
+// Convert to array
+String[] arr = list.toArray(new String[0]);
+
+// Sort
+Collections.sort(list);
+list.sort(Comparator.naturalOrder());
+list.sort(String::compareTo);
+</code></pre>
+<h2>Pre-sizing for Performance</h2>
+<pre><code class="language-java">// If you know approximate size upfront:
+List&lt;Integer&gt; numbers = new ArrayList&lt;&gt;(10_000);  // preallocate, avoids resizes
+for (int i = 0; i &lt; 10_000; i++) numbers.add(i);
+</code></pre>
+<h2>When to Use ArrayList</h2>
+<ul>
+<li><strong>General-purpose</strong> list — the default choice</li>
+<li><strong>Frequent random access</strong> by index</li>
+<li><strong>Frequent add/remove at end</strong></li>
+<li><strong>Infrequent insert/delete in middle</strong></li>
+</ul>
+<h2>C++ Equivalent</h2>
+<p><code>std::vector&lt;T&gt;</code> — nearly identical: dynamic array, O(1) access, amortized O(1) append, grows by ~2× (Java grows by 1.5×).</p>
+<hr />
+<h1>4. LinkedList — Doubly Linked List</h1>
+<h2>Internal Implementation</h2>
+<pre><code>LinkedList backing structure:
+                                       head                tail
+                                         ↓                   ↓
+null ← [prev|&quot;A&quot;|next] ↔ [prev|&quot;B&quot;|next] ↔ [prev|&quot;C&quot;|next] → null
+             Node               Node               Node
+
+Each Node:
+┌──────────────────────────┐
+│  Node&lt;E&gt; prev            │
+│  E       item            │
+│  Node&lt;E&gt; next            │
+└──────────────────────────┘
+</code></pre>
+<p>Java's <code>LinkedList</code> is a <strong>doubly-linked list</strong> that also implements <code>Deque</code> — it can be used as a list, queue, stack, or deque.</p>
+<pre><code class="language-java">// Simplified internal node
+private static class Node&lt;E&gt; {
+    E item;
+    Node&lt;E&gt; next;
+    Node&lt;E&gt; prev;
+
+    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
+        this.item = element;
+        this.next = next;
+        this.prev = prev;
+    }
+}
+</code></pre>
+<h2>Time Complexity</h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get(i)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Must traverse from head or tail</td>
+</tr>
+<tr>
+<td><code>add(e)</code> (end)</td>
+<td><strong>O(1)</strong></td>
+<td>Direct tail access</td>
+</tr>
+<tr>
+<td><code>add(e)</code> (front)</td>
+<td><strong>O(1)</strong></td>
+<td>Direct head access</td>
+</tr>
+<tr>
+<td><code>add(i, e)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Traverse to position, then O(1) insert</td>
+</tr>
+<tr>
+<td><code>remove(head/tail)</code></td>
+<td><strong>O(1)</strong></td>
+<td>Direct head/tail access</td>
+</tr>
+<tr>
+<td><code>remove(i)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Traverse first</td>
+</tr>
+<tr>
+<td><code>contains(o)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Linear scan</td>
+</tr>
+</tbody>
+</table>
+<h2>Usage as List, Queue, and Deque</h2>
+<pre><code class="language-java">LinkedList&lt;String&gt; list = new LinkedList&lt;&gt;();
+
+// As List:
+list.add(&quot;B&quot;);
+list.add(0, &quot;A&quot;);         // add at front
+list.add(&quot;C&quot;);
+list.get(1);              // &quot;B&quot; — O(n)!
+
+// As Queue (FIFO):
+list.offer(&quot;X&quot;);           // add to tail
+list.poll();               // remove from head
+list.peek();               // look at head without removing
+
+// As Deque (double-ended queue):
+list.addFirst(&quot;start&quot;);
+list.addLast(&quot;end&quot;);
+list.removeFirst();
+list.removeLast();
+list.peekFirst();
+list.peekLast();
+
+// As Stack (LIFO):
+list.push(&quot;top&quot;);   // = addFirst
+list.pop();         // = removeFirst
+</code></pre>
+<h2>ArrayList vs LinkedList — The Real Tradeoff</h2>
+<p>This is one of the most common interview topics:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>ArrayList</th>
+<th>LinkedList</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random access <code>get(i)</code></td>
+<td><strong>O(1)</strong> ← winner</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Insert/delete at <strong>end</strong></td>
+<td>O(1) amortized</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Insert/delete at <strong>front</strong></td>
+<td>O(n)</td>
+<td><strong>O(1)</strong> ← winner</td>
+</tr>
+<tr>
+<td>Insert/delete at <strong>middle</strong></td>
+<td>O(n)</td>
+<td>O(n) (traverse + O(1) link)</td>
+</tr>
+<tr>
+<td>Memory per element</td>
+<td>Less (array slot)</td>
+<td>More (two pointers + object wrapper)</td>
+</tr>
+<tr>
+<td>Cache performance</td>
+<td>Better (contiguous)</td>
+<td>Worse (pointer chasing)</td>
+</tr>
+<tr>
+<td>Iterator traversal</td>
+<td>Slightly faster (cache)</td>
+<td>Slightly slower</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In practice, ArrayList almost always wins:</strong>
+- CPUs are very fast at array operations due to cache locality
+- LinkedList's pointer chasing is cache-unfriendly (each node may be far apart in memory)
+- The overhead of <code>Node</code> objects (3 fields per element) makes LinkedList memory-heavy</p>
+<p><strong>Use LinkedList when:</strong>
+- Frequent insertions/deletions at the head specifically
+- Using it as a Queue/Deque (not as a random-access List)</p>
+<h2>C++ Equivalent</h2>
+<p><code>std::list&lt;T&gt;</code> — doubly-linked list, same O complexities. C++ also has <code>std::forward_list&lt;T&gt;</code> (singly-linked, not in Java).</p>
+<hr />
+<h1>5. Vector &amp; Stack (Legacy)</h1>
+<h2>Vector — Synchronized ArrayList</h2>
+<p><code>Vector</code> is like <code>ArrayList</code> but <strong>all methods are synchronized</strong> — thread-safe but slow due to locking overhead. It also grows by <strong>doubling</strong> (2×) vs ArrayList's 1.5×.</p>
+<pre><code class="language-java">Vector&lt;String&gt; v = new Vector&lt;&gt;();
+v.add(&quot;a&quot;);
+v.add(&quot;b&quot;);
+
+// Every method acquires a lock — expensive in single-threaded code
+// Use ArrayList for single-threaded, CopyOnWriteArrayList or Collections.synchronizedList for multithreaded
+</code></pre>
+<p><strong>Verdict:</strong> Legacy class — avoid in new code. Use <code>ArrayList</code> (not thread-safe) or <code>CopyOnWriteArrayList</code> (thread-safe, good for read-heavy workloads).</p>
+<h2>Stack — LIFO Stack (Legacy)</h2>
+<p><code>Stack extends Vector</code> — a fundamental design mistake. It exposes <code>get(index)</code>, <code>add(index, element)</code> etc. which violate LIFO semantics.</p>
+<pre><code class="language-java">// Legacy Stack:
+Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+stack.push(1);
+stack.push(2);
+stack.pop();    // 2
+stack.peek();   // 1
+stack.add(0, 99);  // WRONG — breaks LIFO! but allowed because extends Vector
+
+// Modern replacement — use ArrayDeque as a stack:
+Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+stack.push(1);
+stack.push(2);
+stack.pop();    // 2
+stack.peek();   // 1
+// No broken methods exposed!
+</code></pre>
+<p><strong>C++ equivalent:</strong> <code>std::stack&lt;T&gt;</code> (adapter over <code>std::deque</code> by default) — properly encapsulated.</p>
+<hr />
+<h1>6. Queue &amp; Deque</h1>
+<h2>Queue Interface</h2>
+<pre><code class="language-java">public interface Queue&lt;E&gt; extends Collection&lt;E&gt; {
+    boolean offer(E e);   // add to tail (returns false if full, no exception)
+    E poll();             // remove from head (returns null if empty, no exception)
+    E peek();             // look at head (returns null if empty, no exception)
+
+    // Throwing variants:
+    boolean add(E e);     // throws IllegalStateException if full
+    E remove();           // throws NoSuchElementException if empty
+    E element();          // throws NoSuchElementException if empty
+}
+</code></pre>
+<p>Always prefer <code>offer/poll/peek</code> over <code>add/remove/element</code> — they handle edge cases gracefully.</p>
+<h2>Deque Interface (Double-Ended Queue)</h2>
+<pre><code class="language-java">public interface Deque&lt;E&gt; extends Queue&lt;E&gt; {
+    void addFirst(E e);  void addLast(E e);
+    E    removeFirst();  E    removeLast();
+    E    peekFirst();    E    peekLast();
+    void push(E e);      // = addFirst
+    E    pop();          // = removeFirst
+    // Also has offer/poll variants for both ends
+}
+</code></pre>
+<h2>ArrayDeque — The Best General-Purpose Queue/Stack</h2>
+<p><code>ArrayDeque</code> is backed by a <strong>circular array</strong> — much more efficient than <code>LinkedList</code> for queue/stack operations:</p>
+<pre><code>Circular array (capacity 8):
+index:  0    1    2    3    4    5    6    7
+       [  ] [ A] [ B] [ C] [ D] [  ] [  ] [  ]
+              ↑                   ↑
+            head                 tail
+
+Adding to front: moves head pointer left (wraps around)
+Adding to rear:  moves tail pointer right (wraps around)
+Both O(1) without moving any elements!
+</code></pre>
+<pre><code class="language-java">// ArrayDeque as Queue (FIFO):
+Queue&lt;String&gt; queue = new ArrayDeque&lt;&gt;();
+queue.offer(&quot;first&quot;);
+queue.offer(&quot;second&quot;);
+queue.offer(&quot;third&quot;);
+queue.poll();   // &quot;first&quot; — removes from head
+queue.peek();   // &quot;second&quot; — looks at head
+
+// ArrayDeque as Stack (LIFO):
+Deque&lt;String&gt; stack = new ArrayDeque&lt;&gt;();
+stack.push(&quot;first&quot;);
+stack.push(&quot;second&quot;);
+stack.pop();    // &quot;second&quot; — removes from front
+stack.peek();   // &quot;first&quot;
+
+// ArrayDeque as Deque:
+Deque&lt;String&gt; deque = new ArrayDeque&lt;&gt;();
+deque.addFirst(&quot;front&quot;);
+deque.addLast(&quot;back&quot;);
+deque.removeFirst();
+deque.removeLast();
+</code></pre>
+<p><strong>ArrayDeque vs LinkedList for Queue:</strong>
+- ArrayDeque is <strong>faster</strong> (no node allocation, better cache locality)
+- ArrayDeque uses less memory (no Node wrapper objects)
+- Use ArrayDeque as your default Queue/Deque/Stack</p>
+<p><strong>C++ equivalent:</strong> <code>std::deque&lt;T&gt;</code> (double-ended queue, but uses segmented arrays, not a single circular array).</p>
+<hr />
+<h1>7. PriorityQueue — Heap-Based Queue</h1>
+<h2>Internal Implementation</h2>
+<p><code>PriorityQueue</code> is backed by a <strong>min-heap</strong> (binary heap in an array). The smallest element is always at the head.</p>
+<pre><code>Min-Heap storing: 1, 3, 5, 7, 8, 9, 12
+
+Array representation:
+Index:  0    1    2    3    4    5    6
+       [ 1] [ 3] [ 5] [ 7] [ 8] [ 9] [12]
+
+Tree visualization:
+            1            ← minimum is always at root
+          /   \
+         3     5
+        / \   / \
+       7   8 9  12
+
+Parent of i: (i-1)/2
+Left child of i: 2*i+1
+Right child of i: 2*i+2
+</code></pre>
+<h3>Heap Operations</h3>
+<p><strong>Insert (offer):</strong> Add to end, bubble up (sift up):</p>
+<pre><code>Add 2: [1,3,5,7,8,9,12,2] → 2 at index 7, parent=(7-1)/2=3 → arr[3]=7 &gt; 2, swap
+       [1,3,5,2,8,9,12,7] → 2 at index 3, parent=(3-1)/2=1 → arr[1]=3 &gt; 2, swap
+       [1,2,5,3,8,9,12,7] → 2 at index 1, parent=0 → arr[0]=1 &lt; 2, stop
+</code></pre>
+<p><strong>Remove min (poll):</strong> Remove root, move last element to root, sift down:</p>
+<pre><code>Remove 1: Move 7 to root: [7,2,5,3,8,9,12]
+         Sift down: 7 &gt; min(2,5)=2, swap with 2: [2,7,5,3,8,9,12]
+                    7 &gt; min(3,8)=3, swap with 3: [2,3,5,7,8,9,12]
+                    7 is leaf → done
+</code></pre>
+<h2>Time Complexity</h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>offer(e)</code></td>
+<td><strong>O(log n)</strong></td>
+<td>Insert + sift up</td>
+</tr>
+<tr>
+<td><code>poll()</code></td>
+<td><strong>O(log n)</strong></td>
+<td>Remove min + sift down</td>
+</tr>
+<tr>
+<td><code>peek()</code></td>
+<td><strong>O(1)</strong></td>
+<td>Root is always min</td>
+</tr>
+<tr>
+<td><code>contains(o)</code></td>
+<td><strong>O(n)</strong></td>
+<td>No index structure</td>
+</tr>
+<tr>
+<td><code>remove(o)</code></td>
+<td><strong>O(n)</strong></td>
+<td>Find O(n) + remove O(log n)</td>
+</tr>
+<tr>
+<td>Build from collection</td>
+<td><strong>O(n)</strong></td>
+<td>Heapify is O(n)</td>
+</tr>
+</tbody>
+</table>
+<h2>Usage</h2>
+<pre><code class="language-java">// Default: min-heap (natural ordering)
+PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();
+minHeap.offer(5);
+minHeap.offer(1);
+minHeap.offer(3);
+minHeap.poll();  // 1 (minimum)
+minHeap.poll();  // 3
+minHeap.poll();  // 5
+
+// Max-heap with reverse order comparator
+PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;(Comparator.reverseOrder());
+maxHeap.offer(5); maxHeap.offer(1); maxHeap.offer(3);
+maxHeap.poll();  // 5 (maximum)
+
+// Custom objects
+PriorityQueue&lt;Task&gt; taskQueue = new PriorityQueue&lt;&gt;(
+    Comparator.comparingInt(Task::getPriority)
+);
+taskQueue.offer(new Task(&quot;Low priority&quot;, 3));
+taskQueue.offer(new Task(&quot;High priority&quot;, 1));
+taskQueue.poll();  // Task with priority=1 (lowest number = highest priority)
+
+// Iteration does NOT guarantee sorted order!
+// poll() does, but for-each does not
+for (Integer i : minHeap) {
+    System.out.println(i);  // NOT necessarily sorted!
+}
+</code></pre>
+<h2>Important: Iteration is NOT Sorted</h2>
+<pre><code class="language-java">PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(Arrays.asList(5,1,3,2,4));
+
+// WRONG assumption:
+for (int i : pq) System.out.print(i + &quot; &quot;);  // might print: 1 2 3 5 4 (heap order, not sorted)
+
+// CORRECT way to drain in order:
+while (!pq.isEmpty()) System.out.print(pq.poll() + &quot; &quot;);  // 1 2 3 4 5
+</code></pre>
+<p><strong>C++ equivalent:</strong> <code>std::priority_queue&lt;T&gt;</code> — max-heap by default (Java is min-heap by default — opposite!).</p>
+<hr />
+<h1>8. HashMap — Hash Table</h1>
+<h2>Internal Implementation (Java 8+)</h2>
+<p><code>HashMap</code> uses an <strong>array of buckets</strong>, where each bucket is either:
+- A singly-linked list (for ≤8 entries in the bucket)
+- A <strong>Red-Black Tree</strong> (for &gt;8 entries — Java 8+ optimization, reduces worst case from O(n) to O(log n))</p>
+<pre><code>HashMap (capacity=16, initial):
+
+Backing array: table[]
+ ┌──────────────────────────────────────────────────────────┐
+ │ [0] null                                                 │
+ │ [1] → Node(&quot;alice&quot;→30) → null                           │
+ │ [2] null                                                 │
+ │ [3] → Node(&quot;bob&quot;→25) → Node(&quot;charlie&quot;→35) → null        │  ← collision: chain
+ │ [4] null                                                 │
+ │ ...                                                      │
+ │ [15] → Node(&quot;zara&quot;→28) → null                           │
+ └──────────────────────────────────────────────────────────┘
+
+Each Node:
+┌─────────────────────────────────────┐
+│  int    hash   (cached hashCode)    │
+│  K      key                         │
+│  V      value                       │
+│  Node   next   (linked list chain)  │
+└─────────────────────────────────────┘
+</code></pre>
+<h3>How put(key, value) Works</h3>
+<pre><code class="language-java">// Step-by-step internals:
+map.put(&quot;alice&quot;, 30);
+
+// 1. Compute hash:
+int hash = hash(&quot;alice&quot;);  // spread bits to reduce clustering
+// Java's hash: h = key.hashCode(); return h ^ (h &gt;&gt;&gt; 16);
+
+// 2. Find bucket index:
+int index = hash &amp; (capacity - 1);  // fast modulo using bitwise AND (capacity always power of 2)
+
+// 3. Check bucket:
+//    - Empty → create new Node, place it
+//    - Non-empty → check each node:
+//        key == existing.key || key.equals(existing.key) → update value
+//        No match → append to chain (or tree if chain length &gt; 8)
+
+// 4. Check load factor:
+if (++size &gt; capacity * loadFactor) {  // loadFactor=0.75 by default
+    resize();  // double capacity, rehash all entries — O(n)
+}
+</code></pre>
+<h3>Load Factor and Resizing</h3>
+<pre><code>Default capacity: 16
+Default load factor: 0.75
+
+Resize threshold: 16 × 0.75 = 12
+
+When 12 entries are added → resize to 32
+When 24 entries are added → resize to 64
+...
+
+Lower load factor = fewer collisions, more memory usage
+Higher load factor = more collisions, less memory usage
+0.75 is the empirical sweet spot (balanced)
+</code></pre>
+<h3>Java 8 Treeification</h3>
+<p>When a single bucket's chain exceeds <strong>TREEIFY_THRESHOLD = 8</strong> entries, the chain is converted to a Red-Black Tree:
+- Lookup in chain: O(n) → becomes O(log n) in tree
+- This prevents denial-of-service attacks where an attacker crafts inputs that all hash to the same bucket</p>
+<h2>Time Complexity</h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Average</th>
+<th>Worst Case</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>put(k,v)</code></td>
+<td><strong>O(1)</strong></td>
+<td>O(log n) (treeified bucket)</td>
+<td>Amortized including resize</td>
+</tr>
+<tr>
+<td><code>get(k)</code></td>
+<td><strong>O(1)</strong></td>
+<td>O(log n)</td>
+<td>Hash lookup + equals check</td>
+</tr>
+<tr>
+<td><code>remove(k)</code></td>
+<td><strong>O(1)</strong></td>
+<td>O(log n)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>containsKey(k)</code></td>
+<td><strong>O(1)</strong></td>
+<td>O(log n)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>containsValue(v)</code></td>
+<td><strong>O(n)</strong></td>
+<td>O(n)</td>
+<td>Must scan all buckets</td>
+</tr>
+</tbody>
+</table>
+<h2>Usage</h2>
+<pre><code class="language-java">Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();
+
+// Put
+scores.put(&quot;Alice&quot;, 95);
+scores.put(&quot;Bob&quot;, 87);
+scores.put(&quot;Alice&quot;, 98);    // updates Alice's score (key already exists)
+
+// Get
+scores.get(&quot;Alice&quot;);        // 98
+scores.get(&quot;Charlie&quot;);      // null (key not present)
+scores.getOrDefault(&quot;Charlie&quot;, 0);  // 0 — safer
+
+// Check
+scores.containsKey(&quot;Bob&quot;);       // true
+scores.containsValue(98);        // true (O(n)!)
+
+// Remove
+scores.remove(&quot;Bob&quot;);            // removes entry, returns 87
+scores.remove(&quot;Alice&quot;, 95);      // conditional remove — only if value matches
+
+// Modern API (Java 8+)
+scores.putIfAbsent(&quot;Dave&quot;, 100);           // only puts if key not present
+scores.computeIfAbsent(&quot;Eve&quot;, k -&gt; 80);   // compute and put if absent
+scores.merge(&quot;Alice&quot;, 5, Integer::sum);    // Alice's score += 5
+
+// Iterate
+for (Map.Entry&lt;String, Integer&gt; e : scores.entrySet()) {
+    System.out.println(e.getKey() + &quot; → &quot; + e.getValue());
+}
+
+scores.forEach((k, v) -&gt; System.out.println(k + &quot; → &quot; + v));  // Java 8+
+
+// Keys, values, entries as collections
+Set&lt;String&gt; keys       = scores.keySet();
+Collection&lt;Integer&gt; vals = scores.values();
+Set&lt;Map.Entry&lt;String,Integer&gt;&gt; entries = scores.entrySet();
+</code></pre>
+<h2>Key Requirements: hashCode() and equals()</h2>
+<p><code>HashMap</code> requires that keys properly implement <code>hashCode()</code> and <code>equals()</code>:</p>
+<pre><code class="language-java">// Contract:
+// 1. If a.equals(b), then a.hashCode() == b.hashCode()   (MUST)
+// 2. If a.hashCode() == b.hashCode(), a.equals(b) MAY OR MAY NOT be true (collision)
+
+class Point {
+    int x, y;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point)) return false;
+        Point p = (Point) o;
+        return x == p.x &amp;&amp; y == p.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);  // uses both fields — good distribution
+    }
+}
+
+// Now Point works correctly as HashMap key:
+Map&lt;Point, String&gt; map = new HashMap&lt;&gt;();
+map.put(new Point(1, 2), &quot;origin offset&quot;);
+map.get(new Point(1, 2));  // returns &quot;origin offset&quot; — equals() finds it
+</code></pre>
+<p><strong>Common bug:</strong> Using mutable objects as keys. If you put an object as a key, then mutate it (changing its hashCode), you'll never find it again:</p>
+<pre><code class="language-java">List&lt;Integer&gt; key = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3));
+map.put(key, &quot;value&quot;);
+key.add(4);                  // MUTATED the key!
+map.get(key);                // null — hashCode changed, wrong bucket
+</code></pre>
+<p><strong>Rule: HashMap keys should be immutable (String, Integer, enums are all immutable).</strong></p>
+<h2>null Handling</h2>
+<pre><code class="language-java">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+map.put(null, 42);          // null KEY is allowed (stored in bucket 0)
+map.put(&quot;key&quot;, null);       // null VALUE is allowed
+map.get(null);              // 42
+</code></pre>
+<h2>C++ Equivalent</h2>
+<p><code>std::unordered_map&lt;K,V&gt;</code> — hash map, average O(1), similar structure. C++ uses separate chaining or open addressing depending on implementation.</p>
+<hr />
+<h1>9. LinkedHashMap — Insertion-Ordered Map</h1>
+<h2>Internal Implementation</h2>
+<p><code>LinkedHashMap extends HashMap</code> and adds a <strong>doubly-linked list</strong> threading through all entries in insertion order (or access order):</p>
+<pre><code>LinkedHashMap (insertion order):
+
+HashMap buckets: (same as HashMap)
+┌────────────────────────────────────────┐
+│ bucket[1] → Entry(alice,30)            │
+│ bucket[3] → Entry(bob,25)             │
+└────────────────────────────────────────┘
+
+PLUS doubly-linked list:
+HEAD ↔ Entry(alice,30) ↔ Entry(bob,25) ↔ Entry(charlie,35) ↔ TAIL
+         (inserted first)                  (inserted last)
+</code></pre>
+<p>Each entry has extra <code>before</code> and <code>after</code> pointers:</p>
+<pre><code class="language-java">static class Entry&lt;K,V&gt; extends HashMap.Node&lt;K,V&gt; {
+    Entry&lt;K,V&gt; before, after;  // extra links for doubly-linked list
+}
+</code></pre>
+<h2>Access-Ordered LinkedHashMap — LRU Cache!</h2>
+<pre><code class="language-java">// accessOrder=true → most-recently accessed is moved to tail
+Map&lt;Integer, String&gt; lruCache = new LinkedHashMap&lt;&gt;(16, 0.75f, true) {
+    @Override
+    protected boolean removeEldestEntry(Map.Entry&lt;Integer, String&gt; eldest) {
+        return size() &gt; 100;  // evict oldest when cache exceeds 100 entries
+    }
+};
+
+lruCache.put(1, &quot;one&quot;);
+lruCache.put(2, &quot;two&quot;);
+lruCache.put(3, &quot;three&quot;);
+lruCache.get(1);   // access 1 → moves to tail (most recently used)
+// Order now: [2, 3, 1]
+// If capacity exceeded, entry at HEAD (2) is evicted first
+</code></pre>
+<p>This is the canonical Java LRU Cache implementation using LinkedHashMap!</p>
+<h2>Time Complexity</h2>
+<p>Same as HashMap for all operations (O(1) average), with slightly higher constant due to maintaining the linked list. Iteration is O(n) in insertion/access order.</p>
+<h2>Usage</h2>
+<pre><code class="language-java">Map&lt;String, Integer&gt; linked = new LinkedHashMap&lt;&gt;();
+linked.put(&quot;banana&quot;, 2);
+linked.put(&quot;apple&quot;, 1);
+linked.put(&quot;cherry&quot;, 3);
+
+// Iteration is always in insertion order:
+for (String key : linked.keySet()) {
+    System.out.println(key);  // banana, apple, cherry (insertion order preserved)
+}
+// HashMap would give unpredictable order
+</code></pre>
+<p><strong>When to use:</strong>
+- Need predictable iteration order (insertion order)
+- Implementing LRU cache
+- Need both O(1) lookup AND ordered iteration</p>
+<hr />
+<h1>10. TreeMap — Red-Black Tree Map</h1>
+<h2>Internal Implementation</h2>
+<p><code>TreeMap</code> is backed by a <strong>Red-Black Tree</strong> — a self-balancing BST where all keys are kept in sorted order.</p>
+<pre><code>TreeMap containing: {&quot;bob&quot;:25, &quot;alice&quot;:30, &quot;charlie&quot;:35, &quot;dave&quot;:28}
+
+Red-Black Tree (sorted by key):
+              bob(B)
+             /      \
+         alice(R)  charlie(B)
+                      /
+                   dave(R)
+
+B=Black, R=Red
+Keys always in sorted order (alice &lt; bob &lt; charlie &lt; dave)
+</code></pre>
+<h2>Time Complexity</h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>put(k,v)</code></td>
+<td><strong>O(log n)</strong></td>
+<td>BST insert + rebalance</td>
+</tr>
+<tr>
+<td><code>get(k)</code></td>
+<td><strong>O(log n)</strong></td>
+<td>BST search</td>
+</tr>
+<tr>
+<td><code>remove(k)</code></td>
+<td><strong>O(log n)</strong></td>
+<td>BST delete + rebalance</td>
+</tr>
+<tr>
+<td><code>firstKey()</code></td>
+<td><strong>O(log n)</strong></td>
+<td>Leftmost node</td>
+</tr>
+<tr>
+<td><code>lastKey()</code></td>
+<td><strong>O(log n)</strong></td>
+<td>Rightmost node</td>
+</tr>
+<tr>
+<td>Iteration</td>
+<td><strong>O(n)</strong></td>
+<td>In-order traversal = sorted</td>
+</tr>
+</tbody>
+</table>
+<p>TreeMap is slower than HashMap for basic operations but provides <strong>sorted order</strong> and powerful <strong>navigation methods</strong>.</p>
+<h2>Usage — NavigableMap API</h2>
+<pre><code class="language-java">TreeMap&lt;String, Integer&gt; treeMap = new TreeMap&lt;&gt;();
+treeMap.put(&quot;charlie&quot;, 3);
+treeMap.put(&quot;alice&quot;, 1);
+treeMap.put(&quot;bob&quot;, 2);
+treeMap.put(&quot;dave&quot;, 4);
+
+// Sorted access:
+treeMap.firstKey();          // &quot;alice&quot;
+treeMap.lastKey();           // &quot;dave&quot;
+
+// Range queries:
+treeMap.headMap(&quot;charlie&quot;);  // {alice→1, bob→2} (strictly less than &quot;charlie&quot;)
+treeMap.tailMap(&quot;bob&quot;);      // {bob→2, charlie→3, dave→4} (&gt;= &quot;bob&quot;)
+treeMap.subMap(&quot;alice&quot;, &quot;charlie&quot;);  // {alice→1, bob→2}
+
+// Floor/ceiling (closest key):
+treeMap.floorKey(&quot;cat&quot;);    // &quot;charlie&quot; — largest key ≤ &quot;cat&quot;
+treeMap.ceilingKey(&quot;cat&quot;);  // &quot;charlie&quot; — smallest key ≥ &quot;cat&quot;
+treeMap.lowerKey(&quot;charlie&quot;); // &quot;bob&quot; — strictly less than &quot;charlie&quot;
+treeMap.higherKey(&quot;bob&quot;);    // &quot;charlie&quot; — strictly greater than &quot;bob&quot;
+
+// Reverse view:
+treeMap.descendingMap().forEach((k,v) -&gt; System.out.println(k));  // dave,charlie,bob,alice
+</code></pre>
+<p><strong>When to use TreeMap:</strong>
+- Keys must be in sorted order
+- Need range queries (all keys between X and Y)
+- Need floor/ceiling operations
+- When ordering matters more than raw speed</p>
+<p><strong>C++ equivalent:</strong> <code>std::map&lt;K,V&gt;</code> — Red-Black Tree internally, same O(log n) operations.</p>
+<hr />
+<h1>11. HashSet, LinkedHashSet, TreeSet</h1>
+<p>Sets store <strong>unique elements only</strong> — no duplicates.</p>
+<h2>HashSet</h2>
+<p>Backed by a <code>HashMap&lt;E, PRESENT&gt;</code> (values are all a dummy <code>PRESENT</code> object):</p>
+<pre><code class="language-java">// Internally:
+private transient HashMap&lt;E, Object&gt; map;
+private static final Object PRESENT = new Object();  // dummy value
+
+public boolean add(E e) {
+    return map.put(e, PRESENT) == null;  // returns true if new element
+}
+</code></pre>
+<pre><code class="language-java">Set&lt;String&gt; set = new HashSet&lt;&gt;();
+set.add(&quot;apple&quot;);
+set.add(&quot;banana&quot;);
+set.add(&quot;apple&quot;);    // duplicate — ignored, set unchanged
+set.size();          // 2
+
+set.contains(&quot;banana&quot;);  // true — O(1)
+set.remove(&quot;apple&quot;);     // O(1)
+
+// No guaranteed order in iteration
+for (String s : set) System.out.println(s);  // unpredictable order
+</code></pre>
+<p><strong>Complexities:</strong> O(1) add/remove/contains average (same as HashMap). O(n) space.</p>
+<h2>LinkedHashSet</h2>
+<p>Backed by <code>LinkedHashMap</code> — maintains <strong>insertion order</strong>:</p>
+<pre><code class="language-java">Set&lt;String&gt; linked = new LinkedHashSet&lt;&gt;();
+linked.add(&quot;banana&quot;);
+linked.add(&quot;apple&quot;);
+linked.add(&quot;cherry&quot;);
+
+for (String s : linked) System.out.println(s);  // banana, apple, cherry (insertion order)
+</code></pre>
+<h2>TreeSet</h2>
+<p>Backed by <code>TreeMap</code> — elements stored in <strong>sorted order</strong>:</p>
+<pre><code class="language-java">TreeSet&lt;Integer&gt; treeSet = new TreeSet&lt;&gt;();
+treeSet.add(5); treeSet.add(1); treeSet.add(3); treeSet.add(2); treeSet.add(4);
+
+// Always sorted:
+System.out.println(treeSet);  // [1, 2, 3, 4, 5]
+
+treeSet.first();         // 1
+treeSet.last();          // 5
+treeSet.headSet(3);      // [1, 2] — strictly less than 3
+treeSet.tailSet(3);      // [3, 4, 5] — &gt;= 3
+treeSet.subSet(2, 4);    // [2, 3] — [2, 4)
+treeSet.floor(3);        // 3 — largest ≤ 3
+treeSet.ceiling(3);      // 3 — smallest ≥ 3
+treeSet.lower(3);        // 2 — strictly less than 3
+treeSet.higher(3);       // 4 — strictly greater than 3
+</code></pre>
+<p><strong>Complexities:</strong> O(log n) add/remove/contains (same as TreeMap).</p>
+<h2>Set Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>HashSet</th>
+<th>LinkedHashSet</th>
+<th>TreeSet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Order</td>
+<td>None</td>
+<td>Insertion</td>
+<td>Sorted</td>
+</tr>
+<tr>
+<td>add/remove/contains</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>Backed by</td>
+<td>HashMap</td>
+<td>LinkedHashMap</td>
+<td>TreeMap</td>
+</tr>
+<tr>
+<td>null allowed</td>
+<td>Yes (one)</td>
+<td>Yes (one)</td>
+<td>No (NullPointerException)</td>
+</tr>
+<tr>
+<td>Custom ordering</td>
+<td>Via Comparator?</td>
+<td>No</td>
+<td>Via Comparator ✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>C++ equivalents:</strong>
+- <code>HashSet</code> → <code>std::unordered_set&lt;T&gt;</code>
+- <code>TreeSet</code> → <code>std::set&lt;T&gt;</code> (Red-Black Tree, sorted)</p>
+<hr />
+<h1>12. ConcurrentHashMap &amp; Thread-Safe Collections</h1>
+<h2>The Problem with HashMap in Multithreading</h2>
+<pre><code class="language-java">// NOT thread-safe — two threads calling put() simultaneously:
+Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+
+// Thread 1: map.put(&quot;a&quot;, 1)
+// Thread 2: map.put(&quot;b&quot;, 2)
+// Result: possible data corruption, infinite loops, lost updates
+// HashMap has no internal synchronization
+</code></pre>
+<h2>Option 1: Collections.synchronizedMap (Coarse Lock)</h2>
+<pre><code class="language-java">Map&lt;String, Integer&gt; syncMap = Collections.synchronizedMap(new HashMap&lt;&gt;());
+
+// Every operation acquires a single lock on the entire map
+// Only one thread can read OR write at any time — very contended
+syncMap.put(&quot;key&quot;, 1);    // lock → put → unlock
+syncMap.get(&quot;key&quot;);       // lock → get → unlock
+
+// Compound operations still need external sync:
+synchronized (syncMap) {
+    if (!syncMap.containsKey(&quot;key&quot;)) {
+        syncMap.put(&quot;key&quot;, 1);
+    }
+}
+</code></pre>
+<h2>Option 2: ConcurrentHashMap (Fine-Grained Locking)</h2>
+<p><code>ConcurrentHashMap</code> is the production-grade thread-safe map — much more scalable than <code>synchronizedMap</code>.</p>
+<h3>Java 7: Segment-Based Locking</h3>
+<p>Divided into 16 segments (by default). Each segment is an independent lock. Up to 16 threads can write concurrently — one per segment.</p>
+<h3>Java 8+: CAS + Synchronized Buckets</h3>
+<pre><code>No lock for reading — reads are wait-free
+CAS (Compare-And-Swap) for first node insertion in empty bucket
+synchronized on bucket's first node for writes to non-empty bucket
+</code></pre>
+<pre><code class="language-java">ConcurrentHashMap&lt;String, Integer&gt; cmap = new ConcurrentHashMap&lt;&gt;();
+
+// Thread-safe put/get/remove — no external sync needed
+cmap.put(&quot;key&quot;, 1);
+cmap.get(&quot;key&quot;);
+cmap.remove(&quot;key&quot;);
+
+// Atomic compound operations:
+cmap.putIfAbsent(&quot;key&quot;, 1);              // atomic check-then-put
+cmap.computeIfAbsent(&quot;key&quot;, k -&gt; 0);     // atomic compute if absent
+cmap.compute(&quot;key&quot;, (k, v) -&gt; v == null ? 1 : v + 1);  // atomic update
+cmap.merge(&quot;count&quot;, 1, Integer::sum);    // atomic merge
+
+// ConcurrentHashMap does NOT allow null keys or null values
+// cmap.put(null, 1);      // NullPointerException
+// cmap.put(&quot;key&quot;, null);  // NullPointerException
+</code></pre>
+<h3>HashMap vs ConcurrentHashMap</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>HashMap</th>
+<th>ConcurrentHashMap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thread safety</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>null keys</td>
+<td>Yes (1)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>null values</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Read performance</td>
+<td>Fast (no lock)</td>
+<td>Fast (no lock for reads)</td>
+</tr>
+<tr>
+<td>Write performance</td>
+<td>Fast (no lock)</td>
+<td>Fast (per-bucket lock)</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td>Single-threaded</td>
+<td>Multi-threaded</td>
+</tr>
+</tbody>
+</table>
+<h2>Other Thread-Safe Collections</h2>
+<pre><code class="language-java">// Thread-safe List — good for read-heavy (writes copy the entire array)
+List&lt;String&gt; cowList = new CopyOnWriteArrayList&lt;&gt;();
+
+// Thread-safe Set
+Set&lt;String&gt; cowSet = new CopyOnWriteArraySet&lt;&gt;();
+
+// Thread-safe Queue (blocking — threads wait for elements)
+BlockingQueue&lt;Task&gt; queue = new LinkedBlockingQueue&lt;&gt;(100);  // capacity 100
+queue.put(task);    // blocks if full
+queue.take();       // blocks if empty
+
+// Non-blocking concurrent queue (lock-free)
+Queue&lt;String&gt; clQueue = new ConcurrentLinkedQueue&lt;&gt;();
+
+// Thread-safe NavigableMap
+NavigableMap&lt;String, Integer&gt; cSkipMap = new ConcurrentSkipListMap&lt;&gt;();
+</code></pre>
+<hr />
+<h1>13. Comparable &amp; Comparator</h1>
+<h2>Comparable — Natural Ordering</h2>
+<p><code>Comparable&lt;T&gt;</code> defines the <strong>natural ordering</strong> of a class. Implement it when your objects have an obvious, single natural sort order:</p>
+<pre><code class="language-java">class Student implements Comparable&lt;Student&gt; {
+    String name;
+    double gpa;
+
+    Student(String name, double gpa) {
+        this.name = name;
+        this.gpa = gpa;
+    }
+
+    @Override
+    public int compareTo(Student other) {
+        // Return: negative if this &lt; other
+        //          0       if this == other
+        //          positive if this &gt; other
+        return Double.compare(this.gpa, other.gpa);  // sort by GPA ascending
+    }
+}
+
+List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+students.add(new Student(&quot;Alice&quot;, 3.8));
+students.add(new Student(&quot;Bob&quot;, 3.5));
+students.add(new Student(&quot;Charlie&quot;, 3.9));
+
+Collections.sort(students);  // uses compareTo()
+// Result: Bob(3.5), Alice(3.8), Charlie(3.9)
+</code></pre>
+<h2>Comparator — Custom Ordering</h2>
+<p><code>Comparator&lt;T&gt;</code> defines an <strong>external, flexible ordering</strong> — doesn't need to modify the class:</p>
+<pre><code class="language-java">// Comparator by name
+Comparator&lt;Student&gt; byName = Comparator.comparing(Student::getName);
+
+// Comparator by GPA descending
+Comparator&lt;Student&gt; byGpaDesc = Comparator.comparingDouble(Student::getGpa).reversed();
+
+// Chained: by GPA desc, then by name asc for ties
+Comparator&lt;Student&gt; complex = Comparator
+    .comparingDouble(Student::getGpa).reversed()
+    .thenComparing(Student::getName);
+
+students.sort(byName);
+students.sort(byGpaDesc);
+students.sort(complex);
+
+// Anonymous comparator (old style):
+students.sort(new Comparator&lt;Student&gt;() {
+    @Override
+    public int compare(Student a, Student b) {
+        return a.getName().compareTo(b.getName());
+    }
+});
+
+// Lambda (modern style):
+students.sort((a, b) -&gt; a.getName().compareTo(b.getName()));
+
+// Method reference:
+students.sort(Comparator.comparing(Student::getName));
+</code></pre>
+<h2>Comparable vs Comparator</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Comparable</th>
+<th>Comparator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location</td>
+<td>Inside the class</td>
+<td>External to the class</td>
+</tr>
+<tr>
+<td>Method</td>
+<td><code>compareTo(T other)</code></td>
+<td><code>compare(T o1, T o2)</code></td>
+</tr>
+<tr>
+<td>Ordering defined</td>
+<td>Once (natural)</td>
+<td>Many different orderings</td>
+</tr>
+<tr>
+<td>Modifies class</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Used when</td>
+<td>Class has one obvious ordering</td>
+<td>Multiple orderings needed, or can't modify class</td>
+</tr>
+</tbody>
+</table>
+<h2>Common Implementations</h2>
+<pre><code class="language-java">// Comparing primitives:
+Comparator.comparingInt(obj -&gt; obj.age)
+Comparator.comparingDouble(obj -&gt; obj.price)
+Comparator.comparingLong(obj -&gt; obj.id)
+
+// String comparison:
+Comparator.comparing(String::toLowerCase)  // case-insensitive
+
+// Null-safe:
+Comparator.nullsFirst(Comparator.naturalOrder())
+Comparator.nullsLast(Comparator.comparingInt(obj -&gt; obj.priority))
+
+// Reversed:
+Comparator.reverseOrder()
+Comparator.comparing(obj -&gt; obj.name, Comparator.reverseOrder())
+</code></pre>
+<hr />
+<h1>14. Iterators — Fail-Fast vs Fail-Safe</h1>
+<h2>Iterator Pattern</h2>
+<pre><code class="language-java">public interface Iterator&lt;E&gt; {
+    boolean hasNext();   // is there a next element?
+    E next();            // get next element and advance
+    void remove();       // remove last element returned by next() (optional)
+}
+
+// Using iterator explicitly:
+List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;));
+Iterator&lt;String&gt; it = list.iterator();
+while (it.hasNext()) {
+    String s = it.next();
+    if (s.equals(&quot;b&quot;)) {
+        it.remove();   // safe removal during iteration!
+    }
+}
+// list is now [&quot;a&quot;, &quot;c&quot;]
+</code></pre>
+<h2>Fail-Fast Iterators</h2>
+<p>Iterators for <code>ArrayList</code>, <code>HashMap</code>, <code>HashSet</code>, <code>LinkedList</code> (most java.util collections) are <strong>fail-fast</strong>.</p>
+<p>They maintain a <code>modCount</code> (modification count) on the collection. When an iterator is created, it captures the current <code>modCount</code>. On each <code>next()</code> call, it checks:</p>
+<pre><code class="language-java">final void checkForComodification() {
+    if (modCount != expectedModCount)
+        throw new ConcurrentModificationException();
+}
+</code></pre>
+<pre><code class="language-java">List&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;));
+Iterator&lt;String&gt; it = list.iterator();
+
+list.add(&quot;d&quot;);             // modifies list while iterator exists
+
+it.next();                 // ConcurrentModificationException!
+// modCount changed since iterator was created
+</code></pre>
+<p><strong>Why?</strong> Fail-fast detects bugs immediately. Structural modification during iteration leads to undefined behavior — better to throw an exception than silently produce wrong results.</p>
+<p><strong>Correct removal during iteration:</strong></p>
+<pre><code class="language-java">// Option 1: Iterator.remove()
+Iterator&lt;String&gt; it = list.iterator();
+while (it.hasNext()) {
+    if (it.next().startsWith(&quot;a&quot;)) it.remove();  // safe!
+}
+
+// Option 2: removeIf (Java 8+, cleaner)
+list.removeIf(s -&gt; s.startsWith(&quot;a&quot;));
+
+// Option 3: collect then remove (for complex cases)
+List&lt;String&gt; toRemove = list.stream()
+    .filter(s -&gt; s.startsWith(&quot;a&quot;))
+    .collect(Collectors.toList());
+list.removeAll(toRemove);
+</code></pre>
+<h2>Fail-Safe Iterators</h2>
+<p>Iterators for <strong>concurrent collections</strong> (<code>CopyOnWriteArrayList</code>, <code>ConcurrentHashMap</code>) are <strong>fail-safe</strong> — they operate on a snapshot of the data and don't throw <code>ConcurrentModificationException</code>:</p>
+<pre><code class="language-java">List&lt;String&gt; cowList = new CopyOnWriteArrayList&lt;&gt;(Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;));
+Iterator&lt;String&gt; it = cowList.iterator();
+
+cowList.add(&quot;d&quot;);   // modifies list while iterator exists — NO exception!
+
+while (it.hasNext()) {
+    System.out.println(it.next());  // prints a, b, c (snapshot, not d)
+}
+</code></pre>
+<p><code>CopyOnWriteArrayList</code> creates a <strong>fresh copy</strong> of the backing array on every write. The iterator uses the old copy — so it never sees the modification, and no exception is thrown. The tradeoff: writes are expensive (copy entire array), reads are very fast and never blocked.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Fail-Fast</th>
+<th>Fail-Safe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Examples</td>
+<td>ArrayList, HashMap, HashSet</td>
+<td>CopyOnWriteArrayList, ConcurrentHashMap</td>
+</tr>
+<tr>
+<td>ConcurrentModificationException</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Operates on</td>
+<td>Original collection</td>
+<td>Snapshot</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>Less</td>
+<td>More (snapshot copy)</td>
+</tr>
+<tr>
+<td>Consistent view</td>
+<td>No guarantee in concurrent</td>
+<td>May miss recent updates</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>15. Generics in Collections</h1>
+<h2>Why Generics?</h2>
+<p>Before generics (Java 1.4):</p>
+<pre><code class="language-java">List list = new ArrayList();  // raw type — no type safety
+list.add(&quot;hello&quot;);
+list.add(42);               // accidentally mixed types — no compile error!
+
+String s = (String) list.get(0);  // explicit cast needed
+String s2 = (String) list.get(1); // ClassCastException at RUNTIME — surprise!
+</code></pre>
+<p>With generics (Java 5+):</p>
+<pre><code class="language-java">List&lt;String&gt; list = new ArrayList&lt;&gt;();  // type-safe
+list.add(&quot;hello&quot;);
+// list.add(42);  // COMPILE ERROR — caught at compile time!
+
+String s = list.get(0);  // no cast needed — compiler knows it's a String
+</code></pre>
+<h2>Type Erasure</h2>
+<p>Java generics use <strong>type erasure</strong> — generic type information exists only at compile time and is erased at runtime. The JVM sees raw types:</p>
+<pre><code class="language-java">// What you write:
+List&lt;String&gt; strings = new ArrayList&lt;&gt;();
+List&lt;Integer&gt; integers = new ArrayList&lt;&gt;();
+
+// What the JVM sees at runtime (after erasure):
+List strings = new ArrayList();
+List integers = new ArrayList();
+
+// Therefore:
+strings.getClass() == integers.getClass();  // true! Both are ArrayList at runtime
+strings instanceof List&lt;String&gt;;             // COMPILE ERROR — can't check generic at runtime
+strings instanceof List;                     // OK
+</code></pre>
+<p>Why erasure? Backward compatibility with pre-generics Java code.</p>
+<h2>Wildcards</h2>
+<pre><code class="language-java">// ? extends T — upper bounded wildcard (producer — read from)
+// Can hold List&lt;Integer&gt;, List&lt;Double&gt;, List&lt;Number&gt; (any subtype of Number)
+void printNumbers(List&lt;? extends Number&gt; list) {
+    for (Number n : list) System.out.println(n);  // read as Number — safe
+    // list.add(1);  // COMPILE ERROR — can't add, don't know exact type
+}
+
+// ? super T — lower bounded wildcard (consumer — write to)
+// Can hold List&lt;Integer&gt;, List&lt;Number&gt;, List&lt;Object&gt;
+void addNumbers(List&lt;? super Integer&gt; list) {
+    list.add(1);   // safe — Integer is subtype of bound
+    list.add(2);
+    // Integer n = list.get(0);  // COMPILE ERROR — can only read as Object
+}
+
+// Unbounded wildcard — ? (unknown type)
+void printList(List&lt;?&gt; list) {
+    for (Object o : list) System.out.println(o);  // read as Object only
+}
+</code></pre>
+<p><strong>PECS: Producer Extends, Consumer Super</strong>
+- If a collection <strong>produces</strong> elements you read → <code>? extends T</code>
+- If a collection <strong>consumes</strong> elements you write → <code>? super T</code></p>
+<pre><code class="language-java">// Copying elements from source to destination:
+static &lt;T&gt; void copy(List&lt;? super T&gt; dest, List&lt;? extends T&gt; src) {
+    for (T element : src) {   // src produces T elements
+        dest.add(element);    // dest consumes T elements
+    }
+}
+</code></pre>
+<hr />
+<h1>16. Collections Utility Class</h1>
+<p><code>java.util.Collections</code> provides static utility methods:</p>
+<pre><code class="language-java">List&lt;Integer&gt; nums = new ArrayList&lt;&gt;(Arrays.asList(3, 1, 4, 1, 5, 9, 2, 6));
+
+// Sorting
+Collections.sort(nums);                              // natural order: [1,1,2,3,4,5,6,9]
+Collections.sort(nums, Comparator.reverseOrder());  // reverse: [9,6,5,4,3,2,1,1]
+
+// Min/Max
+Collections.min(nums);  // 1
+Collections.max(nums);  // 9
+
+// Binary search (list MUST be sorted first!)
+Collections.binarySearch(nums, 5);  // returns index of 5
+
+// Shuffle
+Collections.shuffle(nums);  // random order
+Collections.shuffle(nums, new Random(42));  // seeded for reproducibility
+
+// Reverse
+Collections.reverse(nums);
+
+// Fill and copy
+Collections.fill(nums, 0);  // set all elements to 0
+List&lt;Integer&gt; dest = new ArrayList&lt;&gt;(Arrays.asList(0, 0, 0));
+Collections.copy(dest, src);
+
+// Frequency
+Collections.frequency(nums, 1);  // count occurrences of 1
+
+// Unmodifiable views (NOT the same as immutable — backed by original):
+List&lt;Integer&gt; readOnly = Collections.unmodifiableList(nums);
+// readOnly.add(1);  // UnsupportedOperationException
+
+// Singleton collections (one element, immutable):
+List&lt;String&gt; single = Collections.singletonList(&quot;only&quot;);
+Set&lt;String&gt; singleSet = Collections.singleton(&quot;only&quot;);
+Map&lt;String, Integer&gt; singleMap = Collections.singletonMap(&quot;key&quot;, 1);
+
+// Empty immutable collections (use these instead of null):
+List&lt;String&gt; empty = Collections.emptyList();
+Map&lt;String, Integer&gt; emptyMap = Collections.emptyMap();
+
+// Synchronized wrappers:
+List&lt;String&gt; syncList = Collections.synchronizedList(new ArrayList&lt;&gt;());
+</code></pre>
+<h2>Modern Alternatives (Java 9+)</h2>
+<pre><code class="language-java">// Immutable collections (truly immutable, not just unmodifiable views):
+List&lt;String&gt; immutable  = List.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+Set&lt;Integer&gt; immutableSet = Set.of(1, 2, 3);
+Map&lt;String, Integer&gt; immutableMap = Map.of(&quot;a&quot;, 1, &quot;b&quot;, 2);
+
+// Map with more than 10 entries:
+Map&lt;String, Integer&gt; bigMap = Map.ofEntries(
+    Map.entry(&quot;a&quot;, 1),
+    Map.entry(&quot;b&quot;, 2),
+    // ... up to any number
+);
+</code></pre>
+<hr />
+<h1>17. C++ STL vs Java Collections</h1>
+<h2>Direct Equivalents</h2>
+<table>
+<thead>
+<tr>
+<th>Java</th>
+<th>C++ STL</th>
+<th>Structure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArrayList&lt;T&gt;</code></td>
+<td><code>std::vector&lt;T&gt;</code></td>
+<td>Dynamic array</td>
+</tr>
+<tr>
+<td><code>LinkedList&lt;T&gt;</code></td>
+<td><code>std::list&lt;T&gt;</code></td>
+<td>Doubly-linked list</td>
+</tr>
+<tr>
+<td><code>ArrayDeque&lt;T&gt;</code></td>
+<td><code>std::deque&lt;T&gt;</code></td>
+<td>Double-ended queue</td>
+</tr>
+<tr>
+<td><code>PriorityQueue&lt;T&gt;</code></td>
+<td><code>std::priority_queue&lt;T&gt;</code></td>
+<td>Binary heap</td>
+</tr>
+<tr>
+<td><code>HashMap&lt;K,V&gt;</code></td>
+<td><code>std::unordered_map&lt;K,V&gt;</code></td>
+<td>Hash table</td>
+</tr>
+<tr>
+<td><code>TreeMap&lt;K,V&gt;</code></td>
+<td><code>std::map&lt;K,V&gt;</code></td>
+<td>Red-Black Tree</td>
+</tr>
+<tr>
+<td><code>HashSet&lt;T&gt;</code></td>
+<td><code>std::unordered_set&lt;T&gt;</code></td>
+<td>Hash table</td>
+</tr>
+<tr>
+<td><code>TreeSet&lt;T&gt;</code></td>
+<td><code>std::set&lt;T&gt;</code></td>
+<td>Red-Black Tree</td>
+</tr>
+<tr>
+<td><code>Stack&lt;T&gt;</code></td>
+<td><code>std::stack&lt;T&gt;</code></td>
+<td>Adapter (default over deque)</td>
+</tr>
+</tbody>
+</table>
+<h2>Key Differences</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Java</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default map</td>
+<td>HashMap (unordered)</td>
+<td>std::map (ordered/TreeMap)</td>
+</tr>
+<tr>
+<td>Priority queue default</td>
+<td>Min-heap</td>
+<td>Max-heap</td>
+</tr>
+<tr>
+<td>Null handling</td>
+<td>Most allow null</td>
+<td>std::map allows null keys</td>
+</tr>
+<tr>
+<td>Iterator invalidation</td>
+<td>ConcurrentModificationException</td>
+<td>Undefined behavior</td>
+</tr>
+<tr>
+<td>Generics/Templates</td>
+<td>Type erasure (runtime raw)</td>
+<td>Full template instantiation</td>
+</tr>
+<tr>
+<td>Thread safety</td>
+<td>Must use concurrent versions</td>
+<td>Must use locks manually</td>
+</tr>
+<tr>
+<td>String as key</td>
+<td>Works perfectly (immutable)</td>
+<td>Works (copies stored)</td>
+</tr>
+<tr>
+<td>Copying collections</td>
+<td>Assignment = shared reference</td>
+<td>Assignment = value copy</td>
+</tr>
+</tbody>
+</table>
+<h2>Code Comparison</h2>
+<pre><code class="language-cpp">// C++
+#include &lt;vector&gt;
+#include &lt;unordered_map&gt;
+#include &lt;algorithm&gt;
+
+std::vector&lt;int&gt; vec = {3, 1, 4, 1, 5};
+std::sort(vec.begin(), vec.end());
+vec.push_back(9);
+int x = vec[0];          // direct index access
+
+std::unordered_map&lt;std::string, int&gt; map;
+map[&quot;alice&quot;] = 30;
+map[&quot;bob&quot;]   = 25;
+if (map.count(&quot;alice&quot;)) { ... }   // check existence
+for (auto&amp; [k, v] : map) { ... } // structured binding iteration
+</code></pre>
+<pre><code class="language-java">// Java
+import java.util.*;
+
+List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(3, 1, 4, 1, 5));
+Collections.sort(list);
+list.add(9);
+int x = list.get(0);     // method call (no operator overloading)
+
+Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+map.put(&quot;alice&quot;, 30);
+map.put(&quot;bob&quot;, 25);
+if (map.containsKey(&quot;alice&quot;)) { ... }
+for (Map.Entry&lt;String, Integer&gt; e : map.entrySet()) { ... }
+map.forEach((k, v) -&gt; { ... });  // Java 8+
+</code></pre>
+<hr />
+<h1>18. Interview Quick Reference</h1>
+<h2>Which Collection to Choose</h2>
+<pre><code>Need a list?
+├── Random access by index? → ArrayList
+├── Frequent insert/delete at front? → ArrayDeque (as Deque)
+└── Queue/Stack operations? → ArrayDeque
+
+Need unique elements (Set)?
+├── No ordering needed? → HashSet (fastest)
+├── Insertion order needed? → LinkedHashSet
+└── Sorted order needed? → TreeSet
+
+Need key-value mapping (Map)?
+├── No ordering needed? → HashMap (fastest)
+├── Insertion order needed? → LinkedHashMap
+├── Sorted by key? → TreeMap
+└── Thread-safe? → ConcurrentHashMap
+
+Need priority ordering? → PriorityQueue (min-heap)
+Need LRU cache? → LinkedHashMap with accessOrder=true
+Need thread-safe list? → CopyOnWriteArrayList (read-heavy)
+                         Collections.synchronizedList (write-heavy)
+</code></pre>
+<h2>Complexity Cheat Sheet</h2>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>get/contains</th>
+<th>add/put</th>
+<th>remove</th>
+<th>Ordered</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayList</td>
+<td>O(1) index, O(n) value</td>
+<td>O(1) amortized end</td>
+<td>O(n)</td>
+<td>Insertion</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>O(n)</td>
+<td>O(1) ends</td>
+<td>O(n) find, O(1) linked</td>
+<td>Insertion</td>
+</tr>
+<tr>
+<td>ArrayDeque</td>
+<td>O(n)</td>
+<td>O(1) both ends</td>
+<td>O(1) ends</td>
+<td>Insertion</td>
+</tr>
+<tr>
+<td>PriorityQueue</td>
+<td>O(1) min</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>Priority</td>
+</tr>
+<tr>
+<td>HashMap</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>None</td>
+</tr>
+<tr>
+<td>LinkedHashMap</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>Insertion/Access</td>
+</tr>
+<tr>
+<td>TreeMap</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>Sorted</td>
+</tr>
+<tr>
+<td>HashSet</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>O(1) avg</td>
+<td>None</td>
+</tr>
+<tr>
+<td>TreeSet</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>Sorted</td>
+</tr>
+</tbody>
+</table>
+<h2>Key Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: How does HashMap handle collisions?</strong>
+  A: Separate chaining with linked lists. Java 8+ converts chains longer than 8 into Red-Black Trees (O(n) → O(log n) worst case).</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between HashMap and Hashtable?</strong>
+  A: Hashtable is legacy, synchronized (all methods), doesn't allow null keys/values. HashMap is not synchronized, allows one null key and multiple null values. Use ConcurrentHashMap for thread-safe modern alternative.</p>
+</li>
+<li>
+<p><strong>Q: Why should HashMap keys be immutable?</strong>
+  A: If a key's hashCode changes after insertion, the HashMap looks in the wrong bucket and can't find the entry — effectively a memory leak. String, Integer, and enums are safe as keys because they're immutable.</p>
+</li>
+<li>
+<p><strong>Q: What is the initial capacity and load factor of HashMap?</strong>
+  A: Default initial capacity is 16, load factor is 0.75. Resize (double capacity, rehash all entries) triggers when <code>size &gt; capacity × loadFactor</code> = 12 for default settings.</p>
+</li>
+<li>
+<p><strong>Q: When does ArrayList grow, and by how much?</strong>
+  A: When the array is full. New capacity = oldCapacity + (oldCapacity &gt;&gt; 1) = 1.5× the old capacity. A new array is allocated and all elements are copied — O(n) for the resize itself, O(1) amortized per add.</p>
+</li>
+<li>
+<p><strong>Q: What is ConcurrentModificationException?</strong>
+  A: Thrown by fail-fast iterators when the underlying collection is structurally modified (elements added/removed) while iterating. Fix: use <code>iterator.remove()</code>, <code>removeIf()</code>, or use a concurrent collection.</p>
+</li>
+<li>
+<p><strong>Q: Difference between Iterator and ListIterator?</strong>
+  A: <code>Iterator</code> works on all Collections (forward only). <code>ListIterator</code> works only on Lists and supports bidirectional traversal (<code>hasPrevious()</code>, <code>previous()</code>), index access, and element replacement during iteration.</p>
+</li>
+</ul>
+<hr />
+<p><em>End of Part 5: Java Collections Framework</em>
+<em>Next: Part 6 (Java Multithreading &amp; Concurrency)</em></p>
+            </article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

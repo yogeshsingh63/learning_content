@@ -1,0 +1,3393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object-Oriented Programming — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">Object-Oriented Programming Guide</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>OOP Guide</span>
+                </div>
+                <div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+                <h1>Part 3: Object-Oriented Programming — Complete Mastery Guide</h1>
+<h3>C++ vs Java | From First Principles | Backend SDE Interview Handbook</h3>
+<hr />
+<blockquote>
+<p><strong>How to use this document:</strong> Every concept is taught from first principles, with side-by-side C++ and Java code, real-world analogies, ASCII diagrams, and interview questions. Read linearly or jump to sections.</p>
+</blockquote>
+<hr />
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#1-what-is-oop-why-does-it-exist">What is OOP? Why Does It Exist?</a></li>
+<li><a href="#2-classes--objects">Classes &amp; Objects</a></li>
+<li><a href="#3-constructors--destructors-vs-garbage-collection">Constructors &amp; Destructors vs Garbage Collection</a></li>
+<li><a href="#4-encapsulation">Encapsulation</a></li>
+<li><a href="#5-abstraction">Abstraction</a></li>
+<li><a href="#6-inheritance">Inheritance</a></li>
+<li><a href="#7-polymorphism">Polymorphism</a></li>
+<li><a href="#8-method-overloading-vs-overriding">Method Overloading vs Overriding</a></li>
+<li><a href="#9-virtual-functions--dynamic-binding">Virtual Functions &amp; Dynamic Binding</a></li>
+<li><a href="#10-abstract-classes--interfaces">Abstract Classes &amp; Interfaces</a></li>
+<li><a href="#11-multiple-inheritance--the-diamond-problem">Multiple Inheritance &amp; the Diamond Problem</a></li>
+<li><a href="#12-composition-vs-inheritance">Composition vs Inheritance</a></li>
+<li><a href="#13-association-aggregation-composition-dependency">Association, Aggregation, Composition, Dependency</a></li>
+<li><a href="#14-solid-principles">SOLID Principles</a></li>
+<li><a href="#15-design-patterns">Design Patterns</a></li>
+<li><a href="#16-interview-quick-reference">Interview Quick Reference</a></li>
+</ol>
+<hr />
+<h1>1. What is OOP? Why Does It Exist?</h1>
+<h2>The Problem OOP Solves</h2>
+<p>Before OOP, programs were written procedurally — a sequence of functions acting on global data. As programs grew large, this caused:</p>
+<ul>
+<li><strong>Data scattered everywhere</strong> — any function could modify any global variable</li>
+<li><strong>No logical grouping</strong> — data and the operations on it lived in different places</li>
+<li><strong>Hard to reuse</strong> — copying code instead of extending it</li>
+<li><strong>Hard to maintain</strong> — changing one function could break unrelated parts</li>
+</ul>
+<pre><code>Procedural World (C-style):
+──────────────────────────
+Global: int balance, char name[50], int accountId
+
+deposit(int amount)     { balance += amount; }
+withdraw(int amount)    { balance -= amount; }
+printAccount()          { printf(name, balance); }
+// Any code anywhere can corrupt 'balance' directly
+</code></pre>
+<p>OOP's answer: <strong>bundle data and the functions that operate on it into a single unit called a class, and control access.</strong></p>
+<h2>The Four Pillars of OOP</h2>
+<pre><code>┌──────────────────────────────────────────────────────────┐
+│                    OOP PILLARS                           │
+│                                                          │
+│  ENCAPSULATION      ABSTRACTION                          │
+│  &quot;Hide the data&quot;    &quot;Hide the complexity&quot;                │
+│  private fields     abstract classes / interfaces        │
+│  public methods     show WHAT, not HOW                   │
+│                                                          │
+│  INHERITANCE        POLYMORPHISM                         │
+│  &quot;Reuse &amp; extend&quot;   &quot;One interface, many forms&quot;          │
+│  extends/is-a       method overriding / dynamic dispatch │
+└──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h1>2. Classes &amp; Objects</h1>
+<h2>Theory</h2>
+<p>A <strong>class</strong> is a blueprint — it defines what data (fields) an entity has and what operations (methods) it can perform. An <strong>object</strong> is a concrete instance of a class — an actual entity created from the blueprint, living in memory.</p>
+<pre><code>Class (Blueprint)           Object (Instance)
+─────────────────           ─────────────────
+class Car {                 Car myCar = new Car(&quot;Tesla&quot;, &quot;Red&quot;);
+  String brand;             // myCar: brand=&quot;Tesla&quot;, color=&quot;Red&quot;
+  String color;
+  void drive() {...}        Car yourCar = new Car(&quot;BMW&quot;, &quot;Black&quot;);
+}                           // yourCar: brand=&quot;BMW&quot;, color=&quot;Black&quot;
+</code></pre>
+<p>Each object has its own <strong>state</strong> (field values) but shares <strong>behavior</strong> (method definitions) with all instances of the class.</p>
+<h2>C++ vs Java: Class Declaration</h2>
+<pre><code class="language-cpp">// C++ — declaration in .h, definition in .cpp
+// Person.h
+class Person {
+private:
+    std::string name;
+    int age;
+
+public:
+    Person(std::string name, int age);
+    std::string getName() const;
+    void birthday();
+    ~Person();  // destructor
+};
+
+// Person.cpp
+Person::Person(std::string n, int a) : name(n), age(a) {}
+std::string Person::getName() const { return name; }
+void Person::birthday() { age++; }
+Person::~Person() { /* cleanup */ }
+</code></pre>
+<pre><code class="language-java">// Java — everything in one .java file, no header/source split
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() { return name; }
+
+    public void birthday() { age++; }
+
+    @Override
+    public String toString() {
+        return &quot;Person{name=&quot; + name + &quot;, age=&quot; + age + &quot;}&quot;;
+    }
+    // No destructor — GC handles memory
+}
+</code></pre>
+<h2>Default Access Modifiers</h2>
+<table>
+<thead>
+<tr>
+<th>Access</th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td>Accessible everywhere</td>
+<td>Accessible everywhere</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>Accessible only within class</td>
+<td>Accessible only within class</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>Accessible in class + subclasses + same package</td>
+<td>Accessible in class + subclasses + same package</td>
+</tr>
+<tr>
+<td>Default (no keyword)</td>
+<td><code>private</code> in class, <code>public</code> in struct</td>
+<td><strong>package-private</strong> — accessible within same package</td>
+</tr>
+</tbody>
+</table>
+<p>Java's default (package-private) has no C++ equivalent — it's a package-level encapsulation boundary.</p>
+<h2>Object Identity vs Equality</h2>
+<pre><code class="language-cpp">// C++ — objects can exist on stack or heap
+Person p1(&quot;Alice&quot;, 30);       // stack allocated — direct object
+Person p2 = p1;               // copy — two separate objects
+
+Person* p3 = new Person(&quot;Bob&quot;, 25);  // heap allocated — pointer
+delete p3;                     // MANUAL cleanup required
+</code></pre>
+<pre><code class="language-java">// Java — all objects on heap, variables hold references
+Person p1 = new Person(&quot;Alice&quot;, 30);   // p1 is a reference to the heap object
+Person p2 = p1;                        // p2 points to SAME object (not a copy!)
+Person p3 = new Person(&quot;Alice&quot;, 30);   // p3 points to a DIFFERENT object
+
+p1 == p2;          // true  (same reference / same memory address)
+p1 == p3;          // false (different objects)
+p1.equals(p3);     // true  (if equals() compares field values — need to override)
+</code></pre>
+<p>This is a critical Java vs C++ difference. In Java, <code>Person p2 = p1</code> creates an alias, not a copy. If you want a copy, you must implement it explicitly (via copy constructor pattern, <code>clone()</code>, or a factory method).</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between a class and an object?</strong>
+  A: A class is a compile-time blueprint defining structure and behavior. An object is a runtime instance of that class, occupying memory with its own state. Class is like a house plan; objects are the actual houses built from it.</p>
+</li>
+<li>
+<p><strong>Q: In Java, when you do <code>Person p2 = p1</code>, does p2 get a copy of p1?</strong>
+  A: No. Both p1 and p2 point to the same object on the heap. Modifying p2.name also changes what p1.name sees, because they reference the same object. To get a separate copy, you need to explicitly copy fields or use a copy constructor pattern.</p>
+</li>
+</ul>
+<hr />
+<h1>3. Constructors &amp; Destructors vs Garbage Collection</h1>
+<h2>Constructors</h2>
+<p>Constructors initialize an object's state when it's created. They have the same name as the class and no return type.</p>
+<pre><code class="language-cpp">// C++ constructors
+class Database {
+    Connection* conn;
+    string host;
+    int port;
+
+public:
+    // Default constructor
+    Database() : host(&quot;localhost&quot;), port(5432), conn(nullptr) {}
+
+    // Parameterized constructor
+    Database(string h, int p) : host(h), port(p) {
+        conn = new Connection(host, port);
+    }
+
+    // Copy constructor — C++ has this, Java doesn't (built-in)
+    Database(const Database&amp; other) : host(other.host), port(other.port) {
+        conn = new Connection(host, port);  // deep copy — new connection
+    }
+
+    // Move constructor (C++11)
+    Database(Database&amp;&amp; other) noexcept : host(move(other.host)),
+                                          port(other.port),
+                                          conn(other.conn) {
+        other.conn = nullptr;  // transfer ownership
+    }
+};
+</code></pre>
+<pre><code class="language-java">// Java constructors
+public class Database {
+    private Connection conn;
+    private String host;
+    private int port;
+
+    // Default constructor (if no constructors written, Java provides empty one)
+    public Database() {
+        this(&quot;localhost&quot;, 5432);   // delegate to parameterized
+    }
+
+    // Parameterized constructor
+    public Database(String host, int port) {
+        this.host = host;
+        this.port = port;
+        this.conn = new Connection(host, port);
+    }
+
+    // No copy constructor in Java — copy by writing static factory or clone()
+    // No move constructor — Java GC handles object lifetime
+}
+</code></pre>
+<h3>Constructor Chaining with super()</h3>
+<pre><code class="language-java">class Vehicle {
+    String brand;
+    int year;
+
+    Vehicle(String brand, int year) {
+        this.brand = brand;
+        this.year = year;
+    }
+}
+
+class Car extends Vehicle {
+    int doors;
+
+    Car(String brand, int year, int doors) {
+        super(brand, year);   // MUST be first line — calls Vehicle constructor
+        this.doors = doors;
+    }
+
+    Car(String brand) {
+        this(brand, 2024, 4);  // this() delegates to above — also must be first
+    }
+}
+</code></pre>
+<p>Rules:
+- <code>super()</code> or <code>this()</code> must be the <strong>first statement</strong> in a constructor
+- If you don't write <code>super()</code>, Java inserts <code>super()</code> (no-arg) automatically — compile error if parent has no no-arg constructor</p>
+<h2>Destructors (C++) vs GC (Java)</h2>
+<p>This is one of the most fundamental differences between C++ and Java.</p>
+<h3>C++ Destructor — Deterministic Cleanup</h3>
+<pre><code class="language-cpp">class FileHandler {
+    FILE* file;
+    char* buffer;
+
+public:
+    FileHandler(const char* path) {
+        file = fopen(path, &quot;r&quot;);
+        buffer = new char[1024];  // allocate on heap
+    }
+
+    ~FileHandler() {
+        // Called DETERMINISTICALLY when object goes out of scope or delete is called
+        fclose(file);       // close file handle — OS resource
+        delete[] buffer;    // free heap memory
+        cout &lt;&lt; &quot;FileHandler destroyed&quot; &lt;&lt; endl;
+    }
+};
+
+void process() {
+    FileHandler fh(&quot;data.txt&quot;);   // constructor called
+    // ... use fh ...
+}   // &lt;-- destructor called HERE, automatically, deterministically
+</code></pre>
+<p>The destructor runs at a <strong>predictable, defined moment</strong> — the moment the object is destroyed. This enables <strong>RAII</strong> (Resource Acquisition Is Initialization) — one of C++'s most powerful patterns.</p>
+<h3>Java — No Destructor, GC is Non-Deterministic</h3>
+<pre><code class="language-java">public class FileHandler implements AutoCloseable {
+    private FileInputStream file;
+    private byte[] buffer;
+
+    public FileHandler(String path) throws IOException {
+        file = new FileInputStream(path);
+        buffer = new byte[1024];
+    }
+
+    // finalize() — DEPRECATED, DO NOT USE
+    // Called by GC at some unknown future time, or NEVER if program exits first
+    @Override
+    protected void finalize() throws Throwable {
+        // Unreliable — don't use for resource cleanup
+    }
+
+    // CORRECT Java approach: implement AutoCloseable
+    @Override
+    public void close() throws IOException {
+        file.close();   // explicit cleanup
+    }
+}
+
+// Use try-with-resources for automatic cleanup
+void process() throws IOException {
+    try (FileHandler fh = new FileHandler(&quot;data.txt&quot;)) {
+        // ... use fh ...
+    }   // close() called here automatically — Java's RAII equivalent
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>C++ Destructor</th>
+<th>Java Garbage Collection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When called</td>
+<td>Deterministically at object destruction</td>
+<td>Non-deterministic (GC decides)</td>
+</tr>
+<tr>
+<td>Can skip</td>
+<td>Never (unless crash)</td>
+<td>finalize() may never run</td>
+</tr>
+<tr>
+<td>Resource cleanup</td>
+<td>Natural via destructor</td>
+<td>Must use try-with-resources / close()</td>
+</tr>
+<tr>
+<td>Memory cleanup</td>
+<td>Mandatory (you must delete)</td>
+<td>Automatic (GC does it)</td>
+</tr>
+<tr>
+<td>Pattern</td>
+<td>RAII</td>
+<td>AutoCloseable + try-with-resources</td>
+</tr>
+</tbody>
+</table>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: Does Java have a destructor?</strong>
+  A: No. Java had <code>finalize()</code> but it's deprecated and unreliable — the GC may never call it, and timing is non-deterministic. For resource cleanup (files, DB connections), implement <code>AutoCloseable</code> and use <code>try-with-resources</code>.</p>
+</li>
+<li>
+<p><strong>Q: What is RAII in C++?</strong>
+  A: Resource Acquisition Is Initialization — resources are acquired in the constructor and released in the destructor. Since destructors are called deterministically, resources are guaranteed to be released even if exceptions occur. Java's equivalent is <code>AutoCloseable</code> + <code>try-with-resources</code>.</p>
+</li>
+</ul>
+<hr />
+<h1>4. Encapsulation</h1>
+<h2>Theory</h2>
+<p>Encapsulation means <strong>bundling data (fields) with the methods that operate on that data, and restricting direct access to the data from outside the class.</strong></p>
+<p>The goal: an object controls its own state. External code can only interact through a well-defined interface (public methods), not by poking at internal fields directly.</p>
+<pre><code>Without encapsulation:            With encapsulation:
+─────────────────────            ───────────────────
+account.balance = -1000;         account.withdraw(1000);
+// No validation!                // withdraw() validates before changing
+                                 // balance can NEVER be negative
+</code></pre>
+<h2>Implementation</h2>
+<pre><code class="language-cpp">// C++
+class BankAccount {
+private:              // Direct access blocked from outside
+    double balance;
+    string owner;
+
+public:
+    BankAccount(string owner, double initial)
+        : owner(owner), balance(initial) {}
+
+    // Controlled access through methods (getters/setters)
+    double getBalance() const { return balance; }
+    string getOwner() const { return owner; }
+
+    bool deposit(double amount) {
+        if (amount &lt;= 0) return false;  // validation
+        balance += amount;
+        return true;
+    }
+
+    bool withdraw(double amount) {
+        if (amount &lt;= 0 || amount &gt; balance) return false;
+        balance -= amount;
+        return true;
+    }
+};
+</code></pre>
+<pre><code class="language-java">// Java — identical concept, slightly different syntax
+public class BankAccount {
+    private double balance;     // hidden
+    private String owner;       // hidden
+
+    public BankAccount(String owner, double initial) {
+        this.owner = owner;
+        this.balance = initial;
+    }
+
+    public double getBalance() { return balance; }
+    public String getOwner()   { return owner; }
+
+    public boolean deposit(double amount) {
+        if (amount &lt;= 0) return false;
+        balance += amount;
+        return true;
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount &lt;= 0 || amount &gt; balance) return false;
+        balance -= amount;
+        return true;
+    }
+}
+</code></pre>
+<h2>Why Encapsulation Matters</h2>
+<p><strong>1. Validation:</strong> The class enforces invariants. <code>balance</code> can never be negative — the class guarantees it.</p>
+<p><strong>2. Flexibility to change internals:</strong> If you store balance in cents internally instead of dollars, only the class changes — callers don't notice.</p>
+<pre><code class="language-java">// Internal change — balance now stored as long cents, not double dollars
+// External API stays the same!
+public double getBalance() {
+    return balanceCents / 100.0;   // callers don't know how it's stored
+}
+</code></pre>
+<p><strong>3. Immutability:</strong> Make fields <code>final</code> and remove setters to create immutable objects — thread-safe by design.</p>
+<pre><code class="language-java">public final class Money {
+    private final double amount;
+    private final String currency;
+
+    public Money(double amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    // Only getters, no setters — immutable
+    public double getAmount() { return amount; }
+    public String getCurrency() { return currency; }
+
+    // Operations return NEW objects instead of mutating
+    public Money add(Money other) {
+        if (!currency.equals(other.currency)) throw new IllegalArgumentException();
+        return new Money(amount + other.amount, currency);
+    }
+}
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is encapsulation and why is it important?</strong>
+  A: Encapsulation bundles data and methods together and restricts external access to internal state. It's important for: maintaining invariants (no invalid states), hiding implementation details (change internals without affecting callers), and improving security and maintainability.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between encapsulation and data hiding?</strong>
+  A: Data hiding (private fields) is the mechanism. Encapsulation is the broader principle — it includes data hiding plus the idea that an object manages its own state through controlled public methods. Data hiding is part of encapsulation.</p>
+</li>
+</ul>
+<hr />
+<h1>5. Abstraction</h1>
+<h2>Theory</h2>
+<p>Abstraction means <strong>exposing only the relevant details to the user and hiding the underlying complexity.</strong></p>
+<p>While encapsulation hides <em>how</em> data is stored, abstraction hides <em>how</em> operations are implemented. You tell users <em>what</em> something does, not <em>how</em> it does it.</p>
+<pre><code>Real World Analogy — Car:
+  What you see (interface): steering wheel, pedals, gear shift
+  What's hidden (implementation): engine combustion, transmission ratios,
+                                   fuel injection timing, brake hydraulics
+
+You don't need to understand the engine to drive the car.
+</code></pre>
+<h2>Abstraction in Code</h2>
+<p>In Java, abstraction is achieved through:
+1. <strong>Abstract classes</strong> — partial implementation, force subclasses to complete it
+2. <strong>Interfaces</strong> — pure contract, zero implementation (pre-Java 8)</p>
+<pre><code class="language-java">// Abstract class — defines WHAT operations exist (some HOW included)
+abstract class PaymentProcessor {
+    // Abstract — subclasses MUST implement (the &quot;what&quot;)
+    public abstract boolean processPayment(double amount, String account);
+    public abstract boolean refund(double amount, String transactionId);
+
+    // Concrete — shared implementation (the &quot;how&quot; for common behavior)
+    public void logTransaction(String type, double amount) {
+        System.out.println(&quot;[&quot; + type + &quot;] Amount: &quot; + amount + &quot; at &quot; + System.currentTimeMillis());
+    }
+
+    public boolean validateAmount(double amount) {
+        return amount &gt; 0 &amp;&amp; amount &lt; 1_000_000;
+    }
+}
+
+// Concrete implementations — each hides its own complexity
+class StripeProcessor extends PaymentProcessor {
+    private StripeClient client = new StripeClient();
+
+    @Override
+    public boolean processPayment(double amount, String account) {
+        logTransaction(&quot;CHARGE&quot;, amount);
+        // Complex Stripe API calls hidden from callers
+        return client.charge(account, amount, &quot;USD&quot;);
+    }
+
+    @Override
+    public boolean refund(double amount, String transactionId) {
+        return client.refund(transactionId, amount);
+    }
+}
+
+class PayPalProcessor extends PaymentProcessor {
+    @Override
+    public boolean processPayment(double amount, String account) {
+        logTransaction(&quot;PAYPAL_CHARGE&quot;, amount);
+        // Complex PayPal API calls hidden
+        return PayPalAPI.execute(account, amount);
+    }
+
+    @Override
+    public boolean refund(double amount, String transactionId) {
+        return PayPalAPI.refund(transactionId);
+    }
+}
+
+// Caller only sees the abstract interface
+PaymentProcessor processor = new StripeProcessor();
+processor.processPayment(99.99, &quot;user@example.com&quot;);
+// Caller doesn't know or care it's Stripe internally
+</code></pre>
+<h2>Abstraction vs Encapsulation — The Confusion</h2>
+<p>These are often confused. Here's the clear distinction:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Encapsulation</th>
+<th>Abstraction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Hiding DATA (fields)</td>
+<td>Hiding COMPLEXITY (implementation)</td>
+</tr>
+<tr>
+<td><strong>Mechanism</strong></td>
+<td>Access modifiers (private/public)</td>
+<td>Abstract classes, interfaces</td>
+</tr>
+<tr>
+<td><strong>Question answered</strong></td>
+<td>"How is the data protected?"</td>
+<td>"What can this object do?"</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Data protection, invariants</td>
+<td>Simplified mental model for callers</td>
+</tr>
+<tr>
+<td><strong>Example</strong></td>
+<td><code>private double balance</code> with getter</td>
+<td><code>abstract boolean processPayment(...)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Both work together: encapsulation hides the <em>state</em>, abstraction hides the <em>behavior complexity</em>.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li><strong>Q: What is the difference between abstraction and encapsulation?</strong>
+  A: Encapsulation hides internal data through access modifiers — it protects state. Abstraction hides implementation complexity behind a simple interface — it simplifies what callers need to know. Encapsulation is about <em>data protection</em>; abstraction is about <em>complexity management</em>.</li>
+</ul>
+<hr />
+<h1>6. Inheritance</h1>
+<h2>Theory</h2>
+<p>Inheritance allows a class to <strong>reuse and extend</strong> the structure and behavior of another class. The child class (subclass) inherits all accessible fields and methods from the parent class (superclass) and can add new ones or override existing ones.</p>
+<pre><code>                    Animal
+                   /      \
+                Dog        Cat
+               /   \
+           Puppy  GuideDog
+
+&quot;is-a&quot; relationship:
+  Dog is an Animal ✓
+  Puppy is a Dog ✓  (and transitively, Puppy is an Animal ✓)
+  Dog is a Cat ✗
+</code></pre>
+<h2>Single Inheritance</h2>
+<pre><code class="language-cpp">// C++
+class Animal {
+protected:          // accessible to subclasses
+    string name;
+    int age;
+
+public:
+    Animal(string name, int age) : name(name), age(age) {}
+
+    virtual void speak() {     // virtual = can be overridden
+        cout &lt;&lt; name &lt;&lt; &quot; makes a sound&quot; &lt;&lt; endl;
+    }
+
+    void breathe() {
+        cout &lt;&lt; name &lt;&lt; &quot; breathes&quot; &lt;&lt; endl;
+    }
+};
+
+class Dog : public Animal {   // public inheritance
+    string breed;
+
+public:
+    Dog(string name, int age, string breed)
+        : Animal(name, age), breed(breed) {}   // call parent constructor
+
+    void speak() override {    // override (C++11 keyword)
+        cout &lt;&lt; name &lt;&lt; &quot; barks!&quot; &lt;&lt; endl;
+    }
+
+    void fetch() {
+        cout &lt;&lt; name &lt;&lt; &quot; fetches!&quot; &lt;&lt; endl;
+    }
+};
+</code></pre>
+<pre><code class="language-java">// Java
+public class Animal {
+    protected String name;    // accessible to subclasses
+    protected int age;
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void speak() {
+        System.out.println(name + &quot; makes a sound&quot;);
+    }
+
+    public void breathe() {
+        System.out.println(name + &quot; breathes&quot;);
+    }
+}
+
+public class Dog extends Animal {
+    private String breed;
+
+    public Dog(String name, int age, String breed) {
+        super(name, age);   // call parent constructor — MUST be first line
+        this.breed = breed;
+    }
+
+    @Override
+    public void speak() {
+        System.out.println(name + &quot; barks!&quot;);
+    }
+
+    public void fetch() {
+        System.out.println(name + &quot; fetches!&quot;);
+    }
+}
+</code></pre>
+<h2>Inheritance Chain</h2>
+<pre><code class="language-java">class LivingThing {
+    void breathe() { System.out.println(&quot;breathing...&quot;); }
+}
+
+class Animal extends LivingThing {
+    String name;
+    Animal(String n) { name = n; }
+    void eat() { System.out.println(name + &quot; eats&quot;); }
+}
+
+class Dog extends Animal {
+    Dog(String n) { super(n); }
+    void bark() { System.out.println(name + &quot; barks&quot;); }
+}
+
+class Labrador extends Dog {
+    Labrador(String n) { super(n); }
+    void retrieve() { System.out.println(name + &quot; retrieves&quot;); }
+}
+
+// Labrador inherits: breathe(), eat(), bark(), retrieve()
+Labrador lab = new Labrador(&quot;Buddy&quot;);
+lab.breathe();    // from LivingThing
+lab.eat();        // from Animal
+lab.bark();       // from Dog
+lab.retrieve();   // from Labrador
+</code></pre>
+<h2>C++ Inheritance Types (not in Java)</h2>
+<p>C++ has three inheritance types — Java only has <code>public</code> equivalent:</p>
+<pre><code class="language-cpp">class Base { public: int x; protected: int y; private: int z; };
+
+class PublicChild    : public Base    { };  // x=public, y=protected, z=inaccessible
+class ProtectedChild : protected Base { };  // x=protected, y=protected, z=inaccessible
+class PrivateChild   : private Base   { };  // x=private, y=private, z=inaccessible
+</code></pre>
+<p>Java always behaves like C++ <code>public</code> inheritance — subclass doesn't change the visibility of inherited members.</p>
+<h2>Preventing Inheritance</h2>
+<pre><code class="language-cpp">// C++11 — final class
+class Singleton final { ... };  // cannot be subclassed
+
+// C++11 — final method
+virtual void configure() final { ... }  // cannot be overridden
+</code></pre>
+<pre><code class="language-java">// Java
+public final class String { ... }     // String cannot be subclassed
+
+public class Parent {
+    public final void configure() { ... }  // cannot be overridden
+}
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between <code>protected</code> and <code>private</code> in the context of inheritance?</strong>
+  A: <code>private</code> members are accessible only within the declaring class — not even subclasses can access them. <code>protected</code> members are accessible within the declaring class AND all subclasses (and same package in Java). Use <code>protected</code> when subclasses need access to internals; use <code>private</code> when you want to keep internals truly hidden even from subclasses.</p>
+</li>
+<li>
+<p><strong>Q: What happens if you don't call <code>super()</code> in a Java subclass constructor?</strong>
+  A: Java inserts an implicit <code>super()</code> (no-arg call). If the parent class has no no-argument constructor, this causes a compile error — you must explicitly call the appropriate <code>super(...)</code>.</p>
+</li>
+</ul>
+<hr />
+<h1>7. Polymorphism</h1>
+<h2>Theory</h2>
+<p>Polymorphism means <strong>"many forms"</strong> — the same interface can work with objects of different types, with the correct behavior selected at runtime.</p>
+<p>This is what makes OOP code extensible: you write code against a base type, and it works correctly with any subtype — even ones written in the future.</p>
+<pre><code>Animal animal;
+
+animal = new Dog();  → animal.speak() prints &quot;barks!&quot;
+animal = new Cat();  → animal.speak() prints &quot;meows!&quot;
+animal = new Bird(); → animal.speak() prints &quot;chirps!&quot;
+
+Same code (animal.speak()) — different behavior based on actual object type.
+This selection of the right method at runtime = dynamic dispatch.
+</code></pre>
+<h2>Runtime Polymorphism (Method Overriding)</h2>
+<pre><code class="language-java">class Shape {
+    public double area() { return 0; }
+    public void describe() {
+        System.out.println(&quot;Area: &quot; + area());   // calls overridden version!
+    }
+}
+
+class Circle extends Shape {
+    private double radius;
+    Circle(double r) { this.radius = r; }
+
+    @Override
+    public double area() { return Math.PI * radius * radius; }
+}
+
+class Rectangle extends Shape {
+    private double width, height;
+    Rectangle(double w, double h) { this.width = w; this.height = h; }
+
+    @Override
+    public double area() { return width * height; }
+}
+
+class Triangle extends Shape {
+    private double base, height;
+    Triangle(double b, double h) { this.base = b; this.height = h; }
+
+    @Override
+    public double area() { return 0.5 * base * height; }
+}
+
+// Polymorphic code — works with any Shape subclass
+List&lt;Shape&gt; shapes = new ArrayList&lt;&gt;();
+shapes.add(new Circle(5));
+shapes.add(new Rectangle(4, 6));
+shapes.add(new Triangle(3, 8));
+
+double totalArea = 0;
+for (Shape s : shapes) {
+    totalArea += s.area();    // correct method called for each type at runtime
+}
+System.out.println(&quot;Total area: &quot; + totalArea);
+
+// Adding a new shape type (Hexagon) requires ZERO changes to this code!
+</code></pre>
+<h2>Compile-Time vs Runtime Polymorphism</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Compile-Time (Static)</th>
+<th>Runtime (Dynamic)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Also called</td>
+<td>Static binding, Early binding</td>
+<td>Dynamic binding, Late binding, Dynamic dispatch</td>
+</tr>
+<tr>
+<td>Mechanism</td>
+<td>Method overloading</td>
+<td>Method overriding</td>
+</tr>
+<tr>
+<td>Resolved at</td>
+<td>Compile time</td>
+<td>Runtime</td>
+</tr>
+<tr>
+<td>Based on</td>
+<td>Parameter types (in call)</td>
+<td>Actual object type</td>
+</tr>
+<tr>
+<td>C++</td>
+<td>Both</td>
+<td>Only with <code>virtual</code></td>
+</tr>
+<tr>
+<td>Java</td>
+<td>Both</td>
+<td>All non-static, non-final methods</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">class Printer {
+    // COMPILE-TIME: resolved by parameter type
+    void print(int x)    { System.out.println(&quot;int: &quot; + x); }
+    void print(String x) { System.out.println(&quot;String: &quot; + x); }
+    void print(double x) { System.out.println(&quot;double: &quot; + x); }
+}
+
+Printer p = new Printer();
+p.print(5);      // resolved at compile time → print(int)
+p.print(&quot;hi&quot;);   // resolved at compile time → print(String)
+</code></pre>
+<h2>Upcasting and Downcasting</h2>
+<pre><code class="language-java">// Upcasting — always safe, implicit
+Animal animal = new Dog(&quot;Rex&quot;, 3, &quot;Lab&quot;);   // Dog → Animal (upcast)
+animal.speak();   // calls Dog's speak() — runtime polymorphism works
+
+// Downcasting — explicit, may fail at runtime
+Dog dog = (Dog) animal;   // Animal → Dog (downcast)
+dog.fetch();              // Dog-specific method
+
+// Safe downcast with instanceof
+if (animal instanceof Dog d) {    // Java 16+ pattern matching
+    d.fetch();   // safe — checked first
+}
+
+// ClassCastException if wrong:
+Animal cat = new Cat(&quot;Whiskers&quot;);
+Dog d = (Dog) cat;   // ClassCastException at runtime!
+</code></pre>
+<h2>Polymorphism in Real Systems</h2>
+<p>Polymorphism powers extensible architecture. A payment system:</p>
+<pre><code class="language-java">interface NotificationService {
+    void send(String user, String message);
+}
+
+class EmailNotification implements NotificationService {
+    public void send(String user, String message) {
+        // send via SMTP
+        System.out.println(&quot;Email to &quot; + user + &quot;: &quot; + message);
+    }
+}
+
+class SMSNotification implements NotificationService {
+    public void send(String user, String message) {
+        // send via Twilio API
+        System.out.println(&quot;SMS to &quot; + user + &quot;: &quot; + message);
+    }
+}
+
+class PushNotification implements NotificationService {
+    public void send(String user, String message) {
+        // send via Firebase
+        System.out.println(&quot;Push to &quot; + user + &quot;: &quot; + message);
+    }
+}
+
+// OrderService doesn't need to change when new notification types are added
+class OrderService {
+    private NotificationService notifier;  // reference to interface
+
+    OrderService(NotificationService notifier) {  // inject dependency
+        this.notifier = notifier;
+    }
+
+    void completeOrder(String user) {
+        // ... order logic ...
+        notifier.send(user, &quot;Your order is complete!&quot;);   // polymorphic call
+    }
+}
+
+// Usage — swap notification type without changing OrderService
+OrderService emailOrders = new OrderService(new EmailNotification());
+OrderService smsOrders   = new OrderService(new SMSNotification());
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between compile-time and runtime polymorphism?</strong>
+  A: Compile-time polymorphism (method overloading) is resolved at compile time based on the method signature in the call. Runtime polymorphism (method overriding) is resolved at runtime based on the actual type of the object. Overloading = "which method?" at compile time. Overriding = "whose version?" at runtime.</p>
+</li>
+<li>
+<p><strong>Q: Can you achieve runtime polymorphism without inheritance?</strong>
+  A: Yes — through interfaces. An object can implement an interface, and polymorphism works through the interface reference, without any parent class relationship.</p>
+</li>
+</ul>
+<hr />
+<h1>8. Method Overloading vs Overriding</h1>
+<h2>Overloading — Same Name, Different Signature</h2>
+<pre><code class="language-java">class Calculator {
+    // Same method name, different parameter lists
+    int add(int a, int b)             { return a + b; }
+    double add(double a, double b)    { return a + b; }
+    int add(int a, int b, int c)      { return a + b + c; }
+    String add(String a, String b)    { return a + b; }
+
+    // NOT overloading — return type alone doesn't differentiate
+    // int getValue()    { return 0; }
+    // double getValue() { return 0.0; }  // COMPILE ERROR — ambiguous
+}
+
+Calculator calc = new Calculator();
+calc.add(1, 2);         // calls int add(int, int)
+calc.add(1.0, 2.0);    // calls double add(double, double)
+calc.add(1, 2, 3);     // calls int add(int, int, int)
+</code></pre>
+<p>Overloading resolution rules (from most to least specific):
+1. Exact match
+2. Widening primitive conversion (int → long → float → double)
+3. Autoboxing (int → Integer)
+4. Varargs</p>
+<h2>Overriding — Same Signature, Different Class</h2>
+<pre><code class="language-java">class Animal {
+    public void speak() { System.out.println(&quot;...&quot;); }
+    protected String describe() { return &quot;Animal&quot;; }
+}
+
+class Dog extends Animal {
+    @Override
+    public void speak() {              // same return type, same name, same params
+        System.out.println(&quot;Woof!&quot;);
+    }
+
+    @Override
+    protected String describe() {     // can widen access (protected → public OK)
+        return &quot;Dog&quot;;                 // can't narrow access (public → protected = ERROR)
+    }
+}
+</code></pre>
+<h3>Overriding Rules (Java)</h3>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method signature</td>
+<td>Must be identical (name + parameters)</td>
+</tr>
+<tr>
+<td>Return type</td>
+<td>Must be same OR covariant (subtype of parent's return type)</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>Can widen (private → protected → public) but NOT narrow</td>
+</tr>
+<tr>
+<td>Exception</td>
+<td>Can throw fewer/narrower checked exceptions, not more/broader</td>
+</tr>
+<tr>
+<td><code>static</code> methods</td>
+<td>Cannot be overridden (method hiding instead)</td>
+</tr>
+<tr>
+<td><code>final</code> methods</td>
+<td>Cannot be overridden</td>
+</tr>
+<tr>
+<td><code>private</code> methods</td>
+<td>Cannot be overridden (not inherited)</td>
+</tr>
+<tr>
+<td><code>@Override</code></td>
+<td>Not required but strongly recommended — catches mistakes</td>
+</tr>
+</tbody>
+</table>
+<h3>Covariant Return Types</h3>
+<pre><code class="language-java">class Animal {
+    public Animal create() { return new Animal(); }
+}
+
+class Dog extends Animal {
+    @Override
+    public Dog create() {    // Dog is subtype of Animal — covariant return, OK!
+        return new Dog();
+    }
+}
+</code></pre>
+<h2>Overloading vs Overriding Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Overloading</th>
+<th>Overriding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where</td>
+<td>Same class</td>
+<td>Parent-child classes</td>
+</tr>
+<tr>
+<td>Signature</td>
+<td>Different</td>
+<td>Identical</td>
+</tr>
+<tr>
+<td>Return type</td>
+<td>Can differ</td>
+<td>Must be same or covariant</td>
+</tr>
+<tr>
+<td>Resolved</td>
+<td>Compile time</td>
+<td>Runtime</td>
+</tr>
+<tr>
+<td>Inheritance</td>
+<td>Not needed</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Polymorphism</td>
+<td>Compile-time</td>
+<td>Runtime</td>
+</tr>
+</tbody>
+</table>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: Can we override a static method in Java?</strong>
+  A: No. Static methods belong to the class, not instances. "Overriding" a static method in a subclass is actually <strong>method hiding</strong> — the subclass has its own separate static method. The version called depends on the reference type (compile-time), not the actual object type (runtime). No dynamic dispatch.</p>
+</li>
+<li>
+<p><strong>Q: Can overloaded methods have the same return type?</strong>
+  A: Yes, as long as the parameter lists differ. Return type alone is not sufficient to differentiate overloaded methods — the compiler would be unable to determine which to call.</p>
+</li>
+</ul>
+<hr />
+<h1>9. Virtual Functions &amp; Dynamic Binding</h1>
+<h2>C++ Virtual Functions</h2>
+<p>In C++, methods are <strong>not virtual by default</strong>. You must explicitly mark them <code>virtual</code> to enable dynamic dispatch (runtime polymorphism):</p>
+<pre><code class="language-cpp">class Animal {
+public:
+    void speak() {           // NOT virtual — resolved at compile time
+        cout &lt;&lt; &quot;Animal sound&quot; &lt;&lt; endl;
+    }
+
+    virtual void move() {    // virtual — resolved at runtime
+        cout &lt;&lt; &quot;Animal moves&quot; &lt;&lt; endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void speak() override {  // hides parent's speak (no polymorphism without virtual)
+        cout &lt;&lt; &quot;Dog barks&quot; &lt;&lt; endl;
+    }
+
+    void move() override {   // overrides — polymorphism works
+        cout &lt;&lt; &quot;Dog runs&quot; &lt;&lt; endl;
+    }
+};
+
+Animal* a = new Dog();
+
+a-&gt;speak();   // &quot;Animal sound&quot; — NOT virtual, compile-time binding on Animal*
+a-&gt;move();    // &quot;Dog runs&quot;    — virtual, runtime binding to actual Dog object
+</code></pre>
+<h2>Java: All Methods Are Virtually Dispatched</h2>
+<p>In Java, <strong>all non-static, non-final, non-private instance methods are virtually dispatched by default.</strong> There is no <code>virtual</code> keyword — it's the default behavior.</p>
+<pre><code class="language-java">class Animal {
+    public void speak() {     // implicitly virtual
+        System.out.println(&quot;Animal sound&quot;);
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    public void speak() {
+        System.out.println(&quot;Dog barks&quot;);
+    }
+}
+
+Animal a = new Dog();
+a.speak();    // &quot;Dog barks&quot; — always uses runtime type, no special keyword needed
+</code></pre>
+<p>This is a major Java-C++ difference. Java pays the virtual dispatch cost everywhere (though JIT's devirtualization optimization often eliminates it for hot code).</p>
+<h2>How Dynamic Dispatch Works Internally: vtable</h2>
+<p>Both C++ (for virtual functions) and Java (for all methods) use a <strong>vtable</strong> (virtual method table):</p>
+<pre><code>vtable for Animal:                vtable for Dog:
+┌─────────────────────────┐      ┌─────────────────────────┐
+│ speak → Animal::speak() │      │ speak → Dog::speak()    │  ← overridden
+│ move  → Animal::move()  │      │ move  → Dog::move()     │  ← overridden
+│ eat   → Animal::eat()   │      │ eat   → Animal::eat()   │  ← inherited
+└─────────────────────────┘      └─────────────────────────┘
+
+Each object contains a hidden pointer to its class's vtable:
+
+Dog object in memory:
+┌──────────────────────────┐
+│ vptr → Dog's vtable      │  ← added by compiler/JVM
+│ name: &quot;Rex&quot;              │
+│ age: 3                   │
+│ breed: &quot;Lab&quot;             │
+└──────────────────────────┘
+
+When you call a-&gt;speak():
+  1. Follow a to object in memory
+  2. Read vptr → Dog's vtable
+  3. Look up &quot;speak&quot; → Dog::speak()
+  4. Call it
+</code></pre>
+<h2>Pure Virtual Functions (C++) vs Abstract Methods (Java)</h2>
+<pre><code class="language-cpp">// C++ pure virtual — forces subclasses to implement
+class Shape {
+public:
+    virtual double area() = 0;    // = 0 makes it pure virtual
+    virtual void draw() = 0;
+    // Shape is now an &quot;abstract class&quot; — cannot be instantiated
+};
+
+class Circle : public Shape {
+    double radius;
+public:
+    Circle(double r) : radius(r) {}
+    double area() override { return 3.14159 * radius * radius; }
+    void draw() override { /* draw circle */ }
+};
+
+// Shape s;              // ERROR — abstract class
+Shape* s = new Circle(5);  // OK
+</code></pre>
+<pre><code class="language-java">// Java abstract method — equivalent concept
+abstract class Shape {
+    public abstract double area();   // must be implemented by subclasses
+    public abstract void draw();
+
+    // Abstract class CAN have concrete methods and fields
+    public void describe() {
+        System.out.println(&quot;Area: &quot; + area());
+    }
+}
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is a vtable?</strong>
+  A: A virtual method table — a per-class array of function pointers to the actual implementations of virtual methods. Each object has a hidden pointer (vptr) to its class's vtable. When a virtual method is called, the runtime follows vptr to the vtable and calls the correct implementation. This is how dynamic dispatch is implemented.</p>
+</li>
+<li>
+<p><strong>Q: In Java, do you need to declare methods as virtual?</strong>
+  A: No. All instance methods in Java are effectively virtual (dynamically dispatched) by default. Only <code>static</code>, <code>final</code>, and <code>private</code> methods use static binding. C++ requires explicit <code>virtual</code> keyword.</p>
+</li>
+</ul>
+<hr />
+<h1>10. Abstract Classes &amp; Interfaces</h1>
+<h2>Abstract Classes</h2>
+<p>An abstract class is a class that <strong>cannot be instantiated</strong> and may contain abstract methods (no body) that subclasses must implement.</p>
+<pre><code class="language-java">abstract class DatabaseRepository {
+    // Fields — abstract classes can have state
+    protected String tableName;
+    protected Connection connection;
+
+    DatabaseRepository(String tableName) {
+        this.tableName = tableName;
+        this.connection = ConnectionPool.get();
+    }
+
+    // Abstract methods — subclasses must implement
+    public abstract void save(Object entity);
+    public abstract Object findById(int id);
+    public abstract List&lt;Object&gt; findAll();
+
+    // Concrete methods — shared implementation
+    public void delete(int id) {
+        String sql = &quot;DELETE FROM &quot; + tableName + &quot; WHERE id = ?&quot;;
+        // execute sql...
+        System.out.println(&quot;Deleted id=&quot; + id + &quot; from &quot; + tableName);
+    }
+
+    public int count() {
+        // SELECT COUNT(*) FROM tableName
+        return 0; // placeholder
+    }
+}
+
+class UserRepository extends DatabaseRepository {
+    UserRepository() { super(&quot;users&quot;); }
+
+    @Override
+    public void save(Object entity) {
+        User user = (User) entity;
+        // INSERT INTO users...
+    }
+
+    @Override
+    public Object findById(int id) {
+        // SELECT * FROM users WHERE id = ?
+        return new User(); // placeholder
+    }
+
+    @Override
+    public List&lt;Object&gt; findAll() {
+        return new ArrayList&lt;&gt;(); // placeholder
+    }
+}
+</code></pre>
+<h2>Interfaces</h2>
+<p>An interface defines a <strong>pure contract</strong> — what operations an implementing class must provide.</p>
+<pre><code class="language-java">// Interface — all fields implicitly public static final
+//           — methods implicitly public abstract (before Java 8)
+interface Serializable { }  // marker interface — no methods
+
+interface Comparable&lt;T&gt; {
+    int compareTo(T other);   // returns negative, 0, or positive
+}
+
+interface Printable {
+    void print();
+    void printPDF();
+
+    // Default method (Java 8+) — has implementation
+    default void printAll() {
+        print();
+        printPDF();
+    }
+
+    // Static method (Java 8+) — utility, not inherited
+    static Printable noOp() {
+        return new Printable() {
+            public void print() {}
+            public void printPDF() {}
+        };
+    }
+
+    // Private method (Java 9+) — shared logic between defaults
+    private void logPrint(String format) {
+        System.out.println(&quot;Printing as: &quot; + format);
+    }
+}
+</code></pre>
+<h2>Implementing Multiple Interfaces</h2>
+<pre><code class="language-java">// Java's solution to multiple inheritance
+class Employee implements Comparable&lt;Employee&gt;, Serializable, Printable {
+    String name;
+    double salary;
+
+    @Override
+    public int compareTo(Employee other) {
+        return Double.compare(this.salary, other.salary);
+    }
+
+    @Override
+    public void print() {
+        System.out.println(&quot;Employee: &quot; + name + &quot;, Salary: &quot; + salary);
+    }
+
+    @Override
+    public void printPDF() { /* pdf generation */ }
+}
+</code></pre>
+<h2>Abstract Class vs Interface — Deep Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Abstract Class</th>
+<th>Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instantiation</td>
+<td>Cannot</td>
+<td>Cannot</td>
+</tr>
+<tr>
+<td>Fields</td>
+<td>Any (instance + static)</td>
+<td>Only <code>public static final</code></td>
+</tr>
+<tr>
+<td>Constructor</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Abstract methods</td>
+<td>Yes</td>
+<td>Yes (implicitly)</td>
+</tr>
+<tr>
+<td>Concrete methods</td>
+<td>Yes</td>
+<td>Only <code>default</code> and <code>static</code> (Java 8+)</td>
+</tr>
+<tr>
+<td>Access modifiers on methods</td>
+<td>Any</td>
+<td><code>public</code> only (before Java 9)</td>
+</tr>
+<tr>
+<td>Extends/Implements</td>
+<td><code>extends</code> one class</td>
+<td><code>implements</code> many interfaces</td>
+</tr>
+<tr>
+<td>Multiple inheritance</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>State (instance variables)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>When to use</td>
+<td>Shared state + partial implementation</td>
+<td>Pure contract / capability</td>
+</tr>
+</tbody>
+</table>
+<h3>Decision Guide</h3>
+<pre><code>Need to share STATE (instance variables)?
+  └── Yes → Abstract Class
+  └── No  → Interface
+
+Need constructor logic?
+  └── Yes → Abstract Class
+  └── No  → Interface
+
+Implementing multiple contracts?
+  └── Yes → Interfaces (can implement many)
+  └── No  → Either works
+
+Is the relationship &quot;is-a&quot; with implementation?
+  └── Yes → Abstract Class (Animal → Dog)
+  └── Capability? → Interface (Flyable, Serializable)
+</code></pre>
+<h2>Real-World Example: Spring Framework Pattern</h2>
+<pre><code class="language-java">// Spring uses abstract classes for template pattern
+abstract class JdbcTemplate {
+    // Template method — defines the algorithm skeleton
+    public final List&lt;Object&gt; query(String sql) {
+        Connection conn = getConnection();    // concrete
+        PreparedStatement ps = prepare(sql); // concrete
+        ResultSet rs = execute(ps);          // concrete
+        return mapResults(rs);               // ABSTRACT — subclass implements mapping
+    }
+
+    protected abstract List&lt;Object&gt; mapResults(ResultSet rs);
+    private Connection getConnection() { ... }
+}
+
+// Interface for Spring repositories
+interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    // Spring generates implementation at runtime!
+    List&lt;User&gt; findByEmail(String email);
+    Optional&lt;User&gt; findByUsername(String username);
+}
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: When would you use an abstract class over an interface?</strong>
+  A: Use an abstract class when you need to share state (instance fields), provide constructor logic, or have some methods with implementations that subclasses should inherit. Use an interface when you're defining a capability contract that multiple unrelated classes should fulfill, or when you need multiple inheritance of type.</p>
+</li>
+<li>
+<p><strong>Q: Can an interface have a constructor?</strong>
+  A: No. Interfaces cannot have constructors because they cannot be instantiated. They cannot have instance state either — all fields are implicitly <code>public static final</code>.</p>
+</li>
+<li>
+<p><strong>Q: What is a marker interface?</strong>
+  A: An interface with no methods — used as a tag to mark a class as having some property. Examples: <code>Serializable</code>, <code>Cloneable</code>, <code>RandomAccess</code>. The JVM or frameworks check <code>instanceof MarkerInterface</code> to decide behavior.</p>
+</li>
+</ul>
+<hr />
+<h1>11. Multiple Inheritance &amp; the Diamond Problem</h1>
+<h2>C++ Multiple Inheritance</h2>
+<p>C++ allows a class to inherit from multiple classes directly:</p>
+<pre><code class="language-cpp">class Flyable {
+public:
+    void fly() { cout &lt;&lt; &quot;Flying&quot; &lt;&lt; endl; }
+};
+
+class Swimmable {
+public:
+    void swim() { cout &lt;&lt; &quot;Swimming&quot; &lt;&lt; endl; }
+};
+
+class Duck : public Flyable, public Swimmable {
+    // Duck inherits both fly() and swim()
+};
+
+Duck d;
+d.fly();   // OK
+d.swim();  // OK
+</code></pre>
+<h2>The Diamond Problem</h2>
+<p>The problem occurs when two parent classes both inherit from the same grandparent:</p>
+<pre><code>        Animal
+       /      \
+    Dog        Robot
+       \      /
+       RobotDog
+
+class Animal { void eat() {...} };
+class Dog    : public Animal { };
+class Robot  : public Animal { };
+class RobotDog : public Dog, public Robot { };  // Diamond!
+
+RobotDog rd;
+rd.eat();  // AMBIGUOUS! Which eat()? Dog's copy or Robot's copy?
+           // Both Dog and Robot have their own copy of Animal's data!
+</code></pre>
+<pre><code>Without virtual inheritance:        With virtual inheritance:
+──────────────────────────          ──────────────────────────
+RobotDog                            RobotDog
+├── Dog                             ├── Dog
+│   └── Animal (copy 1)             │   └── Animal (shared, ONE copy)
+└── Robot                           └── Robot
+    └── Animal (copy 2)                 └── Animal (same shared copy)
+
+rd.eat() → AMBIGUOUS                rd.eat() → OK (one Animal)
+</code></pre>
+<h3>C++ Solution: Virtual Inheritance</h3>
+<pre><code class="language-cpp">class Animal { public: void eat() { cout &lt;&lt; &quot;eating&quot; &lt;&lt; endl; } };
+
+class Dog   : virtual public Animal { };   // virtual inheritance
+class Robot : virtual public Animal { };   // virtual inheritance
+
+class RobotDog : public Dog, public Robot {
+    // Now only ONE copy of Animal's members
+};
+
+RobotDog rd;
+rd.eat();  // OK — unambiguous, one Animal
+</code></pre>
+<h2>Java's Solution: No Class Multiple Inheritance</h2>
+<p>Java sidesteps the diamond problem entirely by <strong>disallowing multiple class inheritance</strong>. A class can only <code>extend</code> one class. But it can <code>implement</code> multiple interfaces.</p>
+<pre><code class="language-java">// This is ILLEGAL in Java:
+// class RobotDog extends Dog, Robot { }  // COMPILE ERROR
+
+// Interfaces CAN be multiply &quot;implemented&quot;:
+interface Flyable { void fly(); }
+interface Swimmable { void swim(); }
+
+class Duck implements Flyable, Swimmable {
+    public void fly()  { System.out.println(&quot;Duck flies&quot;); }
+    public void swim() { System.out.println(&quot;Duck swims&quot;); }
+}
+</code></pre>
+<h3>Default Method Diamond (Java 8+)</h3>
+<p>With default methods in interfaces, Java introduced a limited diamond problem:</p>
+<pre><code class="language-java">interface A { default void hello() { System.out.println(&quot;A&quot;); } }
+interface B extends A { default void hello() { System.out.println(&quot;B&quot;); } }
+interface C extends A { default void hello() { System.out.println(&quot;C&quot;); } }
+
+// D implements both B and C — which hello() wins?
+class D implements B, C {
+    // MUST override to resolve ambiguity
+    @Override
+    public void hello() {
+        B.super.hello();   // explicitly choose B's version
+        // OR C.super.hello();
+    }
+}
+</code></pre>
+<p>Resolution rules for default method conflict:
+1. Class method beats interface default method
+2. More specific interface (closer in hierarchy) wins
+3. If still ambiguous → must override and resolve manually</p>
+<h2>Interview Questions</h2>
+<ul>
+<li><strong>Q: Why doesn't Java support multiple class inheritance?</strong>
+  A: To avoid the diamond problem — ambiguity when two parent classes have the same method or field, and both inherit from the same grandparent. Java uses interfaces for multiple inheritance of type/behavior while keeping single-class inheritance for implementation. Interface default methods (Java 8+) brought a limited version of the problem back, resolved by explicit override rules.</li>
+</ul>
+<hr />
+<h1>12. Composition vs Inheritance</h1>
+<h2>The Problem with Over-Inheritance</h2>
+<p>Inheritance creates tight coupling between parent and child. If the parent changes, children may break:</p>
+<pre><code class="language-java">// BAD: Using inheritance for code reuse when &quot;is-a&quot; doesn't hold
+class Stack extends ArrayList {  // Stack IS-NOT-A ArrayList conceptually
+    public void push(Object item) { add(item); }
+    public Object pop() { return remove(size() - 1); }
+}
+
+// Problem: Stack inherits ArrayList's get(index), add(index, item), remove(index)
+// These break the Stack's LIFO contract!
+Stack s = new Stack();
+s.push(&quot;a&quot;); s.push(&quot;b&quot;);
+s.add(0, &quot;c&quot;);   // inserts at beginning! — violates Stack behavior
+</code></pre>
+<p>This is Java's actual historical bug — <code>java.util.Stack extends Vector</code> is considered a design mistake.</p>
+<h2>Composition — "has-a" over "is-a"</h2>
+<pre><code class="language-java">// GOOD: Stack HAS-A list (composition)
+class Stack&lt;T&gt; {
+    private ArrayList&lt;T&gt; elements = new ArrayList&lt;&gt;();  // composition
+
+    public void push(T item) { elements.add(item); }
+
+    public T pop() {
+        if (isEmpty()) throw new EmptyStackException();
+        return elements.remove(elements.size() - 1);
+    }
+
+    public T peek() {
+        if (isEmpty()) throw new EmptyStackException();
+        return elements.get(elements.size() - 1);
+    }
+
+    public boolean isEmpty() { return elements.isEmpty(); }
+    public int size()        { return elements.size(); }
+
+    // get(index), add(index, item) etc. are NOT exposed — Stack controls its own API
+}
+</code></pre>
+<h2>Favor Composition Over Inheritance</h2>
+<p>The classic GoF (Gang of Four) design principle: <strong>"Favor composition over inheritance."</strong></p>
+<pre><code class="language-java">// Inheritance approach — gets messy
+class Logger { void log(String msg) {...} }
+class DatabaseLogger extends Logger { void logToDb(String msg) {...} }
+class FileLogger extends Logger { void logToFile(String msg) {...} }
+class NetworkLogger extends Logger { }
+// What if you need DB + File? Multiple inheritance problem!
+
+// Composition approach — flexible
+interface LogSink {
+    void write(String message);
+}
+
+class DatabaseSink implements LogSink {
+    public void write(String msg) { /* write to DB */ }
+}
+
+class FileSink implements LogSink {
+    public void write(String msg) { /* write to file */ }
+}
+
+class Logger {
+    private List&lt;LogSink&gt; sinks;
+
+    Logger(LogSink... sinks) {
+        this.sinks = Arrays.asList(sinks);
+    }
+
+    void log(String msg) {
+        for (LogSink sink : sinks) sink.write(msg);
+    }
+}
+
+// Now trivially combine any sinks at runtime!
+Logger logger = new Logger(new DatabaseSink(), new FileSink());
+</code></pre>
+<h2>When to Use Which</h2>
+<table>
+<thead>
+<tr>
+<th>Use Inheritance</th>
+<th>Use Composition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>True "is-a" relationship</td>
+<td>"has-a" or "uses-a" relationship</td>
+</tr>
+<tr>
+<td>Extending sealed class hierarchy</td>
+<td>Mixing behaviors from multiple sources</td>
+</tr>
+<tr>
+<td>Framework base classes (Spring's <code>AbstractController</code>)</td>
+<td>Flexible behavior that can change at runtime</td>
+</tr>
+<tr>
+<td>Adding new methods to parent API</td>
+<td>Preventing subclass from breaking parent contract</td>
+</tr>
+</tbody>
+</table>
+<h2>Interview Questions</h2>
+<ul>
+<li><strong>Q: What does "Favor composition over inheritance" mean?</strong>
+  A: Instead of extending a class to reuse its code (inheritance), hold a reference to it and delegate calls (composition). This gives you flexibility — you can swap implementations at runtime, combine multiple behaviors, and avoid the tight coupling and fragility that deep inheritance hierarchies create.</li>
+</ul>
+<hr />
+<h1>13. Association, Aggregation, Composition, Dependency</h1>
+<p>These define <em>relationships between classes</em> — crucial for design discussions.</p>
+<h2>Dependency (Weakest)</h2>
+<p>Class A uses class B temporarily — typically as a method parameter or local variable:</p>
+<pre><code class="language-java">class OrderService {
+    // Dependency: OrderService USES EmailService but doesn't OWN it
+    void placeOrder(Order order, EmailService emailService) {
+        // ... process order ...
+        emailService.sendConfirmation(order);  // temporary use
+    }
+}
+// When placeOrder() returns, the relationship is gone
+</code></pre>
+<p>UML: <code>OrderService - - -&gt; EmailService</code> (dashed arrow)</p>
+<h2>Association (Knows About)</h2>
+<p>Class A has a reference to class B as a field — they "know about" each other, but neither owns the other:</p>
+<pre><code class="language-java">class Student {
+    private Teacher teacher;   // association — student knows a teacher
+
+    Student(Teacher t) { this.teacher = t; }
+    void learn() { teacher.teach(); }
+}
+
+class Teacher {
+    private Student student;   // bidirectional association
+}
+// Both exist independently — destroying Student doesn't destroy Teacher
+</code></pre>
+<p>UML: <code>Student ——— Teacher</code> (solid line)</p>
+<h2>Aggregation ("has-a", weak ownership)</h2>
+<p>Class A "has" a collection of class B, but B can exist without A:</p>
+<pre><code class="language-java">class Department {
+    private List&lt;Employee&gt; employees;  // aggregation
+
+    Department() { employees = new ArrayList&lt;&gt;(); }
+
+    void addEmployee(Employee e) { employees.add(e); }
+    void removeEmployee(Employee e) { employees.remove(e); }
+}
+
+// Employees exist independently — if Department is dissolved,
+// employees still exist and can join other departments
+Employee emp = new Employee(&quot;Alice&quot;);
+Department hr = new Department();
+hr.addEmployee(emp);
+
+// emp can exist without any department
+</code></pre>
+<p>UML: <code>Department ◇——— Employee</code> (open diamond at owner end)</p>
+<h2>Composition ("has-a", strong ownership)</h2>
+<p>Class A contains class B, and B <strong>cannot exist without A</strong> — A creates and destroys B:</p>
+<pre><code class="language-java">class House {
+    private Room livingRoom;    // composition — Room is part of House
+    private Room bedroom;
+
+    House() {
+        // House creates its rooms — rooms don't exist independently
+        livingRoom = new Room(&quot;Living Room&quot;, 20);
+        bedroom    = new Room(&quot;Bedroom&quot;, 15);
+    }
+
+    // When House is destroyed (GC'd), Rooms go with it
+}
+
+class Room {
+    private String name;
+    private double size;
+
+    Room(String name, double size) {
+        this.name = name;
+        this.size = size;
+    }
+}
+
+// You never do: Room r = new Room(...); house.addRoom(r);
+// Room only makes sense as part of a House in this design
+</code></pre>
+<p>UML: <code>House ◆——— Room</code> (filled diamond at owner end)</p>
+<h2>Visualization of All Four</h2>
+<pre><code>DEPENDENCY          A - - -&gt; B       A uses B temporarily (method param)
+ASSOCIATION         A ——— B          A knows B (field reference, both independent)
+AGGREGATION         A ◇——— B         A has B (B can exist without A)
+COMPOSITION         A ◆——— B         A owns B (B cannot exist without A)
+
+Strength of relationship: Dependency &lt; Association &lt; Aggregation &lt; Composition
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li><strong>Q: What is the difference between aggregation and composition?</strong>
+  A: Both are "has-a" relationships. Aggregation is weak ownership — the contained object can exist independently (Employee can exist without Department). Composition is strong ownership — the contained object cannot exist independently and is created/destroyed by the container (Room is created by and destroyed with House).</li>
+</ul>
+<hr />
+<h1>14. SOLID Principles</h1>
+<p>SOLID is an acronym for five design principles that make software more maintainable, extensible, and robust.</p>
+<h2>S — Single Responsibility Principle (SRP)</h2>
+<p><strong>"A class should have only one reason to change."</strong></p>
+<p>Each class should do one thing and do it well:</p>
+<pre><code class="language-java">// VIOLATION: UserService does too many things
+class UserService {
+    void createUser(User user) { /* DB insert */ }
+    void sendWelcomeEmail(User user) { /* email logic */ }
+    void generateReport() { /* reporting logic */ }
+    void validateUser(User user) { /* validation logic */ }
+}
+// If email logic changes → touch UserService
+// If DB schema changes → touch UserService
+// If report format changes → touch UserService
+
+// CORRECT: Each class has one responsibility
+class UserRepository {
+    void save(User user) { /* DB insert */ }
+    User findById(int id) { /* DB query */ }
+}
+
+class EmailService {
+    void sendWelcome(User user) { /* email logic */ }
+}
+
+class UserValidator {
+    void validate(User user) { /* validation */ }
+}
+
+class ReportGenerator {
+    void generate() { /* reporting */ }
+}
+
+class UserService {
+    private UserRepository repo;
+    private EmailService emailService;
+    private UserValidator validator;
+
+    void createUser(User user) {
+        validator.validate(user);
+        repo.save(user);
+        emailService.sendWelcome(user);
+    }
+}
+</code></pre>
+<h2>O — Open/Closed Principle (OCP)</h2>
+<p><strong>"Open for extension, closed for modification."</strong></p>
+<p>Add new functionality by extending, not by editing existing code:</p>
+<pre><code class="language-java">// VIOLATION: Adding new discount types requires modifying existing code
+class DiscountService {
+    double calculate(String type, double price) {
+        if (type.equals(&quot;seasonal&quot;)) return price * 0.1;
+        if (type.equals(&quot;loyalty&quot;))  return price * 0.15;
+        if (type.equals(&quot;clearance&quot;)) return price * 0.3;
+        // EVERY new type requires editing this class!
+        return 0;
+    }
+}
+
+// CORRECT: Extend with new classes, don't modify existing
+interface DiscountStrategy {
+    double apply(double price);
+}
+
+class SeasonalDiscount implements DiscountStrategy {
+    public double apply(double price) { return price * 0.1; }
+}
+
+class LoyaltyDiscount implements DiscountStrategy {
+    public double apply(double price) { return price * 0.15; }
+}
+
+class ClearanceDiscount implements DiscountStrategy {
+    public double apply(double price) { return price * 0.3; }
+}
+
+class DiscountService {
+    double calculate(DiscountStrategy strategy, double price) {
+        return strategy.apply(price);   // adding new types = new class, no edits here
+    }
+}
+
+// New requirement: flash sale discount → add FlashSaleDiscount class, done!
+</code></pre>
+<h2>L — Liskov Substitution Principle (LSP)</h2>
+<p><strong>"Subclasses must be substitutable for their base class without breaking correctness."</strong></p>
+<p>If code works with a <code>Bird</code>, it must work with any subclass of <code>Bird</code>:</p>
+<pre><code class="language-java">// VIOLATION
+class Bird {
+    void fly() { System.out.println(&quot;flying&quot;); }
+}
+
+class Penguin extends Bird {
+    @Override
+    void fly() {
+        throw new UnsupportedOperationException(&quot;Penguins can't fly!&quot;);
+    }
+}
+
+// Code using Bird breaks when given Penguin:
+void makeBirdFly(Bird bird) {
+    bird.fly();   // throws exception for Penguin! LSP violated
+}
+
+// CORRECT: Restructure the hierarchy
+interface FlyingBird {
+    void fly();
+}
+
+class Sparrow implements FlyingBird {
+    public void fly() { System.out.println(&quot;Sparrow flies&quot;); }
+}
+
+class Penguin {  // Not a FlyingBird — separate type
+    void swim() { System.out.println(&quot;Penguin swims&quot;); }
+}
+
+// Now the code is correct — only FlyingBird references can fly()
+</code></pre>
+<h2>I — Interface Segregation Principle (ISP)</h2>
+<p><strong>"Clients should not be forced to depend on interfaces they don't use."</strong></p>
+<p>Fat interfaces force classes to implement methods they don't need:</p>
+<pre><code class="language-java">// VIOLATION: One big interface
+interface Worker {
+    void work();
+    void eat();
+    void sleep();
+}
+
+class Robot implements Worker {
+    public void work()  { /* robot works */ }
+    public void eat()   { throw new UnsupportedOperationException(); }  // robots don't eat!
+    public void sleep() { throw new UnsupportedOperationException(); }  // robots don't sleep!
+}
+
+// CORRECT: Split into focused interfaces
+interface Workable  { void work(); }
+interface Eatable   { void eat(); }
+interface Sleepable { void sleep(); }
+
+class Human implements Workable, Eatable, Sleepable {
+    public void work()  { System.out.println(&quot;Human works&quot;); }
+    public void eat()   { System.out.println(&quot;Human eats&quot;); }
+    public void sleep() { System.out.println(&quot;Human sleeps&quot;); }
+}
+
+class Robot implements Workable {
+    public void work() { System.out.println(&quot;Robot works&quot;); }
+    // No forced implementation of eat/sleep!
+}
+</code></pre>
+<h2>D — Dependency Inversion Principle (DIP)</h2>
+<p><strong>"High-level modules should not depend on low-level modules. Both should depend on abstractions."</strong></p>
+<pre><code class="language-java">// VIOLATION: High-level OrderService depends directly on low-level MySQLDatabase
+class MySQLDatabase {
+    void save(Order order) { /* MySQL-specific code */ }
+}
+
+class OrderService {
+    private MySQLDatabase db = new MySQLDatabase();  // hard dependency!
+    // If you want to use PostgreSQL, you must edit OrderService
+    // If you want to test without DB, you can't!
+
+    void placeOrder(Order order) {
+        db.save(order);
+    }
+}
+
+// CORRECT: Both depend on abstraction
+interface OrderRepository {
+    void save(Order order);
+    Order findById(int id);
+}
+
+class MySQLOrderRepository implements OrderRepository {
+    public void save(Order order) { /* MySQL code */ }
+    public Order findById(int id) { /* MySQL code */ return null; }
+}
+
+class InMemoryOrderRepository implements OrderRepository {  // for testing
+    private Map&lt;Integer, Order&gt; store = new HashMap&lt;&gt;();
+    public void save(Order order) { store.put(order.getId(), order); }
+    public Order findById(int id) { return store.get(id); }
+}
+
+class OrderService {
+    private OrderRepository repo;  // depends on abstraction
+
+    OrderService(OrderRepository repo) {  // injected — can be any implementation
+        this.repo = repo;
+    }
+
+    void placeOrder(Order order) {
+        repo.save(order);
+    }
+}
+
+// Production:
+OrderService service = new OrderService(new MySQLOrderRepository());
+
+// Testing:
+OrderService service = new OrderService(new InMemoryOrderRepository());
+</code></pre>
+<p>This is the foundation of <strong>Dependency Injection (DI)</strong>, which Spring Framework is built on.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: Explain the Single Responsibility Principle with a real-world example.</strong>
+  A: A <code>User</code> class should manage user data. It should NOT also handle sending emails, generating reports, and logging. If email logic changes, why would you touch the User class? Each class should have exactly one reason to change.</p>
+</li>
+<li>
+<p><strong>Q: What is the Dependency Inversion Principle and how does Spring implement it?</strong>
+  A: High-level modules shouldn't depend on low-level modules — both depend on abstractions (interfaces). Spring implements this via IoC (Inversion of Control) — you define dependencies as interface types, and Spring's DI container injects the right implementation at runtime.</p>
+</li>
+</ul>
+<hr />
+<h1>15. Design Patterns</h1>
+<p>Design patterns are reusable solutions to commonly occurring design problems.</p>
+<h2>Creational Patterns</h2>
+<h3>Singleton — One Instance Only</h3>
+<pre><code class="language-java">// Thread-safe Singleton using double-checked locking
+public class DatabaseConnection {
+    private static volatile DatabaseConnection instance;  // volatile for visibility
+    private Connection connection;
+
+    private DatabaseConnection() {
+        // private constructor — prevents external instantiation
+        this.connection = DriverManager.getConnection(&quot;jdbc:mysql://localhost/mydb&quot;);
+    }
+
+    public static DatabaseConnection getInstance() {
+        if (instance == null) {                      // first check (no lock)
+            synchronized (DatabaseConnection.class) {
+                if (instance == null) {              // second check (with lock)
+                    instance = new DatabaseConnection();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public Connection getConnection() { return connection; }
+}
+
+// Usage
+DatabaseConnection.getInstance().getConnection();
+</code></pre>
+<p><strong>Enum Singleton (preferred in Java — simplest and thread-safe):</strong></p>
+<pre><code class="language-java">public enum DatabaseConnection {
+    INSTANCE;
+
+    private Connection connection;
+
+    DatabaseConnection() {
+        // initialization
+    }
+
+    public Connection getConnection() { return connection; }
+}
+
+// Usage
+DatabaseConnection.INSTANCE.getConnection();
+</code></pre>
+<h3>Builder — Construct Complex Objects Step by Step</h3>
+<pre><code class="language-java">public class HttpRequest {
+    private final String url;           // required
+    private final String method;        // required
+    private final Map&lt;String,String&gt; headers;
+    private final String body;
+    private final int timeoutMs;
+    private final boolean followRedirects;
+
+    private HttpRequest(Builder builder) {
+        this.url = builder.url;
+        this.method = builder.method;
+        this.headers = builder.headers;
+        this.body = builder.body;
+        this.timeoutMs = builder.timeoutMs;
+        this.followRedirects = builder.followRedirects;
+    }
+
+    public static class Builder {
+        private final String url;       // required
+        private final String method;    // required
+        private Map&lt;String,String&gt; headers = new HashMap&lt;&gt;();
+        private String body = null;
+        private int timeoutMs = 30000;
+        private boolean followRedirects = true;
+
+        public Builder(String url, String method) {
+            this.url = url;
+            this.method = method;
+        }
+
+        public Builder header(String key, String value) {
+            headers.put(key, value);
+            return this;
+        }
+        public Builder body(String body)               { this.body = body; return this; }
+        public Builder timeout(int ms)                 { this.timeoutMs = ms; return this; }
+        public Builder noRedirects()                   { this.followRedirects = false; return this; }
+        public HttpRequest build()                     { return new HttpRequest(this); }
+    }
+}
+
+// Usage — readable, flexible
+HttpRequest request = new HttpRequest.Builder(&quot;https://api.example.com/users&quot;, &quot;POST&quot;)
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;Authorization&quot;, &quot;Bearer token123&quot;)
+    .body(&quot;{\&quot;name\&quot;: \&quot;Alice\&quot;}&quot;)
+    .timeout(5000)
+    .build();
+</code></pre>
+<h3>Factory Method — Delegate Object Creation to Subclasses</h3>
+<pre><code class="language-java">abstract class NotificationFactory {
+    // Factory method — subclasses decide which concrete type to create
+    public abstract Notification createNotification();
+
+    public void sendNotification(String message) {
+        Notification n = createNotification();  // polymorphic creation
+        n.send(message);
+    }
+}
+
+class EmailNotificationFactory extends NotificationFactory {
+    @Override
+    public Notification createNotification() {
+        return new EmailNotification();
+    }
+}
+
+class SMSNotificationFactory extends NotificationFactory {
+    @Override
+    public Notification createNotification() {
+        return new SMSNotification();
+    }
+}
+</code></pre>
+<h2>Structural Patterns</h2>
+<h3>Adapter — Make Incompatible Interfaces Work Together</h3>
+<pre><code class="language-java">// Legacy payment processor — old interface we can't change
+class LegacyPaymentSystem {
+    public boolean makePayment(String accountNum, int amountInCents) {
+        System.out.println(&quot;Legacy payment: &quot; + amountInCents + &quot; cents&quot;);
+        return true;
+    }
+}
+
+// Modern interface our system expects
+interface PaymentProcessor {
+    boolean processPayment(String account, double amountInDollars);
+}
+
+// Adapter — wraps legacy system, implements modern interface
+class LegacyPaymentAdapter implements PaymentProcessor {
+    private LegacyPaymentSystem legacy;
+
+    LegacyPaymentAdapter(LegacyPaymentSystem legacy) {
+        this.legacy = legacy;
+    }
+
+    @Override
+    public boolean processPayment(String account, double amountInDollars) {
+        int cents = (int)(amountInDollars * 100);  // convert dollars → cents
+        return legacy.makePayment(account, cents);
+    }
+}
+
+// Our code works with the modern interface, legacy system under the hood
+PaymentProcessor processor = new LegacyPaymentAdapter(new LegacyPaymentSystem());
+processor.processPayment(&quot;ACC123&quot;, 29.99);
+</code></pre>
+<h3>Decorator — Add Behavior Without Subclassing</h3>
+<pre><code class="language-java">interface TextProcessor {
+    String process(String text);
+}
+
+class PlainTextProcessor implements TextProcessor {
+    public String process(String text) { return text; }
+}
+
+// Decorators wrap a TextProcessor and add behavior
+class UpperCaseDecorator implements TextProcessor {
+    private TextProcessor wrapped;
+    UpperCaseDecorator(TextProcessor t) { this.wrapped = t; }
+
+    public String process(String text) {
+        return wrapped.process(text).toUpperCase();
+    }
+}
+
+class TrimDecorator implements TextProcessor {
+    private TextProcessor wrapped;
+    TrimDecorator(TextProcessor t) { this.wrapped = t; }
+
+    public String process(String text) {
+        return wrapped.process(text).trim();
+    }
+}
+
+class HtmlEscapeDecorator implements TextProcessor {
+    private TextProcessor wrapped;
+    HtmlEscapeDecorator(TextProcessor t) { this.wrapped = t; }
+
+    public String process(String text) {
+        return wrapped.process(text)
+                      .replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)
+                      .replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
+    }
+}
+
+// Chain decorators — mix and match at runtime
+TextProcessor processor = new UpperCaseDecorator(
+                              new TrimDecorator(
+                                  new HtmlEscapeDecorator(
+                                      new PlainTextProcessor())));
+
+System.out.println(processor.process(&quot;  &lt;b&gt;hello&lt;/b&gt;  &quot;));
+// → &quot;&amp;LT;B&amp;GT;HELLO&amp;LT;/B&amp;GT;&quot;
+</code></pre>
+<p>Java's I/O streams are all decorators: <code>new BufferedReader(new InputStreamReader(new FileInputStream("file.txt")))</code></p>
+<h2>Behavioral Patterns</h2>
+<h3>Observer — Publish/Subscribe</h3>
+<pre><code class="language-java">interface Observer {
+    void update(String event, Object data);
+}
+
+class EventBus {
+    private Map&lt;String, List&lt;Observer&gt;&gt; listeners = new HashMap&lt;&gt;();
+
+    public void subscribe(String event, Observer observer) {
+        listeners.computeIfAbsent(event, k -&gt; new ArrayList&lt;&gt;()).add(observer);
+    }
+
+    public void publish(String event, Object data) {
+        List&lt;Observer&gt; obs = listeners.getOrDefault(event, Collections.emptyList());
+        for (Observer o : obs) o.update(event, data);
+    }
+}
+
+// Observers
+class EmailAlerter implements Observer {
+    public void update(String event, Object data) {
+        System.out.println(&quot;Email alert for &quot; + event + &quot;: &quot; + data);
+    }
+}
+
+class DashboardUpdater implements Observer {
+    public void update(String event, Object data) {
+        System.out.println(&quot;Dashboard updated: &quot; + event + &quot; - &quot; + data);
+    }
+}
+
+// Usage
+EventBus bus = new EventBus();
+bus.subscribe(&quot;ORDER_PLACED&quot;, new EmailAlerter());
+bus.subscribe(&quot;ORDER_PLACED&quot;, new DashboardUpdater());
+bus.subscribe(&quot;PAYMENT_FAILED&quot;, new EmailAlerter());
+
+bus.publish(&quot;ORDER_PLACED&quot;, &quot;Order #1234&quot;);
+// → Email alert for ORDER_PLACED: Order #1234
+// → Dashboard updated: ORDER_PLACED - Order #1234
+</code></pre>
+<h3>Strategy — Swap Algorithms at Runtime</h3>
+<pre><code class="language-java">interface SortStrategy {
+    void sort(int[] arr);
+}
+
+class BubbleSort implements SortStrategy {
+    public void sort(int[] arr) { /* bubble sort impl */ }
+}
+
+class QuickSort implements SortStrategy {
+    public void sort(int[] arr) { /* quick sort impl */ }
+}
+
+class MergeSort implements SortStrategy {
+    public void sort(int[] arr) { /* merge sort impl */ }
+}
+
+class Sorter {
+    private SortStrategy strategy;
+
+    Sorter(SortStrategy strategy) { this.strategy = strategy; }
+
+    void setStrategy(SortStrategy strategy) { this.strategy = strategy; }
+
+    void sort(int[] arr) { strategy.sort(arr); }
+}
+
+// Choose algorithm at runtime
+Sorter sorter = new Sorter(new QuickSort());
+sorter.sort(data);
+
+// Switch strategy for small arrays
+if (data.length &lt; 10) sorter.setStrategy(new BubbleSort());
+sorter.sort(smallData);
+</code></pre>
+<h3>Template Method — Define Algorithm Skeleton</h3>
+<pre><code class="language-java">abstract class DataExporter {
+    // Template method — algorithm structure fixed here
+    public final void export(String destination) {
+        List&lt;Object&gt; data = fetchData();      // step 1
+        List&lt;Object&gt; cleaned = clean(data);   // step 2
+        String formatted = format(cleaned);   // step 3 — abstract
+        write(formatted, destination);         // step 4 — abstract
+        notify(destination);                  // step 5 — concrete
+    }
+
+    protected abstract String format(List&lt;Object&gt; data);
+    protected abstract void write(String data, String destination);
+
+    // Common implementations
+    private List&lt;Object&gt; fetchData() { return new ArrayList&lt;&gt;(); }
+    private List&lt;Object&gt; clean(List&lt;Object&gt; data) { return data; }
+    private void notify(String dest) { System.out.println(&quot;Exported to: &quot; + dest); }
+}
+
+class CSVExporter extends DataExporter {
+    protected String format(List&lt;Object&gt; data) { return &quot;csv content&quot;; }
+    protected void write(String data, String dest) { /* write CSV file */ }
+}
+
+class JSONExporter extends DataExporter {
+    protected String format(List&lt;Object&gt; data) { return &quot;{ json content }&quot;; }
+    protected void write(String data, String dest) { /* write JSON file */ }
+}
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between Factory Method and Abstract Factory?</strong>
+  A: Factory Method defines one method for creating one type of object — subclasses decide the concrete type. Abstract Factory provides an interface for creating <em>families</em> of related objects (e.g., UI components for Windows vs macOS — WindowsFactory creates WindowsButton + WindowsDialog together).</p>
+</li>
+<li>
+<p><strong>Q: Explain the Builder pattern and when to use it.</strong>
+  A: Builder separates object construction from representation — useful when an object has many optional parameters or complex construction logic. Avoids telescoping constructors (constructors with 7+ parameters). Makes code readable and forces valid object state.</p>
+</li>
+<li>
+<p><strong>Q: What design pattern does Java's InputStream/OutputStream use?</strong>
+  A: Decorator. <code>new BufferedInputStream(new FileInputStream("file"))</code> — BufferedInputStream wraps FileInputStream, adding buffering behavior without changing the InputStream interface.</p>
+</li>
+</ul>
+<hr />
+<h1>16. Interview Quick Reference</h1>
+<h2>OOP Pillars Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Definition</th>
+<th>Java Mechanism</th>
+<th>C++ Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encapsulation</td>
+<td>Bundle data + methods, restrict access</td>
+<td><code>private</code> fields + public methods</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Abstraction</td>
+<td>Hide complexity, expose interface</td>
+<td><code>abstract</code> class, <code>interface</code></td>
+<td>Pure virtual functions</td>
+</tr>
+<tr>
+<td>Inheritance</td>
+<td>Reuse and extend parent behavior</td>
+<td><code>extends</code></td>
+<td><code>:</code> with access specifier</td>
+</tr>
+<tr>
+<td>Polymorphism</td>
+<td>One interface, many implementations</td>
+<td>Method overriding (all methods)</td>
+<td><code>virtual</code> functions only</td>
+</tr>
+</tbody>
+</table>
+<h2>Key Java vs C++ OOP Differences</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multiple class inheritance</td>
+<td>Allowed</td>
+<td>Not allowed</td>
+</tr>
+<tr>
+<td>Default virtual</td>
+<td>No — must use <code>virtual</code></td>
+<td>Yes — all instance methods</td>
+</tr>
+<tr>
+<td>Destructor</td>
+<td>Deterministic (<code>~Class()</code>)</td>
+<td>No deterministic destructor (use AutoCloseable)</td>
+</tr>
+<tr>
+<td>Abstract class</td>
+<td>Class with pure virtual method</td>
+<td><code>abstract</code> class keyword</td>
+</tr>
+<tr>
+<td>Interface</td>
+<td>Not built-in (use pure abstract class)</td>
+<td><code>interface</code> keyword</td>
+</tr>
+<tr>
+<td>Copy constructor</td>
+<td>Built-in, used by value semantics</td>
+<td>No built-in — must write manually</td>
+</tr>
+<tr>
+<td><code>override</code> keyword</td>
+<td>Optional (C++11)</td>
+<td><code>@Override</code> annotation (optional but recommended)</td>
+</tr>
+<tr>
+<td>Object slicing</td>
+<td>Yes — copying base loses derived data</td>
+<td>No — references don't slice</td>
+</tr>
+</tbody>
+</table>
+<h2>SOLID in One Line Each</h2>
+<ul>
+<li><strong>S</strong>RP: One class, one responsibility, one reason to change</li>
+<li><strong>O</strong>CP: Extend with new code, don't modify existing code</li>
+<li><strong>L</strong>SP: Subclasses must be usable wherever their parent is used</li>
+<li><strong>I</strong>SP: Many small interfaces beat one large fat interface</li>
+<li><strong>D</strong>IP: Depend on abstractions (interfaces), not concrete classes</li>
+</ul>
+<h2>Design Patterns Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Category</th>
+<th>One-line purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Singleton</td>
+<td>Creational</td>
+<td>One instance globally</td>
+</tr>
+<tr>
+<td>Builder</td>
+<td>Creational</td>
+<td>Construct complex objects step by step</td>
+</tr>
+<tr>
+<td>Factory Method</td>
+<td>Creational</td>
+<td>Subclass decides what to create</td>
+</tr>
+<tr>
+<td>Abstract Factory</td>
+<td>Creational</td>
+<td>Create families of related objects</td>
+</tr>
+<tr>
+<td>Adapter</td>
+<td>Structural</td>
+<td>Make incompatible interfaces work together</td>
+</tr>
+<tr>
+<td>Decorator</td>
+<td>Structural</td>
+<td>Add behavior at runtime without subclassing</td>
+</tr>
+<tr>
+<td>Proxy</td>
+<td>Structural</td>
+<td>Control access to another object</td>
+</tr>
+<tr>
+<td>Observer</td>
+<td>Behavioral</td>
+<td>Notify multiple objects on state change</td>
+</tr>
+<tr>
+<td>Strategy</td>
+<td>Behavioral</td>
+<td>Swap algorithms at runtime</td>
+</tr>
+<tr>
+<td>Template Method</td>
+<td>Behavioral</td>
+<td>Define algorithm skeleton, subclasses fill in steps</td>
+</tr>
+<tr>
+<td>Command</td>
+<td>Behavioral</td>
+<td>Encapsulate requests as objects</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Part 3: Object-Oriented Programming</em>
+<em>Next: Part 5 (Java Collections Framework)</em></p>
+            </article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

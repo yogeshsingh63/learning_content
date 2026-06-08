@@ -1,0 +1,2969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Internals & Syntax — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">Java Internals & Syntax Guide</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Java Internals</span>
+                </div>
+                <div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+                <h1>Part 4: Java Internals &amp; Syntax — Complete Mastery Guide</h1>
+<h3>For C++ Developers | Backend SDE Interview Handbook</h3>
+<hr />
+<blockquote>
+<p><strong>How to use this document:</strong> Every section follows the pattern:
+Theory → Internal Working → C++ vs Java → Code Examples → Interview Questions
+Read linearly for full understanding, or jump to sections as needed.</p>
+</blockquote>
+<hr />
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#1-java-ecosystem-jdk-jre-jvm">Java Ecosystem: JDK, JRE, JVM</a></li>
+<li><a href="#2-how-java-code-runs-compilation-to-execution">How Java Code Runs: Compilation to Execution</a></li>
+<li><a href="#3-bytecode--the-class-file">Bytecode &amp; the Class File</a></li>
+<li><a href="#4-class-loading-subsystem">Class Loading Subsystem</a></li>
+<li><a href="#5-jit-compiler">JIT Compiler</a></li>
+<li><a href="#6-jvm-memory-architecture">JVM Memory Architecture</a></li>
+<li><a href="#7-garbage-collection">Garbage Collection</a></li>
+<li><a href="#8-object-lifecycle">Object Lifecycle</a></li>
+<li><a href="#9-java-memory-model-jmm">Java Memory Model (JMM)</a></li>
+<li><a href="#10-java-syntax-variables--data-types">Java Syntax: Variables &amp; Data Types</a></li>
+<li><a href="#11-operators">Operators</a></li>
+<li><a href="#12-control-flow">Control Flow</a></li>
+<li><a href="#13-methods-in-java">Methods in Java</a></li>
+<li><a href="#14-classes--objects">Classes &amp; Objects</a></li>
+<li><a href="#15-java-keywords--deep-dive">Java Keywords — Deep Dive</a></li>
+<li><a href="#16-modern-java-records-sealed-classes-enums">Modern Java: Records, Sealed Classes, Enums</a></li>
+</ol>
+<hr />
+<h1>1. Java Ecosystem: JDK, JRE, JVM</h1>
+<h2>Theory</h2>
+<p>When you install Java, you're dealing with three nested layers:</p>
+<pre><code>+---------------------------------------------+
+|                    JDK                      |  ← You install this for development
+|  (Java Development Kit)                     |
+|  +---------------------------------------+  |
+|  |               JRE                    |  |
+|  |  (Java Runtime Environment)          |  |
+|  |  +-------------------------------+   |  |
+|  |  |           JVM                 |   |  |
+|  |  |  (Java Virtual Machine)       |   |  |
+|  |  |  - Class Loader               |   |  |
+|  |  |  - Execution Engine           |   |  |
+|  |  |  - Runtime Data Areas         |   |  |
+|  |  +-------------------------------+   |  |
+|  |  + Java Standard Libraries (rt.jar)  |  |
+|  +---------------------------------------+  |
+|  + javac, javap, jdb, jconsole, jshell    |  |
++---------------------------------------------+
+</code></pre>
+<h3>JVM (Java Virtual Machine)</h3>
+<ul>
+<li>An <strong>abstract computing machine</strong> — it's a specification, not a physical chip</li>
+<li>It reads bytecode (.class files) and executes them</li>
+<li>It is <strong>platform-specific</strong> (different JVM binaries for Windows, Linux, macOS)</li>
+<li>Provides: memory management, garbage collection, security sandbox, thread management</li>
+</ul>
+<h3>JRE (Java Runtime Environment)</h3>
+<ul>
+<li>JVM + standard class libraries (java.lang, java.util, java.io, etc.)</li>
+<li>What end users install to <strong>run</strong> Java programs</li>
+<li>Does NOT contain the compiler (javac)</li>
+</ul>
+<h3>JDK (Java Development Kit)</h3>
+<ul>
+<li>JRE + development tools: javac (compiler), javap (disassembler), jdb (debugger), jconsole (monitoring), jshell (REPL)</li>
+<li>What developers install to <strong>write and compile</strong> Java programs</li>
+</ul>
+<h2>C++ vs Java: The Key Difference</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compilation target</td>
+<td>Native machine code (platform-specific .exe/.out)</td>
+<td>Bytecode (.class, platform-neutral)</td>
+</tr>
+<tr>
+<td>Runtime</td>
+<td>OS directly executes binary</td>
+<td>JVM interprets/JIT-compiles bytecode</td>
+</tr>
+<tr>
+<td>Portability</td>
+<td>"Compile once, run on same platform"</td>
+<td>"Write once, run anywhere"</td>
+</tr>
+<tr>
+<td>Memory management</td>
+<td>Manual (new/delete)</td>
+<td>Automatic (GC)</td>
+</tr>
+<tr>
+<td>Platform abstraction</td>
+<td>None — you link to OS libraries</td>
+<td>JVM is the abstraction layer</td>
+</tr>
+</tbody>
+</table>
+<p>The JVM is what makes Java's "Write Once, Run Anywhere" (WORA) promise real. The same .class file runs identically on a Windows JVM and a Linux JVM.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between JDK, JRE, and JVM?</strong>
+  A: JVM executes bytecode. JRE = JVM + standard libraries (enough to run). JDK = JRE + dev tools like javac (needed to compile). On a production server, you install JRE. On your dev machine, you install JDK.</p>
+</li>
+<li>
+<p><strong>Q: Is the JVM platform-independent?</strong>
+  A: No — the JVM itself is platform-specific. But the bytecode it runs is platform-independent. You need the right JVM for your OS, but the .class files it runs are universal.</p>
+</li>
+</ul>
+<hr />
+<h1>2. How Java Code Runs: Compilation to Execution</h1>
+<h2>The Full Pipeline</h2>
+<pre><code> YourCode.java
+      |
+      | javac (Java Compiler)
+      ▼
+ YourCode.class   ← Bytecode (not machine code, not human code)
+      |
+      | java command → JVM loads class
+      ▼
+ Class Loader Subsystem
+      |
+      | Loads, links, initializes class
+      ▼
+ Execution Engine
+      |
+      |── Interpreter (line by line, slow)
+      |
+      └── JIT Compiler (hot code → native machine code, fast)
+      |
+      ▼
+ Native Machine Code runs on CPU
+</code></pre>
+<h2>Step-by-Step Walkthrough</h2>
+<p><strong>Step 1: Write source code</strong></p>
+<pre><code class="language-java">// Hello.java
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello, World!&quot;);
+    }
+}
+</code></pre>
+<p><strong>Step 2: Compile with javac</strong></p>
+<pre><code class="language-bash">javac Hello.java
+# Produces: Hello.class
+</code></pre>
+<p>The compiler checks syntax, resolves types, and generates bytecode — a set of instructions for the JVM (not for any real CPU).</p>
+<p><strong>Step 3: Run with java</strong></p>
+<pre><code class="language-bash">java Hello
+</code></pre>
+<p>This launches the JVM, which loads Hello.class, verifies it, and begins execution.</p>
+<p><strong>Step 4: Execution Engine decides</strong>
+- First few calls → Interpreter runs bytecode directly (slow but immediate)
+- Hot methods (called often) → JIT compiles them to native code and caches it
+- Result: native machine code executes at near-C++ speed</p>
+<h2>Why This Design?</h2>
+<p>The interpreter-first, JIT-later design is deliberate:
+- Startup is fast (no waiting for full compilation like AOT)
+- Long-running apps (servers) eventually run as fast as compiled code
+- The JIT knows <em>runtime</em> behavior (actual call frequencies) and can optimize better than a static compiler</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is bytecode?</strong>
+  A: An intermediate representation — not machine code, not source code. It's a set of instructions for the JVM's virtual instruction set. Portable across platforms.</p>
+</li>
+<li>
+<p><strong>Q: What happens when you run <code>java Hello</code>?</strong>
+  A: JVM starts → Bootstrap class loader loads Hello.class → Bytecode verifier validates it → JVM finds main() → Execution engine begins interpreting → JIT compiles hot paths to native code.</p>
+</li>
+</ul>
+<hr />
+<h1>3. Bytecode &amp; the Class File</h1>
+<h2>What is Bytecode?</h2>
+<p>Bytecode is the compiled output of Java source code — a platform-neutral instruction set that the JVM understands. Think of it as an assembly language for a virtual CPU.</p>
+<pre><code class="language-java">// Source code
+int a = 5;
+int b = 3;
+int c = a + b;
+</code></pre>
+<pre><code>// Corresponding bytecode (from javap -c)
+   0: iconst_5        // push 5 onto stack
+   1: istore_1        // store in local var slot 1 (a)
+   2: iconst_3        // push 3 onto stack
+   3: istore_2        // store in local var slot 2 (b)
+   4: iload_1         // push a onto stack
+   5: iload_2         // push b onto stack
+   6: iadd            // pop two ints, push sum
+   7: istore_3        // store result in slot 3 (c)
+</code></pre>
+<p>The JVM is a <strong>stack-based virtual machine</strong> — most operations push and pop a single operand stack rather than using named registers.</p>
+<h2>The Class File Structure</h2>
+<p>Every .class file has a fixed binary format:</p>
+<pre><code>ClassFile {
+    magic                  u4   // 0xCAFEBABE — always
+    minor_version          u2
+    major_version          u2   // tells JVM which Java version compiled this
+    constant_pool_count    u2
+    constant_pool[]             // strings, class names, method signatures
+    access_flags           u2   // public? abstract? interface? final?
+    this_class             u2   // index into constant pool
+    super_class            u2   // index into constant pool
+    interfaces[]
+    fields[]
+    methods[]               // each method contains its bytecode
+    attributes[]            // SourceFile, LineNumberTable, etc.
+}
+</code></pre>
+<p>The first 4 bytes are always <code>0xCAFEBABE</code> — a magic number that identifies valid Java class files. (A playful nod to the Grateful Dead and coffeehouses of early 1990s Silicon Valley.)</p>
+<h2>Viewing Bytecode</h2>
+<pre><code class="language-bash">javap -c Hello.class        # Show bytecode
+javap -verbose Hello.class  # Full detail including constant pool
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the magic number in a Java class file?</strong>
+  A: <code>0xCAFEBABE</code>. It's how the JVM quickly validates that a file is a real Java class file.</p>
+</li>
+<li>
+<p><strong>Q: Is bytecode executable on the CPU directly?</strong>
+  A: No. It needs the JVM to either interpret it or JIT-compile it to actual machine code.</p>
+</li>
+</ul>
+<hr />
+<h1>4. Class Loading Subsystem</h1>
+<h2>Theory</h2>
+<p>Before any Java code can run, its class must be loaded into the JVM. The Class Loading Subsystem handles this in three phases:</p>
+<pre><code>Class Loading Subsystem
+        |
+        ├─── 1. Loading
+        │         Read .class file from disk/jar/network
+        │         Create Class object in heap
+        │
+        ├─── 2. Linking
+        │         ├── Verification   (valid bytecode? safe?)
+        │         ├── Preparation    (allocate static fields, set defaults)
+        │         └── Resolution     (resolve symbolic references to direct refs)
+        │
+        └─── 3. Initialization
+                  Run static initializers and static blocks
+                  e.g., static { System.out.println(&quot;Class loaded!&quot;); }
+</code></pre>
+<h2>The Three Class Loaders</h2>
+<p>Java uses a hierarchy of class loaders:</p>
+<pre><code>Bootstrap ClassLoader      (built into JVM, loads java.lang.*, rt.jar)
+        ↑
+Extension ClassLoader      (loads lib/ext/* — optional extensions)
+        ↑
+Application ClassLoader    (loads your app's classpath — your .class files)
+        ↑
+Custom ClassLoader         (you can write your own for hot-reload, plugins)
+</code></pre>
+<h3>Delegation Model (Parent-First)</h3>
+<p>When a class needs to be loaded:
+1. Application ClassLoader asks Extension ClassLoader
+2. Extension asks Bootstrap
+3. Bootstrap tries to load — if it can, done
+4. If not, Extension tries — if it can, done
+5. If not, Application ClassLoader loads it</p>
+<p><strong>Why?</strong> Security. You can't write your own <code>java.lang.String</code> and have it loaded, because Bootstrap will always load the real one first.</p>
+<pre><code class="language-java">// You can inspect class loaders at runtime:
+System.out.println(String.class.getClassLoader());       // null = Bootstrap
+System.out.println(ArrayList.class.getClassLoader());    // null = Bootstrap (rt.jar)
+System.out.println(MyClass.class.getClassLoader());      // sun.misc.Launcher$AppClassLoader
+</code></pre>
+<h2>Static Initialization Blocks</h2>
+<p>Initialization phase runs <code>static {}</code> blocks:</p>
+<pre><code class="language-java">public class Config {
+    static final Map&lt;String, String&gt; SETTINGS;
+
+    static {
+        // This runs exactly once when the class is first loaded
+        SETTINGS = new HashMap&lt;&gt;();
+        SETTINGS.put(&quot;host&quot;, &quot;localhost&quot;);
+        SETTINGS.put(&quot;port&quot;, &quot;8080&quot;);
+        System.out.println(&quot;Config class initialized!&quot;);
+    }
+}
+</code></pre>
+<h2>Class Loading in Real Life</h2>
+<ul>
+<li><strong>Spring Boot</strong> uses custom class loaders to load beans dynamically</li>
+<li><strong>Hot-reload</strong> in dev tools (like Spring DevTools) works by creating new class loaders and discarding old ones</li>
+<li><strong>Plugin systems</strong> (like IntelliJ plugins) use isolated class loaders per plugin to prevent version conflicts</li>
+</ul>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the delegation model in class loading?</strong>
+  A: When loading a class, the current loader first delegates to its parent. Only if the parent fails does the child attempt to load it. This prevents user code from overriding core Java classes.</p>
+</li>
+<li>
+<p><strong>Q: When is a class initialized?</strong>
+  A: On first active use — when an instance is created, a static method is called, or a static field (that isn't a compile-time constant) is accessed.</p>
+</li>
+<li>
+<p><strong>Q: Can you write your own class loader?</strong>
+  A: Yes — extend <code>ClassLoader</code> and override <code>findClass()</code>. Used in hot-reload, OSGi plugin systems, application servers running multiple apps with conflicting library versions.</p>
+</li>
+</ul>
+<hr />
+<h1>5. JIT Compiler</h1>
+<h2>Theory</h2>
+<p>JIT stands for <strong>Just-In-Time</strong> compilation. It's the bridge between bytecode and native performance.</p>
+<h3>The Problem with Pure Interpretation</h3>
+<p>Interpreting bytecode instruction by instruction adds overhead on every single operation. A simple <code>a + b</code> in bytecode takes the interpreter several steps to decode and execute vs. a single <code>ADD</code> instruction in native code.</p>
+<h3>The JIT Solution</h3>
+<pre><code>Execution Count Tracking:
+
+Method A() → called 1 time    → Interpret
+Method B() → called 1 time    → Interpret
+Method A() → called 1000 times → JIT COMPILE → native code cached
+Method A() → called 1001 time → execute native code directly (fast!)
+</code></pre>
+<p>The threshold for JIT compilation (called the "hotspot threshold") is 10,000 invocations by default in HotSpot JVM.</p>
+<h2>HotSpot JVM — Two JIT Compilers</h2>
+<p>Oracle's HotSpot JVM actually has two JIT compilers working together:</p>
+<pre><code>C1 Compiler (Client Compiler)
+  - Fast compilation
+  - Light optimizations
+  - Low latency startup
+  - Used early in a method's life
+
+C2 Compiler (Server Compiler)
+  - Slower compilation
+  - Heavy optimizations (inlining, loop unrolling, escape analysis)
+  - Best peak performance
+  - Used for genuinely hot code
+</code></pre>
+<p>Modern JVMs use <strong>Tiered Compilation</strong> — C1 first, C2 later for the hottest code.</p>
+<h2>Key JIT Optimizations</h2>
+<p><strong>1. Method Inlining</strong>
+The JIT literally copies the body of a small, frequently-called method into its caller, eliminating the call overhead:</p>
+<pre><code class="language-java">// Before inlining (your code)
+int result = add(a, b);
+
+// After JIT inlining (what actually executes)
+int result = a + b;   // no method call overhead
+</code></pre>
+<p><strong>2. Loop Unrolling</strong></p>
+<pre><code class="language-java">// Your code
+for (int i = 0; i &lt; 4; i++) arr[i] = 0;
+
+// JIT may generate equivalent of:
+arr[0] = 0; arr[1] = 0; arr[2] = 0; arr[3] = 0;
+// Eliminates loop condition check overhead
+</code></pre>
+<p><strong>3. Escape Analysis</strong>
+If the JIT determines an object never "escapes" a method (never stored in a field, never returned), it can allocate it on the <strong>stack instead of heap</strong> — no GC pressure.</p>
+<pre><code class="language-java">void process() {
+    Point p = new Point(1, 2);  // JIT may put this on stack, not heap
+    int dist = p.x + p.y;
+    // p never escapes this method
+}
+</code></pre>
+<p><strong>4. Dead Code Elimination</strong></p>
+<pre><code class="language-java">if (false) {
+    expensiveOperation();  // JIT removes this entirely
+}
+</code></pre>
+<h2>AOT vs JIT (Ahead-of-Time vs Just-in-Time)</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>JIT</th>
+<th>AOT (GraalVM Native Image)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Startup</td>
+<td>Slow (needs warmup)</td>
+<td>Fast (already compiled)</td>
+</tr>
+<tr>
+<td>Peak perf</td>
+<td>Very high</td>
+<td>High but not always as high</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>JVM + bytecode</td>
+<td>Standalone native executable</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td>Long-running servers</td>
+<td>Serverless, CLI tools, microservices</td>
+</tr>
+</tbody>
+</table>
+<p>GraalVM's Native Image is AOT for Java — used in frameworks like Quarkus and Micronaut.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is JIT compilation and how does it improve performance?</strong>
+  A: The JVM monitors method call frequency. When a method becomes "hot" (called many times), the JIT compiles it to native machine code and caches it. Subsequent calls execute native code directly, achieving near-C performance. Key optimizations include inlining, escape analysis, and loop unrolling.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between JIT and AOT?</strong>
+  A: JIT compiles at runtime based on actual usage patterns. AOT (e.g., GraalVM Native) compiles at build time to a standalone native binary. JIT wins at peak throughput; AOT wins at startup time.</p>
+</li>
+</ul>
+<hr />
+<h1>6. JVM Memory Architecture</h1>
+<h2>Overview: JVM Runtime Data Areas</h2>
+<p>The JVM divides memory into distinct regions, each with a specific purpose:</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────┐
+│                          JVM MEMORY                                │
+│                                                                    │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │                      HEAP (Shared)                          │  │
+│  │                                                             │  │
+│  │   ┌──────────────────────┐   ┌──────────────────────────┐  │  │
+│  │   │    Young Generation  │   │     Old Generation       │  │  │
+│  │   │  ┌──────┬───────┐    │   │  (Tenured Space)         │  │  │
+│  │   │  │ Eden │ S0 S1 │    │   │  Long-lived objects       │  │  │
+│  │   │  └──────┴───────┘    │   │                          │  │  │
+│  │   │  New objects here    │   │                          │  │  │
+│  │   └──────────────────────┘   └──────────────────────────┘  │  │
+│  └─────────────────────────────────────────────────────────────┘  │
+│                                                                    │
+│  ┌────────────────────────────────────────────────────────────┐   │
+│  │               Metaspace (Non-Heap, native memory)          │   │
+│  │  Class metadata, method bytecode, static variables         │   │
+│  └────────────────────────────────────────────────────────────┘   │
+│                                                                    │
+│  Per-Thread (each thread has its own):                            │
+│  ┌───────────────┐  ┌──────────────────┐  ┌───────────────────┐  │
+│  │  Stack (JVM)  │  │  Stack (JVM)     │  │  Stack (JVM)      │  │
+│  │  Thread 1     │  │  Thread 2        │  │  Thread 3         │  │
+│  └───────────────┘  └──────────────────┘  └───────────────────┘  │
+│                                                                    │
+│  ┌────────────────────────────────────────────────────────────┐   │
+│  │  PC Registers (one per thread — current bytecode instr)    │   │
+│  └────────────────────────────────────────────────────────────┘   │
+└────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h2>The Heap</h2>
+<p>The heap is the largest JVM memory area, shared across all threads. All objects and arrays live here.</p>
+<h3>Young Generation</h3>
+<p>New objects are born in Eden space:</p>
+<pre><code>Young Generation
+┌──────────────────────────────────────────────────────┐
+│  Eden Space                │  Survivor 0  │ Survivor 1│
+│  (new objects allocated    │  (S0)        │ (S1)      │
+│   here first)              │              │           │
+└──────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>Lifecycle in Young Gen:</strong>
+1. Object created → goes to Eden
+2. Minor GC runs → live objects from Eden → Survivor 0 (age = 1)
+3. Next Minor GC → live objects from Eden + S0 → S1 (age increases)
+4. Objects alternate between S0 and S1
+5. Age reaches threshold (default 15) → promoted to Old Generation</p>
+<p>The design insight: most objects die young ("generational hypothesis"). Eden is collected very frequently and very cheaply.</p>
+<h3>Old Generation (Tenured Space)</h3>
+<p>Long-lived objects live here. Collected less frequently but collection is more expensive (Major GC / Full GC).</p>
+<p>Examples of objects that end up in Old Gen:
+- Application-level caches
+- Static collections
+- Thread pools
+- Session objects in web apps</p>
+<h3>Why This Design?</h3>
+<p>The generational split is a key GC optimization. Young objects are cheap to collect (most are already dead). Old objects are expensive to scan but done rarely. This makes the common case (short-lived objects) extremely fast.</p>
+<hr />
+<h2>The Stack (JVM Stack)</h2>
+<p>Each thread gets its own stack. Each method call pushes a <strong>Stack Frame</strong> onto the stack:</p>
+<pre><code>Thread Stack
+│
+│ ┌─────────────────────────────────┐
+│ │ Frame: main()                   │
+│ │  Local Variables: args, result  │
+│ │  Operand Stack: [5, 3, ...]     │
+│ │  Return Address                 │
+│ └─────────────────────────────────┘
+│         ↑ calls
+│ ┌─────────────────────────────────┐
+│ │ Frame: calculate()              │
+│ │  Local Variables: a=5, b=3      │
+│ │  Operand Stack: [5, 3]          │
+│ │  Return Address → back to main  │
+│ └─────────────────────────────────┘  ← current frame (top of stack)
+</code></pre>
+<p>Each frame contains:
+- <strong>Local Variable Array</strong>: method parameters + local variables (primitives stored directly)
+- <strong>Operand Stack</strong>: working area for bytecode instructions
+- <strong>Return Address</strong>: where to return after method completes</p>
+<p><strong>StackOverflowError</strong> occurs when the stack runs out of space — almost always caused by infinite recursion.</p>
+<pre><code class="language-java">// This causes StackOverflowError
+void recurse() {
+    recurse();  // infinite recursion → stack fills up → crash
+}
+</code></pre>
+<hr />
+<h2>Metaspace (Java 8+)</h2>
+<p>Before Java 8, class metadata was stored in <strong>PermGen</strong> (part of heap, fixed size, frequently caused <code>OutOfMemoryError: PermGen space</code>). Java 8 replaced it with <strong>Metaspace</strong> — stored in native OS memory, auto-grows.</p>
+<p>Metaspace stores:
+- Class structure (fields, methods, bytecode)
+- Method bytecode
+- Static variables
+- Constant pool
+- JIT-compiled code cache</p>
+<pre><code class="language-bash"># Configure Metaspace limits
+-XX:MetaspaceSize=128m        # Initial size
+-XX:MaxMetaspaceSize=512m     # Maximum size
+</code></pre>
+<hr />
+<h2>C++ vs Java Memory</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack</td>
+<td>Same — auto-managed per function</td>
+<td>Same — per thread, per method call</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>Manual: <code>new</code>/<code>delete</code></td>
+<td>Automatic: GC manages deallocation</td>
+</tr>
+<tr>
+<td>Global/Static</td>
+<td>.data / .bss segment</td>
+<td>Metaspace</td>
+</tr>
+<tr>
+<td>Object representation</td>
+<td>In-memory struct directly</td>
+<td>Object reference (pointer to heap)</td>
+</tr>
+<tr>
+<td>Null pointer</td>
+<td>Undefined behavior</td>
+<td>NullPointerException (safe failure)</td>
+</tr>
+</tbody>
+</table>
+<p>A critical difference: In C++, <code>int x = 5</code> on the stack stores the integer directly. In Java, <code>int x = 5</code> on the stack also stores directly (primitives are value types). But <code>Object o = new Foo()</code> stores a <strong>reference</strong> (pointer) on the stack — the actual Foo object lives on the heap.</p>
+<hr />
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between Heap and Stack in Java?</strong>
+  A: Stack is per-thread, stores method frames with local variables and operand stacks. Heap is shared across all threads, stores all objects. Stack is LIFO and managed automatically. Heap is managed by GC.</p>
+</li>
+<li>
+<p><strong>Q: What replaced PermGen in Java 8?</strong>
+  A: Metaspace. It stores class metadata in native OS memory instead of inside the JVM heap. It auto-grows, eliminating the common <code>OutOfMemoryError: PermGen space</code> issue.</p>
+</li>
+<li>
+<p><strong>Q: What causes StackOverflowError vs OutOfMemoryError?</strong>
+  A: StackOverflowError = stack space exhausted (infinite recursion). OutOfMemoryError = heap space exhausted (too many/too large objects, or memory leak).</p>
+</li>
+</ul>
+<hr />
+<h1>7. Garbage Collection</h1>
+<h2>Theory</h2>
+<p>Java's GC automatically reclaims memory from objects that are no longer reachable. You never call <code>delete</code> — the GC does it.</p>
+<p><strong>Reachability:</strong> An object is live if there's any chain of references from a <strong>GC Root</strong> to it.</p>
+<p><strong>GC Roots are:</strong>
+- Local variables in any thread's stack frames
+- Static fields
+- Active thread objects
+- JNI references</p>
+<pre><code>GC Root: static field → Object A → Object B → Object C   (all live, kept)
+GC Root: local var   → Object D                           (live, kept)
+
+Object E (no path from any GC root)                       (DEAD, collected)
+</code></pre>
+<hr />
+<h2>GC Algorithms</h2>
+<h3>Mark and Sweep (Conceptual Foundation)</h3>
+<pre><code>Phase 1 - MARK:
+  Start from GC roots
+  Traverse all references recursively
+  Mark each reachable object
+
+Phase 2 - SWEEP:
+  Scan the entire heap
+  Reclaim all unmarked objects
+
+Problem: FRAGMENTATION — free memory scattered in small gaps
+</code></pre>
+<h3>Mark-Sweep-Compact</h3>
+<p>Like Mark-Sweep, but adds a compaction step that slides live objects together, eliminating fragmentation. Used in the Old Generation.</p>
+<h3>Copying Collector</h3>
+<p>Divides heap into two spaces (From-space, To-space):</p>
+<pre><code>From-space: [A][B][dead][C][dead][dead][D]
+                  ↓ copy live objects
+To-space:   [A][B][C][D]                    ← compact, no fragmentation!
+Then swap roles.
+</code></pre>
+<p>Used in Young Generation (Eden → Survivor). Very fast but requires 2x memory.</p>
+<hr />
+<h2>Major GC Implementations in Java</h2>
+<h3>Serial GC</h3>
+<ul>
+<li>Single-threaded mark-sweep-compact</li>
+<li>Stop-the-world pause for entire GC</li>
+<li>Good for single-CPU, small heap, batch apps</li>
+<li><code>-XX:+UseSerialGC</code></li>
+</ul>
+<h3>Parallel GC (Throughput GC)</h3>
+<ul>
+<li>Multi-threaded minor GC, multi-threaded major GC</li>
+<li>Still stop-the-world, but faster due to parallelism</li>
+<li>Good for batch processing where throughput &gt; latency</li>
+<li><code>-XX:+UseParallelGC</code> (default before Java 9)</li>
+</ul>
+<h3>G1 GC (Garbage First) — Default in Java 9+</h3>
+<pre><code>Heap divided into equal-sized regions (~2048 regions):
+
+┌───┬───┬───┬───┬───┬───┬───┬───┐
+│ E │ E │ O │ S │ E │ O │ O │ H │
+└───┴───┴───┴───┴───┴───┴───┴───┘
+E=Eden  O=Old  S=Survivor  H=Humongous (large objects)
+</code></pre>
+<ul>
+<li>Collects regions with most garbage first ("Garbage First")</li>
+<li>Predictable pause times (set target: <code>-XX:MaxGCPauseMillis=200</code>)</li>
+<li>Good for large heaps, latency-sensitive apps</li>
+<li><code>-XX:+UseG1GC</code></li>
+</ul>
+<h3>ZGC / Shenandoah (Java 15+)</h3>
+<ul>
+<li>Sub-millisecond GC pauses</li>
+<li>Concurrent (does most work while app runs)</li>
+<li>Scales to multi-terabyte heaps</li>
+<li>Good for real-time systems, trading platforms</li>
+</ul>
+<hr />
+<h2>GC Tuning Flags</h2>
+<pre><code class="language-bash">-Xms512m                   # Initial heap size
+-Xmx2g                     # Max heap size
+-XX:+UseG1GC               # Use G1 collector
+-XX:MaxGCPauseMillis=200   # Target max pause
+-XX:NewRatio=3             # Old:Young ratio (3:1)
+-verbose:gc                # Log GC events
+-XX:+PrintGCDetails        # Detailed GC log
+</code></pre>
+<hr />
+<h2>Common Memory Leaks in Java</h2>
+<p>Even with GC, you can leak memory by <strong>holding references you no longer need</strong>:</p>
+<pre><code class="language-java">// LEAK: static cache grows forever, never cleared
+static Map&lt;String, byte[]&gt; cache = new HashMap&lt;&gt;();
+
+void process(String key, byte[] data) {
+    cache.put(key, data);  // added, never removed → grows forever
+}
+</code></pre>
+<pre><code class="language-java">// LEAK: Listeners not removed
+button.addActionListener(this);
+// If 'this' is removed from UI but listener still referenced,
+// it (and everything it references) can't be GC'd
+</code></pre>
+<pre><code class="language-java">// FIX: Use WeakReference for caches
+Map&lt;String, WeakReference&lt;byte[]&gt;&gt; cache = new WeakHashMap&lt;&gt;();
+// GC can collect values when memory is low
+</code></pre>
+<hr />
+<h2>C++ vs Java: Memory Management Philosophy</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allocation</td>
+<td><code>new Foo()</code> on heap</td>
+<td><code>new Foo()</code> on heap</td>
+</tr>
+<tr>
+<td>Deallocation</td>
+<td><code>delete ptr</code> (manual!)</td>
+<td>GC (automatic)</td>
+</tr>
+<tr>
+<td>Dangling pointer</td>
+<td>Possible — undefined behavior</td>
+<td>Impossible — reference model prevents it</td>
+</tr>
+<tr>
+<td>Memory leak</td>
+<td>Easy to cause, hard to find</td>
+<td>Still possible (via holding refs) but rarer</td>
+</tr>
+<tr>
+<td>Deterministic destruction</td>
+<td>Yes — destructor runs at <code>delete</code></td>
+<td>No — GC runs at its own time</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>No GC pause</td>
+<td>GC pauses (milliseconds with modern GCs)</td>
+</tr>
+</tbody>
+</table>
+<p>C++ destructors are deterministic: <code>~MyClass()</code> runs exactly when the object goes out of scope or is deleted. Java has <code>finalize()</code> but it's deprecated and unreliable — use <code>try-with-resources</code> or <code>Closeable</code> instead.</p>
+<hr />
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: How does Java's Garbage Collector work?</strong>
+  A: GC identifies live objects by tracing from GC roots (stack vars, static fields, active threads). Unreachable objects are collected. Java uses generational GC — new objects in Young Gen (fast, frequent), long-lived objects in Old Gen (slower, infrequent). Modern default is G1 GC.</p>
+</li>
+<li>
+<p><strong>Q: Can you have a memory leak in Java?</strong>
+  A: Yes. GC only collects unreachable objects. If you keep references to objects you no longer need (static caches, forgotten listeners, thread locals not cleared), those objects stay in memory. This is a logical leak, not a C++-style physical leak.</p>
+</li>
+<li>
+<p><strong>Q: What is Stop-the-World in GC?</strong>
+  A: During certain GC phases, all application threads are paused ("stopped") so the GC can safely traverse the heap without interference. Modern GCs like G1 minimize these pauses; ZGC achieves sub-millisecond pauses.</p>
+</li>
+</ul>
+<hr />
+<h1>8. Object Lifecycle</h1>
+<h2>Full Lifecycle of a Java Object</h2>
+<pre><code>1. Class Loading
+   └── Class is loaded, linked, initialized (static blocks run)
+
+2. Allocation
+   └── `new Foo()` → JVM allocates memory in Eden space (Young Gen)
+   └── Memory zeroed (all fields default to 0/null/false)
+
+3. Initialization
+   └── Constructor runs (sets fields, calls super constructors)
+
+4. Usage
+   └── Object used via references
+
+5. Unreachable
+   └── No more references to the object from GC roots
+
+6. Garbage Collection
+   └── GC identifies object as unreachable
+   └── Memory reclaimed
+
+(Optional) Finalization — DEPRECATED
+   └── finalize() called before collection (unreliable, avoid)
+</code></pre>
+<h2>Object Header</h2>
+<p>Every Java object has a hidden header before its fields:</p>
+<pre><code>Java Object in Memory:
+┌─────────────────────────────────────────────────────┐
+│  Mark Word (8 bytes)                                │
+│  - Hashcode                                         │
+│  - GC age (4 bits)                                  │
+│  - Lock state (biased lock, thin lock, fat lock)    │
+│  - GC flags                                         │
+├─────────────────────────────────────────────────────┤
+│  Class Pointer / Klass Word (4-8 bytes)             │
+│  - Pointer to class metadata (in Metaspace)         │
+├─────────────────────────────────────────────────────┤
+│  Array Length (4 bytes, arrays only)                │
+├─────────────────────────────────────────────────────┤
+│  Instance Fields (your actual data)                 │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<p>Minimum object size in Java is <strong>16 bytes</strong> (12-byte header + padding to 8-byte alignment). Even <code>new Object()</code> takes 16 bytes. This overhead matters when creating millions of tiny objects.</p>
+<h2>Creating Objects: All Ways</h2>
+<pre><code class="language-java">// 1. new keyword (most common)
+String s = new String(&quot;hello&quot;);
+
+// 2. Class.newInstance() (reflection, deprecated in Java 9)
+String s = String.class.newInstance();
+
+// 3. Constructor.newInstance() (reflection, preferred)
+Constructor&lt;String&gt; c = String.class.getConstructor(String.class);
+String s = c.newInstance(&quot;hello&quot;);
+
+// 4. Object.clone() (creates copy without constructor)
+MyClass obj2 = (MyClass) obj1.clone();  // requires implementing Cloneable
+
+// 5. Deserialization (creates object without constructor)
+ObjectInputStream in = new ObjectInputStream(fileInput);
+MyClass obj = (MyClass) in.readObject();
+
+// 6. Factory methods (common in APIs)
+List&lt;String&gt; list = List.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the size of an empty Java object?</strong>
+  A: 16 bytes minimum — 12-byte object header (mark word + class pointer) plus 4 bytes of alignment padding.</p>
+</li>
+<li>
+<p><strong>Q: What happens when you call <code>new Foo()</code>?</strong>
+  A: JVM checks if Foo's class is loaded (loads if not). Allocates memory in Eden. Zeros all fields. Runs the constructor chain (Object → ... → Foo). Returns reference.</p>
+</li>
+</ul>
+<hr />
+<h1>9. Java Memory Model (JMM)</h1>
+<h2>Theory</h2>
+<p>The Java Memory Model defines the rules for how threads interact through memory. This is critical for multithreaded correctness.</p>
+<h3>The Problem: CPU Caches</h3>
+<p>Modern CPUs have multiple levels of cache. When Thread 1 writes a value, it may sit in Thread 1's CPU cache and never be visible to Thread 2 on a different CPU:</p>
+<pre><code>CPU 1                              CPU 2
+L1 Cache: x=1 (updated)          L1 Cache: x=0 (stale!)
+L2 Cache: x=0                    L2 Cache: x=0
+                Main Memory: x=0
+</code></pre>
+<p>Thread 2 reads <code>x</code> and gets 0, even though Thread 1 wrote 1. This is a <strong>visibility problem</strong>.</p>
+<h3>Happens-Before Relationship</h3>
+<p>The JMM uses the <strong>happens-before</strong> rule: if action A happens-before action B, then A's effects are visible to B.</p>
+<p>Key happens-before rules:
+1. <strong>Program order</strong>: Each action in a thread happens-before the next action in that thread
+2. <strong>Monitor lock</strong>: <code>unlock(m)</code> happens-before <code>lock(m)</code> by any thread
+3. <strong>Volatile write</strong>: Writing a volatile variable happens-before reading it
+4. <strong>Thread start</strong>: <code>thread.start()</code> happens-before any action in that thread
+5. <strong>Thread join</strong>: All actions in thread T happen-before <code>T.join()</code> returns</p>
+<h3>The volatile Keyword and Visibility</h3>
+<pre><code class="language-java">class Flag {
+    volatile boolean running = true;  // forces write to main memory immediately
+
+    void stop() {
+        running = false;  // other threads see this immediately
+    }
+
+    void run() {
+        while (running) {  // always reads from main memory, not cache
+            doWork();
+        }
+    }
+}
+</code></pre>
+<p>Without <code>volatile</code>, the JVM may keep <code>running</code> in a CPU register/cache. One thread sets it <code>false</code>, but the other thread never sees the change — infinite loop.</p>
+<h3>Reordering Problem</h3>
+<p>The JVM and CPU may reorder instructions for performance. This can break multithreaded code:</p>
+<pre><code class="language-java">// Your code:
+x = 5;
+initialized = true;
+
+// CPU/JVM may reorder to:
+initialized = true;   // ← Thread 2 sees this
+x = 5;                // ← But Thread 2 reads x before this!
+</code></pre>
+<p><code>volatile</code> and <code>synchronized</code> both prevent problematic reorderings.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the Java Memory Model?</strong>
+  A: A specification that defines how threads interact through memory — specifically, which writes by one thread are guaranteed to be visible to another thread and when.</p>
+</li>
+<li>
+<p><strong>Q: What does <code>volatile</code> guarantee?</strong>
+  A: Visibility (writes are immediately visible to all threads) and prevents reordering around the volatile access. It does NOT guarantee atomicity for compound operations like <code>i++</code>.</p>
+</li>
+</ul>
+<hr />
+<h1>10. Java Syntax: Variables &amp; Data Types</h1>
+<h2>Primitive Types</h2>
+<p>Java has 8 primitive types — actual values, not objects (unlike C++ where you have both):</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size</th>
+<th>Range</th>
+<th>Default</th>
+<th>C++ Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>byte</code></td>
+<td>1 byte</td>
+<td>-128 to 127</td>
+<td>0</td>
+<td><code>signed char</code></td>
+</tr>
+<tr>
+<td><code>short</code></td>
+<td>2 bytes</td>
+<td>-32,768 to 32,767</td>
+<td>0</td>
+<td><code>short</code></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td>4 bytes</td>
+<td>-2^31 to 2^31-1</td>
+<td>0</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td>8 bytes</td>
+<td>-2^63 to 2^63-1</td>
+<td>0L</td>
+<td><code>long long</code></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>4 bytes</td>
+<td>IEEE 754 single</td>
+<td>0.0f</td>
+<td><code>float</code></td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>8 bytes</td>
+<td>IEEE 754 double</td>
+<td>0.0</td>
+<td><code>double</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>2 bytes</td>
+<td>0 to 65,535 (Unicode)</td>
+<td>'\u0000'</td>
+<td><code>char</code> (but unsigned 2-byte!)</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td>1 bit (JVM uses 4 bytes internally)</td>
+<td>true/false</td>
+<td>false</td>
+<td><code>bool</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Key Differences from C++</h3>
+<pre><code class="language-java">// Java char is 2-byte Unicode, C++ char is 1-byte ASCII
+char c = '字';  // Valid in Java! Unicode character
+
+// Java has no unsigned types (except char for 0-65535)
+// C++: unsigned int, unsigned long, etc. — not in Java
+
+// Integer literal suffixes
+long x = 100L;    // L for long (l also works but uppercase preferred)
+float f = 3.14f;  // f for float
+double d = 3.14;  // default for decimal literals
+
+// Binary, hex, octal literals (Java 7+)
+int bin = 0b1010;    // binary → 10
+int hex = 0xFF;      // hex → 255
+int oct = 017;       // octal → 15
+
+// Underscore in literals (Java 7+) for readability
+int million = 1_000_000;
+long creditCard = 1234_5678_9012_3456L;
+</code></pre>
+<h2>Wrapper Classes</h2>
+<p>Every primitive has a corresponding Wrapper class (object form):</p>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Wrapper</th>
+<th>Pool Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td><code>Integer</code></td>
+<td>-128 to 127 cached</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>Long</code></td>
+<td>-128 to 127 cached</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td><code>Double</code></td>
+<td>No cache</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>Boolean</code></td>
+<td>true and false cached</td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td><code>Character</code></td>
+<td>0-127 cached</td>
+</tr>
+</tbody>
+</table>
+<h3>Autoboxing and Unboxing</h3>
+<p>Java automatically converts between primitive and wrapper:</p>
+<pre><code class="language-java">// Autoboxing: int → Integer (automatic)
+Integer x = 5;          // Actually: Integer x = Integer.valueOf(5);
+
+// Unboxing: Integer → int (automatic)
+int y = x;              // Actually: int y = x.intValue();
+
+// Danger: NullPointerException from unboxing
+Integer a = null;
+int b = a;              // NullPointerException! unboxing null crashes
+</code></pre>
+<h3>The Integer Cache Trap (Common Interview Trick!)</h3>
+<pre><code class="language-java">Integer a = 127;
+Integer b = 127;
+System.out.println(a == b);    // TRUE  (same cached object)
+
+Integer c = 128;
+Integer d = 128;
+System.out.println(c == d);    // FALSE (different objects, new allocation)
+
+// ALWAYS use .equals() for Integer comparison:
+System.out.println(c.equals(d));  // TRUE
+</code></pre>
+<p>Integer.valueOf() caches values from -128 to 127. Outside this range, new objects are created. <code>==</code> on objects compares references, not values.</p>
+<h2>Variable Declaration</h2>
+<pre><code class="language-java">// Local variables — must be explicitly initialized before use
+int x;
+// System.out.println(x);  // COMPILE ERROR: variable x might not have been initialized
+
+// Instance variables — initialized to defaults (0, null, false)
+class MyClass {
+    int count;      // default 0
+    String name;    // default null
+    boolean flag;   // default false
+}
+
+// Final variables — must be assigned exactly once
+final int MAX = 100;
+// MAX = 200;  // COMPILE ERROR
+
+// var (Java 10+ local type inference)
+var list = new ArrayList&lt;String&gt;();   // type inferred as ArrayList&lt;String&gt;
+var s = &quot;hello&quot;;                      // String
+// var x;  // ERROR — can't infer type without initializer
+</code></pre>
+<h2>String Internals</h2>
+<p>Strings are objects in Java, but they behave like value types due to immutability:</p>
+<pre><code class="language-java">String s1 = &quot;hello&quot;;      // String literal — goes to String Pool (Metaspace)
+String s2 = &quot;hello&quot;;      // Reuses same object from pool
+String s3 = new String(&quot;hello&quot;);  // New object in heap, NOT from pool
+
+System.out.println(s1 == s2);      // TRUE  (same pool object)
+System.out.println(s1 == s3);      // FALSE (different objects)
+System.out.println(s1.equals(s3)); // TRUE  (same content)
+
+// intern() — force a string into the pool
+String s4 = s3.intern();
+System.out.println(s1 == s4);      // TRUE (s4 is now the pooled version)
+</code></pre>
+<h3>String Immutability</h3>
+<pre><code class="language-java">String s = &quot;hello&quot;;
+s = s + &quot; world&quot;;  // Does NOT modify original string!
+                   // Creates a new String object &quot;hello world&quot;
+                   // Old &quot;hello&quot; object eligible for GC
+</code></pre>
+<p>For repeated string building in a loop, use <strong>StringBuilder</strong> (mutable, not thread-safe) or <strong>StringBuffer</strong> (mutable, thread-safe):</p>
+<pre><code class="language-java">// SLOW (creates N intermediate String objects)
+String result = &quot;&quot;;
+for (int i = 0; i &lt; 1000; i++) {
+    result += i;
+}
+
+// FAST (single mutable buffer)
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i &lt; 1000; i++) {
+    sb.append(i);
+}
+String result = sb.toString();
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between <code>==</code> and <code>.equals()</code> in Java?</strong>
+  A: <code>==</code> compares references (memory addresses) for objects, or values for primitives. <code>.equals()</code> compares logical content. Always use <code>.equals()</code> for String and object comparison. For primitives, <code>==</code> is correct.</p>
+</li>
+<li>
+<p><strong>Q: Why is String immutable in Java?</strong>
+  A: Security (strings used in class loading, network connections, file paths — mutable would be exploitable), String pool efficiency (safe to share same object), and thread safety (immutable objects are inherently thread-safe). Hashcode can also be cached.</p>
+</li>
+<li>
+<p><strong>Q: What is autoboxing and when is it dangerous?</strong>
+  A: Auto-conversion between primitive and wrapper type. Dangerous when unboxing null (NPE), in performance-sensitive loops (creates many wrapper objects), and when using <code>==</code> on Integer objects outside -128 to 127 range.</p>
+</li>
+</ul>
+<hr />
+<h1>11. Operators</h1>
+<h2>Operator Types</h2>
+<p>Most operators are identical to C++. Key differences:</p>
+<pre><code class="language-java">// Arithmetic: +, -, *, /, %
+int a = 10 / 3;     // 3 (integer division, same as C++)
+double b = 10.0 / 3; // 3.333...
+
+// Bitwise: &amp;, |, ^, ~, &lt;&lt;, &gt;&gt;, &gt;&gt;&gt;
+int x = -1;
+System.out.println(x &gt;&gt; 1);   // -1 (arithmetic shift, fills with sign bit)
+System.out.println(x &gt;&gt;&gt; 1);  // 2147483647 (logical shift, fills with 0)
+// C++ has only &gt;&gt; which is implementation-defined for negatives
+// Java adds &gt;&gt;&gt; (unsigned right shift) — always fills with 0
+
+// Ternary
+int max = (a &gt; b) ? a : b;
+
+// instanceof — type checking (no direct C++ equivalent cleanly)
+if (obj instanceof String s) {  // Java 16+ pattern matching instanceof
+    System.out.println(s.length());  // s is automatically cast
+}
+
+// String concatenation with +
+String result = &quot;Value: &quot; + 42;  // int auto-converted to String
+</code></pre>
+<h2>Integer Overflow</h2>
+<pre><code class="language-java">// Java silently overflows (wraps around), just like C++
+int max = Integer.MAX_VALUE;  // 2147483647
+System.out.println(max + 1);  // -2147483648 (wraps!)
+
+// Safe: use Math.addExact() which throws ArithmeticException on overflow
+int safe = Math.addExact(max, 1);  // throws ArithmeticException
+</code></pre>
+<hr />
+<h1>12. Control Flow</h1>
+<h2>Same as C++ (mostly)</h2>
+<pre><code class="language-java">// if-else
+if (x &gt; 0) { ... }
+else if (x &lt; 0) { ... }
+else { ... }
+
+// for loop
+for (int i = 0; i &lt; 10; i++) { ... }
+
+// enhanced for (for-each) — like C++ range-based for
+int[] arr = {1, 2, 3, 4, 5};
+for (int n : arr) {
+    System.out.println(n);
+}
+
+// while / do-while
+while (condition) { ... }
+do { ... } while (condition);
+</code></pre>
+<h2>Switch Statement / Expression</h2>
+<pre><code class="language-java">// Traditional switch (same as C++)
+switch (day) {
+    case 1: System.out.println(&quot;Monday&quot;); break;
+    case 2: System.out.println(&quot;Tuesday&quot;); break;
+    default: System.out.println(&quot;Other&quot;);
+}
+
+// Modern switch expression (Java 14+) — no break needed, returns value
+String name = switch (day) {
+    case 1 -&gt; &quot;Monday&quot;;
+    case 2 -&gt; &quot;Tuesday&quot;;
+    case 3, 4, 5 -&gt; &quot;Mid-week&quot;;    // multiple cases
+    default -&gt; &quot;Weekend&quot;;
+};
+
+// Switch with blocks and yield (Java 14+)
+int result = switch (op) {
+    case &quot;add&quot; -&gt; a + b;
+    case &quot;multiply&quot; -&gt; {
+        int product = a * b;
+        yield product;  // yield returns value from block
+    }
+    default -&gt; throw new IllegalArgumentException(&quot;Unknown: &quot; + op);
+};
+</code></pre>
+<h2>Exception Handling</h2>
+<pre><code class="language-java">// Basic try-catch-finally
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println(&quot;Error: &quot; + e.getMessage());
+} catch (Exception e) {
+    System.out.println(&quot;General error&quot;);
+} finally {
+    System.out.println(&quot;Always runs — cleanup here&quot;);
+}
+
+// Multi-catch (Java 7+)
+try {
+    ...
+} catch (IOException | SQLException e) {
+    // handles both exception types
+}
+
+// try-with-resources (Java 7+) — auto-closes resources
+try (FileReader fr = new FileReader(&quot;file.txt&quot;);
+     BufferedReader br = new BufferedReader(fr)) {
+    String line = br.readLine();
+}  // fr and br are automatically closed here, even if exception occurs
+// This is the Java equivalent of C++ RAII
+</code></pre>
+<h3>Exception Hierarchy</h3>
+<pre><code>Throwable
+├── Error (don't catch — JVM-level problems)
+│   ├── OutOfMemoryError
+│   ├── StackOverflowError
+│   └── VirtualMachineError
+└── Exception
+    ├── RuntimeException (Unchecked — no need to declare or catch)
+    │   ├── NullPointerException
+    │   ├── ArrayIndexOutOfBoundsException
+    │   ├── ClassCastException
+    │   ├── IllegalArgumentException
+    │   └── ArithmeticException
+    └── Checked Exceptions (MUST handle or declare with throws)
+        ├── IOException
+        ├── SQLException
+        └── ClassNotFoundException
+</code></pre>
+<p><strong>Checked vs Unchecked:</strong></p>
+<pre><code class="language-java">// Checked — must handle it:
+void readFile() throws IOException {  // OR use try-catch
+    FileReader fr = new FileReader(&quot;file.txt&quot;);  // throws IOException
+}
+
+// Unchecked — no requirement to handle:
+void divide(int a, int b) {
+    int result = a / b;  // may throw ArithmeticException — no throws required
+}
+</code></pre>
+<p>C++ has no concept of checked exceptions — all exceptions are unchecked.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between checked and unchecked exceptions?</strong>
+  A: Checked exceptions (IOException, SQLException) are checked at compile time — you must either handle them with try-catch or declare them with <code>throws</code>. Unchecked exceptions (RuntimeException subclasses) are not enforced at compile time. The debate: checked forces handling but creates verbose code; unchecked gives flexibility but errors may be missed.</p>
+</li>
+<li>
+<p><strong>Q: What is try-with-resources?</strong>
+  A: Java 7+ syntax that automatically closes resources (anything implementing <code>AutoCloseable</code>) at the end of the try block, whether or not an exception occurs. It's Java's RAII equivalent.</p>
+</li>
+</ul>
+<hr />
+<h1>13. Methods in Java</h1>
+<h2>Method Signature</h2>
+<pre><code class="language-java">// access_modifier return_type methodName(params) throws exceptions
+public static int add(int a, int b) throws ArithmeticException {
+    return a + b;
+}
+</code></pre>
+<h2>Pass by Value (Always, in Java)</h2>
+<p>Java is <strong>always pass-by-value</strong>. For objects, the value passed is the <strong>reference</strong> (pointer), not the object itself:</p>
+<pre><code class="language-java">// Primitives: copy of value passed
+void modify(int x) {
+    x = 100;  // only modifies local copy
+}
+int n = 5;
+modify(n);
+System.out.println(n);  // 5 — unchanged
+
+// Objects: copy of REFERENCE passed
+void modify(StringBuilder sb) {
+    sb.append(&quot; world&quot;);  // modifies the object (both refs point to same object)
+}
+StringBuilder s = new StringBuilder(&quot;hello&quot;);
+modify(s);
+System.out.println(s);  // &quot;hello world&quot; — modified!
+
+// But reassigning the reference doesn't affect the caller:
+void reassign(StringBuilder sb) {
+    sb = new StringBuilder(&quot;new&quot;);  // only local ref reassigned
+}
+StringBuilder s = new StringBuilder(&quot;hello&quot;);
+reassign(s);
+System.out.println(s);  // &quot;hello&quot; — s still points to original
+</code></pre>
+<p>C++ developers: Java references are like C++ pointers, not C++ references. You can't pass by reference in Java the way <code>void f(int&amp; x)</code> does.</p>
+<h2>Varargs</h2>
+<pre><code class="language-java">// Variable arguments — internally an array
+int sum(int... nums) {
+    int total = 0;
+    for (int n : nums) total += n;
+    return total;
+}
+
+sum(1, 2, 3);           // 6
+sum(1, 2, 3, 4, 5);     // 15
+sum(new int[]{1, 2, 3}); // also valid
+</code></pre>
+<h2>Method Overloading</h2>
+<p>Same method name, different parameter list (compile-time polymorphism):</p>
+<pre><code class="language-java">void print(int x)    { System.out.println(&quot;int: &quot; + x); }
+void print(double x) { System.out.println(&quot;double: &quot; + x); }
+void print(String x) { System.out.println(&quot;String: &quot; + x); }
+
+print(5);       // int: 5
+print(5.0);     // double: 5.0
+print(&quot;hello&quot;); // String: hello
+</code></pre>
+<p>Resolution happens at compile time based on argument types. Note: Return type alone doesn't make methods different.</p>
+<h2>Recursion</h2>
+<pre><code class="language-java">int factorial(int n) {
+    if (n &lt;= 1) return 1;         // base case
+    return n * factorial(n - 1);  // recursive case
+}
+</code></pre>
+<p>Java does NOT optimize tail recursion (unlike some functional languages). Deep recursion causes StackOverflowError.</p>
+<hr />
+<h1>14. Classes &amp; Objects</h1>
+<h2>Class Declaration</h2>
+<pre><code class="language-java">public class BankAccount {
+    // ── FIELDS ──────────────────────────────────────────
+    private String owner;        // instance field
+    private double balance;      // instance field
+    private static int count;    // class field (shared across all instances)
+
+    // ── CONSTRUCTORS ─────────────────────────────────────
+    // Default constructor (generated automatically if none written)
+    public BankAccount() {
+        this(&quot;Unknown&quot;, 0.0);    // delegates to parameterized constructor
+    }
+
+    // Parameterized constructor
+    public BankAccount(String owner, double initialBalance) {
+        this.owner = owner;       // this disambiguates field from param
+        this.balance = initialBalance;
+        BankAccount.count++;      // access static field
+    }
+
+    // ── METHODS ──────────────────────────────────────────
+    public void deposit(double amount) {
+        if (amount &lt;= 0) throw new IllegalArgumentException(&quot;Amount must be positive&quot;);
+        this.balance += amount;
+    }
+
+    public double getBalance() { return balance; }
+    public String getOwner()   { return owner; }
+    public static int getCount() { return count; }
+
+    // ── toString ──────────────────────────────────────────
+    @Override
+    public String toString() {
+        return &quot;BankAccount{owner=&quot; + owner + &quot;, balance=&quot; + balance + &quot;}&quot;;
+    }
+}
+</code></pre>
+<h2>Constructor Chaining</h2>
+<pre><code class="language-java">class Employee {
+    String name;
+    int age;
+    String department;
+
+    Employee(String name) {
+        this(name, 25);          // calls Employee(String, int)
+    }
+
+    Employee(String name, int age) {
+        this(name, age, &quot;General&quot;);  // calls Employee(String, int, String)
+    }
+
+    Employee(String name, int age, String department) {
+        this.name = name;
+        this.age = age;
+        this.department = department;
+    }
+}
+</code></pre>
+<h2>Inheritance</h2>
+<pre><code class="language-java">class Animal {
+    String name;
+
+    Animal(String name) {
+        this.name = name;
+    }
+
+    void sound() {
+        System.out.println(&quot;...&quot;);
+    }
+
+    void breathe() {
+        System.out.println(name + &quot; breathes air&quot;);
+    }
+}
+
+class Dog extends Animal {
+    String breed;
+
+    Dog(String name, String breed) {
+        super(name);        // MUST be first statement — calls parent constructor
+        this.breed = breed;
+    }
+
+    @Override             // annotation verifies we're actually overriding
+    void sound() {
+        System.out.println(name + &quot; barks!&quot;);
+    }
+}
+
+// Usage
+Animal a = new Dog(&quot;Rex&quot;, &quot;Lab&quot;);  // polymorphism
+a.sound();    // &quot;Rex barks!&quot; — dynamic dispatch calls Dog's version
+a.breathe();  // &quot;Rex breathes air&quot; — inherited from Animal
+</code></pre>
+<h2>this and super</h2>
+<pre><code class="language-java">class Parent {
+    int x = 10;
+    void show() { System.out.println(&quot;Parent x=&quot; + x); }
+}
+
+class Child extends Parent {
+    int x = 20;   // shadows Parent's x
+
+    void show() {
+        System.out.println(&quot;Child x=&quot; + x);     // this.x = 20
+        System.out.println(&quot;Parent x=&quot; + super.x); // super.x = 10
+        super.show();                              // calls Parent's show()
+    }
+}
+</code></pre>
+<h2>Static vs Instance</h2>
+<pre><code class="language-java">class Counter {
+    static int total = 0;  // ONE copy, shared by all Counter objects
+    int myCount = 0;       // each Counter has its OWN myCount
+
+    void increment() {
+        myCount++;   // this instance's count
+        total++;     // global count across all instances
+    }
+
+    static void reset() {
+        total = 0;
+        // myCount = 0;  // ERROR: can't access instance field from static method
+    }
+}
+
+Counter c1 = new Counter(); c1.increment();
+Counter c2 = new Counter(); c2.increment(); c2.increment();
+System.out.println(Counter.total);  // 3 (all increments)
+System.out.println(c1.myCount);     // 1
+System.out.println(c2.myCount);     // 2
+</code></pre>
+<h2>@Override, @Deprecated, @SuppressWarnings</h2>
+<p>Annotations are metadata attached to code elements:</p>
+<pre><code class="language-java">@Override           // Compiler verifies parent has this method — catches typos
+public String toString() { ... }
+
+@Deprecated         // Signals old API — compiler warns users
+public void oldMethod() { ... }
+
+@SuppressWarnings(&quot;unchecked&quot;)   // Suppresses specific compiler warning
+public void rawTypeMethod() { ... }
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: Can a constructor be private?</strong>
+  A: Yes. Used in Singleton pattern (prevents external instantiation) and factory method patterns.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between <code>this()</code> and <code>super()</code> in constructors?</strong>
+  A: <code>this()</code> calls another constructor in the same class. <code>super()</code> calls the parent class constructor. Both must be the first statement in a constructor — you can't use both.</p>
+</li>
+<li>
+<p><strong>Q: Can you override static methods in Java?</strong>
+  A: No — static methods are resolved at compile time based on reference type, not at runtime based on object type. This is called <strong>method hiding</strong> not overriding. The <code>@Override</code> annotation will reject static methods.</p>
+</li>
+</ul>
+<hr />
+<h1>15. Java Keywords — Deep Dive</h1>
+<h2><code>final</code></h2>
+<p>The most overloaded keyword — means different things in different contexts:</p>
+<pre><code class="language-java">// 1. final VARIABLE — cannot be reassigned
+final int MAX = 100;
+// MAX = 200;  // COMPILE ERROR
+
+// 2. final FIELD — must be initialized in declaration or every constructor
+class Circle {
+    final double PI = 3.14159;   // compile-time constant
+    final double radius;
+
+    Circle(double r) {
+        this.radius = r;  // OK — initialized in constructor
+    }
+}
+
+// 3. final METHOD — cannot be overridden in subclasses
+class Parent {
+    final void critical() { ... }   // no subclass can change this behavior
+}
+
+// 4. final CLASS — cannot be extended (subclassed)
+final class String { ... }     // String in Java is final — you can't extend it
+final class Integer { ... }    // all wrapper classes are final
+
+// 5. final PARAMETER — can't reassign the parameter variable
+void process(final int x) {
+    // x = 10;  // COMPILE ERROR
+}
+</code></pre>
+<p><strong>C++ equivalents:</strong>
+- <code>final</code> variable → <code>const</code>
+- <code>final</code> method → <code>final</code> (C++11)
+- <code>final</code> class → <code>final</code> (C++11)</p>
+<h2><code>static</code></h2>
+<pre><code class="language-java">class MathUtils {
+    // Static field — shared state, no instance needed
+    static final double PI = 3.14159;
+
+    // Static method — utility functions
+    static double circleArea(double r) {
+        return PI * r * r;
+    }
+
+    // Static nested class — doesn't need outer instance
+    static class Vector {
+        double x, y;
+    }
+
+    // Static initializer block — runs once when class loads
+    static {
+        System.out.println(&quot;MathUtils class loaded&quot;);
+    }
+}
+
+// Usage without creating instance:
+double area = MathUtils.circleArea(5.0);
+</code></pre>
+<h2><code>abstract</code></h2>
+<pre><code class="language-java">// Abstract class — cannot be instantiated, may have abstract methods
+abstract class Shape {
+    String color;
+
+    Shape(String color) { this.color = color; }
+
+    // Abstract method — no body, subclasses MUST implement
+    abstract double area();
+
+    // Concrete method — subclasses inherit (can override)
+    void describe() {
+        System.out.println(color + &quot; shape with area &quot; + area());
+    }
+}
+
+class Circle extends Shape {
+    double radius;
+
+    Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+
+    @Override
+    double area() { return Math.PI * radius * radius; }
+}
+
+// Shape s = new Shape(&quot;red&quot;);  // ERROR — can't instantiate abstract class
+Shape s = new Circle(&quot;red&quot;, 5);  // OK — concrete subclass
+s.describe();  // &quot;red shape with area 78.539...&quot;
+</code></pre>
+<h2><code>interface</code></h2>
+<pre><code class="language-java">// Interface — pure contract, all methods public by default
+interface Payable {
+    void pay(double amount);           // abstract by default
+    double getBalance();               // abstract by default
+
+    // Default method (Java 8+) — has implementation, subclasses can override
+    default String getStatus() {
+        return &quot;Balance: &quot; + getBalance();
+    }
+
+    // Static method (Java 8+) — utility, not inherited
+    static boolean isValidAmount(double amount) {
+        return amount &gt; 0;
+    }
+
+    // Constant — implicitly public static final
+    int MAX_TRANSACTIONS = 1000;
+}
+
+// Implementing interface
+class Wallet implements Payable {
+    private double balance;
+
+    @Override
+    public void pay(double amount) {
+        if (!Payable.isValidAmount(amount)) throw new IllegalArgumentException();
+        balance -= amount;
+    }
+
+    @Override
+    public double getBalance() { return balance; }
+}
+
+// Multiple interfaces
+class SuperWallet implements Payable, Serializable, Comparable&lt;SuperWallet&gt; {
+    ...
+}
+</code></pre>
+<h3>Abstract Class vs Interface</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Abstract Class</th>
+<th>Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instantiation</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Fields</td>
+<td>Yes (any type)</td>
+<td>Only <code>public static final</code></td>
+</tr>
+<tr>
+<td>Constructor</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Method types</td>
+<td>Abstract + concrete</td>
+<td>Abstract + default + static</td>
+</tr>
+<tr>
+<td>Inheritance</td>
+<td><code>extends</code> (single)</td>
+<td><code>implements</code> (multiple)</td>
+</tr>
+<tr>
+<td>Use when</td>
+<td>Shared state/behavior</td>
+<td>Capability contract</td>
+</tr>
+</tbody>
+</table>
+<h2><code>synchronized</code></h2>
+<pre><code class="language-java">class SafeCounter {
+    private int count = 0;
+
+    // Synchronized method — only one thread at a time can execute this
+    public synchronized void increment() {
+        count++;  // count++ is actually read-modify-write (not atomic)
+    }
+
+    // Synchronized block — finer-grained control
+    public void incrementBlock() {
+        synchronized (this) {  // lock on 'this' object
+            count++;
+        }
+    }
+
+    // Static synchronized — locks on the Class object
+    public static synchronized void staticMethod() { ... }
+}
+</code></pre>
+<h2><code>volatile</code></h2>
+<pre><code class="language-java">class Server {
+    private volatile boolean running = true;   // visible across all threads
+
+    public void stop() { running = false; }
+
+    public void run() {
+        while (running) {    // always reads fresh value from main memory
+            processRequest();
+        }
+    }
+}
+</code></pre>
+<p><code>volatile</code> guarantees visibility but NOT atomicity. <code>count++</code> is still not thread-safe with volatile. Use <code>AtomicInteger</code> for atomic operations.</p>
+<h2><code>transient</code></h2>
+<pre><code class="language-java">class UserSession implements Serializable {
+    String username;
+    transient String password;    // NOT serialized — excluded from byte stream
+    transient Connection dbConn;  // NOT serialized — can't serialize a DB connection
+
+    // When deserialized, password and dbConn will be null
+}
+</code></pre>
+<p>C++ has no direct equivalent — serialization frameworks handle exclusion differently.</p>
+<h2><code>native</code></h2>
+<pre><code class="language-java">public class SystemInfo {
+    // Implemented in C/C++, loaded from a native library
+    public native long getProcessId();
+
+    static {
+        System.loadLibrary(&quot;sysinfo&quot;);  // loads libsysinfo.so (Linux) or sysinfo.dll (Windows)
+    }
+}
+</code></pre>
+<p>This is how Java interfaces with platform-specific code via JNI (Java Native Interface). Used in low-level system code, graphics drivers, hardware interfaces.</p>
+<h2><code>this</code></h2>
+<pre><code class="language-java">class Builder {
+    private String name;
+    private int value;
+
+    // 1. Disambiguate field vs parameter
+    Builder setName(String name) {
+        this.name = name;    // this.name = field, name = parameter
+        return this;         // 2. Return current instance (for chaining)
+    }
+
+    Builder setValue(int value) {
+        this.value = value;
+        return this;
+    }
+
+    // 3. Call another constructor
+    Builder() {
+        this(&quot;default&quot;, 0);
+    }
+
+    Builder(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
+}
+
+// Method chaining using 'return this'
+new Builder().setName(&quot;test&quot;).setValue(42);
+</code></pre>
+<h2><code>super</code></h2>
+<pre><code class="language-java">class Animal {
+    String name = &quot;Animal&quot;;
+    void speak() { System.out.println(&quot;...&quot;); }
+}
+
+class Dog extends Animal {
+    String name = &quot;Dog&quot;;    // shadows Animal's name
+
+    void speak() {
+        System.out.println(name);         // Dog
+        System.out.println(super.name);   // Animal — access parent field
+        super.speak();                    // calls Animal.speak()
+    }
+
+    Dog() {
+        super();  // calls Animal() — implicit if you don't write it
+    }
+}
+</code></pre>
+<h2><code>instanceof</code> (and Pattern Matching, Java 16+)</h2>
+<pre><code class="language-java">// Traditional
+if (obj instanceof String) {
+    String s = (String) obj;   // need explicit cast
+    System.out.println(s.length());
+}
+
+// Pattern matching (Java 16+) — cleaner, no cast needed
+if (obj instanceof String s) {
+    System.out.println(s.length());  // s is already cast
+}
+
+// With switch (Java 21)
+String result = switch (obj) {
+    case Integer i -&gt; &quot;int: &quot; + i;
+    case String s  -&gt; &quot;string: &quot; + s;
+    case null      -&gt; &quot;null&quot;;
+    default        -&gt; &quot;other&quot;;
+};
+</code></pre>
+<h2><code>enum</code></h2>
+<pre><code class="language-java">// Basic enum
+enum Direction { NORTH, SOUTH, EAST, WEST }
+
+// Enum with fields and methods (much richer than C++ enum)
+enum Planet {
+    MERCURY(3.303e+23, 2.4397e6),
+    VENUS  (4.869e+24, 6.0518e6),
+    EARTH  (5.976e+24, 6.37814e6);
+
+    private final double mass;     // each enum constant has these
+    private final double radius;
+
+    Planet(double mass, double radius) {
+        this.mass = mass;
+        this.radius = radius;
+    }
+
+    double surfaceGravity() {
+        final double G = 6.67300E-11;
+        return G * mass / (radius * radius);
+    }
+}
+
+// Usage
+Planet p = Planet.EARTH;
+System.out.println(p.surfaceGravity());  // 9.802...
+
+// Enum in switch
+switch (p) {
+    case EARTH  -&gt; System.out.println(&quot;Home&quot;);
+    case MARS   -&gt; System.out.println(&quot;Red planet&quot;);
+    default     -&gt; System.out.println(&quot;Space&quot;);
+}
+
+// Enum methods
+Direction.values();              // array of all values: [NORTH, SOUTH, EAST, WEST]
+Direction.valueOf(&quot;NORTH&quot;);      // Direction.NORTH
+Direction.NORTH.ordinal();       // 0 (index)
+Direction.NORTH.name();          // &quot;NORTH&quot;
+</code></pre>
+<p>Enums in Java are full classes — they can implement interfaces, have fields, methods, and constructors. Far more powerful than C++ enums.</p>
+<hr />
+<h1>16. Modern Java: Records, Sealed Classes, Enums</h1>
+<h2>Records (Java 16+)</h2>
+<p>Records are immutable data carriers — like C++ structs but with auto-generated boilerplate:</p>
+<pre><code class="language-java">// Traditional way (verbose)
+class Point {
+    private final int x;
+    private final int y;
+
+    Point(int x, int y) { this.x = x; this.y = y; }
+    int x() { return x; }
+    int y() { return y; }
+
+    @Override
+    public boolean equals(Object o) { ... }
+
+    @Override
+    public int hashCode() { ... }
+
+    @Override
+    public String toString() { return &quot;Point[x=&quot; + x + &quot;, y=&quot; + y + &quot;]&quot;; }
+}
+
+// Record way (compact!)
+record Point(int x, int y) { }
+
+// Auto-generated:
+// - Constructor: Point(int x, int y)
+// - Accessors: x(), y()
+// - equals(), hashCode(), toString()
+// Fields are private final automatically
+
+Point p = new Point(3, 4);
+System.out.println(p.x());           // 3
+System.out.println(p);               // Point[x=3, y=4]
+
+// Compact constructor (custom validation)
+record Range(int min, int max) {
+    Range {   // compact constructor — params already set, this validates
+        if (min &gt; max) throw new IllegalArgumentException(&quot;min &gt; max&quot;);
+    }
+}
+</code></pre>
+<p>Records are ideal for DTOs, value objects, API responses.</p>
+<h2>Sealed Classes (Java 17+)</h2>
+<p>Sealed classes restrict which classes can extend them — useful for exhaustive pattern matching:</p>
+<pre><code class="language-java">sealed interface Shape permits Circle, Rectangle, Triangle { }
+
+record Circle(double radius) implements Shape { }
+record Rectangle(double width, double height) implements Shape { }
+record Triangle(double base, double height) implements Shape { }
+
+// Now the compiler knows ALL possible shapes
+double area(Shape shape) {
+    return switch (shape) {
+        case Circle c      -&gt; Math.PI * c.radius() * c.radius();
+        case Rectangle r   -&gt; r.width() * r.height();
+        case Triangle t    -&gt; 0.5 * t.base() * t.height();
+        // No default needed — compiler knows all cases are covered!
+    };
+}
+</code></pre>
+<p>Sealed classes make illegal states unrepresentable and enable exhaustive switch.</p>
+<h2>Text Blocks (Java 15+)</h2>
+<pre><code class="language-java">// Old way — awkward escaping
+String json = &quot;{\n&quot; +
+              &quot;  \&quot;name\&quot;: \&quot;Alice\&quot;,\n&quot; +
+              &quot;  \&quot;age\&quot;: 30\n&quot; +
+              &quot;}&quot;;
+
+// Text block — natural multiline string
+String json = &quot;&quot;&quot;
+              {
+                &quot;name&quot;: &quot;Alice&quot;,
+                &quot;age&quot;: 30
+              }
+              &quot;&quot;&quot;;
+</code></pre>
+<hr />
+<h1>Interview Quick Reference</h1>
+<h2>JVM Internals</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JDK vs JRE vs JVM</td>
+<td>JVM=executor, JRE=JVM+libs, JDK=JRE+tools</td>
+</tr>
+<tr>
+<td>What is bytecode?</td>
+<td>Platform-neutral instructions for JVM</td>
+</tr>
+<tr>
+<td>What is JIT?</td>
+<td>Runtime compilation of hot bytecode to native code</td>
+</tr>
+<tr>
+<td>Heap vs Stack</td>
+<td>Heap=objects(shared), Stack=frames(per thread)</td>
+</tr>
+<tr>
+<td>What replaced PermGen?</td>
+<td>Metaspace (Java 8+, native memory)</td>
+</tr>
+<tr>
+<td>What is GC root?</td>
+<td>Start points for reachability: stack vars, static fields</td>
+</tr>
+<tr>
+<td>What causes StackOverflow?</td>
+<td>Infinite recursion exhausting stack space</td>
+</tr>
+<tr>
+<td>What is the Integer cache?</td>
+<td>-128 to 127 are cached; outside this range new objects</td>
+</tr>
+</tbody>
+</table>
+<h2>Key Java vs C++ Differences</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory mgmt</td>
+<td>Manual delete</td>
+<td>GC</td>
+</tr>
+<tr>
+<td>Pointers</td>
+<td>Raw pointers</td>
+<td>No raw pointers (references only)</td>
+</tr>
+<tr>
+<td>Multiple inheritance</td>
+<td>Yes (classes)</td>
+<td>No (interfaces only)</td>
+</tr>
+<tr>
+<td>unsigned types</td>
+<td>Yes</td>
+<td>No (except char)</td>
+</tr>
+<tr>
+<td>Right shift</td>
+<td>&gt;&gt; (signed behavior varies)</td>
+<td>&gt;&gt; arithmetic, &gt;&gt;&gt; logical</td>
+</tr>
+<tr>
+<td>String type</td>
+<td>Not built-in</td>
+<td>First-class, immutable, pooled</td>
+</tr>
+<tr>
+<td>Destructor</td>
+<td>Yes, deterministic</td>
+<td>finalize() deprecated, use Closeable</td>
+</tr>
+<tr>
+<td>Header files</td>
+<td>Required</td>
+<td>No — single source file</td>
+</tr>
+<tr>
+<td>Default access</td>
+<td>private in class</td>
+<td>package-private</td>
+</tr>
+<tr>
+<td>goto</td>
+<td>Yes (limited)</td>
+<td>No (labels exist for break/continue)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Part 4: Java Internals &amp; Syntax</em>
+<em>Next: Part 5 (Collections), Part 6 (Multithreading), Part 3 (OOP), Part 7 (REST APIs)</em></p>
+            </article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
