@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>learning_content | Repository Explorer</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Prism.js CSS for Code Syntax Highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  
+  <style>
+    :root {
+      /* Dark Theme (Default) */
+      --bg-primary: #0b111e;
+      --bg-secondary: #121b2d;
+      --bg-tertiary: #1e293b;
+      --bg-sidebar: #0f1626;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --accent-color: #6366f1;
+      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --accent-hover: #4f46e5;
+      --accent-glow: rgba(99, 102, 241, 0.3);
+      --accent-bg: rgba(99, 102, 241, 0.1);
+      
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, monospace;
+      
+      --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      --header-height: 72px;
+      --sidebar-width: 340px;
+    }
+
+    [data-theme="light"] {
+      /* Light Theme */
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --bg-sidebar: #f8fafc;
+      --border-color: rgba(0, 0, 0, 0.06);
+      --border-hover: rgba(0, 0, 0, 0.12);
+      
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      
+      --accent-color: #4f46e5;
+      --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --accent-hover: #4338ca;
+      --accent-glow: rgba(79, 70, 229, 0.15);
+      --accent-bg: rgba(79, 70, 229, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color var(--transition-normal), color var(--transition-normal);
+    }
+
+    /* Layout */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Header styling */
+    .app-header {
+      height: var(--header-height);
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: background-color var(--transition-normal), border-color var(--transition-normal);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--accent-color);
+      background: var(--accent-bg);
+      padding: 6px;
+      border-radius: 8px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Buttons & Controls */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px var(--accent-glow);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-tertiary);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-primary);
+      border-color: var(--border-hover);
+    }
+
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      opacity: 0.9;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-tertiary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .icon-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+      background-color: var(--bg-primary);
+    }
+
+    /* Theme Toggle icons */
+    [data-theme="dark"] .sun-icon { display: block; }
+    [data-theme="dark"] .moon-icon { display: none; }
+    [data-theme="light"] .sun-icon { display: none; }
+    [data-theme="light"] .moon-icon { display: block; }
+
+    /* Main Area Split Screen */
+    .app-main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Sidebar - Tree explorer */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: background-color var(--transition-normal), border-color var(--transition-normal);
+    }
+
+    .sidebar-search {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      padding: 10px 36px 10px 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .search-wrapper input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      border-radius: 50%;
+    }
+
+    .clear-btn:hover {
+      color: var(--text-primary);
+      background-color: var(--bg-tertiary);
+    }
+
+    .tree-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background-color: rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .text-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: color var(--transition-fast);
+    }
+
+    .text-btn:hover {
+      color: var(--accent-color);
+    }
+
+    .separator {
+      color: var(--border-color);
+    }
+
+    .tree-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 8px;
+    }
+
+    /* Tree Styling */
+    .tree-list {
+      list-style: none;
+    }
+
+    .tree-node-list {
+      list-style: none;
+    }
+
+    .tree-node-item {
+      position: relative;
+    }
+
+    .node-content {
+      display: flex;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      user-select: none;
+      transition: all var(--transition-fast);
+      margin-bottom: 2px;
+    }
+
+    .node-content:hover {
+      background-color: var(--bg-tertiary);
+      transform: translateX(2px);
+    }
+
+    .node-content.active {
+      background-color: var(--accent-bg);
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .chevron-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+      color: var(--text-muted);
+      transition: transform var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .expanded > .node-content > .chevron-icon {
+      transform: rotate(90deg);
+    }
+
+    .folder-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      color: #eab308; /* warm gold folder */
+      flex-shrink: 0;
+    }
+
+    .file-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .active .file-icon {
+      color: var(--accent-color);
+    }
+
+    .node-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .folder-badge {
+      font-size: 0.7rem;
+      background-color: var(--bg-tertiary);
+      color: var(--text-secondary);
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: auto;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .node-children {
+      list-style: none;
+      padding-left: 14px;
+      border-left: 1px dashed var(--border-color);
+      margin-left: 15px;
+      transition: all var(--transition-fast);
+    }
+
+    .file-link-wrapper {
+      display: flex;
+      align-items: center;
+      color: inherit;
+      text-decoration: none;
+      width: 100%;
+    }
+
+    /* Highlight Search Match */
+    mark.highlight {
+      background-color: rgba(234, 179, 8, 0.3);
+      color: var(--text-primary);
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+
+    /* States (Loading, Error) */
+    .loading-state, .error-state, .tree-empty-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(99, 102, 241, 0.15);
+      border-radius: 50%;
+      border-top-color: var(--accent-color);
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .error-icon {
+      width: 40px;
+      height: 40px;
+      color: var(--danger-color);
+      margin-bottom: 12px;
+    }
+
+    .error-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .error-message {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .reset-time {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--warning-color);
+      margin-bottom: 12px;
+    }
+
+    .tree-empty-message {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Preview Pane */
+    .preview-pane {
+      flex: 1;
+      background-color: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background-color var(--transition-normal);
+    }
+
+    /* Welcome / Empty Preview State */
+    .empty-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .welcome-card {
+      max-width: 520px;
+      text-align: center;
+      padding: 40px;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .welcome-icon {
+      width: 56px;
+      height: 56px;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+
+    .welcome-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .welcome-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .quick-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .quick-link-item {
+      display: flex;
+      gap: 14px;
+      padding: 12px;
+      background-color: var(--bg-primary);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .quick-link-item i {
+      width: 20px;
+      height: 20px;
+      color: var(--accent-color);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .quick-link-item h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .quick-link-item p {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    /* Loading File State */
+    .loading-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* File Preview Container */
+    .file-preview-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .preview-header {
+      height: 64px;
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+    }
+
+    .preview-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .back-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      margin-right: 4px;
+    }
+
+    .back-btn:hover {
+      color: var(--text-primary);
+      background-color: var(--bg-tertiary);
+    }
+
+    #preview-file-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .preview-file-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .preview-file-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .preview-file-path {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .preview-header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-size-badge {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background-color: var(--bg-tertiary);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .preview-content {
+      flex: 1;
+      overflow: auto;
+      position: relative;
+      background-color: var(--bg-primary);
+    }
+
+    /* Markdown styling override */
+    .markdown-preview {
+      padding: 32px;
+      max-width: 850px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .markdown-body {
+      font-size: 1rem;
+    }
+
+    .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    .markdown-body h1 { font-size: 1.85rem; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
+    .markdown-body h2 { font-size: 1.4rem; padding-bottom: 6px; border-bottom: 1px solid var(--border-color); }
+    .markdown-body h3 { font-size: 1.15rem; }
+
+    .markdown-body p, .markdown-body ul, .markdown-body ol {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+
+    .markdown-body ul, .markdown-body ol {
+      padding-left: 24px;
+    }
+
+    .markdown-body li {
+      margin-top: 4px;
+    }
+
+    .markdown-body pre {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+
+    .markdown-body code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background-color: rgba(99, 102, 241, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent-color);
+    }
+
+    .markdown-body pre code {
+      background-color: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: 0.85rem;
+    }
+
+    .markdown-body blockquote {
+      border-left: 4px solid var(--accent-color);
+      background-color: var(--bg-secondary);
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 16px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+
+    .markdown-body th, .markdown-body td {
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .markdown-body th {
+      background-color: var(--bg-secondary);
+      font-weight: 600;
+    }
+
+    .markdown-body tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    /* Code Highlight Preview */
+    .code-preview {
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      background-color: #0b111e;
+    }
+
+    .code-preview pre {
+      margin: 0 !important;
+      padding: 24px !important;
+      background: transparent !important;
+      border: none !important;
+      font-family: var(--font-mono) !important;
+      font-size: 0.875rem !important;
+      line-height: 1.5 !important;
+    }
+
+    /* Iframe Styling */
+    .iframe-preview {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: #ffffff; /* HTML displays best on white backgrounds */
+    }
+
+    .unsupported-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 32px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    .unsupported-icon {
+      width: 48px;
+      height: 48px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .mt-4 { margin-top: 16px; }
+
+    /* Modal Overlay styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 480px;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: transform var(--transition-fast);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-primary);
+      background-color: var(--bg-tertiary);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-body p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .token-status {
+      padding: 12px;
+      background-color: var(--bg-primary);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+
+    .status-badge.success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success-color);
+    }
+
+    .token-info {
+      font-size: 0.75rem !important;
+      margin-top: 8px;
+      margin-bottom: 0 !important;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .form-help {
+      font-size: 0.75rem !important;
+      color: var(--text-muted) !important;
+      margin-top: 6px;
+      margin-bottom: 0 !important;
+    }
+
+    .w-full { width: 100%; }
+
+    /* Warning protocol bar */
+    .protocol-warning {
+      background-color: var(--warning-color);
+      color: #000000;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 6px 12px;
+      position: relative;
+      display: none;
+    }
+
+    /* Mobile Responsive Styling */
+    @media (max-width: 768px) {
+      .app-main {
+        position: relative;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: transform var(--transition-normal);
+      }
+
+      .preview-pane {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 20;
+        transform: translateX(100%);
+        transition: transform var(--transition-normal);
+      }
+
+      /* Slide states */
+      .app-container.preview-active .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .app-container.preview-active .preview-pane {
+        transform: translateX(0);
+      }
+
+      .back-btn {
+        display: inline-flex;
+      }
+
+      .header-right .btn span, .header-right .icon-btn .btn-text {
+        display: none;
+      }
+
+      .header-right .icon-btn {
+        width: 36px;
+        height: 36px;
+      }
+
+      .btn {
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Wrapper -->
+  <div class="app-container" id="app-wrapper">
+    
+    <!-- Protocol Warning (CORS context) -->
+    <div id="protocol-warning-bar" class="protocol-warning">
+      You are viewing this site via file:// protocol. Local file fetching might be blocked by browser security (CORS). Please run via a local web server (e.g. VS Code Live Server, python -m http.server).
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-container">
+          <i data-lucide="folder-git-2" class="logo-icon"></i>
+          <div class="logo-text">
+            <span class="logo-title" id="repo-title">learning_content</span>
+            <span class="logo-subtitle" id="repo-owner-sub">yogeshsingh63</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <!-- API Settings -->
+        <button id="token-btn" class="icon-btn" title="GitHub API Settings">
+          <i data-lucide="key-round"></i>
+          <span class="btn-text" style="font-size: 0.8rem; margin-left: 6px; font-weight: 500;">API Token</span>
+        </button>
+        
+        <!-- Toggle Dark/Light Mode -->
+        <button id="theme-toggle" class="icon-btn" title="Toggle theme">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+        
+        <!-- Refresh Button -->
+        <button id="refresh-btn" class="btn btn-secondary" title="Re-scan Repository">
+          <i data-lucide="refresh-cw" style="width: 15px; height: 15px;"></i>
+          <span>Re-scan</span>
+        </button>
+        
+        <!-- GitHub Repository External Link -->
+        <a id="github-link" href="#" target="_blank" class="btn btn-primary">
+          <i data-lucide="github" style="width: 15px; height: 15px;"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-main">
+      
+      <!-- Left Sidebar (Folder Structure Tree) -->
+      <aside class="sidebar">
+        <!-- Search -->
+        <div class="sidebar-search">
+          <div class="search-wrapper">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="search-input" placeholder="Search files & folders..." autocomplete="off">
+            <button id="clear-search-btn" class="clear-btn" style="display: none;" title="Clear Search">
+              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Tree View Controls & Info -->
+        <div class="tree-controls">
+          <span class="file-count" id="file-count">Scanning...</span>
+          <div class="controls-right">
+            <button id="expand-all-btn" class="text-btn">Expand All</button>
+            <span class="separator">|</span>
+            <button id="collapse-all-btn" class="text-btn">Collapse All</button>
+          </div>
+        </div>
+        
+        <!-- Tree Display -->
+        <div class="tree-container" id="tree-root">
+          <!-- Loading State -->
+          <div class="loading-state" id="sidebar-loading">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loading-status-text">Scanning repository tree...</p>
+          </div>
+          
+          <!-- Error State (Rate limit details embedded) -->
+          <div class="error-state" id="sidebar-error" style="display: none;">
+            <i data-lucide="alert-triangle" class="error-icon"></i>
+            <h3 class="error-title" id="error-title-text">Failed to scan repository</h3>
+            <p class="error-message" id="error-message-text">API call failed.</p>
+            <div id="rate-limit-reset-container" style="display: none;">
+              <p class="reset-time">Rate limit resets in <span id="rate-limit-timer">00:00</span></p>
+            </div>
+            <button id="error-retry-btn" class="btn btn-secondary btn-sm mt-4">Try Again</button>
+          </div>
+          
+          <!-- Tree Nodes List -->
+          <ul class="tree-list" id="tree-list" style="display: none;"></ul>
+        </div>
+      </aside>
+
+      <!-- Right Main View (File Content Previewer) -->
+      <main class="preview-pane">
+        <!-- Empty / Welcome state -->
+        <div class="empty-preview" id="empty-preview">
+          <div class="welcome-card">
+            <i data-lucide="compass" class="welcome-icon"></i>
+            <h2 class="welcome-title">Repository Explorer</h2>
+            <p class="welcome-text">Explore folders and inspect code, page files, or documentations right from this web dashboard.</p>
+            
+            <div class="quick-links">
+              <div class="quick-link-item">
+                <i data-lucide="folder-tree"></i>
+                <div>
+                  <h4>Hierarchical Tree Structure</h4>
+                  <p>Preserves folders exactly, with expand/collapse folders.</p>
+                </div>
+              </div>
+              <div class="quick-link-item">
+                <i data-lucide="search-check"></i>
+                <div>
+                  <h4>Fuzzy Search Querying</h4>
+                  <p>Instant node lookup that expands matches automatically.</p>
+                </div>
+              </div>
+              <div class="quick-link-item">
+                <i data-lucide="code-2"></i>
+                <div>
+                  <h4>Dynamic Preview Render</h4>
+                  <p>Loads markdown files, renders web pages, or displays code.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Loading preview content -->
+        <div class="loading-preview" id="loading-preview" style="display: none;">
+          <div class="spinner"></div>
+          <p>Loading file preview...</p>
+        </div>
+        
+        <!-- Loaded File Preview view -->
+        <div class="file-preview-container" id="preview-container" style="display: none;">
+          <div class="preview-header">
+            <div class="preview-header-left">
+              <button class="back-btn" id="preview-back-btn" title="Back to explorer">
+                <i data-lucide="arrow-left"></i>
+              </button>
+              <i data-lucide="file" id="preview-file-icon"></i>
+              <div class="preview-file-details">
+                <h3 class="preview-file-name" id="preview-file-name">file.html</h3>
+                <span class="preview-file-path" id="preview-file-path">dir/file.html</span>
+              </div>
+            </div>
+            
+            <div class="preview-header-right">
+              <span class="file-size-badge" id="preview-file-size">-</span>
+              <a id="preview-raw-btn" href="#" target="_blank" class="btn btn-secondary btn-sm" title="Open raw code in new tab">
+                <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                <span>Raw</span>
+              </a>
+              <a id="preview-open-btn" href="#" class="btn btn-primary btn-sm" title="View page in full tab">
+                <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+                <span>Open File</span>
+              </a>
+            </div>
+          </div>
+          
+          <div class="preview-content" id="preview-content">
+            <!-- Rendered HTML Markdown Container -->
+            <div class="markdown-preview markdown-body" id="markdown-container" style="display: none;"></div>
+            
+            <!-- Code View Container -->
+            <div class="code-preview" id="code-container" style="display: none;">
+              <pre class="line-numbers"><code id="code-block" class="language-javascript"></code></pre>
+            </div>
+            
+            <!-- Interactive Iframe -->
+            <iframe id="iframe-preview" class="iframe-preview" src="" style="display: none;" sandbox="allow-scripts allow-same-origin"></iframe>
+            
+            <!-- Unsupported View fallback -->
+            <div class="unsupported-preview" id="unsupported-container" style="display: none;">
+              <i data-lucide="file-warning" class="unsupported-icon"></i>
+              <h3>Preview Unavailable</h3>
+              <p>We can't render this file type in this screen. Please load it raw or open it in a new window.</p>
+              <a id="preview-download-btn" href="#" class="btn btn-primary mt-4" target="_blank">
+                <i data-lucide="external-link"></i>
+                <span>Open in Tab</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- API Settings Token Modal -->
+  <div id="token-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">GitHub API Settings</h3>
+        <button id="close-modal-btn" class="modal-close-btn" title="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>To avoid hitting GitHub's anonymous rate limits (60 calls/hour), save a Personal Access Token (PAT). This increases the rate limit to 5000 calls/hour.</p>
+        
+        <!-- Connected Token State -->
+        <div class="token-status" id="token-status-active" style="display: none;">
+          <div class="status-badge success">
+            <i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i>
+            <span>Connected</span>
+          </div>
+          <p class="token-info">A token has been configured and is stored securely in your browser's local storage.</p>
+          <button id="delete-token-btn" class="btn btn-danger btn-sm mt-4">
+            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+            <span>Delete Configured Token</span>
+          </button>
+        </div>
+        
+        <!-- Form to input Token -->
+        <div class="token-form" id="token-form-container">
+          <label for="token-input" class="form-label">Personal Access Token (PAT)</label>
+          <input type="password" id="token-input" class="form-input" placeholder="ghp_xxxx or github_pat_xxxx">
+          <p class="form-help">Only needs <b>read-only</b> public access scopes. Saved locally inside localStorage.</p>
+          <button id="save-token-btn" class="btn btn-primary w-full mt-4">
+            <i data-lucide="save" style="width: 14px; height: 14px;"></i>
+            <span>Save and Scans Repo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lucide SVG Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Marked.js library for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- Prism.js library for code highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+
+  <script>
+    // Repository Configurations
+    const DEFAULT_OWNER = 'yogeshsingh63';
+    const DEFAULT_REPO = 'learning_content';
+
+    // Parse repository owner and repository name from URL if on github.io
+    function getRepoInfo() {
+      const hostname = window.location.hostname;
+      const pathname = window.location.pathname;
+      
+      if (hostname.endsWith('.github.io')) {
+        const owner = hostname.split('.')[0];
+        // Split pathname and get the first block (e.g. /learning_content/ -> learning_content)
+        const parts = pathname.split('/').filter(p => p);
+        const repo = parts[0] || DEFAULT_REPO;
+        return { owner, repo };
+      }
+      return { owner: DEFAULT_OWNER, repo: DEFAULT_REPO };
+    }
+
+    const { owner, repo } = getRepoInfo();
+
+    // Set page header title
+    document.getElementById('repo-title').textContent = repo;
+    document.getElementById('repo-owner-sub').textContent = owner;
+    document.getElementById('github-link').href = `https://github.com/${owner}/${repo}`;
+
+    // App state
+    let repoTree = [];
+    let currentSearchQuery = '';
+    const expandedFolders = new Set();
+    let selectedNodePath = null;
+    let rateLimitTimerInterval = null;
+
+    // Check protocol warning
+    if (window.location.protocol === 'file:') {
+      document.getElementById('protocol-warning-bar').style.display = 'block';
+    }
+
+    // Load Token from local storage
+    function getStoredToken() {
+      return localStorage.getItem('github_pat') || '';
+    }
+
+    // Load cached tree from session storage to avoid unnecessary api requests
+    function getCachedTree() {
+      const cached = sessionStorage.getItem(`repo_tree_${owner}_${repo}`);
+      if (cached) {
+        try {
+          return JSON.parse(cached);
+        } catch (e) {
+          console.error("Failed to parse cached tree", e);
+        }
+      }
+      return null;
+    }
+
+    function saveTreeToCache(tree) {
+      sessionStorage.setItem(`repo_tree_${owner}_${repo}`, JSON.stringify(tree));
+    }
+
+    function clearCachedTree() {
+      sessionStorage.removeItem(`repo_tree_${owner}_${repo}`);
+    }
+
+    // Update Token modal state in HTML
+    function updateTokenModalUI() {
+      const token = getStoredToken();
+      const activeContainer = document.getElementById('token-status-active');
+      const formContainer = document.getElementById('token-form-container');
+      const tokenBtn = document.getElementById('token-btn');
+
+      if (token) {
+        activeContainer.style.display = 'block';
+        formContainer.style.display = 'none';
+        tokenBtn.style.color = 'var(--success-color)';
+        tokenBtn.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+      } else {
+        activeContainer.style.display = 'none';
+        formContainer.style.display = 'block';
+        tokenBtn.style.color = '';
+        tokenBtn.style.borderColor = '';
+      }
+    }
+
+    // Format bytes to readable string
+    function formatBytes(bytes) {
+      if (bytes === 0 || !bytes) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    // Get file extension
+    function getFileExtension(filename) {
+      const parts = filename.split('.');
+      return parts.length > 1 ? parts.pop().toLowerCase() : '';
+    }
+
+    // Lucide Icon mappings based on extension
+    function getIconForExtension(ext) {
+      switch (ext) {
+        case 'html':
+        case 'htm':
+          return 'file-code-2';
+        case 'md':
+          return 'file-text';
+        case 'pdf':
+          return 'book-open';
+        case 'txt':
+          return 'file-text';
+        case 'java':
+        case 'class':
+          return 'code-2';
+        case 'js':
+        case 'ts':
+        case 'json':
+          return 'file-json';
+        case 'css':
+          return 'file-code-2';
+        case 'png':
+        case 'jpg':
+        case 'jpeg':
+        case 'gif':
+        case 'svg':
+          return 'file-image';
+        default:
+          return 'file';
+      }
+    }
+
+    // Prism Lang Code support mapping
+    function getPrismLanguage(ext) {
+      switch (ext) {
+        case 'java': return 'java';
+        case 'js': return 'javascript';
+        case 'ts': return 'typescript';
+        case 'html': return 'html';
+        case 'css': return 'css';
+        case 'json': return 'json';
+        case 'md': return 'markdown';
+        case 'py': return 'python';
+        case 'cpp': return 'cpp';
+        case 'c': return 'c';
+        case 'sh': return 'bash';
+        case 'xml': return 'xml';
+        case 'yaml':
+        case 'yml': return 'yaml';
+        default: return 'markup';
+      }
+    }
+
+    // Counts number of files in folder tree
+    function countFiles(node) {
+      if (node.type === 'file') return 1;
+      let count = 0;
+      if (node.children) {
+        for (const child of node.children) {
+          count += countFiles(child);
+        }
+      }
+      return count;
+    }
+
+    // Count overall files in tree
+    function totalFilesInTree(tree) {
+      let count = 0;
+      for (const node of tree) {
+        count += countFiles(node);
+      }
+      return count;
+    }
+
+    // Main Scanning Function using GitHub Contents API (async/await)
+    async function scanFolderRecursive(path = '', token = '', updateTextFn = null) {
+      const headers = {
+        'Accept': 'application/vnd.github.v3+json'
+      };
+      if (token) {
+        headers['Authorization'] = `token ${token}`;
+      }
+
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+      const response = await fetch(url, { headers });
+
+      if (!response.ok) {
+        if (response.status === 403) {
+          const rateLimitReset = response.headers.get('x-ratelimit-reset');
+          const err = new Error('Rate limit exceeded');
+          err.status = 403;
+          err.resetTime = rateLimitReset ? parseInt(rateLimitReset) * 1000 : Date.now() + 60 * 60 * 1000;
+          throw err;
+        }
+        throw new Error(`GitHub API returned status ${response.status}: ${response.statusText}`);
+      }
+
+      const items = await response.json();
+      const files = [];
+
+      // Sort: Folders first, then files alphabetically
+      items.sort((a, b) => {
+        if (a.type === b.type) return a.name.localeCompare(b.name);
+        return a.type === 'dir' ? -1 : 1;
+      });
+
+      for (const item of items) {
+        if (item.type === 'dir') {
+          if (updateTextFn) {
+            updateTextFn(`Scanning folder: ${item.path}...`);
+          }
+          // Recursively fetch children
+          const children = await scanFolderRecursive(item.path, token, updateTextFn);
+          files.push({
+            name: item.name,
+            path: item.path,
+            type: 'dir',
+            children: children
+          });
+        } else if (item.type === 'file') {
+          files.push({
+            name: item.name,
+            path: item.path,
+            type: 'file',
+            size: item.size,
+            downloadUrl: item.download_url
+          });
+        }
+      }
+
+      return files;
+    }
+
+    // Wrapper to perform scan and handle loading/error states
+    async function scanRepository() {
+      const loader = document.getElementById('sidebar-loading');
+      const errorDiv = document.getElementById('sidebar-error');
+      const treeList = document.getElementById('tree-list');
+      const countLabel = document.getElementById('file-count');
+      const loadingText = document.getElementById('loading-status-text');
+
+      clearInterval(rateLimitTimerInterval);
+      document.getElementById('rate-limit-reset-container').style.display = 'none';
+
+      loader.style.display = 'flex';
+      errorDiv.style.display = 'none';
+      treeList.style.display = 'none';
+      countLabel.textContent = 'Scanning...';
+      loadingText.textContent = 'Initializing scan...';
+
+      const token = getStoredToken();
+
+      try {
+        // Try getting cached tree first
+        let tree = getCachedTree();
+        if (!tree) {
+          tree = await scanFolderRecursive('', token, (statusText) => {
+            loadingText.textContent = statusText;
+          });
+          saveTreeToCache(tree);
+        }
+
+        repoTree = tree;
+        
+        // Show success state
+        loader.style.display = 'none';
+        treeList.style.display = 'block';
+        
+        // Expand top level folder by default if there's any
+        if (repoTree.length > 0) {
+          for (const node of repoTree) {
+            if (node.type === 'dir') {
+              expandedFolders.add(node.path);
+            }
+          }
+        }
+
+        const totalFiles = totalFilesInTree(repoTree);
+        countLabel.textContent = `${totalFiles} file${totalFiles === 1 ? '' : 's'} loaded`;
+
+        // Render Tree
+        renderTreeHTML();
+
+        // Handle URL Hash Router (open file on load if specified)
+        handleUrlRouting();
+
+      } catch (err) {
+        loader.style.display = 'none';
+        errorDiv.style.display = 'flex';
+        countLabel.textContent = 'Error';
+        
+        const titleText = document.getElementById('error-title-text');
+        const msgText = document.getElementById('error-message-text');
+
+        if (err.status === 403) {
+          titleText.textContent = 'Rate Limit Reached';
+          msgText.textContent = 'You have exceeded GitHub\'s anonymous rate limit. Please configure an API token.';
+          
+          const resetTime = err.resetTime;
+          document.getElementById('rate-limit-reset-container').style.display = 'block';
+          
+          // Start countdown timer
+          updateRateLimitTimer(resetTime);
+          rateLimitTimerInterval = setInterval(() => {
+            updateRateLimitTimer(resetTime);
+          }, 1000);
+        } else {
+          titleText.textContent = 'Failed to Scan Directory';
+          msgText.textContent = err.message || 'Check your internet connection or verify the repository setup.';
+        }
+      }
+    }
+
+    // Rate Limit Timer Countdown
+    function updateRateLimitTimer(resetTimestamp) {
+      const distance = resetTimestamp - Date.now();
+      const timerSpan = document.getElementById('rate-limit-timer');
+      
+      if (distance < 0) {
+        timerSpan.textContent = 'Ready';
+        clearInterval(rateLimitTimerInterval);
+        document.getElementById('rate-limit-reset-container').style.display = 'none';
+        return;
+      }
+      
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      timerSpan.textContent = `${minutes}m ${seconds}s`;
+    }
+
+    // Highlights matching text for search
+    function highlightSearchText(text, query) {
+      if (!query) return text;
+      const index = text.toLowerCase().indexOf(query.toLowerCase());
+      if (index === -1) return text;
+      const len = query.length;
+      return text.substring(0, index) + 
+             '<mark class="highlight">' + text.substring(index, index + len) + '</mark>' + 
+             text.substring(index + len);
+    }
+
+    // Post-order traversal to flag visible nodes matching search query
+    function applyFilterToTree(nodes, query) {
+      let containsVisible = false;
+      const lowerQuery = query.toLowerCase();
+
+      for (const node of nodes) {
+        if (node.type === 'dir') {
+          const childrenVisible = applyFilterToTree(node.children || [], query);
+          const folderMatches = node.name.toLowerCase().includes(lowerQuery);
+          node.visible = folderMatches || childrenVisible;
+          
+          if (node.visible) {
+            containsVisible = true;
+            // Auto-expand folder to show matches
+            if (query !== '') {
+              expandedFolders.add(node.path);
+            }
+          }
+        } else {
+          // File node matches if query is in name or file path
+          node.visible = node.name.toLowerCase().includes(lowerQuery) || node.path.toLowerCase().includes(lowerQuery);
+          if (node.visible) {
+            containsVisible = true;
+          }
+        }
+      }
+      return containsVisible;
+    }
+
+    // Renders the repository tree to DOM
+    function renderTreeHTML() {
+      const treeListEl = document.getElementById('tree-list');
+      treeListEl.innerHTML = '';
+
+      if (repoTree.length === 0) {
+        treeListEl.innerHTML = '<li class="tree-empty-message">No folders or files found.</li>';
+        return;
+      }
+
+      // Filter tree if search query is active
+      if (currentSearchQuery !== '') {
+        applyFilterToTree(repoTree, currentSearchQuery);
+      } else {
+        // Reset visibility to true when query is empty
+        const makeAllVisible = (nodes) => {
+          for (const n of nodes) {
+            n.visible = true;
+            if (n.children) makeAllVisible(n.children);
+          }
+        };
+        makeAllVisible(repoTree);
+      }
+
+      const buildHTMLNodes = (nodes, parentContainer) => {
+        const ul = document.createElement('ul');
+        ul.className = 'tree-node-list';
+        let renderedCount = 0;
+
+        for (const node of nodes) {
+          if (currentSearchQuery !== '' && !node.visible) continue;
+          
+          renderedCount++;
+          const li = document.createElement('li');
+          li.className = `tree-node-item ${node.type}-node`;
+          
+          const contentDiv = document.createElement('div');
+          contentDiv.className = `node-content ${node.type}-content`;
+          if (selectedNodePath === node.path) {
+            contentDiv.classList.add('active');
+          }
+          contentDiv.setAttribute('data-path', node.path);
+
+          if (node.type === 'dir') {
+            const chevron = document.createElement('i');
+            chevron.className = 'chevron-icon';
+            chevron.setAttribute('data-lucide', 'chevron-right');
+
+            const folderIcon = document.createElement('i');
+            folderIcon.className = 'folder-icon';
+            folderIcon.setAttribute('data-lucide', 'folder');
+
+            const label = document.createElement('span');
+            label.className = 'node-label';
+            label.innerHTML = highlightSearchText(node.name, currentSearchQuery);
+
+            const badge = document.createElement('span');
+            badge.className = 'folder-badge';
+            badge.textContent = countFiles(node);
+
+            contentDiv.appendChild(chevron);
+            contentDiv.appendChild(folderIcon);
+            contentDiv.appendChild(label);
+            contentDiv.appendChild(badge);
+
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'node-children';
+
+            const isExpanded = expandedFolders.has(node.path);
+            if (isExpanded) {
+              li.classList.add('expanded');
+              childrenContainer.style.display = 'block';
+            } else {
+              childrenContainer.style.display = 'none';
+            }
+
+            contentDiv.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const expanded = li.classList.toggle('expanded');
+              if (expanded) {
+                childrenContainer.style.display = 'block';
+                expandedFolders.add(node.path);
+              } else {
+                childrenContainer.style.display = 'none';
+                expandedFolders.delete(node.path);
+              }
+            });
+
+            li.appendChild(contentDiv);
+            li.appendChild(childrenContainer);
+            
+            buildHTMLNodes(node.children || [], childrenContainer);
+
+          } else {
+            // File Node
+            const fileIcon = document.createElement('i');
+            fileIcon.className = 'file-icon';
+            const ext = getFileExtension(node.name);
+            fileIcon.setAttribute('data-lucide', getIconForExtension(ext));
+
+            const label = document.createElement('span');
+            label.className = 'node-label';
+            label.innerHTML = highlightSearchText(node.name, currentSearchQuery);
+
+            const link = document.createElement('a');
+            link.href = node.path; // Relative Github pages path!
+            link.className = 'file-link-wrapper';
+            
+            // Handle file navigation click
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              selectFile(node);
+            });
+
+            link.appendChild(fileIcon);
+            link.appendChild(label);
+            contentDiv.appendChild(link);
+            li.appendChild(contentDiv);
+          }
+
+          ul.appendChild(li);
+        }
+
+        if (renderedCount > 0) {
+          parentContainer.appendChild(ul);
+        } else if (parentContainer === treeListEl) {
+          treeListEl.innerHTML = '<li class="tree-empty-message">No matching files found.</li>';
+        }
+      };
+
+      buildHTMLNodes(repoTree, treeListEl);
+      lucide.createIcons();
+    }
+
+    // Selects and displays a file in the preview pane
+    async function selectFile(node) {
+      selectedNodePath = node.path;
+      
+      // Update browser history hash
+      window.location.hash = '#' + encodeURIComponent(node.path);
+
+      // Render tree to reflect updated active file highlight
+      const activeElements = document.querySelectorAll('.node-content.active');
+      activeElements.forEach(el => el.classList.remove('active'));
+      const targetEl = document.querySelector(`.node-content[data-path="${CSS.escape(node.path)}"]`);
+      if (targetEl) {
+        targetEl.classList.add('active');
+      }
+
+      // Elements
+      const welcomeView = document.getElementById('empty-preview');
+      const loaderView = document.getElementById('loading-preview');
+      const previewContainer = document.getElementById('preview-container');
+      const markdownContainer = document.getElementById('markdown-container');
+      const codeContainer = document.getElementById('code-container');
+      const iframePreview = document.getElementById('iframe-preview');
+      const unsupportedContainer = document.getElementById('unsupported-container');
+
+      // Header details
+      document.getElementById('preview-file-name').textContent = node.name;
+      document.getElementById('preview-file-path').textContent = node.path;
+      document.getElementById('preview-file-size').textContent = formatBytes(node.size);
+      
+      // Raw content link
+      document.getElementById('preview-raw-btn').href = `https://raw.githubusercontent.com/${owner}/${repo}/main/${node.path}`;
+      
+      // Click open file button redirects directly to correct relative Pages path
+      const openBtn = document.getElementById('preview-open-btn');
+      openBtn.href = node.path;
+      openBtn.target = '_blank';
+
+      // Hide all content preview types
+      markdownContainer.style.display = 'none';
+      codeContainer.style.display = 'none';
+      iframePreview.style.display = 'none';
+      unsupportedContainer.style.display = 'none';
+
+      // Show loader
+      welcomeView.style.display = 'none';
+      loaderView.style.display = 'flex';
+      previewContainer.style.display = 'block';
+
+      // Slide preview pane in on mobile
+      document.getElementById('app-wrapper').classList.add('preview-active');
+
+      const ext = getFileExtension(node.name);
+
+      try {
+        if (ext === 'html' || ext === 'htm') {
+          // Renders inside IFrame pointing directly to relative path on Pages
+          iframePreview.src = node.path;
+          iframePreview.style.display = 'block';
+          
+          iframePreview.onload = () => {
+            loaderView.style.display = 'none';
+          };
+        } else if (ext === 'pdf') {
+          // Render pdf in iframe natively
+          iframePreview.src = node.path;
+          iframePreview.style.display = 'block';
+          
+          iframePreview.onload = () => {
+            loaderView.style.display = 'none';
+          };
+        } else if (ext === 'md') {
+          // Fetch relative file content to render Markdown
+          const response = await fetch(node.path);
+          if (!response.ok) throw new Error(`Fetch error: ${response.statusText}`);
+          const text = await response.text();
+          
+          markdownContainer.innerHTML = marked.parse(text);
+          markdownContainer.style.display = 'block';
+          loaderView.style.display = 'none';
+          
+          // Optional: Highlight code snippets inside markdown using Prism
+          markdownContainer.querySelectorAll('pre code').forEach((el) => {
+            Prism.highlightElement(el);
+          });
+        } else if (ext === 'java' || ext === 'txt' || ext === 'js' || ext === 'ts' || ext === 'json' || ext === 'css' || ext === 'py' || ext === 'sh' || ext === 'xml' || ext === 'yaml' || ext === 'yml') {
+          // Fetch relative file content to render code
+          const response = await fetch(node.path);
+          if (!response.ok) throw new Error(`Fetch error: ${response.statusText}`);
+          const text = await response.text();
+          
+          const codeBlock = document.getElementById('code-block');
+          codeBlock.className = `language-${getPrismLanguage(ext)}`;
+          codeBlock.textContent = text;
+          
+          codeContainer.style.display = 'block';
+          Prism.highlightElement(codeBlock);
+          
+          loaderView.style.display = 'none';
+        } else {
+          // Fallback unsupported types (e.g. binaries, images)
+          document.getElementById('preview-download-btn').href = node.path;
+          unsupportedContainer.style.display = 'flex';
+          loaderView.style.display = 'none';
+        }
+      } catch (err) {
+        console.error("Failed to load file preview", err);
+        // Fail over to unsupported preview screen with open raw links
+        document.getElementById('preview-download-btn').href = node.path;
+        unsupportedContainer.style.display = 'flex';
+        loaderView.style.display = 'none';
+      }
+
+      lucide.createIcons();
+    }
+
+    // Find node path recursively and add parents to expanded set
+    function findNodeAndExpand(nodes, targetPath, parents = []) {
+      for (const node of nodes) {
+        if (node.path === targetPath) {
+          // Add all historical folder parents to expanded set
+          for (const p of parents) {
+            expandedFolders.add(p);
+          }
+          return node;
+        }
+        if (node.type === 'dir' && node.children) {
+          const found = findNodeAndExpand(node.children, targetPath, [...parents, node.path]);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+
+    // Handles Routing from browser URL hashes
+    function handleUrlRouting() {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#')) {
+        const path = decodeURIComponent(hash.substring(1));
+        if (path) {
+          const node = findNodeAndExpand(repoTree, path);
+          if (node && node.type === 'file') {
+            // Re-render tree to display newly expanded folders
+            renderTreeHTML();
+            selectFile(node);
+          }
+        }
+      }
+    }
+
+    // Expand all folders helper
+    function expandAllFolders(nodes) {
+      for (const node of nodes) {
+        if (node.type === 'dir') {
+          expandedFolders.add(node.path);
+          if (node.children) {
+            expandAllFolders(node.children);
+          }
+        }
+      }
+    }
+
+    // Debounce wrapper
+    function debounce(func, timeout = 150) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Theme toggling
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+      });
+
+      // Load preferred theme
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+
+      // Search field input change
+      const searchInput = document.getElementById('search-input');
+      const clearSearchBtn = document.getElementById('clear-search-btn');
+
+      const processSearch = debounce((val) => {
+        currentSearchQuery = val;
+        if (val) {
+          clearSearchBtn.style.display = 'flex';
+        } else {
+          clearSearchBtn.style.display = 'none';
+        }
+        renderTreeHTML();
+      });
+
+      searchInput.addEventListener('input', (e) => {
+        processSearch(e.target.value.trim());
+      });
+
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        processSearch('');
+      });
+
+      // Expand / Collapse Buttons
+      document.getElementById('expand-all-btn').addEventListener('click', () => {
+        expandAllFolders(repoTree);
+        renderTreeHTML();
+      });
+
+      document.getElementById('collapse-all-btn').addEventListener('click', () => {
+        expandedFolders.clear();
+        renderTreeHTML();
+      });
+
+      // Re-scan button
+      document.getElementById('refresh-btn').addEventListener('click', () => {
+        clearCachedTree();
+        scanRepository();
+      });
+
+      // Retry button inside error screen
+      document.getElementById('error-retry-btn').addEventListener('click', () => {
+        scanRepository();
+      });
+
+      // Mobile Back button to slide sidebar back
+      document.getElementById('preview-back-btn').addEventListener('click', () => {
+        document.getElementById('app-wrapper').classList.remove('preview-active');
+        // Clear active selection states and clear URL hash
+        selectedNodePath = null;
+        window.location.hash = '';
+        const activeElements = document.querySelectorAll('.node-content.active');
+        activeElements.forEach(el => el.classList.remove('active'));
+      });
+
+      // Modal Settings Window toggles
+      const tokenModal = document.getElementById('token-modal');
+      const tokenInput = document.getElementById('token-input');
+      
+      document.getElementById('token-btn').addEventListener('click', () => {
+        updateTokenModalUI();
+        tokenModal.classList.add('open');
+      });
+
+      document.getElementById('close-modal-btn').addEventListener('click', () => {
+        tokenModal.classList.remove('open');
+      });
+
+      tokenModal.addEventListener('click', (e) => {
+        if (e.target === tokenModal) {
+          tokenModal.classList.remove('open');
+        }
+      });
+
+      // Save Token Action
+      document.getElementById('save-token-btn').addEventListener('click', () => {
+        const val = tokenInput.value.trim();
+        if (val) {
+          localStorage.setItem('github_pat', val);
+          tokenInput.value = '';
+          tokenModal.classList.remove('open');
+          clearCachedTree();
+          scanRepository();
+        }
+      });
+
+      // Delete Token Action
+      document.getElementById('delete-token-btn').addEventListener('click', () => {
+        localStorage.removeItem('github_pat');
+        tokenModal.classList.remove('open');
+        clearCachedTree();
+        scanRepository();
+      });
+
+      // Listen for window hash changes (forward/backward browser navigation)
+      window.addEventListener('hashchange', handleUrlRouting);
+    }
+
+    // App Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      setupEventListeners();
+      scanRepository();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
