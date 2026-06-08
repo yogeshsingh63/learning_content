@@ -1,4 +1,4 @@
-# Part 5: Java Collections Framework — Complete Mastery Guide
+# Part 3: Java Collections Framework — Complete Mastery Guide
 ### Internals, Complexity, Thread Safety, C++ STL Comparisons | Backend SDE Interview Handbook
 
 ---
@@ -1634,5 +1634,5 @@ Need thread-safe list? → CopyOnWriteArrayList (read-heavy)
 
 ---
 
-*End of Part 5: Java Collections Framework*
-*Next: Part 6 (Java Multithreading & Concurrency)*
+*End of Part 3: Java Collections Framework*
+*Next: Part 4 (Java Multithreading & Concurrency)*

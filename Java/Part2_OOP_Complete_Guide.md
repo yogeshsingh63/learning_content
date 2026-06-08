@@ -1,4 +1,4 @@
-# Part 3: Object-Oriented Programming — Complete Mastery Guide
+# Part 2: Object-Oriented Programming — Complete Mastery Guide
 ### C++ vs Java | From First Principles | Backend SDE Interview Handbook
 
 ---
@@ -2341,5 +2341,5 @@ class JSONExporter extends DataExporter {
 
 ---
 
-*End of Part 3: Object-Oriented Programming*
-*Next: Part 5 (Java Collections Framework)*
+*End of Part 2: Object-Oriented Programming*
+*Next: Part 3 (Java Collections Framework)*
