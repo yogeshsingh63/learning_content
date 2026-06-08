@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Multithreading & Concurrency — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">Java Multithreading & Concurrency</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Multithreading</span>
+                </div>
+                <div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+                <h1>Part 6: Java Multithreading &amp; Concurrency — Complete Mastery Guide</h1>
+<h3>From Thread Lifecycle to CompletableFuture | JVM Internals | Backend SDE Interview Handbook</h3>
+<hr />
+<blockquote>
+<p><strong>How to use this document:</strong> Every topic follows: Theory → Internal Working → Code → Common Mistakes → Interview Questions. Read sequentially for full depth.</p>
+</blockquote>
+<hr />
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#1-processes-vs-threads">Processes vs Threads</a></li>
+<li><a href="#2-java-thread-lifecycle">Java Thread Lifecycle</a></li>
+<li><a href="#3-creating-threads-all-four-ways">Creating Threads: All Four Ways</a></li>
+<li><a href="#4-synchronization--intrinsic-locks">Synchronization &amp; Intrinsic Locks</a></li>
+<li><a href="#5-the-volatile-keyword">The volatile Keyword</a></li>
+<li><a href="#6-reentrant-locks--conditions">Reentrant Locks &amp; Conditions</a></li>
+<li><a href="#7-deadlock-starvation-livelock">Deadlock, Starvation, Livelock</a></li>
+<li><a href="#8-atomic-classes">Atomic Classes</a></li>
+<li><a href="#9-thread-pools--executors-framework">Thread Pools &amp; Executors Framework</a></li>
+<li><a href="#10-callable-future-and-completablefuture">Callable, Future, and CompletableFuture</a></li>
+<li><a href="#11-forkjoin-pool">Fork/Join Pool</a></li>
+<li><a href="#12-concurrent-collections">Concurrent Collections</a></li>
+<li><a href="#13-java-memory-model--happens-before">Java Memory Model &amp; Happens-Before</a></li>
+<li><a href="#14-producer-consumer-pattern">Producer-Consumer Pattern</a></li>
+<li><a href="#15-common-concurrency-patterns">Common Concurrency Patterns</a></li>
+<li><a href="#16-interview-quick-reference">Interview Quick Reference</a></li>
+</ol>
+<hr />
+<h1>1. Processes vs Threads</h1>
+<h2>Theory</h2>
+<p>A <strong>process</strong> is an independent program in execution — it has its own memory space (heap, stack, code, data segments), file handles, and OS resources. Processes are isolated from each other; one crashing doesn't kill another.</p>
+<p>A <strong>thread</strong> is the smallest unit of execution <em>within</em> a process. Multiple threads share the same process memory (heap, code, static data) but each has its own stack and program counter.</p>
+<pre><code>Process (JVM instance)
+┌──────────────────────────────────────────────────────────────┐
+│                      SHARED MEMORY                          │
+│   Heap: all objects, class instances                        │
+│   Metaspace: class metadata, static fields                  │
+│   Code: compiled bytecode / JIT native code                 │
+│                                                             │
+│  Thread 1          Thread 2          Thread 3              │
+│  ┌──────────┐      ┌──────────┐      ┌──────────┐          │
+│  │ Stack    │      │ Stack    │      │ Stack    │          │
+│  │ PC Reg   │      │ PC Reg   │      │ PC Reg   │          │
+│  │ (private)│      │ (private)│      │ (private)│          │
+│  └──────────┘      └──────────┘      └──────────┘          │
+└──────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2>Why Threads?</h2>
+<ul>
+<li><strong>Concurrency:</strong> Do multiple things at once (handle multiple HTTP requests simultaneously)</li>
+<li><strong>Parallelism:</strong> Use multiple CPU cores for computation (parallel sort, map-reduce)</li>
+<li><strong>Responsiveness:</strong> Keep UI thread alive while background work happens</li>
+<li><strong>Resource sharing:</strong> Threads share memory — cheaper than inter-process communication</li>
+</ul>
+<h2>Thread vs Process</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Process</th>
+<th>Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory</td>
+<td>Own private address space</td>
+<td>Shared with other threads in process</td>
+</tr>
+<tr>
+<td>Creation cost</td>
+<td>High (fork, allocate memory)</td>
+<td>Low (just a stack + registers)</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>IPC (pipes, sockets, shared memory)</td>
+<td>Direct — shared heap variables</td>
+</tr>
+<tr>
+<td>Crash isolation</td>
+<td>Crash doesn't affect other processes</td>
+<td>Crash can kill entire process</td>
+</tr>
+<tr>
+<td>Context switch</td>
+<td>Expensive (MMU TLB flush)</td>
+<td>Cheaper (same address space)</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Two JVM instances</td>
+<td>Multiple request handler threads in Spring</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>2. Java Thread Lifecycle</h1>
+<h2>The Six States</h2>
+<pre><code class="language-java">public enum Thread.State {
+    NEW,           // Thread object created, start() not yet called
+    RUNNABLE,      // Running or ready to run (waiting for CPU)
+    BLOCKED,       // Waiting to acquire a monitor lock (synchronized block)
+    WAITING,       // Waiting indefinitely (wait(), join(), park())
+    TIMED_WAITING, // Waiting with timeout (sleep(), wait(ms), join(ms))
+    TERMINATED     // run() method completed or threw uncaught exception
+}
+</code></pre>
+<h2>State Transition Diagram</h2>
+<pre><code>                        start()
+     NEW ─────────────────────────────► RUNNABLE
+                                        │    ▲
+                   synchronized block   │    │ lock acquired
+                   (lock unavailable)   ▼    │
+                              BLOCKED ──┘
+                                        │
+              wait() / join() / park()  │
+                                        ▼
+                               WAITING ─┐
+                                        │ notify() / notifyAll()
+                                        │ join target finishes
+                                        │ unpark()
+                                        ▼
+         sleep(ms) / wait(ms)   TIMED_WAITING
+                                        │
+                                        │ timeout expires / interrupt()
+                                        ▼
+                                   RUNNABLE
+                                        │
+                     run() completes    │
+                     or exception       ▼
+                                  TERMINATED
+</code></pre>
+<h2>Key State Transitions</h2>
+<pre><code class="language-java">// NEW → RUNNABLE
+Thread t = new Thread(() -&gt; System.out.println(&quot;running&quot;));
+// t is NEW
+t.start();
+// t is RUNNABLE
+
+// RUNNABLE → TIMED_WAITING
+Thread.sleep(1000);  // current thread sleeps 1 second
+
+// RUNNABLE → WAITING
+Object lock = new Object();
+synchronized (lock) {
+    lock.wait();       // releases lock, enters WAITING
+    // re-acquires lock when notified
+}
+
+// RUNNABLE → BLOCKED
+synchronized (sharedObject) {  // if another thread holds this lock → BLOCKED
+    // do work
+}
+
+// WAITING → RUNNABLE (via notification)
+synchronized (lock) {
+    lock.notify();     // wake one thread in WAITING on this object
+    lock.notifyAll();  // wake all threads in WAITING on this object
+}
+</code></pre>
+<h2>Thread Priority</h2>
+<pre><code class="language-java">Thread t = new Thread(() -&gt; { });
+t.setPriority(Thread.MIN_PRIORITY);   // 1
+t.setPriority(Thread.NORM_PRIORITY);  // 5 (default)
+t.setPriority(Thread.MAX_PRIORITY);   // 10
+
+// Priority is a HINT to the scheduler, not a guarantee
+// OS thread schedulers may ignore it entirely
+</code></pre>
+<h2>Daemon Threads</h2>
+<pre><code class="language-java">Thread daemon = new Thread(() -&gt; {
+    while (true) { /* background cleanup */ }
+});
+daemon.setDaemon(true);   // MUST be set before start()
+daemon.start();
+
+// JVM exits when ALL non-daemon threads finish
+// Daemon threads are killed automatically when JVM exits
+// Use for: GC, background monitoring, cleanup tasks
+</code></pre>
+<hr />
+<h1>3. Creating Threads: All Four Ways</h1>
+<h2>Way 1: Extend Thread</h2>
+<pre><code class="language-java">class MyThread extends Thread {
+    private String taskName;
+
+    MyThread(String taskName) {
+        this.taskName = taskName;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(taskName + &quot; running on: &quot; + Thread.currentThread().getName());
+    }
+}
+
+// Usage:
+MyThread t1 = new MyThread(&quot;Task-A&quot;);
+MyThread t2 = new MyThread(&quot;Task-B&quot;);
+t1.start();   // creates new OS thread and calls run()
+t2.start();
+
+// t1.run();  // WRONG — runs in current thread, no new thread created!
+</code></pre>
+<p><strong>Downside:</strong> Java only allows single class inheritance. If your class already extends something, you can't extend Thread.</p>
+<h2>Way 2: Implement Runnable</h2>
+<pre><code class="language-java">class MyTask implements Runnable {
+    private String name;
+
+    MyTask(String name) { this.name = name; }
+
+    @Override
+    public void run() {
+        System.out.println(name + &quot; running on: &quot; + Thread.currentThread().getName());
+    }
+}
+
+// Usage:
+Thread t1 = new Thread(new MyTask(&quot;Task-A&quot;));
+Thread t2 = new Thread(new MyTask(&quot;Task-B&quot;));
+t1.start();
+t2.start();
+
+// Lambda (since Runnable is a functional interface):
+Thread t3 = new Thread(() -&gt; System.out.println(&quot;Lambda task&quot;));
+t3.start();
+</code></pre>
+<p><strong>Preferred over extending Thread</strong> — separates the task from the thread mechanism, allows reuse with ExecutorService.</p>
+<h2>Way 3: Implement Callable (returns a result)</h2>
+<pre><code class="language-java">import java.util.concurrent.*;
+
+class ComputeTask implements Callable&lt;Integer&gt; {
+    private int n;
+
+    ComputeTask(int n) { this.n = n; }
+
+    @Override
+    public Integer call() throws Exception {
+        // Unlike run(), call() can return a value AND throw checked exceptions
+        int result = 0;
+        for (int i = 1; i &lt;= n; i++) result += i;
+        return result;
+    }
+}
+
+// Usage with ExecutorService:
+ExecutorService executor = Executors.newSingleThreadExecutor();
+Future&lt;Integer&gt; future = executor.submit(new ComputeTask(100));
+
+// Do other work here while ComputeTask runs in parallel...
+
+Integer result = future.get();   // blocks until result is ready
+System.out.println(&quot;Sum = &quot; + result);  // 5050
+executor.shutdown();
+</code></pre>
+<p><strong>Key difference from Runnable:</strong> <code>call()</code> can return a value and throw checked exceptions. <code>run()</code> returns void and can't throw checked exceptions.</p>
+<h2>Way 4: ExecutorService + Thread Pools (Production Approach)</h2>
+<pre><code class="language-java">// Never create raw threads in production — use thread pools
+ExecutorService pool = Executors.newFixedThreadPool(4);
+
+for (int i = 0; i &lt; 10; i++) {
+    final int taskId = i;
+    pool.submit(() -&gt; {
+        System.out.println(&quot;Task &quot; + taskId + &quot; on &quot; + Thread.currentThread().getName());
+    });
+}
+
+pool.shutdown();             // no new tasks accepted
+pool.awaitTermination(30, TimeUnit.SECONDS);  // wait for all tasks
+</code></pre>
+<p>Full details in the Executors section.</p>
+<h2>Thread Methods Reference</h2>
+<pre><code class="language-java">Thread t = new Thread(() -&gt; { });
+
+t.start();              // start the thread (NEW → RUNNABLE)
+t.join();               // wait for t to finish (blocks current thread)
+t.join(1000);           // wait at most 1 second
+t.interrupt();          // set interrupt flag (doesn't kill thread — just signals)
+t.isAlive();            // true if thread has started and not terminated
+t.getName();            // &quot;Thread-0&quot; etc.
+t.setName(&quot;worker-1&quot;);
+Thread.currentThread(); // get reference to current running thread
+Thread.sleep(500);      // sleep 500ms (throws InterruptedException)
+Thread.yield();         // hint to scheduler to let other threads run
+</code></pre>
+<h3>Handling InterruptedException</h3>
+<pre><code class="language-java">// Interruption is cooperative — you must CHECK and RESPOND to it
+thread.interrupt();   // sets the interrupt flag
+
+// In the thread's code:
+void run() {
+    while (!Thread.currentThread().isInterrupted()) {
+        try {
+            Thread.sleep(100);   // throws InterruptedException if interrupted
+            doWork();
+        } catch (InterruptedException e) {
+            // IMPORTANT: sleep() clears the interrupt flag when it throws
+            // Restore the flag so callers can detect it:
+            Thread.currentThread().interrupt();
+            break;   // or return — clean shutdown
+        }
+    }
+}
+</code></pre>
+<hr />
+<h1>4. Synchronization &amp; Intrinsic Locks</h1>
+<h2>The Race Condition Problem</h2>
+<pre><code class="language-java">class Counter {
+    private int count = 0;
+
+    public void increment() {
+        count++;   // looks atomic but is NOT!
+    }
+    // count++ compiles to:
+    //   1. READ  count from memory → register
+    //   2. ADD   1 to register
+    //   3. WRITE register back to memory
+    // Two threads can interleave these steps!
+}
+
+Counter counter = new Counter();
+
+// Thread 1: reads count=0, adds 1, prepares to write 1
+// Thread 2: reads count=0 (hasn't seen Thread 1's write yet!), adds 1, writes 1
+// Thread 1: writes 1
+// FINAL count = 1, but we did 2 increments! LOST UPDATE
+</code></pre>
+<h2>synchronized keyword — Intrinsic Lock (Monitor)</h2>
+<p>Every Java object has a hidden <strong>monitor lock</strong> (intrinsic lock). <code>synchronized</code> acquires that lock before executing and releases it after:</p>
+<pre><code class="language-java">class SafeCounter {
+    private int count = 0;
+
+    // Synchronized METHOD — locks on 'this' object
+    public synchronized void increment() {
+        count++;   // now atomic — only one thread at a time
+    }
+
+    public synchronized int getCount() {
+        return count;
+    }
+
+    // Synchronized BLOCK — finer-grained control
+    public void incrementBlock() {
+        // do non-critical work here (no lock held)
+        synchronized (this) {    // lock only for critical section
+            count++;
+        }
+        // lock released, other work here (no lock held)
+    }
+
+    // Static synchronized — locks on Class object (not instance)
+    public static synchronized void staticMethod() {
+        // locks Counter.class object
+    }
+}
+</code></pre>
+<h2>How Intrinsic Locks Work Internally</h2>
+<pre><code>Object Monitor:
+┌────────────────────────────────────────────┐
+│  Owner: Thread-1 (currently holds lock)    │
+│  Entry Set: [Thread-2, Thread-3]           │  ← threads competing for lock (BLOCKED)
+│  Wait Set:  [Thread-4]                     │  ← threads that called wait() (WAITING)
+└────────────────────────────────────────────┘
+
+Thread-1 calls synchronized → enters monitor → becomes Owner
+Thread-2 tries synchronized → lock held → joins Entry Set (BLOCKED)
+Thread-1 calls wait() → releases lock → moves to Wait Set (WAITING)
+Thread-3 gets lock → becomes Owner
+Thread-3 calls notify() → moves Thread-4 from Wait Set → Entry Set
+Thread-3 exits synchronized → releases lock
+Thread-4 (or Thread-2) acquires lock → becomes Owner
+</code></pre>
+<h2>wait(), notify(), notifyAll()</h2>
+<p>These MUST be called from within a <code>synchronized</code> block on the same object:</p>
+<pre><code class="language-java">class MessageQueue {
+    private String message = null;
+    private final Object lock = new Object();
+
+    // Called by producer thread
+    public void send(String msg) throws InterruptedException {
+        synchronized (lock) {
+            while (message != null) {      // while — not if (guard against spurious wakeups)
+                lock.wait();               // release lock, wait for consumer to take message
+            }
+            message = msg;
+            lock.notifyAll();              // wake up consumer waiting to receive
+        }
+    }
+
+    // Called by consumer thread
+    public String receive() throws InterruptedException {
+        synchronized (lock) {
+            while (message == null) {      // wait until message available
+                lock.wait();
+            }
+            String msg = message;
+            message = null;
+            lock.notifyAll();              // wake up producer waiting to send
+            return msg;
+        }
+    }
+}
+</code></pre>
+<h3>Why <code>while</code> not <code>if</code> for wait()?</h3>
+<p><strong>Spurious wakeups:</strong> A thread can wake from <code>wait()</code> without <code>notify()</code> being called — this is allowed by the JVM spec and happens on some platforms. Using <code>while</code> re-checks the condition and waits again if it's not actually met.</p>
+<pre><code class="language-java">// WRONG:
+synchronized (lock) {
+    if (queue.isEmpty()) lock.wait();   // could wake up spuriously and proceed on empty queue!
+    process(queue.poll());              // NullPointerException or wrong behavior
+}
+
+// CORRECT:
+synchronized (lock) {
+    while (queue.isEmpty()) lock.wait();  // re-check condition after every wakeup
+    process(queue.poll());
+}
+</code></pre>
+<h2>Reentrancy</h2>
+<p>Java's intrinsic locks are <strong>reentrant</strong> — a thread can re-acquire a lock it already holds:</p>
+<pre><code class="language-java">class ReentrantExample {
+    public synchronized void outer() {
+        System.out.println(&quot;outer&quot;);
+        inner();   // calls synchronized inner() — same thread can re-acquire the lock
+    }
+
+    public synchronized void inner() {
+        System.out.println(&quot;inner&quot;);
+        // Without reentrancy: outer() holds the lock → inner() tries to acquire same lock → DEADLOCK
+        // With reentrancy: same thread re-enters → works fine
+    }
+}
+</code></pre>
+<p>The JVM tracks a lock count per thread-object pair. First acquire: count=1. Re-acquire: count=2. Each <code>synchronized</code> exit decrements; lock released when count=0.</p>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is a race condition?</strong>
+  A: When the outcome of a program depends on the relative timing of threads — multiple threads reading and writing shared data without synchronization, leading to inconsistent results.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between synchronized method and synchronized block?</strong>
+  A: Both acquire the same lock (intrinsic lock of the object). Synchronized method locks the entire method — coarser granularity. Synchronized block locks only the specified section — allows non-critical code to run without holding the lock, improving throughput.</p>
+</li>
+<li>
+<p><strong>Q: Why must wait()/notify() be called inside synchronized?</strong>
+  A: To prevent a race condition between the check-and-wait sequence. If you check a condition, then another thread modifies it before you call wait(), you'd wait forever (missed notification). The synchronized block ensures atomicity of the check-then-wait sequence.</p>
+</li>
+</ul>
+<hr />
+<h1>5. The volatile Keyword</h1>
+<h2>What volatile Guarantees</h2>
+<p><code>volatile</code> provides two guarantees:
+1. <strong>Visibility:</strong> Writes to a volatile variable are immediately visible to all threads (written to main memory, not cached in CPU registers)
+2. <strong>Ordering:</strong> Prevents reordering of instructions across the volatile access (memory barrier)</p>
+<pre><code class="language-java">class StatusFlag {
+    private volatile boolean running = true;   // volatile!
+
+    public void stop() {
+        running = false;   // write goes directly to main memory
+    }
+
+    public void run() {
+        while (running) {         // read always comes from main memory
+            processRequest();
+        }
+        System.out.println(&quot;Stopped cleanly&quot;);
+    }
+}
+</code></pre>
+<p>Without <code>volatile</code>: the JIT might cache <code>running</code> in a CPU register for <code>run()</code>. The stop signal from another thread would never be seen — infinite loop.</p>
+<h2>What volatile Does NOT Guarantee</h2>
+<p><code>volatile</code> does NOT guarantee <strong>atomicity</strong> of compound operations:</p>
+<pre><code class="language-java">private volatile int count = 0;
+
+// STILL NOT THREAD-SAFE even with volatile:
+public void increment() {
+    count++;   // read-modify-write: 3 steps, not atomic
+}
+// Thread 1: reads count=5
+// Thread 2: reads count=5
+// Thread 1: writes count=6
+// Thread 2: writes count=6   ← LOST UPDATE
+</code></pre>
+<p>For atomic compound operations, use <code>synchronized</code> or <code>AtomicInteger</code>.</p>
+<h2>volatile vs synchronized</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>volatile</th>
+<th>synchronized</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visibility</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Atomicity</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>No (never blocks)</td>
+<td>Yes (threads may block)</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Fast</td>
+<td>Slower (lock overhead)</td>
+</tr>
+<tr>
+<td>Use for</td>
+<td>Simple flags, status indicators</td>
+<td>Compound operations, critical sections</td>
+</tr>
+</tbody>
+</table>
+<h2>Typical volatile Use Cases</h2>
+<pre><code class="language-java">// 1. Stop flag for thread
+volatile boolean running = true;
+
+// 2. Singleton double-checked locking (REQUIRES volatile)
+class Singleton {
+    private static volatile Singleton instance;
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();  // volatile ensures safe publication
+                }
+            }
+        }
+        return instance;
+    }
+}
+// Without volatile: JVM may reorder: allocate memory → update reference → initialize
+// Another thread sees non-null but uninitialized object!
+
+// 3. Progress counter (write once, read by many)
+volatile int progress = 0;
+</code></pre>
+<hr />
+<h1>6. Reentrant Locks &amp; Conditions</h1>
+<h2>ReentrantLock — Explicit Lock</h2>
+<p><code>java.util.concurrent.locks.ReentrantLock</code> provides the same semantics as <code>synchronized</code> but with more capabilities:</p>
+<pre><code class="language-java">import java.util.concurrent.locks.*;
+
+class SafeCounter {
+    private int count = 0;
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public void increment() {
+        lock.lock();           // acquire lock (blocks if held by another thread)
+        try {
+            count++;
+        } finally {
+            lock.unlock();     // ALWAYS in finally — ensures release even on exception
+        }
+    }
+
+    public int getCount() {
+        lock.lock();
+        try {
+            return count;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre>
+<h2>ReentrantLock Advantages over synchronized</h2>
+<pre><code class="language-java">// 1. tryLock() — non-blocking attempt
+if (lock.tryLock()) {
+    try {
+        // got the lock, do work
+    } finally {
+        lock.unlock();
+    }
+} else {
+    // lock not available — do something else, don't block
+}
+
+// 2. tryLock with timeout
+if (lock.tryLock(500, TimeUnit.MILLISECONDS)) {
+    // got lock within 500ms
+}
+
+// 3. lockInterruptibly() — can be interrupted while waiting
+try {
+    lock.lockInterruptibly();  // throws InterruptedException if thread interrupted while waiting
+} catch (InterruptedException e) {
+    // handle
+}
+
+// 4. Fairness — FIFO ordering (longest-waiting thread gets lock next)
+ReentrantLock fairLock = new ReentrantLock(true);  // fair mode
+// Default (false) = non-fair: any waiting thread may get the lock
+// Fair is slower but prevents starvation
+
+// 5. Diagnostics
+lock.isLocked();              // true if any thread holds it
+lock.isHeldByCurrentThread(); // true if current thread holds it
+lock.getQueueLength();        // number of threads waiting
+</code></pre>
+<h2>Condition Variables</h2>
+<p><code>Condition</code> is the ReentrantLock equivalent of <code>wait()/notify()</code>:</p>
+<pre><code class="language-java">class BoundedBuffer&lt;T&gt; {
+    private final Queue&lt;T&gt; buffer = new LinkedList&lt;&gt;();
+    private final int capacity;
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notFull  = lock.newCondition();  // producers wait here
+    private final Condition notEmpty = lock.newCondition();  // consumers wait here
+
+    BoundedBuffer(int capacity) { this.capacity = capacity; }
+
+    public void put(T item) throws InterruptedException {
+        lock.lock();
+        try {
+            while (buffer.size() == capacity) {
+                notFull.await();   // wait until not full (releases lock)
+            }
+            buffer.offer(item);
+            notEmpty.signal();     // signal one consumer
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public T take() throws InterruptedException {
+        lock.lock();
+        try {
+            while (buffer.isEmpty()) {
+                notEmpty.await();  // wait until not empty
+            }
+            T item = buffer.poll();
+            notFull.signal();      // signal one producer
+            return item;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre>
+<h3>synchronized vs ReentrantLock Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>synchronized</th>
+<th>ReentrantLock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Syntax</td>
+<td>Built-in keyword</td>
+<td>Explicit lock/unlock</td>
+</tr>
+<tr>
+<td>Reentrancy</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>tryLock (non-blocking)</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Timeout</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Interruptible wait</td>
+<td>No</td>
+<td>Yes (lockInterruptibly)</td>
+</tr>
+<tr>
+<td>Fairness control</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Multiple conditions</td>
+<td>No (one per object)</td>
+<td>Yes (multiple Conditions)</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Good (JVM optimized)</td>
+<td>Similar</td>
+</tr>
+<tr>
+<td>Forgetting to unlock</td>
+<td>Impossible (auto)</td>
+<td>Easy mistake → use try-finally</td>
+</tr>
+</tbody>
+</table>
+<h2>ReadWriteLock</h2>
+<p>When reads are far more frequent than writes, <code>ReentrantReadWriteLock</code> allows concurrent reads:</p>
+<pre><code class="language-java">class CachedData {
+    private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+    private final Lock readLock  = rwLock.readLock();
+    private final Lock writeLock = rwLock.writeLock();
+    private Map&lt;String, String&gt; cache = new HashMap&lt;&gt;();
+
+    public String get(String key) {
+        readLock.lock();    // multiple readers can hold readLock simultaneously
+        try {
+            return cache.get(key);
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    public void put(String key, String value) {
+        writeLock.lock();   // exclusive — blocks all readers AND writers
+        try {
+            cache.put(key, value);
+        } finally {
+            writeLock.unlock();
+        }
+    }
+}
+// Read-heavy workloads: massively improved throughput
+// Write operations still exclusive
+</code></pre>
+<hr />
+<h1>7. Deadlock, Starvation, Livelock</h1>
+<h2>Deadlock</h2>
+<p>Deadlock occurs when two or more threads are each waiting for a lock that the other holds — circular wait:</p>
+<pre><code class="language-java">class DeadlockDemo {
+    private final Object lockA = new Object();
+    private final Object lockB = new Object();
+
+    void method1() {
+        synchronized (lockA) {
+            System.out.println(&quot;Thread 1: holds A, waiting for B&quot;);
+            synchronized (lockB) {   // waiting for B (Thread 2 holds B)
+                System.out.println(&quot;Thread 1: holds A and B&quot;);
+            }
+        }
+    }
+
+    void method2() {
+        synchronized (lockB) {
+            System.out.println(&quot;Thread 2: holds B, waiting for A&quot;);
+            synchronized (lockA) {   // waiting for A (Thread 1 holds A)
+                System.out.println(&quot;Thread 2: holds A and B&quot;);
+            }
+        }
+    }
+}
+
+// Thread 1 calls method1: acquires A, wants B
+// Thread 2 calls method2: acquires B, wants A
+// → DEADLOCK — both wait forever
+</code></pre>
+<pre><code>Deadlock Visualization:
+Thread 1 ──holds──► Lock A ◄──wants── Thread 2
+Thread 1 ──wants──► Lock B ◄──holds── Thread 2
+</code></pre>
+<h3>Four Conditions for Deadlock (Coffman Conditions)</h3>
+<p>All four must hold for deadlock to occur:
+1. <strong>Mutual Exclusion:</strong> Resources held exclusively (locks are mutually exclusive)
+2. <strong>Hold and Wait:</strong> Thread holds one resource while waiting for another
+3. <strong>No Preemption:</strong> Locks can't be forcibly taken
+4. <strong>Circular Wait:</strong> T1 waits for T2's resource, T2 waits for T1's resource</p>
+<h3>Deadlock Prevention Strategies</h3>
+<pre><code class="language-java">// Strategy 1: Lock Ordering — always acquire locks in same order
+// Thread 1 AND Thread 2 both acquire A first, then B
+void method1() {
+    synchronized (lockA) {
+        synchronized (lockB) { doWork(); }
+    }
+}
+void method2() {
+    synchronized (lockA) {   // same order as method1!
+        synchronized (lockB) { doWork(); }
+    }
+}
+
+// Strategy 2: tryLock with timeout
+boolean acquired = false;
+try {
+    if (lockA.tryLock(100, TimeUnit.MILLISECONDS)) {
+        try {
+            if (lockB.tryLock(100, TimeUnit.MILLISECONDS)) {
+                try {
+                    doWork();
+                } finally { lockB.unlock(); }
+            }
+        } finally { lockA.unlock(); }
+    }
+    // If either tryLock fails — back off, retry later
+} catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+
+// Strategy 3: Avoid holding multiple locks simultaneously
+// Refactor design so you never need two locks at once
+</code></pre>
+<h3>Detecting Deadlock</h3>
+<pre><code class="language-java">// Programmatic detection using ThreadMXBean:
+ThreadMXBean tmxb = ManagementFactory.getThreadMXBean();
+long[] deadlockedThreads = tmxb.findDeadlockedThreads();
+if (deadlockedThreads != null) {
+    ThreadInfo[] infos = tmxb.getThreadInfo(deadlockedThreads);
+    for (ThreadInfo info : infos) {
+        System.out.println(info.getThreadName() + &quot; waiting on &quot; + info.getLockName());
+    }
+}
+
+// Also: jstack &lt;pid&gt; in terminal prints thread dump showing deadlocked threads
+</code></pre>
+<h2>Starvation</h2>
+<p>A thread never gets CPU time because higher-priority threads always run first, or a lock is always acquired by other threads first:</p>
+<pre><code class="language-java">// Example: unfair lock — same threads keep getting it
+ReentrantLock fairLock = new ReentrantLock(true);  // fair mode prevents starvation
+// With fair=true, longest-waiting thread gets lock next
+</code></pre>
+<h2>Livelock</h2>
+<p>Threads keep responding to each other's state but make no actual progress — like two people in a hallway both stepping aside in the same direction repeatedly:</p>
+<pre><code class="language-java">// Two threads: each backs off if the other is active, but they back off simultaneously
+class Worker {
+    boolean active = true;
+
+    void cooperate(Worker other) throws InterruptedException {
+        while (active) {
+            if (other.active) {
+                System.out.println(Thread.currentThread().getName() + &quot; backing off&quot;);
+                active = false;
+                Thread.sleep(100);
+                active = true;   // back to active... other is also active again
+            }
+        }
+    }
+}
+// Solution: add randomized backoff so they don't always move simultaneously
+Thread.sleep((long)(Math.random() * 100));
+</code></pre>
+<h2>Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What are the four conditions for a deadlock?</strong>
+  A: Mutual Exclusion (locks are exclusive), Hold and Wait (holding one lock while requesting another), No Preemption (can't forcibly take locks), and Circular Wait (circular dependency between threads and locks). Prevent deadlock by breaking any one of these four conditions.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between deadlock and livelock?</strong>
+  A: In deadlock, threads are completely blocked — no progress, no CPU usage. In livelock, threads are active and consuming CPU but making no actual forward progress — they keep responding to each other and staying in a loop.</p>
+</li>
+</ul>
+<hr />
+<h1>8. Atomic Classes</h1>
+<p>Atomic classes provide <strong>lock-free, thread-safe</strong> operations using CPU-level Compare-And-Swap (CAS) instructions:</p>
+<h2>How CAS Works</h2>
+<pre><code>CAS(memory_location, expected_value, new_value):
+  if (*memory_location == expected_value):
+      *memory_location = new_value
+      return SUCCESS
+  else:
+      return FAILURE (and retry)
+
+This is one ATOMIC CPU instruction — no lock needed!
+</code></pre>
+<h2>AtomicInteger</h2>
+<pre><code class="language-java">import java.util.concurrent.atomic.*;
+
+AtomicInteger count = new AtomicInteger(0);
+
+// Thread-safe operations:
+count.get();                  // read current value
+count.set(10);                // set value
+count.incrementAndGet();      // ++count (returns new value)
+count.getAndIncrement();      // count++ (returns old value)
+count.decrementAndGet();      // --count
+count.addAndGet(5);           // count += 5, returns new value
+count.getAndAdd(5);           // returns old value, then adds 5
+
+// CAS — the core operation:
+count.compareAndSet(10, 20);  // if count==10, set to 20, return true; else return false
+
+// Complex atomic update (Java 8+):
+count.updateAndGet(x -&gt; x * 2);   // atomically: count = count * 2
+count.accumulateAndGet(5, Integer::sum);  // atomically: count += 5
+</code></pre>
+<h2>AtomicLong, AtomicBoolean, AtomicReference</h2>
+<pre><code class="language-java">AtomicLong longVal = new AtomicLong(0L);
+longVal.incrementAndGet();
+
+AtomicBoolean flag = new AtomicBoolean(false);
+flag.compareAndSet(false, true);  // set to true only if currently false
+
+AtomicReference&lt;String&gt; ref = new AtomicReference&lt;&gt;(&quot;initial&quot;);
+ref.compareAndSet(&quot;initial&quot;, &quot;updated&quot;);
+ref.getAndUpdate(s -&gt; s.toUpperCase());
+</code></pre>
+<h2>AtomicInteger vs synchronized vs volatile</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>volatile</th>
+<th>synchronized</th>
+<th>AtomicInteger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visibility</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Atomicity</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>No</td>
+<td>Yes</td>
+<td>No (CAS loop)</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Fastest (read/write only)</td>
+<td>Slower (lock)</td>
+<td>Fast (CAS)</td>
+</tr>
+<tr>
+<td>Use for</td>
+<td>Simple flags</td>
+<td>Complex critical sections</td>
+<td>Counters, references</td>
+</tr>
+</tbody>
+</table>
+<h2>LongAdder — High-Contention Counter</h2>
+<p>When many threads update a counter simultaneously, CAS retries on <code>AtomicLong</code> cause contention. <code>LongAdder</code> uses <strong>cell striping</strong> — each thread updates its own cell, final sum computed when needed:</p>
+<pre><code class="language-java">LongAdder adder = new LongAdder();
+
+// In many threads simultaneously:
+adder.increment();  // no contention — each thread uses its own cell
+adder.add(5);
+
+// Get total:
+long total = adder.sum();  // sums all cells
+
+// LongAdder is preferred over AtomicLong for high-contention counting
+// AtomicLong is better when you need compareAndSet semantics
+</code></pre>
+<hr />
+<h1>9. Thread Pools &amp; Executors Framework</h1>
+<h2>Why Thread Pools?</h2>
+<p>Creating a raw thread for every task is expensive:
+- Thread creation: allocate stack memory (512KB–1MB per thread), JVM setup
+- Context switching overhead increases with more threads
+- Too many threads → thrashing, OOM</p>
+<p>Thread pools maintain a pool of pre-created threads that pick up tasks as they arrive:</p>
+<pre><code>Thread Pool:
+                 Task Queue (BlockingQueue)
+Submitter  ──►  [Task1][Task2][Task3][Task4]
+                         ↓ ↓ ↓
+                 ┌──────────────────────────┐
+                 │ Worker-1: executing Task1│
+                 │ Worker-2: executing Task2│
+                 │ Worker-3: idle           │
+                 │ Worker-4: idle           │
+                 └──────────────────────────┘
+</code></pre>
+<h2>ThreadPoolExecutor — The Core</h2>
+<p>All <code>Executors</code> factory methods create <code>ThreadPoolExecutor</code> underneath:</p>
+<pre><code class="language-java">ThreadPoolExecutor pool = new ThreadPoolExecutor(
+    2,                           // corePoolSize: min threads always alive
+    10,                          // maximumPoolSize: max threads when queue full
+    60L, TimeUnit.SECONDS,       // keepAliveTime: idle threads above core die after this
+    new LinkedBlockingQueue&lt;&gt;(100),  // workQueue: holds tasks when all threads busy
+    new ThreadPoolExecutor.CallerRunsPolicy()  // rejectionPolicy: if queue AND max threads full
+);
+</code></pre>
+<h3>Rejection Policies</h3>
+<pre><code class="language-java">// AbortPolicy (default): throw RejectedExecutionException
+// CallerRunsPolicy: caller thread runs the task (backpressure)
+// DiscardPolicy: silently discard the task
+// DiscardOldestPolicy: discard oldest queued task, retry submission
+</code></pre>
+<h2>Executors Factory Methods</h2>
+<pre><code class="language-java">// 1. Fixed thread pool — N threads, tasks queue up if all busy
+ExecutorService fixed = Executors.newFixedThreadPool(4);
+// Use for: CPU-bound tasks (N = number of CPU cores)
+// int cores = Runtime.getRuntime().availableProcessors();
+
+// 2. Cached thread pool — creates threads as needed, reuses idle ones
+ExecutorService cached = Executors.newCachedThreadPool();
+// Threads idle for 60s are terminated
+// Use for: many short-lived IO-bound tasks
+// WARNING: no upper bound — can create thousands of threads under load!
+
+// 3. Single thread executor — one thread, tasks execute sequentially
+ExecutorService single = Executors.newSingleThreadExecutor();
+// Use for: tasks that must run in order, serialized access to resource
+
+// 4. Scheduled executor — run tasks with delay or periodically
+ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(2);
+scheduled.schedule(() -&gt; System.out.println(&quot;Delayed!&quot;), 5, TimeUnit.SECONDS);
+scheduled.scheduleAtFixedRate(() -&gt; System.out.println(&quot;Every 1s&quot;), 0, 1, TimeUnit.SECONDS);
+scheduled.scheduleWithFixedDelay(() -&gt; cleanup(), 0, 10, TimeUnit.SECONDS);
+// scheduleAtFixedRate: starts next run at fixed interval from PREVIOUS START
+// scheduleWithFixedDelay: waits fixed delay after PREVIOUS COMPLETION
+
+// 5. Work-stealing pool (Java 8+) — ForkJoinPool with parallelism
+ExecutorService workStealing = Executors.newWorkStealingPool();
+// Uses ForkJoinPool internally — good for recursive/parallel tasks
+</code></pre>
+<h2>Submitting Tasks</h2>
+<pre><code class="language-java">ExecutorService pool = Executors.newFixedThreadPool(4);
+
+// submit(Runnable) — returns Future&lt;?&gt; (result is null)
+Future&lt;?&gt; f1 = pool.submit(() -&gt; System.out.println(&quot;runnable task&quot;));
+f1.get();   // blocks until done (returns null)
+
+// submit(Callable) — returns Future&lt;V&gt;
+Future&lt;Integer&gt; f2 = pool.submit(() -&gt; {
+    Thread.sleep(1000);
+    return 42;
+});
+Integer result = f2.get();         // blocks until result ready
+Integer result2 = f2.get(2, TimeUnit.SECONDS); // blocks at most 2s, throws TimeoutException
+
+// execute(Runnable) — no Future returned, can't check completion
+pool.execute(() -&gt; System.out.println(&quot;fire and forget&quot;));
+
+// invokeAll — submit list of Callables, wait for ALL to complete
+List&lt;Callable&lt;Integer&gt;&gt; tasks = List.of(
+    () -&gt; compute(1),
+    () -&gt; compute(2),
+    () -&gt; compute(3)
+);
+List&lt;Future&lt;Integer&gt;&gt; futures = pool.invokeAll(tasks);  // blocks until all done
+for (Future&lt;Integer&gt; f : futures) {
+    System.out.println(f.get());
+}
+
+// invokeAny — submit list, return first result, cancel rest
+Integer firstResult = pool.invokeAny(tasks);  // returns first completed result
+</code></pre>
+<h2>Proper Shutdown</h2>
+<pre><code class="language-java">pool.shutdown();       // stop accepting new tasks, let queued tasks finish
+// OR:
+pool.shutdownNow();    // interrupt running tasks, return unstarted tasks
+
+// Wait for completion:
+try {
+    if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
+        pool.shutdownNow();  // force shutdown if not done in 60s
+    }
+} catch (InterruptedException e) {
+    pool.shutdownNow();
+    Thread.currentThread().interrupt();
+}
+</code></pre>
+<h2>Sizing Thread Pools</h2>
+<pre><code>CPU-Bound Tasks (computation):
+  optimal threads = number of CPU cores
+  int cores = Runtime.getRuntime().availableProcessors();
+  Executors.newFixedThreadPool(cores)
+
+IO-Bound Tasks (network, disk):
+  threads can be many more (while waiting on IO, CPU is free)
+  optimal threads = cores × (1 + wait_time / service_time)
+  e.g., if 80% of time is waiting: 4 cores × (1 + 4) = 20 threads
+</code></pre>
+<hr />
+<h1>10. Callable, Future, and CompletableFuture</h1>
+<h2>Future — Basic Async Result</h2>
+<pre><code class="language-java">ExecutorService pool = Executors.newFixedThreadPool(2);
+
+Future&lt;String&gt; future = pool.submit(() -&gt; {
+    Thread.sleep(2000);  // simulate slow network call
+    return &quot;data from server&quot;;
+});
+
+// Do other work while future is computing...
+System.out.println(&quot;Doing other work...&quot;);
+
+// Block and get result:
+try {
+    String result = future.get(3, TimeUnit.SECONDS);  // wait max 3 seconds
+    System.out.println(&quot;Got: &quot; + result);
+} catch (TimeoutException e) {
+    future.cancel(true);  // cancel task, interrupt if running
+    System.out.println(&quot;Timed out!&quot;);
+} catch (ExecutionException e) {
+    System.out.println(&quot;Task threw exception: &quot; + e.getCause());
+}
+
+future.isDone();       // true if completed (normally, cancelled, or exception)
+future.isCancelled();  // true if cancelled
+</code></pre>
+<h2>Future Limitations</h2>
+<p>Future has several problems in production code:
+- <code>get()</code> blocks — no way to say "call me when done"
+- Can't chain futures — "when A is done, start B"
+- Can't combine — "wait for both A and B"
+- Exception handling is awkward (wrapped in ExecutionException)</p>
+<h2>CompletableFuture — Reactive Async (Java 8+)</h2>
+<p><code>CompletableFuture</code> solves all Future's limitations with a fluent, composable API:</p>
+<pre><code class="language-java">import java.util.concurrent.CompletableFuture;
+
+// 1. Create a CompletableFuture
+CompletableFuture&lt;String&gt; cf = CompletableFuture.supplyAsync(() -&gt; {
+    // runs in ForkJoinPool.commonPool() by default
+    return fetchDataFromServer();
+});
+
+// 2. Transform result when done (non-blocking!)
+CompletableFuture&lt;Integer&gt; length = cf.thenApply(String::length);
+
+// 3. Chain actions
+CompletableFuture&lt;Void&gt; print = cf
+    .thenApply(String::toUpperCase)
+    .thenAccept(System.out::println);  // terminal — returns void
+
+// 4. Chain that returns another async operation
+CompletableFuture&lt;String&gt; chained = cf
+    .thenCompose(data -&gt; CompletableFuture.supplyAsync(() -&gt; process(data)));
+
+// 5. Combine two independent futures when BOTH complete
+CompletableFuture&lt;String&gt; f1 = CompletableFuture.supplyAsync(() -&gt; &quot;Hello&quot;);
+CompletableFuture&lt;String&gt; f2 = CompletableFuture.supplyAsync(() -&gt; &quot;World&quot;);
+CompletableFuture&lt;String&gt; combined = f1.thenCombine(f2, (a, b) -&gt; a + &quot; &quot; + b);
+combined.get();  // &quot;Hello World&quot;
+
+// 6. Wait for ALL to complete
+CompletableFuture&lt;Void&gt; all = CompletableFuture.allOf(f1, f2);
+all.join();  // blocks until both done
+
+// 7. Take the FIRST to complete
+CompletableFuture&lt;Object&gt; any = CompletableFuture.anyOf(f1, f2);
+Object first = any.get();  // whichever finishes first
+
+// 8. Exception handling
+CompletableFuture&lt;String&gt; handled = cf
+    .exceptionally(ex -&gt; &quot;default value on error&quot;)   // recover from exception
+    .handle((result, ex) -&gt; {                         // OR handle both result and exception
+        if (ex != null) return &quot;error: &quot; + ex.getMessage();
+        return result.toUpperCase();
+    });
+
+// 9. Timeout (Java 9+)
+CompletableFuture&lt;String&gt; withTimeout = cf
+    .orTimeout(2, TimeUnit.SECONDS)        // throws TimeoutException after 2s
+    .completeOnTimeout(&quot;default&quot;, 2, TimeUnit.SECONDS);  // returns &quot;default&quot; after 2s
+
+// 10. Custom executor
+ExecutorService myPool = Executors.newFixedThreadPool(4);
+CompletableFuture&lt;String&gt; withPool = CompletableFuture.supplyAsync(
+    () -&gt; fetchData(),
+    myPool   // use custom pool instead of common ForkJoinPool
+);
+</code></pre>
+<h2>Real-World Example: Parallel API Calls</h2>
+<pre><code class="language-java">// Fetch user, orders, and inventory in PARALLEL — not sequentially
+CompletableFuture&lt;User&gt; userFuture = CompletableFuture.supplyAsync(
+    () -&gt; userService.getUser(userId));
+
+CompletableFuture&lt;List&lt;Order&gt;&gt; ordersFuture = CompletableFuture.supplyAsync(
+    () -&gt; orderService.getOrders(userId));
+
+CompletableFuture&lt;Inventory&gt; inventoryFuture = CompletableFuture.supplyAsync(
+    () -&gt; inventoryService.getInventory());
+
+// Wait for all three, then combine:
+CompletableFuture&lt;Dashboard&gt; dashboard = CompletableFuture
+    .allOf(userFuture, ordersFuture, inventoryFuture)
+    .thenApply(v -&gt; new Dashboard(
+        userFuture.join(),
+        ordersFuture.join(),
+        inventoryFuture.join()
+    ));
+
+Dashboard result = dashboard.get(5, TimeUnit.SECONDS);
+// Total time ≈ max(user_time, orders_time, inventory_time) instead of sum!
+</code></pre>
+<h2>thenApply vs thenCompose vs thenCombine</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>When to use</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>thenApply(fn)</code></td>
+<td>Transform result synchronously</td>
+<td><code>CF&lt;U&gt;</code></td>
+</tr>
+<tr>
+<td><code>thenCompose(fn)</code></td>
+<td>Chain to another async operation (fn returns CF)</td>
+<td><code>CF&lt;U&gt;</code></td>
+</tr>
+<tr>
+<td><code>thenCombine(other, fn)</code></td>
+<td>Combine two independent futures</td>
+<td><code>CF&lt;V&gt;</code></td>
+</tr>
+<tr>
+<td><code>thenAccept(fn)</code></td>
+<td>Consume result, no return</td>
+<td><code>CF&lt;Void&gt;</code></td>
+</tr>
+<tr>
+<td><code>thenRun(fn)</code></td>
+<td>Run action after complete, no access to result</td>
+<td><code>CF&lt;Void&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>11. Fork/Join Pool</h1>
+<h2>Theory</h2>
+<p><code>ForkJoinPool</code> is designed for <strong>divide-and-conquer</strong> algorithms — recursively split a problem into subtasks, compute them in parallel, combine results:</p>
+<pre><code>findSum([1..1_000_000]):
+        FORK
+       /    \
+ [1..500K]  [500K..1M]
+    FORK         FORK
+   /    \       /    \
+[1..250K]... [750K..]...
+    JOIN         JOIN
+       \    /
+        JOIN → total sum
+</code></pre>
+<h2>Work-Stealing Algorithm</h2>
+<p>ForkJoinPool implements <strong>work stealing</strong> — idle threads steal tasks from busy threads' queues:</p>
+<pre><code>Thread-1 queue: [T1][T2][T3][T4]   (busy working on T1)
+Thread-2 queue: []                  (idle — steals T4 from Thread-1's tail!)
+Thread-3 queue: [T5]                (busy)
+Thread-4 queue: []                  (steals T5's subtask)
+</code></pre>
+<p>This keeps all threads busy with minimal coordination.</p>
+<h2>RecursiveTask Example</h2>
+<pre><code class="language-java">import java.util.concurrent.*;
+
+class SumTask extends RecursiveTask&lt;Long&gt; {
+    private static final int THRESHOLD = 10_000;  // split if array bigger than this
+    private final int[] array;
+    private final int start, end;
+
+    SumTask(int[] array, int start, int end) {
+        this.array = array;
+        this.start = start;
+        this.end   = end;
+    }
+
+    @Override
+    protected Long compute() {
+        int length = end - start;
+
+        if (length &lt;= THRESHOLD) {
+            // BASE CASE: small enough to compute directly
+            long sum = 0;
+            for (int i = start; i &lt; end; i++) sum += array[i];
+            return sum;
+        }
+
+        // RECURSIVE CASE: split and fork
+        int mid = start + length / 2;
+
+        SumTask leftTask  = new SumTask(array, start, mid);
+        SumTask rightTask = new SumTask(array, mid, end);
+
+        leftTask.fork();                 // submit leftTask to pool (async)
+        long rightResult = rightTask.compute();  // compute right in current thread
+        long leftResult  = leftTask.join();      // wait for left result
+
+        return leftResult + rightResult;
+    }
+}
+
+// Usage:
+int[] data = new int[1_000_000];
+Arrays.fill(data, 1);
+
+ForkJoinPool pool = new ForkJoinPool();  // default parallelism = CPU cores
+Long sum = pool.invoke(new SumTask(data, 0, data.length));
+System.out.println(&quot;Sum: &quot; + sum);  // 1000000
+
+// OR use common pool (shared, no need to create):
+Long sum2 = ForkJoinPool.commonPool().invoke(new SumTask(data, 0, data.length));
+</code></pre>
+<h2>RecursiveAction (no return value)</h2>
+<pre><code class="language-java">class ArrayFiller extends RecursiveAction {
+    private int[] array;
+    private int start, end, value;
+
+    // ... constructor ...
+
+    @Override
+    protected void compute() {
+        if (end - start &lt;= THRESHOLD) {
+            Arrays.fill(array, start, end, value);  // base case
+            return;
+        }
+        int mid = (start + end) / 2;
+        invokeAll(
+            new ArrayFiller(array, start, mid, value),
+            new ArrayFiller(array, mid, end, value)
+        );  // fork both, wait for both to complete
+    }
+}
+</code></pre>
+<h2>Parallel Streams (ForkJoinPool under the hood)</h2>
+<pre><code class="language-java">int[] numbers = IntStream.rangeClosed(1, 1_000_000).toArray();
+
+// Sequential:
+long sum = Arrays.stream(numbers).sum();
+
+// Parallel (uses ForkJoinPool.commonPool()):
+long parallelSum = Arrays.stream(numbers).parallel().sum();
+
+// Use parallel streams when:
+// - Large datasets (&gt;10,000 elements)
+// - Stateless, associative operations
+// - CPU-bound (not IO-bound)
+// - Don't share mutable state
+</code></pre>
+<hr />
+<h1>12. Concurrent Collections</h1>
+<p>(Covered in detail in Part 5. Summary here for completeness.)</p>
+<pre><code class="language-java">// Thread-safe Map — production default
+ConcurrentHashMap&lt;String, Integer&gt; map = new ConcurrentHashMap&lt;&gt;();
+map.put(&quot;key&quot;, 1);
+map.computeIfAbsent(&quot;count&quot;, k -&gt; 0);
+map.merge(&quot;count&quot;, 1, Integer::sum);   // atomic increment
+
+// Thread-safe List — for read-heavy workloads
+CopyOnWriteArrayList&lt;String&gt; list = new CopyOnWriteArrayList&lt;&gt;();
+list.add(&quot;item&quot;);   // copies entire array on each write — expensive!
+
+// Blocking Queue — for producer-consumer
+BlockingQueue&lt;Task&gt; queue = new LinkedBlockingQueue&lt;&gt;(100);
+queue.put(task);    // blocks if full
+queue.take();       // blocks if empty
+queue.offer(task, 500, TimeUnit.MILLISECONDS);  // timeout version
+queue.poll(500, TimeUnit.MILLISECONDS);
+
+// Other blocking queues:
+ArrayBlockingQueue&lt;T&gt;   // fixed-size, array-backed
+PriorityBlockingQueue&lt;T&gt; // priority ordering
+SynchronousQueue&lt;T&gt;     // no buffer — transfer directly from producer to consumer
+DelayQueue&lt;T&gt;           // elements become available after delay
+</code></pre>
+<h2>Semaphore — Limit Concurrent Access</h2>
+<pre><code class="language-java">// Allow at most 3 threads to access a resource simultaneously
+Semaphore semaphore = new Semaphore(3);
+
+void accessResource() throws InterruptedException {
+    semaphore.acquire();   // decrement permit count (blocks at 0)
+    try {
+        useSharedResource();
+    } finally {
+        semaphore.release();  // increment permit count
+    }
+}
+
+// Use for: connection pools, rate limiting, resource-bounded access
+// Semaphore(1) acts like a mutex (binary semaphore)
+</code></pre>
+<h2>CountDownLatch — Wait for Multiple Events</h2>
+<pre><code class="language-java">// Main thread waits until N worker threads complete initialization
+CountDownLatch latch = new CountDownLatch(3);
+
+// Worker threads:
+Thread worker1 = new Thread(() -&gt; {
+    initializeService1();
+    latch.countDown();  // decrement count from 3 to 2
+});
+Thread worker2 = new Thread(() -&gt; {
+    initializeService2();
+    latch.countDown();  // 2 to 1
+});
+Thread worker3 = new Thread(() -&gt; {
+    initializeService3();
+    latch.countDown();  // 1 to 0 → releases waiting threads
+});
+
+worker1.start(); worker2.start(); worker3.start();
+latch.await();  // blocks until count reaches 0
+System.out.println(&quot;All services initialized!&quot;);
+
+// CountDownLatch is one-time use — cannot be reset
+</code></pre>
+<h2>CyclicBarrier — Synchronize at a Point</h2>
+<pre><code class="language-java">// All threads must reach the barrier before any can proceed
+CyclicBarrier barrier = new CyclicBarrier(4, () -&gt; {
+    System.out.println(&quot;All threads reached barrier — proceeding to phase 2&quot;);  // runs once all arrive
+});
+
+Runnable task = () -&gt; {
+    doPhase1Work();
+    barrier.await();   // wait here until all 4 threads arrive
+    doPhase2Work();
+    barrier.await();   // CyclicBarrier is REUSABLE — same barrier for phase 3
+    doPhase3Work();
+};
+
+// Start 4 threads — they sync at each phase boundary
+for (int i = 0; i &lt; 4; i++) new Thread(task).start();
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CountDownLatch</th>
+<th>CyclicBarrier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reusable</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Count direction</td>
+<td>Down from N to 0</td>
+<td>Up from 0 to N</td>
+</tr>
+<tr>
+<td>Who waits</td>
+<td>await() callers</td>
+<td>await() callers</td>
+</tr>
+<tr>
+<td>Release trigger</td>
+<td>Count reaches 0</td>
+<td>All parties arrived</td>
+</tr>
+<tr>
+<td>Use for</td>
+<td>Wait for events</td>
+<td>Synchronize phases</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>13. Java Memory Model &amp; Happens-Before</h1>
+<h2>The Problem: Visibility Without Happens-Before</h2>
+<pre><code class="language-java">int x = 0;
+boolean ready = false;
+
+// Thread A:
+x = 42;
+ready = true;
+
+// Thread B:
+if (ready) {
+    System.out.println(x);  // Could print 0!
+}
+</code></pre>
+<p>Why? Two reasons:
+1. <strong>Caching:</strong> Thread A's writes may be in its CPU cache, not main memory
+2. <strong>Reordering:</strong> JVM/CPU may reorder <code>x=42</code> and <code>ready=true</code> for performance</p>
+<h2>Happens-Before Rules</h2>
+<p>The JMM defines <strong>happens-before</strong> as the guarantee that if A happens-before B, A's effects are visible to B.</p>
+<h3>Complete List of Happens-Before Rules</h3>
+<p><strong>1. Program Order Rule:</strong></p>
+<pre><code class="language-java">// In a single thread, each action happens-before all subsequent actions
+int a = 1;     // happens-before
+int b = 2;     // happens-before
+int c = a + b; // b=3 guaranteed
+</code></pre>
+<p><strong>2. Monitor Lock Rule:</strong></p>
+<pre><code class="language-java">// unlock happens-before lock of same monitor
+synchronized (lock) { x = 42; }  // write happens-before...
+// (another thread acquires same lock)
+synchronized (lock) { System.out.println(x); }  // ...this read. x is 42.
+</code></pre>
+<p><strong>3. Volatile Variable Rule:</strong></p>
+<pre><code class="language-java">volatile int value = 0;
+// Write to volatile happens-before all subsequent reads of that volatile
+value = 42;               // Thread A writes
+int v = value;            // Thread B reads — guaranteed to see 42
+</code></pre>
+<p><strong>4. Thread Start Rule:</strong></p>
+<pre><code class="language-java">x = 42;
+thread.start();           // start() happens-before any action in the new thread
+// new thread is guaranteed to see x = 42
+</code></pre>
+<p><strong>5. Thread Join Rule:</strong></p>
+<pre><code class="language-java">// All actions in thread T happen-before thread.join() returns
+thread.join();
+// main thread is guaranteed to see everything thread did
+System.out.println(resultSetByThread);  // safe to read
+</code></pre>
+<p><strong>6. Transitivity:</strong></p>
+<pre><code>If A happens-before B, and B happens-before C, then A happens-before C.
+</code></pre>
+<h2>Safe Publication</h2>
+<p>An object is <strong>safely published</strong> if its initialization is visible to all threads that access it:</p>
+<pre><code class="language-java">// UNSAFE publication — no happens-before guarantee
+class Unsafe {
+    static Helper helper;  // not volatile, not synchronized
+
+    static void init() {
+        helper = new Helper();   // another thread may see partially constructed object!
+    }
+}
+
+// SAFE publication methods:
+// 1. Initialize in static initializer (class loading guarantees visibility)
+static final Helper helper = new Helper();
+
+// 2. volatile reference
+static volatile Helper helper;
+
+// 3. Synchronized access
+static Helper helper;
+static synchronized Helper getHelper() {
+    if (helper == null) helper = new Helper();
+    return helper;
+}
+
+// 4. Immutable objects — inherently thread-safe once published
+final class ImmutableHelper {
+    final int value;
+    ImmutableHelper(int v) { this.value = v; }
+}
+</code></pre>
+<hr />
+<h1>14. Producer-Consumer Pattern</h1>
+<p>The producer-consumer pattern is the most fundamental concurrency pattern — producers generate data, consumers process it, separated by a queue:</p>
+<h2>Implementation 1: BlockingQueue (Simplest &amp; Best)</h2>
+<pre><code class="language-java">class ProducerConsumerWithBlockingQueue {
+    private static final BlockingQueue&lt;Integer&gt; queue = new LinkedBlockingQueue&lt;&gt;(10);
+
+    static class Producer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                for (int i = 0; i &lt; 20; i++) {
+                    queue.put(i);   // blocks if queue is full — built-in backpressure
+                    System.out.println(&quot;Produced: &quot; + i);
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    static class Consumer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    Integer item = queue.poll(2, TimeUnit.SECONDS);  // wait up to 2s
+                    if (item == null) break;  // timeout — producer probably done
+                    System.out.println(&quot;Consumed: &quot; + item);
+                    Thread.sleep(200);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread producer  = new Thread(new Producer());
+        Thread consumer1 = new Thread(new Consumer());
+        Thread consumer2 = new Thread(new Consumer());
+
+        producer.start();
+        consumer1.start();
+        consumer2.start();
+
+        producer.join();
+        consumer1.join();
+        consumer2.join();
+    }
+}
+</code></pre>
+<h2>Implementation 2: wait()/notify() (Manual, Educational)</h2>
+<pre><code class="language-java">class BoundedBuffer {
+    private final int[] buffer;
+    private int count = 0, putIndex = 0, takeIndex = 0;
+
+    BoundedBuffer(int capacity) {
+        buffer = new int[capacity];
+    }
+
+    public synchronized void put(int item) throws InterruptedException {
+        while (count == buffer.length) {
+            wait();   // buffer full — wait for consumer to take
+        }
+        buffer[putIndex] = item;
+        putIndex = (putIndex + 1) % buffer.length;  // circular buffer
+        count++;
+        notifyAll();  // wake up consumers waiting for data
+    }
+
+    public synchronized int take() throws InterruptedException {
+        while (count == 0) {
+            wait();   // buffer empty — wait for producer to put
+        }
+        int item = buffer[takeIndex];
+        takeIndex = (takeIndex + 1) % buffer.length;
+        count--;
+        notifyAll();  // wake up producers waiting for space
+        return item;
+    }
+}
+</code></pre>
+<hr />
+<h1>15. Common Concurrency Patterns</h1>
+<h2>Thread-Safe Singleton</h2>
+<pre><code class="language-java">// Enum Singleton — simplest and most robust
+public enum AppConfig {
+    INSTANCE;
+
+    private final Map&lt;String, String&gt; config = new HashMap&lt;&gt;();
+
+    public String get(String key) { return config.get(key); }
+    public void set(String key, String value) { config.put(key, value); }
+}
+
+// Usage: AppConfig.INSTANCE.get(&quot;db.url&quot;)
+</code></pre>
+<h2>Thread-Local Storage</h2>
+<p>Each thread gets its own copy of the variable — no sharing, no synchronization needed:</p>
+<pre><code class="language-java">// Classic use: per-thread database connections, SimpleDateFormat (not thread-safe)
+ThreadLocal&lt;SimpleDateFormat&gt; dateFormat = ThreadLocal.withInitial(
+    () -&gt; new SimpleDateFormat(&quot;yyyy-MM-dd&quot;)
+);
+
+// In any thread:
+String formatted = dateFormat.get().format(new Date());  // thread's own formatter
+// CRITICAL: Always remove when done (especially in thread pools — threads are reused!)
+dateFormat.remove();
+
+// Real-world: Spring uses ThreadLocal for request context, security context
+</code></pre>
+<h2>Immutable Objects — Thread Safety by Design</h2>
+<pre><code class="language-java">// Immutable = no setters, all fields final, no mutable state shared
+public final class Money {
+    private final long amountInCents;
+    private final String currency;
+
+    public Money(long amountInCents, String currency) {
+        this.amountInCents = amountInCents;
+        this.currency = currency;
+    }
+
+    public Money add(Money other) {
+        // Returns new object — doesn't modify 'this'
+        return new Money(this.amountInCents + other.amountInCents, currency);
+    }
+
+    // Only getters, no setters
+    public long getAmountInCents() { return amountInCents; }
+    public String getCurrency() { return currency; }
+}
+// Immutable objects can be freely shared between threads — no synchronization needed
+</code></pre>
+<h2>Publish-Subscribe with ExecutorService</h2>
+<pre><code class="language-java">class EventBus {
+    private final Map&lt;Class&lt;?&gt;, List&lt;Consumer&lt;Object&gt;&gt;&gt; handlers = new ConcurrentHashMap&lt;&gt;();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; void subscribe(Class&lt;T&gt; eventType, Consumer&lt;T&gt; handler) {
+        handlers.computeIfAbsent(eventType, k -&gt; new CopyOnWriteArrayList&lt;&gt;())
+                .add((Consumer&lt;Object&gt;) handler);
+    }
+
+    public void publish(Object event) {
+        List&lt;Consumer&lt;Object&gt;&gt; subscribers = handlers.get(event.getClass());
+        if (subscribers != null) {
+            for (Consumer&lt;Object&gt; handler : subscribers) {
+                executor.submit(() -&gt; handler.accept(event));  // async delivery
+            }
+        }
+    }
+}
+</code></pre>
+<hr />
+<h1>16. Interview Quick Reference</h1>
+<h2>Thread Creation Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Can throw?</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>extends Thread</code></td>
+<td>void</td>
+<td>No checked</td>
+<td>Simple, one-off</td>
+</tr>
+<tr>
+<td><code>implements Runnable</code></td>
+<td>void</td>
+<td>No checked</td>
+<td>Preferred for tasks</td>
+</tr>
+<tr>
+<td><code>implements Callable</code></td>
+<td>value</td>
+<td>Yes</td>
+<td>Need return value or checked exceptions</td>
+</tr>
+<tr>
+<td><code>ExecutorService.submit</code></td>
+<td>Future</td>
+<td>Yes (in get())</td>
+<td>Production code</td>
+</tr>
+</tbody>
+</table>
+<h2>Concurrency Tool Cheat Sheet</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shared mutable state</td>
+<td><code>synchronized</code> or <code>ReentrantLock</code></td>
+</tr>
+<tr>
+<td>Simple flag across threads</td>
+<td><code>volatile</code></td>
+</tr>
+<tr>
+<td>Thread-safe counter</td>
+<td><code>AtomicInteger</code> / <code>LongAdder</code></td>
+</tr>
+<tr>
+<td>Thread-safe map</td>
+<td><code>ConcurrentHashMap</code></td>
+</tr>
+<tr>
+<td>Producer-consumer</td>
+<td><code>BlockingQueue</code></td>
+</tr>
+<tr>
+<td>Wait for N events</td>
+<td><code>CountDownLatch</code></td>
+</tr>
+<tr>
+<td>Synchronize N threads at point</td>
+<td><code>CyclicBarrier</code></td>
+</tr>
+<tr>
+<td>Limit resource access</td>
+<td><code>Semaphore</code></td>
+</tr>
+<tr>
+<td>Async result</td>
+<td><code>CompletableFuture</code></td>
+</tr>
+<tr>
+<td>Divide-and-conquer</td>
+<td><code>ForkJoinPool</code></td>
+</tr>
+<tr>
+<td>Per-thread state</td>
+<td><code>ThreadLocal</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Key Interview Questions</h2>
+<ul>
+<li>
+<p><strong>Q: What is the difference between <code>wait()</code> and <code>sleep()</code>?</strong>
+  A: <code>sleep()</code> pauses the current thread for a time but does NOT release any locks it holds. <code>wait()</code> releases the intrinsic lock and enters WAITING state until <code>notify()</code>/<code>notifyAll()</code> is called. <code>sleep()</code> is a Thread method; <code>wait()</code> is an Object method and must be called within <code>synchronized</code>.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between <code>notify()</code> and <code>notifyAll()</code>?</strong>
+  A: <code>notify()</code> wakes one arbitrary thread waiting on the object. <code>notifyAll()</code> wakes all of them — they then compete for the lock. Prefer <code>notifyAll()</code> to avoid the case where the wrong thread is woken (e.g., all waiting threads are producers, but you wake one producer when you need a consumer woken).</p>
+</li>
+<li>
+<p><strong>Q: What is a ThreadLocal?</strong>
+  A: A variable where each thread has its own independent copy — no sharing, no synchronization. Used for per-thread context (DB connections, security contexts, date formatters). Critical: always call <code>remove()</code> when done, especially in thread pools where threads are reused.</p>
+</li>
+<li>
+<p><strong>Q: Difference between <code>submit()</code> and <code>execute()</code> in ExecutorService?</strong>
+  A: <code>execute(Runnable)</code> is fire-and-forget — no way to check completion or get result. <code>submit(Runnable/Callable)</code> returns a <code>Future</code> — you can check status, get result (blocking), handle exceptions, and cancel.</p>
+</li>
+<li>
+<p><strong>Q: What is the difference between <code>ReentrantLock</code> and <code>synchronized</code>?</strong>
+  A: Both provide mutual exclusion and reentrancy. <code>ReentrantLock</code> adds: <code>tryLock()</code> (non-blocking), timeout, interruptible waiting, fairness mode, multiple Condition variables per lock, and monitoring/diagnostics. <code>synchronized</code> is simpler (auto-released on exit) but less flexible.</p>
+</li>
+<li>
+<p><strong>Q: What is CompletableFuture and why is it better than Future?</strong>
+  A: <code>CompletableFuture</code> supports non-blocking callback chains (thenApply, thenCompose), combining multiple futures (allOf, anyOf), exception handling (exceptionally, handle), and doesn't require blocking <code>get()</code> calls. Regular <code>Future</code> only provides <code>get()</code> which blocks, with no way to register callbacks.</p>
+</li>
+<li>
+<p><strong>Q: What causes a deadlock and how do you prevent it?</strong>
+  A: Deadlock requires all four: mutual exclusion, hold-and-wait, no preemption, circular wait. Prevent by: consistent lock ordering, using <code>tryLock()</code> with timeout, avoiding holding multiple locks, or redesigning to use single locks or lock-free structures.</p>
+</li>
+</ul>
+<hr />
+<p><em>End of Part 6: Java Multithreading &amp; Concurrency</em>
+<em>Next: Part 7 (REST APIs &amp; Backend Engineering)</em></p>
+            </article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
