@@ -234,6 +234,13 @@
       flex-direction: column;
       overflow: hidden;
       flex-shrink: 0;
+      transition: width 0.2s ease, margin-left 0.2s ease, border-right 0.2s ease;
+    }
+
+    .sidebar-collapsed .sidebar {
+      width: 0;
+      border-right: none;
+      margin-left: -1px;
     }
 
     .sidebar-search {
@@ -1201,6 +1208,10 @@
             
             <div class="preview-header-right">
               <span class="file-size-badge" id="preview-file-size">-</span>
+              <button id="preview-maximize-btn" class="btn btn-secondary btn-sm" title="Hide sidebar">
+                <i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i>
+                <span>Maximize</span>
+              </button>
               <a id="preview-raw-btn" href="#" target="_blank" class="btn btn-secondary btn-sm" title="Open raw code in new tab">
                 <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
                 <span>Raw</span>
@@ -2024,9 +2035,40 @@
         scanRepository();
       });
 
+      // Fullscreen/Maximize toggling
+      const maxBtn = document.getElementById('preview-maximize-btn');
+      maxBtn.addEventListener('click', () => {
+        const container = document.getElementById('app-wrapper');
+        const isCollapsed = container.classList.toggle('sidebar-collapsed');
+        const icon = maxBtn.querySelector('i');
+        const textSpan = maxBtn.querySelector('span');
+        
+        if (isCollapsed) {
+          icon.setAttribute('data-lucide', 'minimize-2');
+          textSpan.textContent = 'Minimize';
+          maxBtn.title = 'Show sidebar';
+        } else {
+          icon.setAttribute('data-lucide', 'maximize-2');
+          textSpan.textContent = 'Maximize';
+          maxBtn.title = 'Hide sidebar';
+        }
+        lucide.createIcons();
+      });
+
       // Mobile Back button to slide sidebar back
       document.getElementById('preview-back-btn').addEventListener('click', () => {
-        document.getElementById('app-wrapper').classList.remove('preview-active');
+        const wrapper = document.getElementById('app-wrapper');
+        wrapper.classList.remove('preview-active');
+        wrapper.classList.remove('sidebar-collapsed');
+        
+        const icon = maxBtn.querySelector('i');
+        const textSpan = maxBtn.querySelector('span');
+        if (icon && textSpan) {
+          icon.setAttribute('data-lucide', 'maximize-2');
+          textSpan.textContent = 'Maximize';
+          maxBtn.title = 'Hide sidebar';
+        }
+        
         // Clear active selection states and clear URL hash
         selectedNodePath = null;
         window.location.hash = '';
