@@ -758,6 +758,7 @@
       font-family: var(--font-mono) !important;
       font-size: 0.8rem !important;
       line-height: 1.55 !important;
+      overflow-x: auto !important;
     }
 
     /* Prism Monochrome Overrides */
@@ -822,6 +823,7 @@
       width: 100%;
       height: 100%;
       border: none;
+      display: block;
       background-color: #ffffff;
     }
 
@@ -1838,7 +1840,7 @@
       // Show loader
       welcomeView.style.display = 'none';
       loaderView.style.display = 'flex';
-      previewContainer.style.display = 'block';
+      previewContainer.style.display = 'flex';
 
       // Slide preview pane in on mobile
       document.getElementById('app-wrapper').classList.add('preview-active');
