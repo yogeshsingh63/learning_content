@@ -1,4 +1,4 @@
-# Part 6: Java Multithreading & Concurrency — Complete Mastery Guide
+# Part 4: Java Multithreading & Concurrency — Complete Mastery Guide
 ### From Thread Lifecycle to CompletableFuture | JVM Internals | Backend SDE Interview Handbook
 
 ---
@@ -1379,7 +1379,7 @@ long parallelSum = Arrays.stream(numbers).parallel().sum();
 
 # 12. Concurrent Collections
 
-(Covered in detail in Part 5. Summary here for completeness.)
+(Covered in detail in Part 3. Summary here for completeness.)
 
 ```java
 // Thread-safe Map — production default
@@ -1823,5 +1823,5 @@ class EventBus {
 
 ---
 
-*End of Part 6: Java Multithreading & Concurrency*
+*End of Part 4: Java Multithreading & Concurrency*
 *Next: Part 7 (REST APIs & Backend Engineering)*
