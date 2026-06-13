@@ -1,0 +1,2948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">Spring Boot Guide</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+<svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+</svg>
+<span>Java Internals</span>
+</div>
+<div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+<h1>Spring Boot — Interview Mastery Guide</h1>
+<h3>Junior Backend Engineer | NeuralMetrics-Style Prep | Interview-Ready</h3>
+<hr>
+<blockquote>
+<p><strong>How to use this:</strong> Every section has Theory → How it works internally → Code example → Interview Q&amp;A.
+Read all sections. The Q&amp;A at the end of each section is what interviewers actually ask.</p>
+</blockquote>
+<hr>
+<h1>Table of Contents</h1>
+<ol>
+<li><a href="#part-1-spring-core-ioc-di-beans-lifecycle">Spring Core: IoC, DI, Beans, Lifecycle</a></li>
+<li><a href="#part-2-spring-boot-basics--auto-configuration">Spring Boot Basics &amp; Auto-Configuration</a></li>
+<li><a href="#part-3-rest-apis-controllers-validation-exception-handling">REST APIs: Controllers, Validation, Exception Handling</a></li>
+<li><a href="#part-4-spring-data-jpa-hibernate-relationships-n1-transactions">Spring Data JPA: Hibernate, Relationships, N+1, Transactions</a></li>
+<li><a href="#part-5-spring-security--jwt-authentication">Spring Security + JWT Authentication</a></li>
+<li><a href="#part-6-master-interview-qa-cheatsheet">Master Interview Q&amp;A Cheatsheet</a></li>
+</ol>
+<hr>
+<h1>PART 1: Spring Core — IoC, DI, Beans, Lifecycle</h1>
+<hr>
+<h2>1.1 What is Spring and Why Does It Exist?</h2>
+<p>Before Spring, building a Java enterprise app meant using EJB (Enterprise JavaBeans) — heavy, complex, required an expensive application server, and was painful to test.</p>
+<p>Spring's answer in 2003: <strong>a lightweight framework that manages your objects for you</strong>, so you can focus on business logic.</p>
+<p>The two core ideas:
+- <strong>IoC (Inversion of Control)</strong> — don't create your own objects; let Spring create and manage them
+- <strong>DI (Dependency Injection)</strong> — don't look up your dependencies; let Spring hand them to you</p>
+<hr>
+<h2>1.2 IoC — Inversion of Control</h2>
+<p><strong>Without IoC (traditional approach):</strong></p>
+<pre><code class="language-java">public class OrderService {
+    // You create your own dependency
+    private PaymentService paymentService = new PaymentService();
+    private EmailService emailService = new EmailService();
+
+    public void placeOrder(Order order) {
+        paymentService.charge(order);
+        emailService.sendConfirmation(order);
+    }
+}
+</code></pre>
+<p>Problems:
+- <code>OrderService</code> is tightly coupled to <code>PaymentService</code> — can't swap it out
+- Can't test <code>OrderService</code> without a real <code>PaymentService</code>
+- If <code>PaymentService</code> constructor changes, <code>OrderService</code> must change</p>
+<p><strong>With IoC (Spring manages objects):</strong></p>
+<pre><code class="language-java">@Service
+public class OrderService {
+    // Spring injects this — you don't create it
+    private final PaymentService paymentService;
+    private final EmailService emailService;
+
+    public OrderService(PaymentService paymentService, EmailService emailService) {
+        this.paymentService = paymentService;
+        this.emailService = emailService;
+    }
+
+    public void placeOrder(Order order) {
+        paymentService.charge(order);
+        emailService.sendConfirmation(order);
+    }
+}
+</code></pre>
+<p>Spring's IoC Container (ApplicationContext) creates ALL these objects and wires them together. You declare what you need; Spring provides it.</p>
+<pre><code>Traditional:    You           → new PaymentService() → new OrderService(paymentService)
+IoC:            Spring        → creates PaymentService → creates OrderService → injects it
+                                                                    ↑
+                                              Control is INVERTED — Spring controls creation
+</code></pre>
+<hr>
+<h2>1.3 Dependency Injection Types</h2>
+<h3>Constructor Injection (Recommended)</h3>
+<pre><code class="language-java">@Service
+public class OrderService {
+    private final PaymentService paymentService;  // final — immutable after construction
+
+    // Spring sees one constructor — automatically injects (no @Autowired needed in modern Spring)
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+</code></pre>
+<p><strong>Why constructor injection is best:</strong>
+- Dependencies are explicit and required
+- <code>final</code> fields — truly immutable, thread-safe
+- Easy to test (just pass mock in constructor)
+- No reflection tricks needed</p>
+<h3>Field Injection (Common but not recommended)</h3>
+<pre><code class="language-java">@Service
+public class OrderService {
+    @Autowired
+    private PaymentService paymentService;  // Spring injects via reflection
+}
+</code></pre>
+<p>Problems: can't be <code>final</code>, harder to test, hides dependencies.</p>
+<h3>Setter Injection (for optional dependencies)</h3>
+<pre><code class="language-java">@Service
+public class OrderService {
+    private PaymentService paymentService;
+
+    @Autowired(required = false)  // optional dependency
+    public void setPaymentService(PaymentService ps) {
+        this.paymentService = ps;
+    }
+}
+</code></pre>
+<hr>
+<h2>1.4 What is a Bean?</h2>
+<p>A <strong>Bean</strong> is any object that Spring manages. Spring creates it, stores it in its container, injects it where needed, and destroys it when done.</p>
+<p>You tell Spring what to manage using annotations:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Purpose</th>
+<th>Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Component</code></td>
+<td>Generic Spring-managed class</td>
+<td>Any</td>
+</tr>
+<tr>
+<td><code>@Service</code></td>
+<td>Business logic</td>
+<td>Service layer</td>
+</tr>
+<tr>
+<td><code>@Repository</code></td>
+<td>Database access</td>
+<td>Data layer</td>
+</tr>
+<tr>
+<td><code>@Controller</code></td>
+<td>HTTP request handler</td>
+<td>Web layer</td>
+</tr>
+<tr>
+<td><code>@RestController</code></td>
+<td>HTTP + JSON response</td>
+<td>Web layer</td>
+</tr>
+<tr>
+<td><code>@Configuration</code></td>
+<td>Java config class</td>
+<td>Config</td>
+</tr>
+<tr>
+<td><code>@Bean</code></td>
+<td>Method that produces a bean</td>
+<td>Config</td>
+</tr>
+</tbody>
+</table>
+<p>All of <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code> are just <code>@Component</code> with a descriptive name — they all create beans. The distinction is for clarity and some extra behavior (<code>@Repository</code> translates SQL exceptions).</p>
+<h3>Declaring Beans with @Bean</h3>
+<pre><code class="language-java">@Configuration
+public class AppConfig {
+
+    // This method's return value becomes a Spring Bean
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper;
+    }
+
+    // For third-party classes you can't annotate directly
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+</code></pre>
+<hr>
+<h2>1.5 Bean Scopes</h2>
+<p>By default all beans are <strong>Singleton</strong> — Spring creates exactly one instance and reuses it everywhere.</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Meaning</th>
+<th>Annotation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>singleton</code></td>
+<td>One instance for entire application (default)</td>
+<td><code>@Scope("singleton")</code></td>
+</tr>
+<tr>
+<td><code>prototype</code></td>
+<td>New instance every time it's requested</td>
+<td><code>@Scope("prototype")</code></td>
+</tr>
+<tr>
+<td><code>request</code></td>
+<td>One instance per HTTP request (web only)</td>
+<td><code>@RequestScope</code></td>
+</tr>
+<tr>
+<td><code>session</code></td>
+<td>One instance per HTTP session (web only)</td>
+<td><code>@SessionScope</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">@Component
+@Scope(&quot;prototype&quot;)
+public class ReportGenerator {
+    // New instance every time this bean is injected or requested
+    // Useful for stateful objects that shouldn't be shared
+}
+</code></pre>
+<p><strong>Interview Trap:</strong> Singleton beans with mutable state are a problem in multithreaded apps. Most Spring services are singletons — they must be <strong>stateless</strong> (no instance variables that change per request).</p>
+<pre><code class="language-java">// BAD — singleton with mutable state:
+@Service
+public class OrderService {
+    private Order currentOrder;  // SHARED across all threads — race condition!
+
+    public void process(Order o) {
+        currentOrder = o;    // Thread 1 sets this
+        // Thread 2 also sets this — Thread 1's data is gone!
+    }
+}
+
+// GOOD — stateless singleton:
+@Service
+public class OrderService {
+    public void process(Order order) {
+        // order is local — safe, no shared state
+        validate(order);
+        save(order);
+    }
+}
+</code></pre>
+<hr>
+<h2>1.6 Bean Lifecycle</h2>
+<pre><code>Spring ApplicationContext starts
+         │
+         ▼
+1. SCAN   — Find all @Component, @Service, @Repository, @Controller classes
+         │
+         ▼
+2. INSTANTIATE — Call constructors to create bean instances
+         │
+         ▼
+3. INJECT — Wire dependencies (constructor, field, or setter injection)
+         │
+         ▼
+4. @PostConstruct — Run initialization method (optional)
+         │
+         ▼
+5. READY — Bean is live, serving requests
+         │
+         ▼
+6. @PreDestroy — Run cleanup method when app shuts down (optional)
+         │
+         ▼
+7. DESTROY — Bean removed from container
+</code></pre>
+<pre><code class="language-java">@Service
+public class DatabaseConnectionPool {
+    private List&lt;Connection&gt; pool;
+
+    // Constructor injection
+    public DatabaseConnectionPool(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @PostConstruct
+    public void init() {
+        // Runs AFTER injection is complete
+        // Safe to use injected dependencies here
+        pool = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; 10; i++) {
+            pool.add(dataSource.getConnection());
+        }
+        System.out.println(&quot;Connection pool initialized with 10 connections&quot;);
+    }
+
+    @PreDestroy
+    public void cleanup() {
+        // Runs BEFORE Spring destroys this bean (on app shutdown)
+        pool.forEach(Connection::close);
+        System.out.println(&quot;All connections closed&quot;);
+    }
+}
+</code></pre>
+<hr>
+<h2>1.7 ApplicationContext — The IoC Container</h2>
+<p><code>ApplicationContext</code> is Spring's IoC container — it holds all beans and manages their lifecycle.</p>
+<pre><code class="language-java">// Spring Boot creates ApplicationContext automatically.
+// But you can access it manually if needed:
+
+@Component
+public class SomeClass implements ApplicationContextAware {
+    private ApplicationContext context;
+
+    @Override
+    public void setApplicationContext(ApplicationContext ctx) {
+        this.context = ctx;
+    }
+
+    public void doSomething() {
+        // Get any bean from the container programmatically
+        PaymentService ps = context.getBean(PaymentService.class);
+    }
+}
+
+// Or inject it directly:
+@Service
+public class DynamicLoader {
+    @Autowired
+    private ApplicationContext context;
+
+    public void loadPlugin(String beanName) {
+        Object bean = context.getBean(beanName);
+    }
+}
+</code></pre>
+<hr>
+<h2>Part 1 Interview Q&amp;A</h2>
+<p><strong>Q: What is IoC?</strong>
+A: Inversion of Control means the framework (Spring) controls the creation and lifecycle of objects, not your code. Instead of <code>new MyService()</code>, you declare a class as a <code>@Component</code> and Spring creates and manages it.</p>
+<p><strong>Q: What is Dependency Injection?</strong>
+A: DI is the mechanism for IoC. Spring identifies what dependencies a class needs (via constructor parameters, <code>@Autowired</code> fields) and automatically injects the correct objects.</p>
+<p><strong>Q: What is the difference between @Component, @Service, @Repository?</strong>
+A: All three register a bean with Spring's container — functionally identical. The difference is semantic: <code>@Service</code> = business logic, <code>@Repository</code> = database layer (also translates persistence exceptions), <code>@Controller</code> = web layer. Use the right one for clarity.</p>
+<p><strong>Q: What is the default bean scope in Spring?</strong>
+A: Singleton — one instance per ApplicationContext. This means Spring beans must be stateless to be thread-safe.</p>
+<p><strong>Q: What is @PostConstruct?</strong>
+A: A method annotated with <code>@PostConstruct</code> runs once after Spring has fully constructed and injected the bean. Used for initialization that requires injected dependencies (which aren't available in the constructor yet for field injection).</p>
+<p><strong>Q: Constructor vs field injection — which is better and why?</strong>
+A: Constructor injection is recommended. Reasons: dependencies are explicit, fields can be <code>final</code> (immutable), no reflection tricks, and the class is easier to unit test (just pass mocks to constructor).</p>
+<hr>
+<h1>PART 2: Spring Boot Basics &amp; Auto-Configuration</h1>
+<hr>
+<h2>2.1 Spring vs Spring Boot</h2>
+<table>
+<thead>
+<tr>
+<th>Spring Framework</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You configure everything manually (XML or Java config)</td>
+<td>Auto-configures based on classpath</td>
+</tr>
+<tr>
+<td>Must manually set up DispatcherServlet, DataSource, etc.</td>
+<td><code>@SpringBootApplication</code> does it all</td>
+</tr>
+<tr>
+<td>No embedded server — deploy to Tomcat separately</td>
+<td>Embedded Tomcat/Jetty included</td>
+</tr>
+<tr>
+<td>Lots of boilerplate</td>
+<td>Minimal boilerplate</td>
+</tr>
+</tbody>
+</table>
+<p>Spring Boot is <strong>not a replacement</strong> for Spring — it's Spring Framework + auto-configuration + embedded server + opinionated defaults.</p>
+<hr>
+<h2>2.2 Project Structure</h2>
+<pre><code>my-app/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/neuralmetrics/app/
+│   │   │       ├── MyApplication.java          ← Entry point
+│   │   │       ├── controller/
+│   │   │       │   └── UserController.java
+│   │   │       ├── service/
+│   │   │       │   └── UserService.java
+│   │   │       ├── repository/
+│   │   │       │   └── UserRepository.java
+│   │   │       ├── model/
+│   │   │       │   └── User.java               ← JPA Entity
+│   │   │       ├── dto/
+│   │   │       │   ├── UserRequest.java         ← Input DTO
+│   │   │       │   └── UserResponse.java        ← Output DTO
+│   │   │       ├── exception/
+│   │   │       │   ├── GlobalExceptionHandler.java
+│   │   │       │   └── UserNotFoundException.java
+│   │   │       └── config/
+│   │   │           └── SecurityConfig.java
+│   │   └── resources/
+│   │       ├── application.properties           ← Config
+│   │       ├── application-dev.properties       ← Dev profile
+│   │       └── application-prod.properties      ← Prod profile
+│   └── test/
+│       └── java/
+│           └── com/neuralmetrics/app/
+│               └── UserControllerTest.java
+├── pom.xml                                      ← Maven config
+</code></pre>
+<p><strong>Layered Architecture:</strong></p>
+<pre><code>HTTP Request
+    │
+    ▼
+Controller    (handles HTTP, validates input, calls service)
+    │
+    ▼
+Service       (business logic, calls repository)
+    │
+    ▼
+Repository    (database operations)
+    │
+    ▼
+Database
+</code></pre>
+<hr>
+<h2>2.3 @SpringBootApplication — What It Does</h2>
+<pre><code class="language-java">@SpringBootApplication   // This one annotation does A LOT
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+</code></pre>
+<p><code>@SpringBootApplication</code> is a composed annotation of three things:</p>
+<pre><code class="language-java">@SpringBootConfiguration    // = @Configuration — this is a config class
+@EnableAutoConfiguration    // MAGIC — auto-configure based on classpath
+@ComponentScan              // scan this package + subpackages for @Component classes
+public @interface SpringBootApplication { }
+</code></pre>
+<h3>What Happens on <code>SpringApplication.run()</code>?</h3>
+<pre><code>1. Creates SpringApplication instance
+2. Determines application type (Servlet/Reactive/None)
+3. Loads ApplicationListeners and Initializers from META-INF/spring.factories
+4. Runs: SpringApplicationRunListeners.starting()
+5. Prepares Environment (loads application.properties)
+6. Prints the Spring Boot banner
+7. Creates ApplicationContext (AnnotationConfigServletWebServerApplicationContext)
+8. Runs @EnableAutoConfiguration — scans META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+   → Loads relevant auto-configuration classes based on what's on the classpath
+   → e.g., DataSourceAutoConfiguration if spring-data-jpa is on classpath
+   → e.g., SecurityAutoConfiguration if spring-security is on classpath
+9. ComponentScan — finds all @Component, @Service, @Repository, @Controller
+10. Creates and wires all beans
+11. Runs ApplicationRunner / CommandLineRunner beans
+12. Starts embedded Tomcat server (default port 8080)
+13. Application is READY
+</code></pre>
+<hr>
+<h2>2.4 Auto-Configuration Internals</h2>
+<p>This is the "magic" that makes Spring Boot work. Here's how it works:</p>
+<pre><code>Your pom.xml:
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;
+         │
+         ▼
+This adds to classpath: Hibernate, Spring Data JPA, HikariCP, Spring JDBC
+         │
+         ▼
+@EnableAutoConfiguration reads:
+META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+         │
+         ▼
+Finds: DataSourceAutoConfiguration, HibernateJpaAutoConfiguration, etc.
+         │
+         ▼
+@ConditionalOnClass(DataSource.class)    ← is DataSource on classpath? YES
+@ConditionalOnMissingBean(DataSource.class)  ← did user define their own? NO
+         │
+         ▼
+Spring Boot auto-creates DataSource bean using application.properties values:
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.username=postgres
+spring.datasource.password=secret
+</code></pre>
+<p>You can always override auto-configuration by defining your own bean — <code>@ConditionalOnMissingBean</code> means "only auto-configure if the user hasn't already defined one."</p>
+<hr>
+<h2>2.5 application.properties vs application.yml</h2>
+<pre><code class="language-properties"># application.properties style
+server.port=8080
+spring.datasource.url=jdbc:postgresql://localhost:5432/neuraldb
+spring.datasource.username=postgres
+spring.datasource.password=secret
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+logging.level.com.neuralmetrics=DEBUG
+</code></pre>
+<pre><code class="language-yaml"># application.yml style (same config, YAML format)
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/neuraldb
+    username: postgres
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+logging:
+  level:
+    com.neuralmetrics: DEBUG
+</code></pre>
+<h3>Profiles</h3>
+<pre><code class="language-properties"># application-dev.properties
+spring.datasource.url=jdbc:h2:mem:testdb   # in-memory for dev
+spring.jpa.show-sql=true
+
+# application-prod.properties
+spring.datasource.url=jdbc:postgresql://prod-server:5432/neuraldb
+spring.jpa.show-sql=false
+</code></pre>
+<pre><code class="language-bash"># Activate profile:
+java -jar app.jar --spring.profiles.active=dev
+# or in application.properties:
+spring.profiles.active=dev
+</code></pre>
+<hr>
+<h2>2.6 Maven pom.xml for Spring Boot</h2>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;parent&gt;
+        &lt;!-- Spring Boot parent — manages ALL dependency versions for you --&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;3.2.0&lt;/version&gt;
+    &lt;/parent&gt;
+
+    &lt;groupId&gt;com.neuralmetrics&lt;/groupId&gt;
+    &lt;artifactId&gt;insurance-api&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+
+    &lt;dependencies&gt;
+        &lt;!-- Web: Spring MVC + embedded Tomcat --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- JPA: Hibernate + Spring Data JPA --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- Security: Spring Security --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- Validation: Bean Validation (Hibernate Validator) --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-validation&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- PostgreSQL driver --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.postgresql&lt;/groupId&gt;
+            &lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- JWT --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+            &lt;artifactId&gt;jjwt-api&lt;/artifactId&gt;
+            &lt;version&gt;0.12.3&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- Lombok: reduces boilerplate --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;optional&gt;true&lt;/optional&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- Testing --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+<hr>
+<h2>Part 2 Interview Q&amp;A</h2>
+<p><strong>Q: What does @SpringBootApplication do?</strong>
+A: It combines three annotations: <code>@SpringBootConfiguration</code> (marks as config class), <code>@EnableAutoConfiguration</code> (triggers auto-configuration based on classpath), and <code>@ComponentScan</code> (scans current package and sub-packages for Spring components).</p>
+<p><strong>Q: What is auto-configuration in Spring Boot?</strong>
+A: Spring Boot reads all auto-configuration classes from META-INF/spring/AutoConfiguration.imports. Each class uses <code>@Conditional</code> annotations (like <code>@ConditionalOnClass</code>) to decide whether to activate. If you add <code>spring-boot-starter-data-jpa</code>, Spring Boot sees Hibernate on the classpath and automatically creates DataSource, EntityManagerFactory, and TransactionManager beans using your <code>application.properties</code> values — you write zero configuration code.</p>
+<p><strong>Q: What is a Spring Boot Starter?</strong>
+A: A convenience dependency that bundles related libraries together. <code>spring-boot-starter-web</code> includes Spring MVC, Jackson (JSON), Tomcat, and Spring core. <code>spring-boot-starter-data-jpa</code> includes Hibernate, Spring Data JPA, and HikariCP (connection pool). Instead of adding 5 separate dependencies, you add one starter.</p>
+<p><strong>Q: What is the difference between application.properties and profiles?</strong>
+A: <code>application.properties</code> is the default config loaded always. Profile-specific files like <code>application-dev.properties</code> are loaded on top when that profile is active, overriding default values. This lets you use different databases, ports, and settings per environment without code changes.</p>
+<hr>
+<h1>PART 3: REST APIs — Controllers, Validation, Exception Handling</h1>
+<hr>
+<h2>3.1 Request Lifecycle in Spring MVC</h2>
+<pre><code>HTTP Request: POST /api/users
+      │
+      ▼
+Embedded Tomcat (port 8080) receives it
+      │
+      ▼
+DispatcherServlet (Front Controller — all requests go here first)
+      │
+      ▼
+HandlerMapping — finds which Controller method handles POST /api/users
+      │
+      ▼
+HandlerAdapter — calls the method, converts JSON body to Java object
+      │
+      ▼
+Your Controller method runs
+      │
+      ▼
+Return value (ResponseEntity / object) → HttpMessageConverter → JSON
+      │
+      ▼
+HTTP Response sent back
+</code></pre>
+<hr>
+<h2>3.2 Building REST Controllers</h2>
+<pre><code class="language-java">@RestController                    // = @Controller + @ResponseBody (auto-serialize return to JSON)
+@RequestMapping(&quot;/api/users&quot;)      // base path for all methods in this class
+public class UserController {
+
+    private final UserService userService;
+
+    // Constructor injection (no @Autowired needed — Spring detects single constructor)
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // GET /api/users
+    @GetMapping
+    public ResponseEntity&lt;List&lt;UserResponse&gt;&gt; getAllUsers() {
+        List&lt;UserResponse&gt; users = userService.getAllUsers();
+        return ResponseEntity.ok(users);  // 200 OK + body
+    }
+
+    // GET /api/users/42
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;UserResponse&gt; getUserById(@PathVariable Long id) {
+        UserResponse user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    // GET /api/users?page=0&amp;size=10&amp;role=ADMIN
+    @GetMapping(&quot;/search&quot;)
+    public ResponseEntity&lt;List&lt;UserResponse&gt;&gt; searchUsers(
+            @RequestParam(defaultValue = &quot;0&quot;) int page,
+            @RequestParam(defaultValue = &quot;10&quot;) int size,
+            @RequestParam(required = false) String role) {
+        return ResponseEntity.ok(userService.search(page, size, role));
+    }
+
+    // POST /api/users  (body: {&quot;name&quot;:&quot;Alice&quot;,&quot;email&quot;:&quot;alice@example.com&quot;})
+    @PostMapping
+    public ResponseEntity&lt;UserResponse&gt; createUser(
+            @RequestBody @Valid UserRequest request) {  // @Valid triggers validation
+        UserResponse created = userService.createUser(request);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)           // 201 Created
+                .body(created);
+    }
+
+    // PUT /api/users/42  (full update)
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;UserResponse&gt; updateUser(
+            @PathVariable Long id,
+            @RequestBody @Valid UserRequest request) {
+        return ResponseEntity.ok(userService.updateUser(id, request));
+    }
+
+    // PATCH /api/users/42  (partial update)
+    @PatchMapping(&quot;/{id}/status&quot;)
+    public ResponseEntity&lt;UserResponse&gt; updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        return ResponseEntity.ok(userService.updateStatus(id, status));
+    }
+
+    // DELETE /api/users/42
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();  // 204 No Content
+    }
+}
+</code></pre>
+<hr>
+<h2>3.3 DTOs — Data Transfer Objects</h2>
+<p>Never expose your Entity directly in API responses. Use DTOs:</p>
+<pre><code class="language-java">// INPUT DTO — what the client sends
+public class UserRequest {
+    @NotBlank(message = &quot;Name is required&quot;)
+    @Size(min = 2, max = 100, message = &quot;Name must be 2-100 characters&quot;)
+    private String name;
+
+    @NotBlank(message = &quot;Email is required&quot;)
+    @Email(message = &quot;Invalid email format&quot;)
+    private String email;
+
+    @NotBlank(message = &quot;Password is required&quot;)
+    @Size(min = 8, message = &quot;Password must be at least 8 characters&quot;)
+    @Pattern(regexp = &quot;^(?=.*[A-Z])(?=.*[0-9]).+$&quot;,
+             message = &quot;Password must contain at least one uppercase letter and one digit&quot;)
+    private String password;
+
+    @NotNull(message = &quot;Age is required&quot;)
+    @Min(value = 18, message = &quot;Must be at least 18 years old&quot;)
+    @Max(value = 120, message = &quot;Invalid age&quot;)
+    private Integer age;
+
+    // Getters and setters (or use Lombok @Data)
+}
+
+// OUTPUT DTO — what the API returns (never expose password hash!)
+public class UserResponse {
+    private Long id;
+    private String name;
+    private String email;
+    private String role;
+    private LocalDateTime createdAt;
+    // NO password field!
+}
+</code></pre>
+<p><strong>Why DTOs and not Entities?</strong>
+- Entities may have fields you don't want to expose (password, internal flags)
+- Entities can have circular references that break JSON serialization
+- API contract is independent of database schema — you can change one without breaking the other</p>
+<hr>
+<h2>3.4 Validation</h2>
+<p>Spring Boot uses Hibernate Validator (Bean Validation 3.0):</p>
+<pre><code class="language-java">// Common validation annotations:
+@NotNull              // field must not be null
+@NotBlank             // string must not be null, empty, or whitespace
+@NotEmpty             // collection/string must not be null or empty
+@Size(min=2, max=50)  // string/collection size range
+@Min(18)              // number minimum value
+@Max(100)             // number maximum value
+@Email                // valid email format
+@Pattern(regexp=&quot;...&quot;) // matches regex
+@Past                 // date must be in the past
+@Future               // date must be in the future
+@Positive             // number must be &gt; 0
+@PositiveOrZero       // number must be &gt;= 0
+
+// Custom validation example:
+@Constraint(validatedBy = PhoneValidator.class)
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ValidPhone {
+    String message() default &quot;Invalid phone number&quot;;
+    Class&lt;?&gt;[] groups() default {};
+    Class&lt;? extends Payload&gt;[] payload() default {};
+}
+
+public class PhoneValidator implements ConstraintValidator&lt;ValidPhone, String&gt; {
+    @Override
+    public boolean isValid(String phone, ConstraintValidatorContext ctx) {
+        if (phone == null) return true;
+        return phone.matches(&quot;^\\+?[1-9]\\d{9,14}$&quot;);
+    }
+}
+</code></pre>
+<p>Trigger validation on controller with <code>@Valid</code> or <code>@Validated</code>:</p>
+<pre><code class="language-java">@PostMapping
+public ResponseEntity&lt;UserResponse&gt; createUser(@RequestBody @Valid UserRequest request) {
+    // If validation fails, Spring throws MethodArgumentNotValidException
+    // before your method body runs at all
+}
+</code></pre>
+<hr>
+<h2>3.5 Exception Handling — Global Handler</h2>
+<pre><code class="language-java">// Custom exceptions:
+public class UserNotFoundException extends RuntimeException {
+    private final Long userId;
+
+    public UserNotFoundException(Long userId) {
+        super(&quot;User not found with id: &quot; + userId);
+        this.userId = userId;
+    }
+
+    public Long getUserId() { return userId; }
+}
+
+public class DuplicateEmailException extends RuntimeException {
+    public DuplicateEmailException(String email) {
+        super(&quot;Email already exists: &quot; + email);
+    }
+}
+</code></pre>
+<pre><code class="language-java">// Standard error response DTO:
+public class ErrorResponse {
+    private int status;
+    private String error;
+    private String message;
+    private LocalDateTime timestamp;
+    private Map&lt;String, String&gt; fieldErrors;  // for validation errors
+
+    // Constructor, getters...
+    public static ErrorResponse of(int status, String error, String message) {
+        ErrorResponse r = new ErrorResponse();
+        r.status = status;
+        r.error = error;
+        r.message = message;
+        r.timestamp = LocalDateTime.now();
+        return r;
+    }
+}
+</code></pre>
+<pre><code class="language-java">// Global Exception Handler — catches exceptions from ALL controllers:
+@RestControllerAdvice   // = @ControllerAdvice + @ResponseBody
+public class GlobalExceptionHandler {
+
+    // Handle: resource not found
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleUserNotFound(UserNotFoundException ex) {
+        ErrorResponse error = ErrorResponse.of(
+            404, &quot;Not Found&quot;, ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    // Handle: duplicate resource
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleDuplicate(DuplicateEmailException ex) {
+        ErrorResponse error = ErrorResponse.of(
+            409, &quot;Conflict&quot;, ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    // Handle: @Valid validation failures
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleValidation(MethodArgumentNotValidException ex) {
+        Map&lt;String, String&gt; fieldErrors = new HashMap&lt;&gt;();
+        ex.getBindingResult()
+          .getFieldErrors()
+          .forEach(err -&gt; fieldErrors.put(err.getField(), err.getDefaultMessage()));
+
+        ErrorResponse error = ErrorResponse.of(
+            400, &quot;Validation Failed&quot;, &quot;Request has invalid fields&quot;
+        );
+        error.setFieldErrors(fieldErrors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    // Handle: illegal arguments
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleIllegalArg(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest()
+            .body(ErrorResponse.of(400, &quot;Bad Request&quot;, ex.getMessage()));
+    }
+
+    // Catch-all — any unhandled exception
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleGeneral(Exception ex) {
+        // Log the real error for debugging:
+        log.error(&quot;Unhandled exception&quot;, ex);
+        // Return generic message (don't expose internals to client):
+        return ResponseEntity.internalServerError()
+            .body(ErrorResponse.of(500, &quot;Internal Server Error&quot;,
+                &quot;An unexpected error occurred&quot;));
+    }
+}
+</code></pre>
+<p><strong>Validation error response example:</strong></p>
+<pre><code class="language-json">{
+  &quot;status&quot;: 400,
+  &quot;error&quot;: &quot;Validation Failed&quot;,
+  &quot;message&quot;: &quot;Request has invalid fields&quot;,
+  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00&quot;,
+  &quot;fieldErrors&quot;: {
+    &quot;email&quot;: &quot;Invalid email format&quot;,
+    &quot;password&quot;: &quot;Password must be at least 8 characters&quot;,
+    &quot;age&quot;: &quot;Must be at least 18 years old&quot;
+  }
+}
+</code></pre>
+<hr>
+<h2>3.6 Service Layer</h2>
+<pre><code class="language-java">@Service
+@Transactional  // all public methods wrapped in a transaction
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional(readOnly = true)  // optimizes read-only operations
+    public List&lt;UserResponse&gt; getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -&gt; new UserNotFoundException(id));  // throws if not found
+        return mapToResponse(user);
+    }
+
+    public UserResponse createUser(UserRequest request) {
+        // Check duplicate email
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateEmailException(request.getEmail());
+        }
+
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setRole(&quot;USER&quot;);
+        user.setCreatedAt(LocalDateTime.now());
+
+        User saved = userRepository.save(user);
+        return mapToResponse(saved);
+    }
+
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException(id);
+        }
+        userRepository.deleteById(id);
+    }
+
+    // Private mapping method — Entity → DTO
+    private UserResponse mapToResponse(User user) {
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole());
+        response.setCreatedAt(user.getCreatedAt());
+        return response;
+    }
+}
+</code></pre>
+<hr>
+<h2>Part 3 Interview Q&amp;A</h2>
+<p><strong>Q: What is the difference between @Controller and @RestController?</strong>
+A: <code>@Controller</code> marks a class as a web controller. Methods return view names (for server-side rendering with templates). <code>@RestController</code> = <code>@Controller</code> + <code>@ResponseBody</code> on every method — return values are automatically serialized to JSON/XML. For REST APIs, always use <code>@RestController</code>.</p>
+<p><strong>Q: What is @PathVariable vs @RequestParam?</strong>
+A: <code>@PathVariable</code> extracts values from the URI path — <code>/users/{id}</code> → <code>@PathVariable Long id</code>. <code>@RequestParam</code> extracts values from the query string — <code>/users?page=0&amp;size=10</code> → <code>@RequestParam int page</code>. Use path variables for resource identity, query params for filtering/pagination.</p>
+<p><strong>Q: How does validation work with @Valid?</strong>
+A: <code>@Valid</code> on a <code>@RequestBody</code> parameter triggers Bean Validation before the method body executes. If any constraint is violated, Spring throws <code>MethodArgumentNotValidException</code>. You catch this in <code>@RestControllerAdvice</code> to return a proper 400 response with field-level error details.</p>
+<p><strong>Q: What is @RestControllerAdvice?</strong>
+A: A global exception handler. <code>@ExceptionHandler</code> methods in this class catch exceptions thrown anywhere in any controller. Without it, every controller needs its own try-catch. With it, exception handling is centralized — one place to define how each exception type maps to an HTTP response.</p>
+<p><strong>Q: What is the difference between PUT and PATCH?</strong>
+A: PUT replaces the entire resource — you send all fields, and they all get updated. PATCH partially updates — you send only the fields you want to change. PUT is idempotent (sending the same request twice gives the same result). PATCH may or may not be idempotent depending on implementation.</p>
+<p><strong>Q: Why use DTOs instead of returning Entities directly?</strong>
+A: Entities may expose sensitive data (password hashes), have circular references breaking JSON serialization, or couple the API contract to the database schema. DTOs decouple what the API exposes from how data is stored — you can change either without breaking the other.</p>
+<hr>
+<h1>PART 4: Spring Data JPA — Hibernate, Relationships, N+1, Transactions</h1>
+<hr>
+<h2>4.1 ORM and JPA Basics</h2>
+<p><strong>ORM (Object-Relational Mapping):</strong> Maps Java objects to database tables automatically. You work with Java objects; ORM generates SQL.</p>
+<p><strong>JPA (Jakarta Persistence API):</strong> The specification (interface). Defines annotations like <code>@Entity</code>, <code>@Table</code>, <code>@Column</code>.</p>
+<p><strong>Hibernate:</strong> The most popular JPA implementation. Does the actual SQL generation and execution.</p>
+<p><strong>Spring Data JPA:</strong> Adds repository abstraction on top of JPA/Hibernate. You write an interface; Spring generates the implementation.</p>
+<pre><code>Your Code → Spring Data JPA → JPA (Specification) → Hibernate (Implementation) → JDBC → Database
+</code></pre>
+<hr>
+<h2>4.2 Entity Design</h2>
+<pre><code class="language-java">@Entity                          // marks this as a JPA entity
+@Table(name = &quot;users&quot;,           // maps to &quot;users&quot; table
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = &quot;email&quot;)
+       })
+public class User {
+
+    @Id                          // primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // auto-increment (DB generates)
+    private Long id;
+
+    @Column(name = &quot;full_name&quot;,
+            nullable = false,
+            length = 100)
+    private String name;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(name = &quot;password_hash&quot;, nullable = false)
+    private String passwordHash;
+
+    @Enumerated(EnumType.STRING)  // store enum as &quot;USER&quot;/&quot;ADMIN&quot; string, not 0/1
+    @Column(nullable = false)
+    private Role role = Role.USER;
+
+    @Column(name = &quot;created_at&quot;)
+    private LocalDateTime createdAt;
+
+    @Column(name = &quot;is_active&quot;)
+    private boolean active = true;
+
+    // Standard getters/setters (or use Lombok @Entity + @Data/@Getter/@Setter)
+}
+
+public enum Role { USER, ADMIN, MODERATOR }
+</code></pre>
+<h3>Generated DDL (what Spring/Hibernate creates):</h3>
+<pre><code class="language-sql">CREATE TABLE users (
+    id          BIGSERIAL PRIMARY KEY,
+    full_name   VARCHAR(100) NOT NULL,
+    email       VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role        VARCHAR(50) NOT NULL DEFAULT 'USER',
+    created_at  TIMESTAMP,
+    is_active   BOOLEAN DEFAULT TRUE
+);
+</code></pre>
+<hr>
+<h2>4.3 Repositories</h2>
+<pre><code class="language-java">// Just write the interface — Spring generates the implementation at startup
+@Repository
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    // JpaRepository gives you for free:
+    // save(entity), findById(id), findAll(), deleteById(id),
+    // count(), existsById(id), saveAll(list), etc.
+
+    // Derived query methods — Spring parses method names to generate SQL:
+    Optional&lt;User&gt; findByEmail(String email);
+    // SQL: SELECT * FROM users WHERE email = ?
+
+    boolean existsByEmail(String email);
+    // SQL: SELECT COUNT(*) &gt; 0 FROM users WHERE email = ?
+
+    List&lt;User&gt; findByRole(Role role);
+    // SQL: SELECT * FROM users WHERE role = ?
+
+    List&lt;User&gt; findByActiveTrue();
+    // SQL: SELECT * FROM users WHERE is_active = true
+
+    List&lt;User&gt; findByNameContainingIgnoreCase(String name);
+    // SQL: SELECT * FROM users WHERE LOWER(full_name) LIKE LOWER('%name%')
+
+    List&lt;User&gt; findByRoleAndActiveTrue(Role role);
+    // SQL: SELECT * FROM users WHERE role = ? AND is_active = true
+
+    List&lt;User&gt; findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+    // SQL: SELECT * FROM users WHERE created_at BETWEEN ? AND ?
+
+    // Custom JPQL query (object-oriented SQL):
+    @Query(&quot;SELECT u FROM User u WHERE u.email = :email AND u.active = true&quot;)
+    Optional&lt;User&gt; findActiveByEmail(@Param(&quot;email&quot;) String email);
+
+    // Native SQL query:
+    @Query(value = &quot;SELECT * FROM users WHERE email = :email&quot;, nativeQuery = true)
+    Optional&lt;User&gt; findByEmailNative(@Param(&quot;email&quot;) String email);
+
+    // Update query — needs @Modifying + @Transactional
+    @Modifying
+    @Transactional
+    @Query(&quot;UPDATE User u SET u.active = false WHERE u.id = :id&quot;)
+    int deactivateUser(@Param(&quot;id&quot;) Long id);
+
+    // Pagination:
+    Page&lt;User&gt; findByRole(Role role, Pageable pageable);
+}
+</code></pre>
+<pre><code class="language-java">// Using pagination in service:
+@Transactional(readOnly = true)
+public Page&lt;UserResponse&gt; getUsers(int page, int size, String sortBy) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+    // SQL: SELECT * FROM users ORDER BY name ASC LIMIT 10 OFFSET 0
+    return userRepository.findAll(pageable).map(this::mapToResponse);
+}
+</code></pre>
+<hr>
+<h2>4.4 Relationships</h2>
+<h3>One-To-Many / Many-To-One (Most Common)</h3>
+<pre><code>One User has Many Orders
+One Order belongs to One User
+</code></pre>
+<pre><code class="language-java">@Entity
+@Table(name = &quot;users&quot;)
+public class User {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    // One user has many orders
+    @OneToMany(mappedBy = &quot;user&quot;,          // &quot;user&quot; = field name in Order class
+               cascade = CascadeType.ALL,  // save/delete user cascades to orders
+               fetch = FetchType.LAZY)     // orders NOT loaded unless accessed
+    private List&lt;Order&gt; orders = new ArrayList&lt;&gt;();
+}
+
+@Entity
+@Table(name = &quot;orders&quot;)
+public class Order {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Double amount;
+
+    // Many orders belong to one user
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;user_id&quot;, nullable = false)  // foreign key column
+    private User user;
+}
+</code></pre>
+<p><strong>Generated SQL:</strong></p>
+<pre><code class="language-sql">CREATE TABLE orders (
+    id      BIGSERIAL PRIMARY KEY,
+    amount  DECIMAL(10, 2),
+    user_id BIGINT NOT NULL REFERENCES users(id)  -- FK from @JoinColumn
+);
+</code></pre>
+<h3>One-To-One</h3>
+<pre><code class="language-java">@Entity
+public class User {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;profile_id&quot;, referencedColumnName = &quot;id&quot;)
+    private UserProfile profile;
+}
+
+@Entity
+public class UserProfile {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String bio;
+    private String avatarUrl;
+
+    @OneToOne(mappedBy = &quot;profile&quot;)
+    private User user;
+}
+</code></pre>
+<h3>Many-To-Many</h3>
+<pre><code class="language-java">@Entity
+public class Student {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    @ManyToMany
+    @JoinTable(
+        name = &quot;student_courses&quot;,             // join table name
+        joinColumns = @JoinColumn(name = &quot;student_id&quot;),
+        inverseJoinColumns = @JoinColumn(name = &quot;course_id&quot;)
+    )
+    private Set&lt;Course&gt; courses = new HashSet&lt;&gt;();
+}
+
+@Entity
+public class Course {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+
+    @ManyToMany(mappedBy = &quot;courses&quot;)
+    private Set&lt;Student&gt; students = new HashSet&lt;&gt;();
+}
+</code></pre>
+<p><strong>Generated join table SQL:</strong></p>
+<pre><code class="language-sql">CREATE TABLE student_courses (
+    student_id BIGINT REFERENCES students(id),
+    course_id  BIGINT REFERENCES courses(id),
+    PRIMARY KEY (student_id, course_id)
+);
+</code></pre>
+<hr>
+<h2>4.5 Lazy vs Eager Loading</h2>
+<pre><code class="language-java">// LAZY (default for @OneToMany, @ManyToMany):
+// Related entities are NOT loaded until you access them
+@OneToMany(fetch = FetchType.LAZY)
+private List&lt;Order&gt; orders;
+
+User user = userRepository.findById(1L).get();
+// SQL: SELECT * FROM users WHERE id = 1   (orders NOT loaded)
+
+user.getOrders();  // ACCESS triggers another SQL:
+// SQL: SELECT * FROM orders WHERE user_id = 1   (loaded now)
+
+// EAGER (default for @ManyToOne, @OneToOne):
+// Related entities loaded immediately with parent
+@ManyToOne(fetch = FetchType.EAGER)
+private User user;
+
+Order order = orderRepository.findById(1L).get();
+// SQL: SELECT o.*, u.* FROM orders o JOIN users u ON o.user_id = u.id WHERE o.id = 1
+// User loaded immediately with Order
+</code></pre>
+<hr>
+<h2>4.6 The N+1 Problem (Critical Interview Topic)</h2>
+<p>This is one of the most important JPA concepts for interviews.</p>
+<p><strong>The problem:</strong></p>
+<pre><code class="language-java">// You fetch 10 users (1 query)
+List&lt;User&gt; users = userRepository.findAll();
+// SQL 1: SELECT * FROM users
+
+// Then in a loop, you access each user's orders (1 query PER user)
+for (User user : users) {
+    System.out.println(user.getOrders().size());
+    // SQL 2:  SELECT * FROM orders WHERE user_id = 1
+    // SQL 3:  SELECT * FROM orders WHERE user_id = 2
+    // SQL 4:  SELECT * FROM orders WHERE user_id = 3
+    // ... 10 more queries!
+}
+// Total: 1 + 10 = 11 queries = N+1 problem!
+</code></pre>
+<p><strong>Solution 1: JOIN FETCH (fetch in one query)</strong></p>
+<pre><code class="language-java">@Query(&quot;SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.orders&quot;)
+List&lt;User&gt; findAllWithOrders();
+// SQL: SELECT DISTINCT u.*, o.* FROM users u LEFT JOIN orders o ON u.id = o.user_id
+// 1 query instead of N+1!
+</code></pre>
+<p><strong>Solution 2: @EntityGraph</strong></p>
+<pre><code class="language-java">@EntityGraph(attributePaths = {&quot;orders&quot;})
+List&lt;User&gt; findAll();
+// Hibernate generates a JOIN query automatically
+</code></pre>
+<p><strong>Solution 3: @BatchSize (loads in batches)</strong></p>
+<pre><code class="language-java">@OneToMany(fetch = FetchType.LAZY)
+@BatchSize(size = 25)   // loads up to 25 users' orders in one query
+private List&lt;Order&gt; orders;
+// SQL: SELECT * FROM orders WHERE user_id IN (1,2,3,...,25)
+</code></pre>
+<hr>
+<h2>4.7 Transactions</h2>
+<pre><code class="language-java">@Service
+@Transactional  // class-level: all public methods are transactional by default
+public class BankingService {
+
+    @Transactional  // method-level overrides class-level
+    public void transfer(Long fromId, Long toId, BigDecimal amount) {
+        Account from = accountRepo.findById(fromId)
+            .orElseThrow(() -&gt; new AccountNotFoundException(fromId));
+        Account to = accountRepo.findById(toId)
+            .orElseThrow(() -&gt; new AccountNotFoundException(toId));
+
+        if (from.getBalance().compareTo(amount) &lt; 0) {
+            throw new InsufficientFundsException();
+        }
+
+        from.setBalance(from.getBalance().subtract(amount));
+        to.setBalance(to.getBalance().add(amount));
+
+        accountRepo.save(from);
+        accountRepo.save(to);
+        // If ANY exception occurs above, BOTH saves are rolled back
+        // Either both succeed or neither does — ATOMICITY
+    }
+
+    // Read-only transaction — Hibernate skips dirty checking, better performance
+    @Transactional(readOnly = true)
+    public AccountResponse getAccount(Long id) {
+        return accountRepo.findById(id).map(this::mapToResponse)
+            .orElseThrow(() -&gt; new AccountNotFoundException(id));
+    }
+
+    // Propagation: what to do if a transaction already exists
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void logAuditEntry(String action) {
+        // Always runs in its own NEW transaction
+        // Even if the calling transaction rolls back, this log entry is committed
+        auditRepo.save(new AuditLog(action, LocalDateTime.now()));
+    }
+}
+</code></pre>
+<h3>Transaction Propagation Types</h3>
+<table>
+<thead>
+<tr>
+<th>Propagation</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REQUIRED</code> (default)</td>
+<td>Join existing transaction; create new if none</td>
+</tr>
+<tr>
+<td><code>REQUIRES_NEW</code></td>
+<td>Always create new transaction; suspend existing</td>
+</tr>
+<tr>
+<td><code>SUPPORTS</code></td>
+<td>Use existing if present; run non-transactional if none</td>
+</tr>
+<tr>
+<td><code>MANDATORY</code></td>
+<td>Must have existing transaction; throw if none</td>
+</tr>
+<tr>
+<td><code>NEVER</code></td>
+<td>Must NOT be in a transaction; throw if one exists</td>
+</tr>
+<tr>
+<td><code>NOT_SUPPORTED</code></td>
+<td>Suspend existing transaction; run non-transactional</td>
+</tr>
+</tbody>
+</table>
+<h3>@Transactional self-invocation bug:</h3>
+<pre><code class="language-java">@Service
+public class UserService {
+
+    public void processUser(Long id) {
+        updateUser(id);  // CALLS INTERNAL METHOD — @Transactional IGNORED!
+    }
+
+    @Transactional  // This annotation has NO effect when called from same class!
+    public void updateUser(Long id) {
+        // transaction does NOT wrap this when called from processUser() above
+    }
+}
+</code></pre>
+<p><strong>Why:</strong> Spring transactions use AOP proxies. The proxy wraps your class from outside. Internal method calls bypass the proxy entirely. <strong>Fix:</strong> Extract <code>updateUser</code> to a separate <code>@Service</code> class.</p>
+<hr>
+<h2>Part 4 Interview Q&amp;A</h2>
+<p><strong>Q: What is JPA and Hibernate?</strong>
+A: JPA (Jakarta Persistence API) is the Java specification for ORM — it defines annotations like <code>@Entity</code>, <code>@OneToMany</code> and interfaces like <code>EntityManager</code>. Hibernate is the most popular implementation of JPA — it does the actual SQL generation and execution.</p>
+<p><strong>Q: What is the N+1 problem?</strong>
+A: When fetching N entities triggers N additional queries to load their associations. Example: fetching 100 orders and then accessing each order's user triggers 100 extra SELECT queries. Fix with JOIN FETCH in JPQL, <code>@EntityGraph</code>, or <code>@BatchSize</code>.</p>
+<p><strong>Q: What is the difference between FetchType.LAZY and EAGER?</strong>
+A: LAZY loads associated entities only when you first access them (separate SQL query). EAGER loads them immediately with the parent (JOIN). LAZY is default for collections and preferred — it avoids loading unnecessary data. EAGER can cause performance problems by loading too much.</p>
+<p><strong>Q: What does @Transactional do?</strong>
+A: Wraps a method in a database transaction. If the method completes normally, the transaction is committed. If a RuntimeException is thrown, the transaction is rolled back — all database changes are undone. Spring implements this using AOP proxies.</p>
+<p><strong>Q: Why doesn't @Transactional work on self-invoked methods?</strong>
+A: Spring transactions use AOP (Aspect-Oriented Programming) proxies. The proxy intercepts external calls and wraps them in transactions. Internal method calls (this.method()) bypass the proxy completely — the transaction annotation is never seen. Solution: move the transactional method to a different Spring bean.</p>
+<p><strong>Q: What is CascadeType.ALL?</strong>
+A: It means operations on the parent entity cascade to child entities. CascadeType.ALL includes PERSIST (save), MERGE (update), REMOVE (delete), REFRESH, and DETACH. If you save a User with <code>cascade = CascadeType.ALL</code> on orders, their orders are saved too. If you delete the user, their orders are deleted too.</p>
+<hr>
+<h1>PART 5: Spring Security + JWT Authentication</h1>
+<hr>
+<h2>5.1 Spring Security Architecture</h2>
+<pre><code>HTTP Request
+     │
+     ▼
+SecurityFilterChain (a chain of servlet filters)
+     │
+     ├── UsernamePasswordAuthenticationFilter (for form login)
+     ├── BasicAuthenticationFilter (for Basic auth)
+     ├── JwtAuthenticationFilter (YOUR custom filter)
+     ├── ExceptionTranslationFilter (401/403 handling)
+     └── FilterSecurityInterceptor (authorization check)
+     │
+     ▼
+Your Controller (only reached if all filters passed)
+</code></pre>
+<p>Every HTTP request passes through the filter chain. Filters authenticate the request, set the security context, or reject it with 401/403.</p>
+<hr>
+<h2>5.2 JWT — How It Works</h2>
+<p><strong>JWT (JSON Web Token):</strong> A self-contained token that carries user identity and claims. No server-side session needed.</p>
+<pre><code>JWT Structure:   header.payload.signature
+
+Header (Base64):  {&quot;alg&quot;:&quot;HS256&quot;,&quot;typ&quot;:&quot;JWT&quot;}
+Payload (Base64): {&quot;sub&quot;:&quot;user@example.com&quot;,&quot;role&quot;:&quot;USER&quot;,&quot;exp&quot;:1710000000,&quot;iat&quot;:1709996400}
+Signature:        HMACSHA256(base64(header) + &quot;.&quot; + base64(payload), SECRET_KEY)
+
+Full token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyQGV4YW1wbGUuY29tIn0.XXXXX
+</code></pre>
+<p><strong>Auth flow:</strong></p>
+<pre><code>1. Client:  POST /api/auth/login  {&quot;email&quot;:&quot;user@ex.com&quot;,&quot;password&quot;:&quot;pass&quot;}
+2. Server:  verify credentials → generate JWT → return token
+3. Client:  store token (localStorage/cookie)
+4. Client:  GET /api/orders  →  Authorization: Bearer eyJ...
+5. Server:  JwtFilter intercepts → validate token → set SecurityContext → proceed
+6. Controller receives authenticated request
+</code></pre>
+<hr>
+<h2>5.3 Complete JWT Implementation</h2>
+<h3>Dependencies (pom.xml additions):</h3>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+    &lt;artifactId&gt;jjwt-api&lt;/artifactId&gt;
+    &lt;version&gt;0.12.3&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+    &lt;artifactId&gt;jjwt-impl&lt;/artifactId&gt;
+    &lt;version&gt;0.12.3&lt;/version&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+    &lt;artifactId&gt;jjwt-jackson&lt;/artifactId&gt;
+    &lt;version&gt;0.12.3&lt;/version&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3>Step 1: JWT Utility Service</h3>
+<pre><code class="language-java">@Component
+public class JwtService {
+
+    @Value(&quot;${jwt.secret}&quot;)
+    private String secretKey;
+
+    @Value(&quot;${jwt.expiration:86400000}&quot;)  // 24 hours in ms (default)
+    private long jwtExpiration;
+
+    // Generate token for a user
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap&lt;&gt;(), userDetails);
+    }
+
+    public String generateToken(Map&lt;String, Object&gt; extraClaims, UserDetails userDetails) {
+        return Jwts.builder()
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())   // email as subject
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(getSignKey())
+                .compact();
+    }
+
+    // Validate token
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) &amp;&amp; !isTokenExpired(token);
+    }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public &lt;T&gt; T extractClaim(String token, Function&lt;Claims, T&gt; claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getSignKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    private SecretKey getSignKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+}
+</code></pre>
+<h3>Step 2: UserDetailsService (load user from DB)</h3>
+<pre><code class="language-java">@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User not found: &quot; + email));
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPasswordHash())
+                .roles(user.getRole().name())  // &quot;USER&quot; → &quot;ROLE_USER&quot;
+                .build();
+    }
+}
+</code></pre>
+<h3>Step 3: JWT Filter (intercepts every request)</h3>
+<pre><code class="language-java">@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    // OncePerRequestFilter = runs exactly once per request (not re-triggered by forwards)
+
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtService jwtService,
+                                    UserDetailsService userDetailsService) {
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
+        // 1. Get Authorization header
+        final String authHeader = request.getHeader(&quot;Authorization&quot;);
+
+        // 2. If no token, skip to next filter (request will fail at authorization)
+        if (authHeader == null || !authHeader.startsWith(&quot;Bearer &quot;)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 3. Extract token
+        final String jwt = authHeader.substring(7);  // remove &quot;Bearer &quot; prefix
+        final String userEmail;
+
+        try {
+            userEmail = jwtService.extractUsername(jwt);
+        } catch (JwtException e) {
+            // Invalid token — let request proceed unauthenticated (will be rejected by security)
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 4. If token has email and user not yet authenticated
+        if (userEmail != null &amp;&amp; SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            // 5. Load user from DB
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+
+            // 6. Validate token
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+
+                // 7. Create authentication token and set in SecurityContext
+                UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,                          // credentials (null for JWT)
+                        userDetails.getAuthorities()   // roles
+                    );
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                // 8. Tell Spring Security this request is authenticated
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+
+        // 9. Continue to next filter
+        filterChain.doFilter(request, response);
+    }
+}
+</code></pre>
+<h3>Step 4: Security Configuration</h3>
+<pre><code class="language-java">@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity  // enables @PreAuthorize on methods
+public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter,
+                          UserDetailsService userDetailsService) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            // Disable CSRF (not needed for stateless JWT APIs)
+            .csrf(csrf -&gt; csrf.disable())
+
+            // Define which endpoints are public vs protected
+            .authorizeHttpRequests(auth -&gt; auth
+                .requestMatchers(&quot;/api/auth/**&quot;).permitAll()       // login, register
+                .requestMatchers(&quot;/api/public/**&quot;).permitAll()     // public APIs
+                .requestMatchers(&quot;/actuator/health&quot;).permitAll()   // health check
+                .requestMatchers(&quot;/api/admin/**&quot;).hasRole(&quot;ADMIN&quot;) // admin only
+                .anyRequest().authenticated()                       // everything else needs auth
+            )
+
+            // Stateless session — no HttpSession (JWT is our session)
+            .sessionManagement(session -&gt; session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            // Add JWT filter BEFORE UsernamePasswordAuthenticationFilter
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    // Password encoder — BCrypt hashing
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // Authentication manager — used in login endpoint
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    // Wire UserDetailsService + PasswordEncoder for authentication
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+}
+</code></pre>
+<h3>Step 5: Auth Controller (Login + Register)</h3>
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/api/auth&quot;)
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping(&quot;/register&quot;)
+    public ResponseEntity&lt;UserResponse&gt; register(@RequestBody @Valid RegisterRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(authService.register(request));
+    }
+
+    @PostMapping(&quot;/login&quot;)
+    public ResponseEntity&lt;AuthResponse&gt; login(@RequestBody @Valid LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
+    }
+}
+
+// DTOs
+public class LoginRequest {
+    @NotBlank @Email
+    private String email;
+    @NotBlank
+    private String password;
+}
+
+public class AuthResponse {
+    private String token;
+    private String type = &quot;Bearer&quot;;
+    private String email;
+    private String role;
+    // constructor, getters
+}
+</code></pre>
+<pre><code class="language-java">@Service
+public class AuthService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+
+    // Constructor injection...
+
+    public AuthResponse login(LoginRequest request) {
+        // 1. Authenticate (throws BadCredentialsException if wrong)
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+        );
+
+        // 2. Load user
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User not found&quot;));
+
+        // 3. Generate JWT
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        String token = jwtService.generateToken(userDetails);
+
+        // 4. Return token
+        return new AuthResponse(token, user.getEmail(), user.getRole().name());
+    }
+
+    public UserResponse register(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateEmailException(request.getEmail());
+        }
+
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
+        user.setCreatedAt(LocalDateTime.now());
+
+        return mapToResponse(userRepository.save(user));
+    }
+}
+</code></pre>
+<h3>Step 6: Method-Level Security</h3>
+<pre><code class="language-java">@RestController
+@RequestMapping(&quot;/api/users&quot;)
+public class UserController {
+
+    // Only ADMIN can access this endpoint
+    @GetMapping
+    @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+    public ResponseEntity&lt;List&lt;UserResponse&gt;&gt; getAllUsers() { ... }
+
+    // User can access their own data OR admin can access anyone's
+    @GetMapping(&quot;/{id}&quot;)
+    @PreAuthorize(&quot;hasRole('ADMIN') or #id == authentication.principal.id&quot;)
+    public ResponseEntity&lt;UserResponse&gt; getUserById(@PathVariable Long id) { ... }
+
+    // Any authenticated user
+    @GetMapping(&quot;/me&quot;)
+    public ResponseEntity&lt;UserResponse&gt; getCurrentUser(Authentication authentication) {
+        String email = authentication.getName();  // from SecurityContext
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+}
+</code></pre>
+<hr>
+<h2>5.4 application.properties for Security</h2>
+<pre><code class="language-properties"># JWT secret (use a strong, random base64-encoded key in production)
+jwt.secret=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+jwt.expiration=86400000
+
+# BCrypt strength (10 = default, higher = slower but more secure)
+spring.security.bcrypt.strength=10
+</code></pre>
+<hr>
+<h2>Part 5 Interview Q&amp;A</h2>
+<p><strong>Q: What is JWT and how does it work?</strong>
+A: JWT (JSON Web Token) is a stateless authentication token. It has three parts: header (algorithm), payload (user data like email, role, expiry), and signature (HMAC of header+payload using a secret key). The server generates a JWT on login and sends it to the client. The client sends it with every request. The server verifies the signature without any database lookup — that's what makes it stateless.</p>
+<p><strong>Q: What is the difference between authentication and authorization?</strong>
+A: Authentication = verifying WHO you are (login with email/password). Authorization = checking WHAT you're allowed to do (do you have the ADMIN role to access this endpoint?). In Spring Security: authentication happens at login, authorization happens at every request.</p>
+<p><strong>Q: How does the JWT filter work in Spring Security?</strong>
+A: It extends <code>OncePerRequestFilter</code>. For every request, it reads the <code>Authorization: Bearer &lt;token&gt;</code> header, extracts and validates the JWT, loads the user from the database, and sets a <code>UsernamePasswordAuthenticationToken</code> in the <code>SecurityContextHolder</code>. This tells Spring Security the request is authenticated and what roles the user has.</p>
+<p><strong>Q: Why is CSRF disabled for REST APIs?</strong>
+A: CSRF attacks rely on browsers automatically including cookies in cross-origin requests. JWT tokens are sent in the <code>Authorization</code> header, not in cookies — so CSRF doesn't apply. Cookies with CSRF protection are needed for traditional form-based web apps.</p>
+<p><strong>Q: What is BCrypt and why is it used for passwords?</strong>
+A: BCrypt is a password hashing algorithm specifically designed to be slow (cost factor is configurable). Unlike MD5/SHA (fast, crackable), BCrypt makes brute-force attacks prohibitively expensive. It also includes a built-in salt (random data mixed into the hash), preventing rainbow table attacks. Never store plain-text or MD5 passwords.</p>
+<p><strong>Q: What is SessionCreationPolicy.STATELESS?</strong>
+A: It tells Spring Security not to create or use HTTP sessions. Each request must carry authentication information (JWT) on its own — the server keeps no session state. This is essential for scalable APIs where any server instance should be able to handle any request.</p>
+<hr>
+<h1>PART 6: Master Interview Q&amp;A Cheatsheet</h1>
+<hr>
+<h2>Spring Core</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Key Answer Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is Spring Boot?</td>
+<td>Spring Framework + auto-configuration + embedded Tomcat + opinionated defaults. Reduces boilerplate.</td>
+</tr>
+<tr>
+<td>IoC vs DI</td>
+<td>IoC = framework controls object creation. DI = mechanism — Spring injects dependencies into your classes.</td>
+</tr>
+<tr>
+<td>@Component vs @Bean</td>
+<td><code>@Component</code> on your own class — Spring detects it. <code>@Bean</code> is a method in <code>@Configuration</code> class — you write how to create it (for third-party classes).</td>
+</tr>
+<tr>
+<td>Default bean scope</td>
+<td>Singleton — one instance per ApplicationContext. Beans must be stateless.</td>
+</tr>
+<tr>
+<td>@Autowired resolution</td>
+<td>Spring first matches by type. If multiple beans of same type exist, it matches by field name. <code>@Qualifier("beanName")</code> to be explicit.</td>
+</tr>
+</tbody>
+</table>
+<h2>REST APIs</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Key Answer Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP status codes</td>
+<td>200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error</td>
+</tr>
+<tr>
+<td>Idempotent methods</td>
+<td>GET, PUT, DELETE are idempotent. POST is not. PATCH may or may not be.</td>
+</tr>
+<tr>
+<td>@RequestBody vs @RequestParam</td>
+<td><code>@RequestBody</code> = JSON body of POST/PUT request. <code>@RequestParam</code> = query string <code>?key=value</code>.</td>
+</tr>
+<tr>
+<td>Validation failure response</td>
+<td>Catch <code>MethodArgumentNotValidException</code> in <code>@RestControllerAdvice</code>, return 400 with field-level errors.</td>
+</tr>
+</tbody>
+</table>
+<h2>Spring Data JPA</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Key Answer Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is JPA vs Hibernate</td>
+<td>JPA = specification (interface). Hibernate = implementation. Like JDBC is to MySQL driver.</td>
+</tr>
+<tr>
+<td>@Entity @Id @GeneratedValue</td>
+<td>@Entity = maps to table. @Id = primary key. @GeneratedValue(IDENTITY) = DB auto-increment.</td>
+</tr>
+<tr>
+<td>Lazy vs Eager</td>
+<td>LAZY = load on access (good default). EAGER = load immediately (can cause performance issues).</td>
+</tr>
+<tr>
+<td>N+1 problem</td>
+<td>Fetching N entities then N more queries for associations. Fix: JOIN FETCH, @EntityGraph.</td>
+</tr>
+<tr>
+<td>@Transactional rollback</td>
+<td>Rolls back on RuntimeException by default. For checked exceptions: <code>@Transactional(rollbackFor = Exception.class)</code>.</td>
+</tr>
+<tr>
+<td>ddl-auto options</td>
+<td><code>none</code>=no action, <code>validate</code>=check schema, <code>update</code>=update schema, <code>create</code>=drop+create, <code>create-drop</code>=create on start, drop on stop. Never use <code>create</code>/<code>create-drop</code> in production.</td>
+</tr>
+</tbody>
+</table>
+<h2>Spring Security + JWT</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Key Answer Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JWT structure</td>
+<td>header.payload.signature — all base64 encoded. Signature prevents tampering.</td>
+</tr>
+<tr>
+<td>JWT stateless</td>
+<td>No server session — server validates signature on every request. Scales horizontally.</td>
+</tr>
+<tr>
+<td>Where JWT is stored client-side</td>
+<td>HttpOnly cookie (most secure) or localStorage (vulnerable to XSS).</td>
+</tr>
+<tr>
+<td>JWT expiry</td>
+<td>Short-lived access token (15min-1hr) + long-lived refresh token (days).</td>
+</tr>
+<tr>
+<td>BCrypt</td>
+<td>Adaptive hashing function — slow by design. Includes salt. <code>passwordEncoder.encode()</code> and <code>passwordEncoder.matches()</code>.</td>
+</tr>
+<tr>
+<td>@PreAuthorize</td>
+<td>Method-level security. <code>@EnableMethodSecurity</code> must be on config class. Supports SpEL expressions.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Common Follow-Up Questions</h2>
+<p><strong>Q: How would you handle pagination in your API?</strong></p>
+<pre><code class="language-java">// Controller:
+@GetMapping
+public Page&lt;UserResponse&gt; getUsers(
+    @RequestParam(defaultValue = &quot;0&quot;) int page,
+    @RequestParam(defaultValue = &quot;10&quot;) int size) {
+    return userService.getUsers(PageRequest.of(page, size));
+}
+// Response includes: content, totalElements, totalPages, pageNumber, pageSize
+</code></pre>
+<p><strong>Q: How do you prevent SQL injection in Spring?</strong>
+A: Spring Data JPA and JPQL use parameterized queries — user input is never concatenated into SQL strings. <code>@Query("SELECT u FROM User u WHERE u.email = :email")</code> with <code>@Param("email")</code> is safe. Never use string concatenation in native queries.</p>
+<p><strong>Q: What is the difference between save() and saveAndFlush() in JPA?</strong>
+A: <code>save()</code> puts the entity in Hibernate's persistence context — the INSERT may be batched and sent to DB later (within the transaction). <code>saveAndFlush()</code> immediately flushes changes to the database, useful when you need the DB-generated ID or to see changes within the same transaction.</p>
+<p><strong>Q: How would you add logging to your Spring Boot app?</strong></p>
+<pre><code class="language-java">@Service
+public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+    // Or with Lombok: @Slf4j on the class
+
+    public UserResponse createUser(UserRequest request) {
+        log.info(&quot;Creating user with email: {}&quot;, request.getEmail());
+        // ...
+        log.debug(&quot;User created with id: {}&quot;, saved.getId());
+        return mapToResponse(saved);
+    }
+}
+</code></pre>
+<pre><code class="language-properties"># application.properties
+logging.level.com.neuralmetrics=DEBUG  # your package
+logging.level.org.hibernate.SQL=DEBUG  # see generated SQL
+logging.level.root=INFO
+</code></pre>
+<p><strong>Q: What is @Transactional readOnly = true?</strong>
+A: Hints to Spring and Hibernate that this transaction won't modify data. Hibernate skips dirty checking (comparing entity state to detect changes) — this is a performance optimization. Also allows the database to route the query to a read replica if configured.</p>
+<p><strong>Q: How do you handle circular dependencies in Spring?</strong>
+A: Best: redesign to eliminate the cycle (a sign of poor design). Alternatives: use <code>@Lazy</code> on one injection point (Spring creates a proxy, injects real bean later), or use setter injection (Spring can handle circular setter injection). Constructor injection with circular dependency = startup failure — which is actually good because it exposes the design problem.</p>
+<hr>
+<h2>Quick Definitions (Rapid-Fire Round)</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>One-Line Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IoC Container</td>
+<td>Spring's ApplicationContext — creates, wires, and manages beans</td>
+</tr>
+<tr>
+<td>Bean</td>
+<td>Any object Spring manages</td>
+</tr>
+<tr>
+<td>AOP</td>
+<td>Aspect-Oriented Programming — cross-cutting concerns (logging, transactions, security) added without modifying business code</td>
+</tr>
+<tr>
+<td>DispatcherServlet</td>
+<td>Spring MVC's front controller — all requests route through it</td>
+</tr>
+<tr>
+<td>EntityManager</td>
+<td>JPA interface for database operations (persist, find, merge, remove)</td>
+</tr>
+<tr>
+<td>HikariCP</td>
+<td>Default Spring Boot connection pool — reuses DB connections instead of creating new ones</td>
+</tr>
+<tr>
+<td>@Transactional</td>
+<td>Wraps method in a DB transaction — commits on success, rolls back on RuntimeException</td>
+</tr>
+<tr>
+<td>SecurityContext</td>
+<td>Holds the authenticated user for the current request (ThreadLocal)</td>
+</tr>
+<tr>
+<td>Principal</td>
+<td>The authenticated user object in the SecurityContext</td>
+</tr>
+<tr>
+<td>Filter Chain</td>
+<td>Series of filters each request passes through before reaching controllers</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><em>End of Spring Boot Interview Mastery Guide</em>
+<em>Covers: IoC/DI/Beans → Spring Boot/AutoConfig → REST APIs/Validation/Exceptions → JPA/Hibernate/N+1 → Security/JWT</em></p>
+</article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

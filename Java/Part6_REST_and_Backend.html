@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST APIs & Backend Engineering — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">REST & Backend Guide</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+<svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+    <line x1="6" y1="6" x2="6.01" y2="6"></line>
+    <line x1="6" y1="18" x2="6.01" y2="18"></line>
+</svg>
+<span>Java Internals</span>
+</div>
+<div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+<h1>REST APIs and Backend Engineering</h1>
+<h2>Part 7: REST APIs And Backend Engineering Fundamentals</h2>
+<h3>7.1 Client-Server Architecture</h3>
+<p>Client sends request; server processes and responds.</p>
+<p>Browser-to-server lifecycle:</p>
+<pre><code class="language-text">User enters URL
+  |
+DNS resolves domain to IP
+  |
+TCP connection established
+  |
+TLS handshake for HTTPS
+  |
+HTTP request sent
+  |
+Server/router/controller handles request
+  |
+Service/business logic
+  |
+Database/cache calls
+  |
+HTTP response returned
+  |
+Browser renders/uses response
+</code></pre>
+<p>DNS:</p>
+<ul>
+<li>Resolves names to IP addresses.</li>
+<li>Uses caching at browser, OS, resolver, authoritative servers.</li>
+</ul>
+<p>TCP:</p>
+<ul>
+<li>Reliable ordered byte stream.</li>
+<li>Connection setup with handshake.</li>
+</ul>
+<p>HTTP:</p>
+<ul>
+<li>Application protocol over TCP/TLS.</li>
+</ul>
+<h3>7.2 HTTP Protocol</h3>
+<p>Request:</p>
+<pre><code class="language-text">GET /api/users/42 HTTP/1.1
+Host: example.com
+Accept: application/json
+Authorization: Bearer &lt;token&gt;
+</code></pre>
+<p>Response:</p>
+<pre><code class="language-text">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{&quot;id&quot;:42,&quot;name&quot;:&quot;Asha&quot;}
+</code></pre>
+<p>Status codes:</p>
+<ul>
+<li>2xx success: <code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code>.</li>
+<li>3xx redirection: <code>301</code>, <code>302</code>, <code>304</code>.</li>
+<li>4xx client error: <code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>409</code>, <code>422</code>, <code>429</code>.</li>
+<li>5xx server error: <code>500</code>, <code>502</code>, <code>503</code>, <code>504</code>.</li>
+</ul>
+<p>Headers:</p>
+<ul>
+<li>Metadata such as content type, cache control, auth, cookies.</li>
+</ul>
+<p>Cookies:</p>
+<ul>
+<li>Browser-managed key-value data sent to matching domains.</li>
+<li>Can be <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite</code>.</li>
+</ul>
+<p>Sessions:</p>
+<ul>
+<li>Server stores session state keyed by session ID, often in cookie.</li>
+</ul>
+<p>Authentication:</p>
+<ul>
+<li>Who are you?</li>
+</ul>
+<p>Authorization:</p>
+<ul>
+<li>What are you allowed to do?</li>
+</ul>
+<h3>7.3 REST APIs</h3>
+<p>REST is an architectural style.</p>
+<p>Constraints:</p>
+<ul>
+<li>Client-server.</li>
+<li>Stateless.</li>
+<li>Cacheable.</li>
+<li>Uniform interface.</li>
+<li>Layered system.</li>
+<li>Code on demand optional.</li>
+</ul>
+<p>Resource-oriented design:</p>
+<pre><code class="language-text">GET    /users          list users
+POST   /users          create user
+GET    /users/{id}     get user
+PUT    /users/{id}     replace user
+PATCH  /users/{id}     partially update user
+DELETE /users/{id}     delete user
+</code></pre>
+<p>Idempotency:</p>
+<ul>
+<li>Repeating request has same effect as once.</li>
+</ul>
+<p>Methods:</p>
+<ul>
+<li>GET: safe, idempotent.</li>
+<li>POST: not necessarily idempotent.</li>
+<li>PUT: idempotent replace/create at known URI.</li>
+<li>PATCH: may or may not be idempotent depending design.</li>
+<li>DELETE: idempotent in intended resource state.</li>
+</ul>
+<p>Statelessness:</p>
+<ul>
+<li>Each request contains needed context.</li>
+<li>Server does not rely on hidden conversational state.</li>
+</ul>
+<p>Common mistakes:</p>
+<ul>
+<li>Using GET for mutation.</li>
+<li>Putting verbs in URIs: <code>/createUser</code>.</li>
+<li>Returning <code>200</code> for every error.</li>
+</ul>
+<h3>7.4 API Design</h3>
+<p>Validation:</p>
+<ul>
+<li>Validate syntax and business rules.</li>
+<li>Return helpful errors.</li>
+</ul>
+<p>DTOs:</p>
+<ul>
+<li>Data transfer objects separate API shape from domain/persistence models.</li>
+</ul>
+<p>Error format:</p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;VALIDATION_FAILED&quot;,
+  &quot;message&quot;: &quot;email is invalid&quot;,
+  &quot;field&quot;: &quot;email&quot;
+}
+</code></pre>
+<p>Versioning:</p>
+<ul>
+<li>URI: <code>/v1/users</code>.</li>
+<li>Header-based.</li>
+<li>Compatibility-first evolution often better than frequent versioning.</li>
+</ul>
+<p>Pagination:</p>
+<p>Offset:</p>
+<pre><code class="language-text">GET /orders?limit=20&amp;offset=40
+</code></pre>
+<p>Cursor:</p>
+<pre><code class="language-text">GET /orders?limit=20&amp;after=eyJpZCI6...
+</code></pre>
+<p>Cursor pagination is better for large changing datasets.</p>
+<p>Filtering/sorting:</p>
+<pre><code class="language-text">GET /orders?status=PAID&amp;sort=-createdAt
+</code></pre>
+<p>Edge cases:</p>
+<ul>
+<li>Stable sort needed for pagination.</li>
+<li>Validate max page size.</li>
+<li>Do not expose internal DB errors.</li>
+</ul>
+<h3>7.5 JSON And XML</h3>
+<p>JSON:</p>
+<ul>
+<li>Lightweight.</li>
+<li>Natural fit for web APIs.</li>
+<li>Types: object, array, string, number, boolean, null.</li>
+</ul>
+<p>XML:</p>
+<ul>
+<li>Verbose.</li>
+<li>Supports attributes, namespaces, schemas.</li>
+<li>Common in older enterprise integrations.</li>
+</ul>
+<p>JSON edge cases:</p>
+<ul>
+<li>Large integers may lose precision in JavaScript clients.</li>
+<li>Dates need consistent format, usually ISO-8601.</li>
+<li>Missing field vs null field can mean different things.</li>
+</ul>
+<h3>7.6 Security</h3>
+<p>Password hashing:</p>
+<ul>
+<li>Never store plaintext passwords.</li>
+<li>Use slow salted password hashing such as bcrypt, scrypt, or Argon2.</li>
+</ul>
+<p>JWT:</p>
+<ul>
+<li>Signed token carrying claims.</li>
+<li>Stateless verification.</li>
+<li>Hard to revoke unless using short expiry or revocation list.</li>
+</ul>
+<p>OAuth:</p>
+<ul>
+<li>Delegated authorization framework.</li>
+<li>"Allow app X to access resource Y on my behalf."</li>
+</ul>
+<p>CORS:</p>
+<ul>
+<li>Browser security policy controlling cross-origin requests.</li>
+<li>Server sends allowed origins/methods/headers.</li>
+</ul>
+<p>CSRF:</p>
+<ul>
+<li>Attack where browser sends authenticated request unintentionally.</li>
+<li>Defenses: SameSite cookies, CSRF tokens, avoid cookie auth for unsafe cross-origin flows.</li>
+</ul>
+<p>Security basics:</p>
+<ul>
+<li>Use HTTPS.</li>
+<li>Validate input.</li>
+<li>Use parameterized SQL.</li>
+<li>Enforce authorization on server.</li>
+<li>Rate limit sensitive endpoints.</li>
+<li>Log security events without leaking secrets.</li>
+</ul>
+<h3>7.7 Backend Architecture</h3>
+<p>Monolith:</p>
+<ul>
+<li>One deployable application.</li>
+<li>Simpler development and transactions.</li>
+<li>Can become large and tightly coupled.</li>
+</ul>
+<p>Microservices:</p>
+<ul>
+<li>Independently deployable services.</li>
+<li>Scale teams and components.</li>
+<li>Adds network failures, distributed tracing, eventual consistency, operational complexity.</li>
+</ul>
+<p>Layered architecture:</p>
+<pre><code class="language-text">Controller: HTTP/request mapping
+Service: business logic/use cases
+Repository: persistence access
+Database: storage
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-java">class UserController {
+    private final UserService service;
+    UserDto getUser(long id) { return service.getUser(id); }
+}
+
+class UserService {
+    private final UserRepository repo;
+    UserDto getUser(long id) {
+        User user = repo.findById(id).orElseThrow();
+        return new UserDto(user.id(), user.email());
+    }
+}
+</code></pre>
+<p>Repository pattern:</p>
+<ul>
+<li>Hides persistence details.</li>
+<li>Makes service logic easier to test.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Monolith vs microservices.</li>
+<li>Controller vs service vs repository.</li>
+<li>How do you design idempotent APIs?</li>
+<li>How do you secure a REST API?</li>
+</ul>
+<hr>
+<h2>Part 8: Medium-Level Java Implementations</h2>
+<p>These implementations are intentionally compact but complete enough for interview discussion. Production versions need more validation, tests, metrics, and failure handling.</p>
+<h3>8.1 Custom Dynamic Array</h3>
+<pre><code class="language-java">import java.util.Arrays;
+
+public class DynamicArray&lt;T&gt; {
+    private Object[] data;
+    private int size;
+
+    public DynamicArray() {
+        data = new Object[10];
+    }
+
+    public void add(T value) {
+        ensureCapacity(size + 1);
+        data[size++] = value;
+    }
+
+    public T get(int index) {
+        checkIndex(index);
+        return element(index);
+    }
+
+    public T set(int index, T value) {
+        checkIndex(index);
+        T old = element(index);
+        data[index] = value;
+        return old;
+    }
+
+    public T remove(int index) {
+        checkIndex(index);
+        T old = element(index);
+        int moved = size - index - 1;
+        if (moved &gt; 0) System.arraycopy(data, index + 1, data, index, moved);
+        data[--size] = null;
+        return old;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    private void ensureCapacity(int min) {
+        if (min &lt;= data.length) return;
+        int newCap = data.length + (data.length &gt;&gt; 1);
+        if (newCap &lt; min) newCap = min;
+        data = Arrays.copyOf(data, newCap);
+    }
+
+    private void checkIndex(int index) {
+        if (index &lt; 0 || index &gt;= size) throw new IndexOutOfBoundsException(index);
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private T element(int index) {
+        return (T) data[index];
+    }
+}
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li>Uses <code>Object[]</code> because Java cannot directly create generic arrays.</li>
+<li><code>add</code> is amortized O(1).</li>
+<li><code>remove</code> shifts elements and nulls old slot to avoid memory leak.</li>
+<li>C++ <code>std::vector&lt;T&gt;</code> stores values inline; Java stores references for object types.</li>
+</ul>
+<h3>8.2 Custom HashMap</h3>
+<pre><code class="language-java">import java.util.Objects;
+
+public class SimpleHashMap&lt;K, V&gt; {
+    private static class Node&lt;K, V&gt; {
+        final K key;
+        V value;
+        Node&lt;K, V&gt; next;
+
+        Node(K key, V value, Node&lt;K, V&gt; next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+    }
+
+    private Node&lt;K, V&gt;[] table;
+    private int size;
+    private final double loadFactor;
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public SimpleHashMap() {
+        table = (Node&lt;K, V&gt;[]) new Node[16];
+        loadFactor = 0.75;
+    }
+
+    public V put(K key, V value) {
+        if ((size + 1) &gt; table.length * loadFactor) resize();
+        int i = index(key, table.length);
+        for (Node&lt;K, V&gt; n = table[i]; n != null; n = n.next) {
+            if (Objects.equals(n.key, key)) {
+                V old = n.value;
+                n.value = value;
+                return old;
+            }
+        }
+        table[i] = new Node&lt;&gt;(key, value, table[i]);
+        size++;
+        return null;
+    }
+
+    public V get(K key) {
+        int i = index(key, table.length);
+        for (Node&lt;K, V&gt; n = table[i]; n != null; n = n.next) {
+            if (Objects.equals(n.key, key)) return n.value;
+        }
+        return null;
+    }
+
+    public V remove(K key) {
+        int i = index(key, table.length);
+        Node&lt;K, V&gt; prev = null;
+        Node&lt;K, V&gt; cur = table[i];
+        while (cur != null) {
+            if (Objects.equals(cur.key, key)) {
+                if (prev == null) table[i] = cur.next;
+                else prev.next = cur.next;
+                size--;
+                return cur.value;
+            }
+            prev = cur;
+            cur = cur.next;
+        }
+        return null;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    private int index(K key, int len) {
+        int h = key == null ? 0 : key.hashCode();
+        h ^= (h &gt;&gt;&gt; 16);
+        return h &amp; (len - 1);
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private void resize() {
+        Node&lt;K, V&gt;[] old = table;
+        table = (Node&lt;K, V&gt;[]) new Node[old.length * 2];
+        size = 0;
+        for (Node&lt;K, V&gt; head : old) {
+            for (Node&lt;K, V&gt; n = head; n != null; n = n.next) {
+                put(n.key, n.value);
+            }
+        }
+    }
+}
+</code></pre>
+<p>Complexity:</p>
+<ul>
+<li>Average O(1), worst O(n) with long chains.</li>
+<li>Production Java HashMap has more optimizations, including tree bins.</li>
+</ul>
+<h3>8.3 Stack And Queue</h3>
+<p>Stack:</p>
+<pre><code class="language-java">public class ArrayStack&lt;T&gt; {
+    private final DynamicArray&lt;T&gt; data = new DynamicArray&lt;&gt;();
+
+    public void push(T value) { data.add(value); }
+
+    public T pop() {
+        if (data.size() == 0) throw new IllegalStateException(&quot;empty&quot;);
+        return data.remove(data.size() - 1);
+    }
+
+    public T peek() {
+        if (data.size() == 0) throw new IllegalStateException(&quot;empty&quot;);
+        return data.get(data.size() - 1);
+    }
+}
+</code></pre>
+<p>Circular queue:</p>
+<pre><code class="language-java">public class CircularQueue&lt;T&gt; {
+    private Object[] data = new Object[8];
+    private int head;
+    private int size;
+
+    public void offer(T value) {
+        ensureCapacity(size + 1);
+        data[(head + size) % data.length] = value;
+        size++;
+    }
+
+    public T poll() {
+        if (size == 0) throw new IllegalStateException(&quot;empty&quot;);
+        @SuppressWarnings(&quot;unchecked&quot;)
+        T value = (T) data[head];
+        data[head] = null;
+        head = (head + 1) % data.length;
+        size--;
+        return value;
+    }
+
+    private void ensureCapacity(int min) {
+        if (min &lt;= data.length) return;
+        Object[] next = new Object[data.length * 2];
+        for (int i = 0; i &lt; size; i++) next[i] = data[(head + i) % data.length];
+        data = next;
+        head = 0;
+    }
+}
+</code></pre>
+<h3>8.4 Linked List</h3>
+<pre><code class="language-java">public class SinglyLinkedList&lt;T&gt; {
+    private static class Node&lt;T&gt; {
+        T value;
+        Node&lt;T&gt; next;
+        Node(T value) { this.value = value; }
+    }
+
+    private Node&lt;T&gt; head;
+    private Node&lt;T&gt; tail;
+    private int size;
+
+    public void addLast(T value) {
+        Node&lt;T&gt; n = new Node&lt;&gt;(value);
+        if (tail == null) head = tail = n;
+        else {
+            tail.next = n;
+            tail = n;
+        }
+        size++;
+    }
+
+    public T removeFirst() {
+        if (head == null) throw new IllegalStateException(&quot;empty&quot;);
+        T value = head.value;
+        head = head.next;
+        if (head == null) tail = null;
+        size--;
+        return value;
+    }
+
+    public boolean contains(T value) {
+        for (Node&lt;T&gt; n = head; n != null; n = n.next) {
+            if (java.util.Objects.equals(n.value, value)) return true;
+        }
+        return false;
+    }
+}
+</code></pre>
+<h3>8.5 LRU Cache</h3>
+<pre><code class="language-java">import java.util.HashMap;
+import java.util.Map;
+
+public class LruCache&lt;K, V&gt; {
+    private class Node {
+        K key;
+        V value;
+        Node prev, next;
+        Node(K key, V value) { this.key = key; this.value = value; }
+    }
+
+    private final int capacity;
+    private final Map&lt;K, Node&gt; map = new HashMap&lt;&gt;();
+    private final Node head = new Node(null, null);
+    private final Node tail = new Node(null, null);
+
+    public LruCache(int capacity) {
+        if (capacity &lt;= 0) throw new IllegalArgumentException();
+        this.capacity = capacity;
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public V get(K key) {
+        Node n = map.get(key);
+        if (n == null) return null;
+        moveToFront(n);
+        return n.value;
+    }
+
+    public void put(K key, V value) {
+        Node n = map.get(key);
+        if (n != null) {
+            n.value = value;
+            moveToFront(n);
+            return;
+        }
+        n = new Node(key, value);
+        map.put(key, n);
+        addAfterHead(n);
+        if (map.size() &gt; capacity) {
+            Node victim = tail.prev;
+            remove(victim);
+            map.remove(victim.key);
+        }
+    }
+
+    private void moveToFront(Node n) {
+        remove(n);
+        addAfterHead(n);
+    }
+
+    private void addAfterHead(Node n) {
+        n.next = head.next;
+        n.prev = head;
+        head.next.prev = n;
+        head.next = n;
+    }
+
+    private void remove(Node n) {
+        n.prev.next = n.next;
+        n.next.prev = n.prev;
+    }
+}
+</code></pre>
+<p>Design:</p>
+<ul>
+<li>HashMap gives O(1) lookup.</li>
+<li>Doubly linked list gives O(1) recency update and eviction.</li>
+</ul>
+<h3>8.6 Trie</h3>
+<pre><code class="language-java">public class Trie {
+    private static class Node {
+        Node[] child = new Node[26];
+        boolean word;
+    }
+
+    private final Node root = new Node();
+
+    public void insert(String s) {
+        Node cur = root;
+        for (char ch : s.toCharArray()) {
+            int i = ch - 'a';
+            if (i &lt; 0 || i &gt;= 26) throw new IllegalArgumentException(&quot;lowercase only&quot;);
+            if (cur.child[i] == null) cur.child[i] = new Node();
+            cur = cur.child[i];
+        }
+        cur.word = true;
+    }
+
+    public boolean search(String s) {
+        Node n = find(s);
+        return n != null &amp;&amp; n.word;
+    }
+
+    public boolean startsWith(String prefix) {
+        return find(prefix) != null;
+    }
+
+    private Node find(String s) {
+        Node cur = root;
+        for (char ch : s.toCharArray()) {
+            int i = ch - 'a';
+            if (i &lt; 0 || i &gt;= 26) return null;
+            cur = cur.child[i];
+            if (cur == null) return null;
+        }
+        return cur;
+    }
+}
+</code></pre>
+<p>Complexity:</p>
+<ul>
+<li>O(length) insert/search.</li>
+<li>Space can be high; use HashMap children for sparse alphabets.</li>
+</ul>
+<h3>8.7 Producer Consumer</h3>
+<pre><code class="language-java">import java.util.ArrayDeque;
+import java.util.Queue;
+
+public class BlockingBuffer&lt;T&gt; {
+    private final Queue&lt;T&gt; q = new ArrayDeque&lt;&gt;();
+    private final int capacity;
+
+    public BlockingBuffer(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public synchronized void put(T item) throws InterruptedException {
+        while (q.size() == capacity) wait();
+        q.add(item);
+        notifyAll();
+    }
+
+    public synchronized T take() throws InterruptedException {
+        while (q.isEmpty()) wait();
+        T item = q.remove();
+        notifyAll();
+        return item;
+    }
+}
+</code></pre>
+<p>Production equivalent:</p>
+<ul>
+<li>Use <code>ArrayBlockingQueue</code>.</li>
+</ul>
+<h3>8.8 Simple Thread Pool</h3>
+<pre><code class="language-java">import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
+public class SimpleThreadPool implements AutoCloseable {
+    private final Queue&lt;Runnable&gt; tasks = new ArrayDeque&lt;&gt;();
+    private final List&lt;Thread&gt; workers = new ArrayList&lt;&gt;();
+    private boolean shutdown;
+
+    public SimpleThreadPool(int n) {
+        for (int i = 0; i &lt; n; i++) {
+            Thread t = new Thread(this::work, &quot;worker-&quot; + i);
+            workers.add(t);
+            t.start();
+        }
+    }
+
+    public synchronized void submit(Runnable task) {
+        if (shutdown) throw new IllegalStateException(&quot;shutdown&quot;);
+        tasks.add(task);
+        notifyAll();
+    }
+
+    private void work() {
+        while (true) {
+            Runnable task;
+            synchronized (this) {
+                while (tasks.isEmpty() &amp;&amp; !shutdown) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+                if (tasks.isEmpty() &amp;&amp; shutdown) return;
+                task = tasks.remove();
+            }
+            try {
+                task.run();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public synchronized void close() {
+        shutdown = true;
+        notifyAll();
+    }
+}
+</code></pre>
+<p>Design:</p>
+<ul>
+<li>Workers wait on queue.</li>
+<li>Submit enqueues and notifies.</li>
+<li>Shutdown allows workers to exit after queue drains.</li>
+</ul>
+<h3>8.9 Parking Lot Design</h3>
+<p>Core model:</p>
+<pre><code class="language-text">ParkingLot
+  -&gt; floors
+Floor
+  -&gt; spots
+Vehicle
+  -&gt; type, plate
+Ticket
+  -&gt; spot, entryTime
+</code></pre>
+<p>Code:</p>
+<pre><code class="language-java">import java.time.Instant;
+import java.util.*;
+
+enum VehicleType { BIKE, CAR, TRUCK }
+
+record Vehicle(String plate, VehicleType type) {}
+
+class ParkingSpot {
+    final int id;
+    final VehicleType type;
+    Vehicle vehicle;
+
+    ParkingSpot(int id, VehicleType type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    boolean canFit(Vehicle v) {
+        return vehicle == null &amp;&amp; type == v.type();
+    }
+}
+
+record Ticket(String id, Vehicle vehicle, ParkingSpot spot, Instant entryTime) {}
+
+class ParkingLot {
+    private final List&lt;ParkingSpot&gt; spots;
+    private final Map&lt;String, Ticket&gt; active = new HashMap&lt;&gt;();
+
+    ParkingLot(List&lt;ParkingSpot&gt; spots) {
+        this.spots = spots;
+    }
+
+    synchronized Ticket park(Vehicle v) {
+        for (ParkingSpot s : spots) {
+            if (s.canFit(v)) {
+                s.vehicle = v;
+                Ticket t = new Ticket(UUID.randomUUID().toString(), v, s, Instant.now());
+                active.put(t.id(), t);
+                return t;
+            }
+        }
+        throw new IllegalStateException(&quot;full&quot;);
+    }
+
+    synchronized long leave(String ticketId) {
+        Ticket t = active.remove(ticketId);
+        if (t == null) throw new IllegalArgumentException(&quot;invalid ticket&quot;);
+        t.spot().vehicle = null;
+        long minutes = Math.max(1, java.time.Duration.between(t.entryTime(), Instant.now()).toMinutes());
+        return minutes * 10;
+    }
+}
+</code></pre>
+<p>Interview extensions:</p>
+<ul>
+<li>Different spot sizes.</li>
+<li>Nearest spot allocation.</li>
+<li>Multiple gates.</li>
+<li>Payment states.</li>
+<li>Concurrency control.</li>
+</ul>
+<h3>8.10 Library Management System</h3>
+<p>Design:</p>
+<pre><code class="language-text">Book(isbn, title)
+BookCopy(copyId, book, status)
+Member
+Loan(copy, member, dueDate)
+</code></pre>
+<p>Code:</p>
+<pre><code class="language-java">import java.time.LocalDate;
+import java.util.*;
+
+record Book(String isbn, String title) {}
+
+class BookCopy {
+    final String copyId;
+    final Book book;
+    boolean borrowed;
+
+    BookCopy(String copyId, Book book) {
+        this.copyId = copyId;
+        this.book = book;
+    }
+}
+
+record Member(String id, String name) {}
+
+record Loan(String id, BookCopy copy, Member member, LocalDate dueDate) {}
+
+class Library {
+    private final Map&lt;String, BookCopy&gt; copies = new HashMap&lt;&gt;();
+    private final Map&lt;String, Loan&gt; loans = new HashMap&lt;&gt;();
+
+    void addCopy(BookCopy copy) {
+        copies.put(copy.copyId, copy);
+    }
+
+    synchronized Loan borrow(String copyId, Member member) {
+        BookCopy copy = copies.get(copyId);
+        if (copy == null) throw new IllegalArgumentException(&quot;copy not found&quot;);
+        if (copy.borrowed) throw new IllegalStateException(&quot;already borrowed&quot;);
+        copy.borrowed = true;
+        Loan loan = new Loan(UUID.randomUUID().toString(), copy, member, LocalDate.now().plusDays(14));
+        loans.put(loan.id(), loan);
+        return loan;
+    }
+
+    synchronized void returnBook(String loanId) {
+        Loan loan = loans.remove(loanId);
+        if (loan == null) throw new IllegalArgumentException(&quot;loan not found&quot;);
+        loan.copy().borrowed = false;
+    }
+}
+</code></pre>
+<p>Extensions:</p>
+<ul>
+<li>Reservations.</li>
+<li>Fines.</li>
+<li>Search index.</li>
+<li>Multiple copies.</li>
+<li>Member borrowing limits.</li>
+</ul>
+<h3>8.11 Banking System</h3>
+<pre><code class="language-java">import java.util.concurrent.atomic.AtomicLong;
+
+class Account {
+    final long id;
+    private long balance;
+
+    Account(long id, long balance) {
+        if (balance &lt; 0) throw new IllegalArgumentException();
+        this.id = id;
+        this.balance = balance;
+    }
+
+    long balance() {
+        return balance;
+    }
+
+    void deposit(long amount) {
+        if (amount &lt;= 0) throw new IllegalArgumentException();
+        balance += amount;
+    }
+
+    void withdraw(long amount) {
+        if (amount &lt;= 0 || amount &gt; balance) throw new IllegalArgumentException();
+        balance -= amount;
+    }
+}
+
+class Bank {
+    private final AtomicLong ids = new AtomicLong(1);
+
+    Account open(long initial) {
+        return new Account(ids.getAndIncrement(), initial);
+    }
+
+    void transfer(Account from, Account to, long amount) {
+        Account first = from.id &lt; to.id ? from : to;
+        Account second = from.id &lt; to.id ? to : from;
+        synchronized (first) {
+            synchronized (second) {
+                from.withdraw(amount);
+                to.deposit(amount);
+            }
+        }
+    }
+}
+</code></pre>
+<p>Design:</p>
+<ul>
+<li>Lock ordering prevents deadlock.</li>
+<li>Real banking needs ledger entries, idempotency keys, audit trails, transactions, and immutable money representation.</li>
+</ul>
+<h3>8.12 URL Shortener Design</h3>
+<p>Core requirements:</p>
+<ul>
+<li>Create short code for long URL.</li>
+<li>Redirect short code to long URL.</li>
+<li>Track metadata.</li>
+<li>Handle high read traffic.</li>
+</ul>
+<p>Architecture:</p>
+<pre><code class="language-text">Client -&gt; API -&gt; Service -&gt; DB
+                 |
+                 +-&gt; Cache
+</code></pre>
+<p>Schema:</p>
+<pre><code class="language-sql">CREATE TABLE urls (
+    code VARCHAR(16) PRIMARY KEY,
+    long_url TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    expires_at TIMESTAMP NULL
+);
+</code></pre>
+<p>Code:</p>
+<pre><code class="language-java">import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+class UrlShortener {
+    private static final String ALPHABET =
+        &quot;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;
+
+    private final AtomicLong sequence = new AtomicLong(1);
+    private final Map&lt;String, String&gt; store = new ConcurrentHashMap&lt;&gt;();
+
+    public String shorten(String longUrl) {
+        validate(longUrl);
+        String code = encode(sequence.getAndIncrement());
+        store.put(code, longUrl);
+        return code;
+    }
+
+    public String resolve(String code) {
+        String url = store.get(code);
+        if (url == null) throw new NoSuchElementException(&quot;not found&quot;);
+        return url;
+    }
+
+    private String encode(long n) {
+        StringBuilder sb = new StringBuilder();
+        while (n &gt; 0) {
+            int r = (int) (n % 62);
+            sb.append(ALPHABET.charAt(r));
+            n /= 62;
+        }
+        return sb.reverse().toString();
+    }
+
+    private void validate(String url) {
+        if (url == null || !(url.startsWith(&quot;http://&quot;) || url.startsWith(&quot;https://&quot;))) {
+            throw new IllegalArgumentException(&quot;invalid URL&quot;);
+        }
+    }
+}
+</code></pre>
+<p>Scaling discussion:</p>
+<ul>
+<li>Sequence generator must be distributed or coordinated.</li>
+<li>Cache popular codes.</li>
+<li>Use 301 vs 302 carefully.</li>
+<li>Prevent abuse and malware.</li>
+<li>Add custom aliases with uniqueness checks.</li>
+<li>Consider analytics pipeline separate from redirect path.</li>
+</ul>
+<hr>
+<h2>Interview Practice Map</h2>
+<p>Use this checklist to test depth.</p>
+<p>OS:</p>
+<ul>
+<li>Explain page fault from CPU instruction to resumed process.</li>
+<li>Design a bounded buffer using semaphores or monitors.</li>
+<li>Explain what happens when a shell runs <code>ls</code>.</li>
+<li>Diagnose high CPU with many context switches.</li>
+</ul>
+<p>DBMS:</p>
+<ul>
+<li>Given a query, choose indexes and explain plan.</li>
+<li>Explain how a transaction recovers after crash.</li>
+<li>Model an order system normalized to 3NF.</li>
+<li>Explain replication lag bug in read-after-write flow.</li>
+</ul>
+<p>OOP:</p>
+<ul>
+<li>Design payment processing using Strategy and Dependency Inversion.</li>
+<li>Explain why inheritance can violate LSP.</li>
+<li>Compare Java interface and C++ abstract class.</li>
+</ul>
+<p>Java:</p>
+<ul>
+<li>Explain class loading and JIT.</li>
+<li>Explain why <code>HashMap</code> key mutation is dangerous.</li>
+<li>Explain <code>volatile</code> with happens-before.</li>
+<li>Design a thread pool and discuss shutdown.</li>
+</ul>
+<p>Backend:</p>
+<ul>
+<li>Design REST API for orders with pagination and errors.</li>
+<li>Explain authentication vs authorization.</li>
+<li>Explain how browser reaches backend from URL.</li>
+<li>Design URL shortener and identify bottlenecks.</li>
+</ul>
+<hr>
+<h2>Common High-Signal Interview Answers</h2>
+<p>Good answers usually include:</p>
+<ul>
+<li>Definition.</li>
+<li>Why the concept exists.</li>
+<li>Internal mechanism.</li>
+<li>Tradeoffs.</li>
+<li>Failure modes.</li>
+<li>Example.</li>
+</ul>
+<p>Example answer shape for "What is an index?":</p>
+<blockquote>
+<p>An index is an auxiliary data structure, commonly a B+ tree, that lets the database find rows without scanning the whole table. It speeds reads and range queries but costs storage and slows writes because the index must be maintained. A composite index on <code>(user_id, created_at)</code> helps queries filtering by <code>user_id</code> and sorting/ranging by <code>created_at</code>, but usually not queries filtering only by <code>created_at</code> because of leftmost prefix behavior.</p>
+</blockquote>
+<hr>
+<h2>Final Study Strategy</h2>
+<ol>
+<li>For each OS topic, draw the state transition or memory diagram from memory.</li>
+<li>For each DB topic, write SQL and predict output before running.</li>
+<li>For OOP, implement both Java and C++ versions of the same design.</li>
+<li>For Java collections, implement simplified versions and list invariants.</li>
+<li>For concurrency, explain visibility, atomicity, and ordering separately.</li>
+<li>For backend, trace one request from browser to database and back.</li>
+<li>For system design, always state assumptions, traffic, data model, APIs, bottlenecks, and failure handling.</li>
+</ol>
+</article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
