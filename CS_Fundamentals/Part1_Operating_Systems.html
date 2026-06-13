@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating Systems — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">Operating Systems Guide</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+<svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+    <rect x="9" y="9" width="6" height="6"></rect>
+    <line x1="9" y1="1" x2="9" y2="4"></line>
+    <line x1="15" y1="1" x2="15" y2="4"></line>
+    <line x1="9" y1="20" x2="9" y2="23"></line>
+    <line x1="15" y1="20" x2="15" y2="23"></line>
+    <line x1="20" y1="9" x2="23" y2="9"></line>
+    <line x1="20" y1="15" x2="23" y2="15"></line>
+    <line x1="1" y1="9" x2="4" y2="9"></line>
+    <line x1="1" y1="15" x2="4" y2="15"></line>
+</svg>
+<span>CS Fundamentals</span>
+</div>
+<div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+<h1>Operating Systems Complete Guide</h1>
+<h2>Part 1: Operating Systems</h2>
+<h3>1.1 What Is An Operating System?</h3>
+<p>An Operating System is system software that manages hardware resources and provides abstractions to user programs.</p>
+<p>Without an OS, every program would need to know how to:</p>
+<ul>
+<li>Talk directly to disks, keyboards, screens, network cards, and memory controllers.</li>
+<li>Decide which program gets the CPU.</li>
+<li>Prevent one program from corrupting another program.</li>
+<li>Recover from hardware interrupts.</li>
+<li>Handle files, permissions, and devices.</li>
+</ul>
+<p>The OS provides:</p>
+<ul>
+<li>Process abstraction: a running program with its own execution context.</li>
+<li>Virtual memory: each process sees a private address space.</li>
+<li>File abstraction: persistent byte streams and directories.</li>
+<li>System calls: controlled entry points into kernel services.</li>
+<li>Scheduling: fair and efficient CPU sharing.</li>
+<li>Protection: user programs cannot arbitrarily access kernel memory or other processes.</li>
+</ul>
+<p>High-level view:</p>
+<pre><code class="language-text">+-------------------------------+
+| User Applications             |
+| browser, shell, JVM, database |
++---------------+---------------+
+                |
+                | system calls
+                v
++---------------+---------------+
+| Kernel                        |
+| scheduler, memory, FS, IPC    |
++---------------+---------------+
+                |
+                v
++---------------+---------------+
+| Hardware                      |
+| CPU, RAM, disk, NIC, devices  |
++-------------------------------+
+</code></pre>
+<p>Interview focus:</p>
+<ul>
+<li>OS is a resource manager and abstraction provider.</li>
+<li>Kernels enforce isolation and provide safe access to hardware.</li>
+<li>Performance and correctness often conflict: caching improves speed but complicates consistency.</li>
+</ul>
+<p>Common questions:</p>
+<ul>
+<li>What happens when a program reads a file?</li>
+<li>Why do we need system calls?</li>
+<li>Why can a user program not directly modify page tables?</li>
+</ul>
+<p>Follow-ups:</p>
+<ul>
+<li>Difference between monolithic kernels and microkernels.</li>
+<li>Why Linux is considered monolithic but modular.</li>
+</ul>
+<h3>1.2 User Space Vs Kernel Space</h3>
+<p>Modern CPUs support privilege levels. User programs run in a restricted mode. The kernel runs in privileged mode.</p>
+<p>User space:</p>
+<ul>
+<li>Runs application code.</li>
+<li>Cannot execute privileged CPU instructions.</li>
+<li>Cannot directly access device registers or arbitrary physical memory.</li>
+<li>Crashes usually kill only the process.</li>
+</ul>
+<p>Kernel space:</p>
+<ul>
+<li>Runs OS kernel code.</li>
+<li>Can access hardware and memory management structures.</li>
+<li>A bug can crash the whole system.</li>
+</ul>
+<p>Transition:</p>
+<pre><code class="language-text">User program
+   |
+   | read(fd, buf, n)
+   v
+libc wrapper
+   |
+   | syscall instruction / trap
+   v
+Kernel system call handler
+   |
+   | validate args, check permissions, perform operation
+   v
+return to user mode
+</code></pre>
+<p>Internal working:</p>
+<ol>
+<li>Program calls a library function such as <code>read</code>.</li>
+<li>Library places syscall number and arguments into registers.</li>
+<li>CPU executes a special instruction such as <code>syscall</code>.</li>
+<li>CPU switches to kernel mode and jumps to a registered kernel entry point.</li>
+<li>Kernel validates user pointers and permissions.</li>
+<li>Kernel performs the operation.</li>
+<li>CPU returns to user mode.</li>
+</ol>
+<p>Real-world example:</p>
+<ul>
+<li>A Java <code>FileInputStream.read()</code> eventually invokes native code and a kernel <code>read</code>-like syscall.</li>
+</ul>
+<p>Common mistakes:</p>
+<ul>
+<li>Thinking every library call is a system call. Many are pure user-space functions.</li>
+<li>Thinking kernel space means a different physical memory chip. It is a privileged address region/mode.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why is crossing user/kernel boundary expensive?</li>
+<li>What happens if a user process passes an invalid pointer to a syscall?</li>
+</ul>
+<h3>1.3 Programs, Processes, And Threads</h3>
+<p>Program:</p>
+<ul>
+<li>Passive executable file on disk.</li>
+<li>Example: <code>chrome.exe</code>, <code>/bin/ls</code>, a compiled Java class/JAR plus JVM.</li>
+</ul>
+<p>Process:</p>
+<ul>
+<li>Active running instance of a program.</li>
+<li>Has virtual address space, open file descriptors, registers, stack, heap, permissions, environment.</li>
+</ul>
+<p>Thread:</p>
+<ul>
+<li>Execution path inside a process.</li>
+<li>Shares process memory and resources with other threads.</li>
+<li>Has its own stack, registers, program counter, and thread-local state.</li>
+</ul>
+<pre><code class="language-text">Process
++--------------------------------------------------+
+| Code | Heap | Globals | File descriptors          |
+|                                                  |
+| Thread A: PC, registers, stack                   |
+| Thread B: PC, registers, stack                   |
+| Thread C: PC, registers, stack                   |
++--------------------------------------------------+
+</code></pre>
+<p>C++ comparison:</p>
+<ul>
+<li><code>std::thread</code> creates an OS thread in most implementations.</li>
+<li>Threads share address space, so unsynchronized shared data causes undefined behavior/data races.</li>
+</ul>
+<p>Java comparison:</p>
+<ul>
+<li><code>Thread</code> maps to platform threads in classic JVM implementations.</li>
+<li>Virtual threads in modern Java are lightweight JVM-managed threads scheduled over carrier OS threads.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why are threads cheaper than processes?</li>
+<li>Why are processes safer than threads?</li>
+<li>What resources are shared between threads?</li>
+</ul>
+<h3>1.4 Process States</h3>
+<p>Typical states:</p>
+<pre><code class="language-text">             admitted
+ New -----------------&gt; Ready
+                        |
+                        | scheduler dispatch
+                        v
+                     Running
+                    /   |    \
+          I/O wait /    |exit \ interrupt/time slice
+                  v     v      v
+               Waiting Terminated Ready
+                  |
+                  | I/O complete
+                  v
+                Ready
+</code></pre>
+<p>States:</p>
+<ul>
+<li>New: process is being created.</li>
+<li>Ready: loaded and waiting for CPU.</li>
+<li>Running: currently executing on CPU.</li>
+<li>Waiting/Blocked: waiting for I/O, lock, event, child process, signal.</li>
+<li>Terminated: finished or killed.</li>
+</ul>
+<p>Linux-specific note:</p>
+<ul>
+<li>Linux exposes states such as running, sleeping, uninterruptible sleep, stopped, zombie.</li>
+<li>A zombie is a terminated process whose exit status has not been collected by its parent using <code>wait</code>.</li>
+</ul>
+<p>Common questions:</p>
+<ul>
+<li>Can a process go directly from waiting to running? Usually no; it becomes ready first.</li>
+<li>What is a zombie process?</li>
+<li>What is an orphan process?</li>
+</ul>
+<h3>1.5 Process Control Block</h3>
+<p>The PCB is a kernel data structure representing a process.</p>
+<p>Contains:</p>
+<ul>
+<li>Process ID.</li>
+<li>Process state.</li>
+<li>Program counter and CPU registers.</li>
+<li>Scheduling priority and accounting.</li>
+<li>Memory management info: page tables, address space metadata.</li>
+<li>Open files.</li>
+<li>Signal handlers/masks.</li>
+<li>Parent/child relationships.</li>
+<li>Credentials and permissions.</li>
+</ul>
+<p>During context switch:</p>
+<pre><code class="language-text">Save current CPU registers -&gt; current PCB
+Choose next process
+Load next process registers &lt;- next PCB
+Switch page table/address space if needed
+Resume execution
+</code></pre>
+<p>Interview questions:</p>
+<ul>
+<li>Why does the OS need a PCB?</li>
+<li>Which PCB fields are needed for context switching?</li>
+</ul>
+<h3>1.6 CPU Scheduling</h3>
+<p>CPU scheduling chooses which ready process/thread runs next.</p>
+<p>Metrics:</p>
+<ul>
+<li>CPU utilization: keep CPU busy.</li>
+<li>Throughput: completed jobs per unit time.</li>
+<li>Turnaround time: finish time - arrival time.</li>
+<li>Waiting time: time spent in ready queue.</li>
+<li>Response time: first response - arrival.</li>
+<li>Fairness: avoid starvation.</li>
+</ul>
+<p>Algorithms:</p>
+<h4>FCFS: First Come First Served</h4>
+<ul>
+<li>Non-preemptive.</li>
+<li>Simple queue.</li>
+<li>Bad for short jobs behind long jobs.</li>
+</ul>
+<p>Convoy effect:</p>
+<pre><code class="language-text">Long CPU-bound job arrives first:
+[Long 100ms][Short 2ms][Short 2ms][Short 2ms]
+Short jobs wait unnecessarily.
+</code></pre>
+<h4>SJF: Shortest Job First</h4>
+<ul>
+<li>Runs job with shortest CPU burst.</li>
+<li>Optimal average waiting time if burst times are known.</li>
+<li>Unrealistic because future CPU burst is not exactly known.</li>
+<li>Can starve long jobs.</li>
+</ul>
+<h4>SRTF: Shortest Remaining Time First</h4>
+<ul>
+<li>Preemptive SJF.</li>
+<li>If a new job has shorter remaining time, preempt current job.</li>
+</ul>
+<h4>Round Robin</h4>
+<ul>
+<li>Preemptive.</li>
+<li>Each process gets a time quantum.</li>
+<li>Good for time-sharing.</li>
+<li>Quantum too small: too many context switches.</li>
+<li>Quantum too large: becomes FCFS-like.</li>
+</ul>
+<pre><code class="language-text">Ready queue: P1 P2 P3
+Quantum: 4ms
+CPU: P1(4) -&gt; P2(4) -&gt; P3(4) -&gt; P1(4) ...
+</code></pre>
+<h4>Priority Scheduling</h4>
+<ul>
+<li>Highest priority runs first.</li>
+<li>Can be preemptive or non-preemptive.</li>
+<li>Starvation solved by aging: gradually increase priority of waiting tasks.</li>
+</ul>
+<h4>Multilevel Queue</h4>
+<ul>
+<li>Separate queues for classes of processes.</li>
+<li>Example: foreground interactive, background batch, system processes.</li>
+</ul>
+<h4>Multilevel Feedback Queue</h4>
+<ul>
+<li>Processes move between queues based on behavior.</li>
+<li>Interactive tasks that block often may stay high priority.</li>
+<li>CPU-heavy tasks may move lower.</li>
+</ul>
+<p>Real-world:</p>
+<ul>
+<li>Linux CFS attempts fair CPU distribution using virtual runtime.</li>
+<li>Production scheduling considers CPU affinity, NUMA, real-time priority, cgroups, power management.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why is Round Robin good for interactive systems?</li>
+<li>What is starvation and how does aging solve it?</li>
+<li>What scheduler would you choose for batch jobs?</li>
+</ul>
+<h3>1.7 Context Switching</h3>
+<p>A context switch saves the state of one execution context and restores another.</p>
+<p>Switch types:</p>
+<ul>
+<li>Process switch: may change address space/page tables.</li>
+<li>Thread switch in same process: same address space, cheaper.</li>
+<li>Mode switch: user to kernel; not always a full context switch.</li>
+</ul>
+<p>Costs:</p>
+<ul>
+<li>Saving/restoring registers.</li>
+<li>Scheduler overhead.</li>
+<li>Cache/TLB pollution.</li>
+<li>Possible page table switch.</li>
+</ul>
+<p>Common misconception:</p>
+<ul>
+<li>"Context switch is always bad." It is necessary for fairness, I/O overlap, and responsiveness. Excessive switching is bad.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why is switching between threads cheaper than between processes?</li>
+<li>How can too many threads hurt performance?</li>
+</ul>
+<h3>1.8 Threads And Multithreading Models</h3>
+<p>User threads:</p>
+<ul>
+<li>Managed by user-space runtime.</li>
+<li>Kernel may not know each user thread.</li>
+<li>Fast to create/switch.</li>
+<li>Blocking syscall can block the whole process in many-to-one models.</li>
+</ul>
+<p>Kernel threads:</p>
+<ul>
+<li>Managed by OS.</li>
+<li>Can run on multiple cores.</li>
+<li>Syscall blocking affects only that thread.</li>
+<li>More overhead.</li>
+</ul>
+<p>Models:</p>
+<pre><code class="language-text">Many-to-One:
+User T1 T2 T3 -&gt; one kernel thread
+
+One-to-One:
+User T1 -&gt; Kernel K1
+User T2 -&gt; Kernel K2
+
+Many-to-Many:
+Many user threads multiplexed over many kernel threads
+</code></pre>
+<p>Java:</p>
+<ul>
+<li>Traditional Java threads are one-to-one OS threads.</li>
+<li>Virtual threads are many virtual threads scheduled over fewer carrier threads.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>What happens if one user thread blocks in a many-to-one model?</li>
+<li>Why are virtual threads useful for I/O-heavy servers?</li>
+</ul>
+<h3>1.9 Synchronization</h3>
+<p>Synchronization coordinates access to shared mutable state.</p>
+<p>Race condition:</p>
+<ul>
+<li>Program output depends on timing/interleaving.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-java">counter++; // not atomic
+</code></pre>
+<p>Internally:</p>
+<pre><code class="language-text">load counter
+add 1
+store counter
+</code></pre>
+<p>Two threads can both load <code>5</code>, add, and both store <code>6</code>.</p>
+<p>Critical section problem:</p>
+<ul>
+<li>Mutual exclusion: only one thread in critical section.</li>
+<li>Progress: if no one is inside, some waiting thread can enter.</li>
+<li>Bounded waiting: no thread waits forever.</li>
+</ul>
+<p>Mutex:</p>
+<ul>
+<li>Lock with ownership.</li>
+<li>One thread enters, owner unlocks.</li>
+</ul>
+<p>Semaphore:</p>
+<ul>
+<li>Counter controlling permits.</li>
+<li>Binary semaphore can act like mutex, but ownership semantics differ.</li>
+<li>Counting semaphore models limited resources such as DB connections.</li>
+</ul>
+<p>Monitor:</p>
+<ul>
+<li>Higher-level construct combining mutual exclusion and condition variables.</li>
+<li>Java <code>synchronized</code> methods/blocks use intrinsic monitor locks.</li>
+</ul>
+<p>Java monitor example:</p>
+<pre><code class="language-java">class BoundedBuffer&lt;T&gt; {
+    private final Queue&lt;T&gt; q = new ArrayDeque&lt;&gt;();
+    private final int capacity;
+
+    BoundedBuffer(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public synchronized void put(T item) throws InterruptedException {
+        while (q.size() == capacity) {
+            wait();
+        }
+        q.add(item);
+        notifyAll();
+    }
+
+    public synchronized T take() throws InterruptedException {
+        while (q.isEmpty()) {
+            wait();
+        }
+        T item = q.remove();
+        notifyAll();
+        return item;
+    }
+}
+</code></pre>
+<p>Why <code>while</code>, not <code>if</code>:</p>
+<ul>
+<li>Spurious wakeups.</li>
+<li>Another thread may consume the condition before this thread resumes.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Difference between mutex and semaphore.</li>
+<li>Why can <code>counter++</code> be unsafe?</li>
+<li>Why should condition waits use loops?</li>
+</ul>
+<h3>1.10 Deadlocks</h3>
+<p>Deadlock occurs when a set of processes/threads wait forever for each other.</p>
+<p>Coffman conditions:</p>
+<ol>
+<li>Mutual exclusion.</li>
+<li>Hold and wait.</li>
+<li>No preemption.</li>
+<li>Circular wait.</li>
+</ol>
+<p>Example:</p>
+<pre><code class="language-text">Thread A holds Lock 1, waits for Lock 2
+Thread B holds Lock 2, waits for Lock 1
+</code></pre>
+<p>Handling:</p>
+<ul>
+<li>Prevention: break one Coffman condition.</li>
+<li>Avoidance: allocate only if system remains safe, e.g. Banker's algorithm.</li>
+<li>Detection and recovery: find cycles, kill/rollback.</li>
+<li>Practical engineering: lock ordering, timeouts, smaller critical sections.</li>
+</ul>
+<p>Java lock ordering:</p>
+<pre><code class="language-java">void transfer(Account from, Account to, int amount) {
+    Account first = from.id &lt; to.id ? from : to;
+    Account second = from.id &lt; to.id ? to : from;
+
+    synchronized (first) {
+        synchronized (second) {
+            from.withdraw(amount);
+            to.deposit(amount);
+        }
+    }
+}
+</code></pre>
+<p>Interview questions:</p>
+<ul>
+<li>List the four deadlock conditions.</li>
+<li>How do you prevent deadlock in money transfer?</li>
+<li>Difference between deadlock, livelock, starvation.</li>
+</ul>
+<h3>1.11 Memory Management</h3>
+<p>Goals:</p>
+<ul>
+<li>Allocate memory to processes.</li>
+<li>Protect process memory.</li>
+<li>Support virtual memory.</li>
+<li>Efficiently use RAM.</li>
+<li>Allow sharing when safe.</li>
+</ul>
+<p>Address types:</p>
+<ul>
+<li>Logical/virtual address: generated by program.</li>
+<li>Physical address: actual RAM location.</li>
+<li>MMU translates virtual to physical.</li>
+</ul>
+<pre><code class="language-text">CPU virtual address -&gt; MMU -&gt; physical address -&gt; RAM
+                     uses page table/TLB
+</code></pre>
+<h4>Paging</h4>
+<p>Virtual memory divided into fixed-size pages. Physical memory divided into frames.</p>
+<pre><code class="language-text">Virtual pages:  V0 V1 V2 V3
+Page table:     V0-&gt;F5, V1-&gt;F2, V2-&gt;disk, V3-&gt;F8
+Physical RAM:   F0 F1 F2 F3 F4 F5 ...
+</code></pre>
+<p>Benefits:</p>
+<ul>
+<li>Avoids external fragmentation.</li>
+<li>Supports non-contiguous allocation.</li>
+<li>Enables virtual memory and protection.</li>
+</ul>
+<p>Costs:</p>
+<ul>
+<li>Page table memory overhead.</li>
+<li>Address translation overhead.</li>
+<li>Internal fragmentation in last page.</li>
+</ul>
+<p>Page table entry may contain:</p>
+<ul>
+<li>Frame number.</li>
+<li>Present/valid bit.</li>
+<li>Protection bits.</li>
+<li>Dirty bit.</li>
+<li>Accessed/reference bit.</li>
+<li>Caching flags.</li>
+</ul>
+<h4>Segmentation</h4>
+<p>Memory divided into logical segments such as code, stack, heap.</p>
+<p>Each segment has base and limit.</p>
+<p>Pros:</p>
+<ul>
+<li>Matches programmer's logical view.</li>
+<li>Fine-grained protection/sharing.</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>External fragmentation.</li>
+<li>More complex allocation.</li>
+</ul>
+<p>Modern systems often combine segmentation concepts with paging, but paging dominates general-purpose memory management.</p>
+<h4>Virtual Memory And Demand Paging</h4>
+<p>Virtual memory lets processes use more address space than physical RAM.</p>
+<p>Demand paging:</p>
+<ul>
+<li>Load a page into RAM only when accessed.</li>
+<li>If page not present, CPU triggers page fault.</li>
+<li>Kernel loads page from disk or creates zero page.</li>
+<li>Process resumes.</li>
+</ul>
+<p>Page fault flow:</p>
+<pre><code class="language-text">Access virtual page
+   |
+PTE present? no
+   |
+CPU trap to kernel
+   |
+valid access? no -&gt; segmentation fault
+   |
+find free frame or evict victim
+   |
+load page from disk / zero-fill
+   |
+update page table and TLB
+   |
+restart instruction
+</code></pre>
+<h4>TLB</h4>
+<p>Translation Lookaside Buffer is a CPU cache for virtual-to-physical translations.</p>
+<p>Without TLB:</p>
+<ul>
+<li>Every memory access needs page table walk, often multiple memory reads.</li>
+</ul>
+<p>With TLB:</p>
+<ul>
+<li>Most translations are cached.</li>
+</ul>
+<p>TLB miss:</p>
+<ul>
+<li>Hardware or OS performs page table walk.</li>
+<li>Entry inserted into TLB.</li>
+</ul>
+<p>Context switch concern:</p>
+<ul>
+<li>TLB entries may belong to old address space.</li>
+<li>OS may flush TLB or use address space identifiers.</li>
+</ul>
+<h4>Thrashing</h4>
+<p>Thrashing occurs when system spends more time paging than executing.</p>
+<p>Causes:</p>
+<ul>
+<li>Too many active processes.</li>
+<li>Working sets exceed physical memory.</li>
+<li>Poor locality.</li>
+</ul>
+<p>Symptoms:</p>
+<ul>
+<li>High disk I/O.</li>
+<li>Low CPU utilization.</li>
+<li>Severe latency.</li>
+</ul>
+<p>Solutions:</p>
+<ul>
+<li>Reduce multiprogramming level.</li>
+<li>Add RAM.</li>
+<li>Improve locality.</li>
+<li>Tune memory limits.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>What happens on a page fault?</li>
+<li>Difference between internal and external fragmentation.</li>
+<li>Why does TLB improve performance?</li>
+<li>What is copy-on-write?</li>
+</ul>
+<h3>1.12 File Systems</h3>
+<p>A file system organizes persistent data.</p>
+<p>Core abstractions:</p>
+<ul>
+<li>File: named sequence of bytes plus metadata.</li>
+<li>Directory: mapping from names to files/directories.</li>
+<li>Inode: metadata structure in Unix-like systems.</li>
+<li>File descriptor: process-local integer handle for an open file.</li>
+</ul>
+<p>Inode contains:</p>
+<ul>
+<li>File type.</li>
+<li>Permissions.</li>
+<li>Owner/group.</li>
+<li>Size.</li>
+<li>Timestamps.</li>
+<li>Pointers to data blocks.</li>
+<li>Link count.</li>
+</ul>
+<p>Open file flow:</p>
+<pre><code class="language-text">path &quot;/home/a/x.txt&quot;
+   |
+parse directories
+   |
+find inode
+   |
+check permissions
+   |
+create open-file table entry
+   |
+return fd to process
+</code></pre>
+<p>Hard link vs soft link:</p>
+<ul>
+<li>Hard link: another directory entry pointing to same inode.</li>
+<li>Soft link/symlink: separate file containing target path.</li>
+</ul>
+<p>Common mistakes:</p>
+<ul>
+<li>Deleting a file name does not necessarily delete data immediately if links or open file descriptors remain.</li>
+<li><code>fsync</code> matters when durability is required; <code>write</code> may only update page cache.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>What is an inode?</li>
+<li>What happens when you delete an open file?</li>
+<li>Difference between file descriptor and inode.</li>
+</ul>
+<h3>1.13 Disk Scheduling</h3>
+<p>Classic spinning disk scheduling minimizes seek time.</p>
+<p>Algorithms:</p>
+<ul>
+<li>FCFS: simple but inefficient.</li>
+<li>SSTF: shortest seek time first; may starve far requests.</li>
+<li>SCAN: elevator algorithm moves in one direction then reverses.</li>
+<li>C-SCAN: circular scan; provides more uniform wait.</li>
+<li>LOOK/C-LOOK: like SCAN/C-SCAN but only go as far as last request.</li>
+</ul>
+<p>Modern note:</p>
+<ul>
+<li>SSDs do not have mechanical seek, but I/O schedulers still matter for batching, fairness, and write behavior.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why is SCAN called elevator algorithm?</li>
+<li>Are disk scheduling algorithms still relevant for SSDs?</li>
+</ul>
+<h3>1.14 System Calls</h3>
+<p>System calls are controlled kernel service entry points.</p>
+<p>Categories:</p>
+<ul>
+<li>Process: <code>fork</code>, <code>exec</code>, <code>wait</code>, <code>exit</code>.</li>
+<li>File: <code>open</code>, <code>read</code>, <code>write</code>, <code>close</code>.</li>
+<li>Memory: <code>mmap</code>, <code>brk</code>.</li>
+<li>IPC: <code>pipe</code>, shared memory, sockets.</li>
+<li>Signals: <code>kill</code>, signal handling.</li>
+</ul>
+<h4>Fork, Exec, Wait</h4>
+<p><code>fork</code>:</p>
+<ul>
+<li>Creates child process.</li>
+<li>Child is near-copy of parent.</li>
+<li>Returns child PID to parent, <code>0</code> to child.</li>
+<li>Usually implemented efficiently with copy-on-write pages.</li>
+</ul>
+<p><code>exec</code>:</p>
+<ul>
+<li>Replaces current process image with new program.</li>
+<li>PID remains same.</li>
+</ul>
+<p><code>wait</code>:</p>
+<ul>
+<li>Parent collects child exit status.</li>
+<li>Prevents zombie accumulation.</li>
+</ul>
+<p>Shell command flow:</p>
+<pre><code class="language-text">shell
+ |
+ | fork()
+ +--&gt; child: exec(&quot;ls&quot;)
+ |
+ +--&gt; parent: wait(child)
+</code></pre>
+<h4>Signals</h4>
+<p>Signals are asynchronous notifications.</p>
+<p>Examples:</p>
+<ul>
+<li><code>SIGINT</code>: Ctrl+C.</li>
+<li><code>SIGTERM</code>: polite termination request.</li>
+<li><code>SIGKILL</code>: cannot be caught; force kill.</li>
+<li><code>SIGCHLD</code>: child changed state.</li>
+</ul>
+<p>Common issue:</p>
+<ul>
+<li>Signal handlers must be careful because they interrupt normal execution.</li>
+</ul>
+<h4>IPC</h4>
+<p>Inter-process communication options:</p>
+<ul>
+<li>Pipes: unidirectional byte stream, often parent-child.</li>
+<li>Named pipes/FIFOs: pipe with file-system name.</li>
+<li>Message queues: structured messages.</li>
+<li>Shared memory: fastest but needs synchronization.</li>
+<li>Sockets: local or network communication.</li>
+<li>Signals: lightweight notifications.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why <code>fork</code> then <code>exec</code>?</li>
+<li>What is copy-on-write?</li>
+<li>Difference between pipe and socket.</li>
+</ul>
+<h3>1.15 Linux Process Model</h3>
+<p>Linux treats processes and threads as tasks internally.</p>
+<p>Important ideas:</p>
+<ul>
+<li><code>fork()</code> creates a new process.</li>
+<li><code>clone()</code> can create tasks sharing selected resources.</li>
+<li>Threads are tasks sharing address space, file descriptors, and signal handlers.</li>
+<li><code>/proc</code> exposes process information.</li>
+<li><code>init</code>/<code>systemd</code> adopts orphans.</li>
+<li>Zombies remain until parent waits.</li>
+</ul>
+<p>Linux process relationships:</p>
+<pre><code class="language-text">systemd(1)
+  |
+  +-- shell
+        |
+        +-- java process
+              |
+              +-- JVM threads
+</code></pre>
+<p>Interview questions:</p>
+<ul>
+<li>How are Linux threads represented?</li>
+<li>What is <code>/proc</code>?</li>
+<li>What is a zombie and how do you clear it?</li>
+</ul>
+<hr>
+</article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

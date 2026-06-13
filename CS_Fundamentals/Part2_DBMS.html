@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Management Systems — Complete Mastery Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js Syntax Highlighting CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        /* CSS variables for consistent premium coloring */
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0c0f17;
+            --bg-sidebar: #090c13;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-color: #f5a623;
+            --accent-hover: #fbbf24;
+            --card-bg: #111625;
+            --code-bg: #05070a;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for scroll targets */
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.625;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 1000;
+        }
+
+        .mobile-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 70%;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .sidebar-brand svg {
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toc-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin: 0.125rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toc-link:hover {
+            color: #fff;
+            background-color: var(--bg-secondary);
+        }
+
+        .toc-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background-color: rgba(245, 166, 35, 0.06);
+            border-left-color: var(--accent-color);
+        }
+
+        .toc-h1 {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .toc-h2 {
+            padding-left: 2.25rem;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            z-index: 850;
+        }
+
+        /* Main Content Panel */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem 5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Markdown Styles & Elements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-top: 2.75rem;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 2.15rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+            margin-top: 3.5rem;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: all 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent-hover);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        pre {
+            margin: 0 !important;
+            padding: 1rem !important;
+            background-color: var(--code-bg) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            text-shadow: none !important;
+            color: #e2e8f0 !important;
+        }
+
+        .code-block-wrapper {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block-wrapper pre {
+            border: none;
+            border-radius: 0;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            color: #fff;
+            background-color: var(--border-color);
+            border-color: #475569;
+        }
+
+        .icon-svg {
+            display: inline-block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Inline Code */
+        p code, li code, blockquote code {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--accent-hover);
+            padding: 0.125rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            background-color: rgba(245, 166, 35, 0.04);
+            padding: 1.15rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote p {
+            margin: 0;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* Tables styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background-color: var(--bg-sidebar);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2);
+        }
+
+        /* Q&A Accordions */
+        .qa-accordion {
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .qa-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .qa-header {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: #fff;
+            gap: 1.25rem;
+        }
+
+        .qa-header-title {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+        }
+
+        .qa-q-badge {
+            background-color: rgba(245, 166, 35, 0.12);
+            color: var(--accent-color);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.725rem;
+            font-weight: 800;
+            margin-top: 0.125rem;
+            border: 1px solid rgba(245, 166, 35, 0.25);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .qa-icon {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+            color: var(--accent-color);
+        }
+
+        .qa-body {
+            display: none;
+            padding: 1.15rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .qa-body p {
+            margin-bottom: 0.75rem;
+        }
+        .qa-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: calc(var(--header-height) + 1.5rem) 1.25rem 4rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="menu-toggle" id="sidebar-toggle" aria-label="Open navigation menu">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <span class="mobile-title">DBMS Guide</span>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+<svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+    <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+</svg>
+<span>CS Fundamentals</span>
+</div>
+<div class="sidebar-subtitle">Handbook Guide</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search sections...">
+                </div>
+            </div>
+
+            <nav class="toc-container">
+                <ul class="toc-list" id="toc-list">
+                    <!-- TOC elements generated dynamically via JS -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Panel Content -->
+        <main class="main-content">
+            <article class="content-wrapper">
+<h1>Database Management Systems Complete Guide</h1>
+<h2>Part 2: DBMS</h2>
+<h3>2.1 DBMS Architecture</h3>
+<p>A DBMS stores, retrieves, secures, and manages data.</p>
+<p>Typical architecture:</p>
+<pre><code class="language-text">Client
+  |
+SQL parser
+  |
+Query optimizer
+  |
+Query executor
+  |
+Storage engine
+  |
+Buffer manager ---- Disk files
+  |
+Transaction manager / lock manager / log manager
+</code></pre>
+<p>Components:</p>
+<ul>
+<li>Parser: validates SQL syntax and builds parse tree.</li>
+<li>Optimizer: chooses execution plan.</li>
+<li>Executor: runs plan operators.</li>
+<li>Storage engine: manages pages, indexes, records.</li>
+<li>Buffer pool: caches disk pages in memory.</li>
+<li>Transaction manager: ACID, isolation.</li>
+<li>Log manager: write-ahead logging for recovery.</li>
+</ul>
+<p>Real-world:</p>
+<ul>
+<li>PostgreSQL, MySQL/InnoDB, Oracle, SQL Server each implement these differently.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why does a DBMS need a buffer pool if OS has page cache?</li>
+<li>What is query optimization?</li>
+<li>Why is logging needed?</li>
+</ul>
+<h3>2.2 RDBMS</h3>
+<p>Relational databases model data as relations/tables.</p>
+<p>Terms:</p>
+<ul>
+<li>Relation: table.</li>
+<li>Tuple: row.</li>
+<li>Attribute: column.</li>
+<li>Schema: structure.</li>
+<li>Domain: allowed values.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-sql">CREATE TABLE users (
+    id BIGINT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);
+</code></pre>
+<p>Relational strengths:</p>
+<ul>
+<li>Declarative SQL.</li>
+<li>Strong consistency.</li>
+<li>Joins.</li>
+<li>Constraints.</li>
+<li>Mature indexing and transactions.</li>
+</ul>
+<p>Common mistake:</p>
+<ul>
+<li>Treating SQL tables as spreadsheets. Tables should represent entities/relationships with constraints.</li>
+</ul>
+<h3>2.3 Keys And Constraints</h3>
+<p>Keys:</p>
+<ul>
+<li>Super key: any attribute set uniquely identifying rows.</li>
+<li>Candidate key: minimal super key.</li>
+<li>Primary key: chosen candidate key.</li>
+<li>Alternate key: candidate key not chosen.</li>
+<li>Foreign key: references primary/candidate key in another table.</li>
+<li>Composite key: key with multiple columns.</li>
+<li>Surrogate key: artificial key, e.g. auto-increment ID.</li>
+<li>Natural key: meaningful real-world key, e.g. email or SSN.</li>
+</ul>
+<p>Constraints:</p>
+<ul>
+<li><code>NOT NULL</code>.</li>
+<li><code>UNIQUE</code>.</li>
+<li><code>PRIMARY KEY</code>.</li>
+<li><code>FOREIGN KEY</code>.</li>
+<li><code>CHECK</code>.</li>
+<li><code>DEFAULT</code>.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-sql">CREATE TABLE orders (
+    id BIGINT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('NEW', 'PAID', 'CANCELLED')),
+    total_cents BIGINT NOT NULL CHECK (total_cents &gt;= 0),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+</code></pre>
+<p>Edge cases:</p>
+<ul>
+<li><code>UNIQUE</code> often allows multiple <code>NULL</code>s depending on DB.</li>
+<li>Foreign keys can cascade, restrict, set null, or set default on delete/update.</li>
+<li>Composite foreign keys must match referenced columns.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Primary key vs unique key.</li>
+<li>Surrogate vs natural key tradeoffs.</li>
+<li>Why enforce constraints in DB if app validates?</li>
+</ul>
+<h3>2.4 ER Modeling</h3>
+<p>ER modeling maps real-world entities and relationships.</p>
+<p>Entities:</p>
+<ul>
+<li>User.</li>
+<li>Order.</li>
+<li>Product.</li>
+</ul>
+<p>Relationships:</p>
+<ul>
+<li>One-to-one.</li>
+<li>One-to-many.</li>
+<li>Many-to-many.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-text">User 1 ---- * Order * ---- * Product
+                  |
+                  v
+             OrderItem
+</code></pre>
+<p>Many-to-many requires junction table:</p>
+<pre><code class="language-sql">CREATE TABLE order_items (
+    order_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity &gt; 0),
+    price_cents BIGINT NOT NULL,
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+</code></pre>
+<p>Interview questions:</p>
+<ul>
+<li>How do you model many-to-many?</li>
+<li>When should a relationship become an entity?</li>
+<li>How do you store historical price in orders?</li>
+</ul>
+<h3>2.5 Normalization</h3>
+<p>Normalization reduces redundancy and update anomalies.</p>
+<p>Anomalies:</p>
+<ul>
+<li>Insert anomaly: cannot insert fact without unrelated data.</li>
+<li>Update anomaly: same fact stored in multiple places becomes inconsistent.</li>
+<li>Delete anomaly: deleting one row removes unrelated fact.</li>
+</ul>
+<h4>1NF</h4>
+<p>Rules:</p>
+<ul>
+<li>Atomic columns.</li>
+<li>No repeating groups.</li>
+<li>Rows identifiable.</li>
+</ul>
+<p>Bad:</p>
+<pre><code class="language-text">student_id | phones
+1          | 111,222
+</code></pre>
+<p>Good:</p>
+<pre><code class="language-text">student_id | phone
+1          | 111
+1          | 222
+</code></pre>
+<h4>2NF</h4>
+<p>Requires 1NF and no partial dependency on part of a composite key.</p>
+<p>Bad:</p>
+<pre><code class="language-text">(student_id, course_id) -&gt; student_name, course_name, grade
+student_id -&gt; student_name
+course_id -&gt; course_name
+</code></pre>
+<p>Split student and course data.</p>
+<h4>3NF</h4>
+<p>Requires 2NF and no transitive dependency of non-key attributes.</p>
+<p>Bad:</p>
+<pre><code class="language-text">employee_id -&gt; department_id
+department_id -&gt; department_name
+</code></pre>
+<p><code>department_name</code> belongs in department table.</p>
+<h4>BCNF</h4>
+<p>For every functional dependency <code>X -&gt; Y</code>, <code>X</code> must be a super key.</p>
+<p>BCNF is stricter than 3NF.</p>
+<h4>4NF</h4>
+<p>Deals with independent multivalued dependencies.</p>
+<p>Example:</p>
+<ul>
+<li>Student has multiple skills.</li>
+<li>Student has multiple hobbies.</li>
+<li>Skills and hobbies independent.</li>
+</ul>
+<p>Do not store all combinations in one table.</p>
+<h4>5NF</h4>
+<p>Deals with join dependencies where data can be reconstructed from smaller projections without loss.</p>
+<p>Rare in daily interviews, but important conceptually: decompose when facts are truly independent and reconstructable.</p>
+<h4>Denormalization</h4>
+<p>Intentional redundancy for performance.</p>
+<p>Examples:</p>
+<ul>
+<li>Store <code>order_total_cents</code> instead of summing items each time.</li>
+<li>Store comment count on post.</li>
+<li>Materialized views.</li>
+</ul>
+<p>Tradeoffs:</p>
+<ul>
+<li>Faster reads.</li>
+<li>More complex writes.</li>
+<li>Risk of inconsistency.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Explain normalization with examples.</li>
+<li>Difference between 3NF and BCNF.</li>
+<li>When would you denormalize?</li>
+</ul>
+<h3>2.6 Transactions And ACID</h3>
+<p>Transaction:</p>
+<ul>
+<li>Logical unit of work that either fully succeeds or fails.</li>
+</ul>
+<p>ACID:</p>
+<ul>
+<li>Atomicity: all or nothing.</li>
+<li>Consistency: preserves constraints/invariants.</li>
+<li>Isolation: concurrent transactions appear controlled/serializable depending on level.</li>
+<li>Durability: committed data survives crashes.</li>
+</ul>
+<p>Bank transfer:</p>
+<pre><code class="language-sql">BEGIN;
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+COMMIT;
+</code></pre>
+<p>If crash after debit before credit, atomicity/recovery should undo or complete consistently.</p>
+<p>Write-ahead logging:</p>
+<ul>
+<li>Log change before applying it to data page.</li>
+<li>On crash, DB replays committed changes and undoes uncommitted ones.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Which ACID property prevents partial transfer?</li>
+<li>How does durability work?</li>
+<li>Can consistency be guaranteed by DB alone?</li>
+</ul>
+<h3>2.7 Isolation Levels</h3>
+<p>Concurrency anomalies:</p>
+<ul>
+<li>Dirty read: read uncommitted data.</li>
+<li>Non-repeatable read: same row read twice gives different value.</li>
+<li>Phantom read: same predicate query returns different set of rows.</li>
+<li>Lost update: concurrent writes overwrite each other.</li>
+<li>Write skew: transactions read overlapping data and write disjoint rows, violating invariant.</li>
+</ul>
+<p>Isolation levels:</p>
+<pre><code class="language-text">Read Uncommitted: dirty reads possible
+Read Committed: no dirty reads
+Repeatable Read: same row stable; phantom behavior DB-dependent
+Serializable: equivalent to serial execution
+</code></pre>
+<p>Example lost update:</p>
+<pre><code class="language-text">T1 reads balance 100
+T2 reads balance 100
+T1 writes 90
+T2 writes 80
+Expected 70, actual 80
+</code></pre>
+<p>Fixes:</p>
+<ul>
+<li>Row locks: <code>SELECT ... FOR UPDATE</code>.</li>
+<li>Optimistic version column.</li>
+<li>Atomic update: <code>UPDATE accounts SET balance = balance - 10 WHERE id = ?</code>.</li>
+<li>Serializable isolation.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Dirty vs non-repeatable vs phantom read.</li>
+<li>Why is serializable expensive?</li>
+<li>What is optimistic locking?</li>
+</ul>
+<h3>2.8 Concurrency Control, Locking, 2PL, Deadlocks</h3>
+<p>Lock types:</p>
+<ul>
+<li>Shared/read lock: many readers.</li>
+<li>Exclusive/write lock: one writer.</li>
+<li>Intention locks: indicate locks lower in hierarchy.</li>
+<li>Row, page, table locks.</li>
+<li>Gap/next-key locks: protect ranges.</li>
+</ul>
+<p>Two Phase Locking:</p>
+<ul>
+<li>Growing phase: acquire locks, release none.</li>
+<li>Shrinking phase: release locks, acquire none.</li>
+<li>Strict 2PL holds write locks until commit, improving recoverability.</li>
+</ul>
+<pre><code class="language-text">Growing:  lock A, lock B
+Shrinking: unlock B, unlock A
+</code></pre>
+<p>Deadlock example:</p>
+<pre><code class="language-text">T1 locks row A, waits for B
+T2 locks row B, waits for A
+</code></pre>
+<p>DB handling:</p>
+<ul>
+<li>Detect wait-for graph cycle.</li>
+<li>Abort one transaction.</li>
+<li>Return deadlock error to application.</li>
+</ul>
+<p>Application rule:</p>
+<ul>
+<li>Always retry transactions that fail due to deadlock or serialization failure if operation is idempotently retryable.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>What is 2PL?</li>
+<li>Difference between deadlock and lock wait timeout.</li>
+<li>How do databases detect deadlocks?</li>
+</ul>
+<h3>2.9 Indexing And B+ Trees</h3>
+<p>Index:</p>
+<ul>
+<li>Auxiliary data structure that speeds lookup at cost of storage and write overhead.</li>
+</ul>
+<p>B+ tree:</p>
+<ul>
+<li>Balanced tree.</li>
+<li>Internal nodes store keys and child pointers.</li>
+<li>Leaf nodes store keys plus row references or data.</li>
+<li>Leaves linked for range scans.</li>
+</ul>
+<pre><code class="language-text">              [30 | 60]
+             /    |     \
+        [10 20] [40 50] [70 80 90]
+          &lt;------ linked leaves ------&gt;
+</code></pre>
+<p>Why B+ trees for DBs:</p>
+<ul>
+<li>High fanout reduces height.</li>
+<li>Disk/page friendly.</li>
+<li>Efficient equality and range queries.</li>
+<li>Ordered traversal.</li>
+</ul>
+<p>Hash index:</p>
+<ul>
+<li>Fast equality.</li>
+<li>Poor range queries.</li>
+</ul>
+<p>Composite index:</p>
+<pre><code class="language-sql">CREATE INDEX idx_orders_user_created ON orders(user_id, created_at);
+</code></pre>
+<p>Useful for:</p>
+<ul>
+<li><code>WHERE user_id = ?</code></li>
+<li><code>WHERE user_id = ? ORDER BY created_at</code></li>
+<li>sometimes range on <code>created_at</code> after equality on <code>user_id</code></li>
+</ul>
+<p>Less useful for:</p>
+<ul>
+<li><code>WHERE created_at = ?</code> without <code>user_id</code> due to leftmost prefix rule.</li>
+</ul>
+<p>Covering index:</p>
+<ul>
+<li>Query can be satisfied from index alone.</li>
+</ul>
+<p>Index downsides:</p>
+<ul>
+<li>Slower inserts/updates/deletes.</li>
+<li>More disk.</li>
+<li>Bad selectivity may not help.</li>
+<li>Too many indexes confuse/slow writes.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Why B+ tree over binary tree?</li>
+<li>Clustered vs non-clustered index.</li>
+<li>What is leftmost prefix?</li>
+<li>Why might DB ignore an index?</li>
+</ul>
+<h3>2.10 Query Optimization And Execution</h3>
+<p>SQL is declarative: you specify what, not how.</p>
+<p>Optimizer chooses:</p>
+<ul>
+<li>Join order.</li>
+<li>Join algorithms.</li>
+<li>Index usage.</li>
+<li>Scan type.</li>
+<li>Predicate pushdown.</li>
+<li>Aggregation strategy.</li>
+</ul>
+<p>Common operators:</p>
+<ul>
+<li>Sequential scan.</li>
+<li>Index scan.</li>
+<li>Nested loop join.</li>
+<li>Hash join.</li>
+<li>Merge join.</li>
+<li>Sort.</li>
+<li>Aggregate.</li>
+</ul>
+<p>Join algorithms:</p>
+<p>Nested loop:</p>
+<ul>
+<li>Good when outer small and inner indexed.</li>
+</ul>
+<p>Hash join:</p>
+<ul>
+<li>Build hash table on smaller input, probe larger.</li>
+<li>Good for equality joins.</li>
+</ul>
+<p>Merge join:</p>
+<ul>
+<li>Both inputs sorted by join key.</li>
+<li>Good for large sorted data.</li>
+</ul>
+<p>Execution example:</p>
+<pre><code class="language-sql">SELECT u.email, COUNT(*) AS order_count
+FROM users u
+JOIN orders o ON o.user_id = u.id
+WHERE o.status = 'PAID'
+GROUP BY u.email;
+</code></pre>
+<p>Logical order:</p>
+<ol>
+<li>FROM/JOIN.</li>
+<li>WHERE.</li>
+<li>GROUP BY.</li>
+<li>HAVING.</li>
+<li>SELECT.</li>
+<li>ORDER BY.</li>
+<li>LIMIT.</li>
+</ol>
+<p>Possible physical plan:</p>
+<pre><code class="language-text">Index scan orders(status='PAID')
+  -&gt; hash by user_id
+Seq/index scan users
+  -&gt; hash join
+  -&gt; aggregate by email
+</code></pre>
+<p>Interview questions:</p>
+<ul>
+<li>Logical SQL order vs written order.</li>
+<li>How does optimizer choose index?</li>
+<li>Nested loop vs hash join.</li>
+</ul>
+<h3>2.11 SQL Sample Tables, Queries, Outputs</h3>
+<p>Sample schema:</p>
+<pre><code class="language-sql">CREATE TABLE departments (
+    id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    department_id INT,
+    salary INT NOT NULL,
+    hired_at DATE NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+</code></pre>
+<p>Sample data:</p>
+<pre><code class="language-text">departments
+id | name
+1  | Engineering
+2  | Sales
+3  | HR
+
+employees
+id | name  | department_id | salary | hired_at
+1  | Asha  | 1             | 120000 | 2022-01-10
+2  | Ben   | 1             | 90000  | 2023-03-01
+3  | Chen  | 2             | 80000  | 2021-07-12
+4  | Diya  | NULL          | 70000  | 2024-02-20
+</code></pre>
+<p>Inner join:</p>
+<pre><code class="language-sql">SELECT e.name, d.name AS department
+FROM employees e
+JOIN departments d ON d.id = e.department_id;
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">name | department
+Asha | Engineering
+Ben  | Engineering
+Chen | Sales
+</code></pre>
+<p><code>Diya</code> is excluded because <code>NULL</code> does not match.</p>
+<p>Left join:</p>
+<pre><code class="language-sql">SELECT e.name, d.name AS department
+FROM employees e
+LEFT JOIN departments d ON d.id = e.department_id;
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">name | department
+Asha | Engineering
+Ben  | Engineering
+Chen | Sales
+Diya | NULL
+</code></pre>
+<p>Aggregation:</p>
+<pre><code class="language-sql">SELECT department_id, COUNT(*) AS n, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department_id;
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">department_id | n | avg_salary
+1             | 2 | 105000
+2             | 1 | 80000
+NULL          | 1 | 70000
+</code></pre>
+<p>Window function:</p>
+<pre><code class="language-sql">SELECT
+    name,
+    department_id,
+    salary,
+    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS salary_rank
+FROM employees;
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">name | department_id | salary | salary_rank
+Asha | 1             | 120000 | 1
+Ben  | 1             | 90000  | 2
+Chen | 2             | 80000  | 1
+Diya | NULL          | 70000  | 1
+</code></pre>
+<p>Edge cases:</p>
+<ul>
+<li><code>COUNT(*)</code> counts rows; <code>COUNT(column)</code> ignores NULL.</li>
+<li><code>WHERE</code> filters before grouping; <code>HAVING</code> filters groups.</li>
+<li><code>NULL = NULL</code> is unknown, not true.</li>
+<li><code>NOT IN</code> with NULL can produce surprising empty results; prefer <code>NOT EXISTS</code>.</li>
+</ul>
+<h3>2.12 Views, Stored Procedures, Triggers</h3>
+<p>View:</p>
+<ul>
+<li>Saved query.</li>
+<li>Can simplify access and enforce security boundaries.</li>
+</ul>
+<pre><code class="language-sql">CREATE VIEW high_paid_employees AS
+SELECT id, name, salary
+FROM employees
+WHERE salary &gt;= 100000;
+</code></pre>
+<p>Stored procedure:</p>
+<ul>
+<li>Database-side procedural logic.</li>
+<li>Useful for encapsulated operations close to data.</li>
+<li>Can harm portability and hide business logic if overused.</li>
+</ul>
+<p>Trigger:</p>
+<ul>
+<li>Runs automatically on insert/update/delete.</li>
+<li>Useful for audit logs and derived fields.</li>
+<li>Dangerous when hidden side effects surprise application developers.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>View vs materialized view.</li>
+<li>When would you use a trigger?</li>
+<li>Stored procedure pros and cons.</li>
+</ul>
+<h3>2.13 Partitioning, Replication, Sharding</h3>
+<p>Partitioning:</p>
+<ul>
+<li>Split one logical table into physical parts.</li>
+</ul>
+<p>Types:</p>
+<ul>
+<li>Range: by date ranges.</li>
+<li>List: by region/status.</li>
+<li>Hash: by hash of key.</li>
+</ul>
+<p>Benefits:</p>
+<ul>
+<li>Partition pruning.</li>
+<li>Easier archival.</li>
+<li>Smaller indexes per partition.</li>
+</ul>
+<p>Replication:</p>
+<ul>
+<li>Copies data to multiple nodes.</li>
+</ul>
+<p>Types:</p>
+<ul>
+<li>Primary-replica: writes to primary, reads can go to replicas.</li>
+<li>Multi-primary: multiple write nodes; conflict complexity.</li>
+<li>Synchronous: safer, slower.</li>
+<li>Asynchronous: faster, replication lag possible.</li>
+</ul>
+<p>Sharding:</p>
+<ul>
+<li>Horizontal partitioning across machines.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-text">user_id % 4:
+0 -&gt; shard A
+1 -&gt; shard B
+2 -&gt; shard C
+3 -&gt; shard D
+</code></pre>
+<p>Challenges:</p>
+<ul>
+<li>Cross-shard joins.</li>
+<li>Rebalancing.</li>
+<li>Hot shards.</li>
+<li>Distributed transactions.</li>
+<li>Global secondary indexes.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Partitioning vs sharding.</li>
+<li>Replication lag effects.</li>
+<li>How do you choose a shard key?</li>
+</ul>
+<h3>2.14 SQL Vs NoSQL And CAP</h3>
+<p>SQL:</p>
+<ul>
+<li>Strong schema.</li>
+<li>Relational queries and joins.</li>
+<li>ACID transactions.</li>
+<li>Good for financial/order/inventory systems.</li>
+</ul>
+<p>NoSQL categories:</p>
+<ul>
+<li>Key-value: Redis, Dynamo-style systems.</li>
+<li>Document: MongoDB.</li>
+<li>Wide-column: Cassandra.</li>
+<li>Graph: Neo4j.</li>
+</ul>
+<p>NoSQL strengths:</p>
+<ul>
+<li>Flexible schema.</li>
+<li>Horizontal scaling.</li>
+<li>Specialized access patterns.</li>
+</ul>
+<p>CAP theorem:</p>
+<p>In presence of network partition, a distributed system must choose between:</p>
+<ul>
+<li>Consistency: every read sees latest write.</li>
+<li>Availability: every request receives non-error response.</li>
+</ul>
+<p>Partition tolerance is not optional in real distributed systems.</p>
+<p>Important nuance:</p>
+<ul>
+<li>CAP is about behavior during partitions, not a blanket ranking of databases.</li>
+<li>Systems can provide tunable consistency.</li>
+</ul>
+<p>Interview questions:</p>
+<ul>
+<li>Explain CAP with example.</li>
+<li>SQL vs NoSQL tradeoffs.</li>
+<li>When would you choose Cassandra over PostgreSQL?</li>
+</ul>
+<hr>
+</article>
+        </main>
+    </div>
+
+    <!-- Prism.js Syntax Highlighting Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const tocList = document.getElementById('toc-list');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        // 1. Mobile Sidebar Toggle Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 2. Code Block Enhancements (Headers, Copy buttons)
+        document.querySelectorAll('pre code').forEach((codeEl) => {
+            const preEl = codeEl.parentElement;
+            
+            // Detect language from class e.g., language-java
+            let lang = 'Plain Text';
+            const classes = codeEl.className.split(' ');
+            for (const c of classes) {
+                if (c.startsWith('language-')) {
+                    lang = c.replace('language-', '').toUpperCase();
+                    if (lang === 'CPP') lang = 'C++';
+                    break;
+                }
+            }
+            
+            // Create code block wrapper
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            
+            // Create header bar
+            const header = document.createElement('div');
+            header.className = 'code-block-header';
+            
+            const langSpan = document.createElement('span');
+            langSpan.textContent = lang;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = `
+                <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+            `;
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2.5" style="color: #22c55e">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style="color: #22c55e">Copied!</span>
+                    `;
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg class="icon-svg" viewBox="0 0 24 24" width="12" height="12" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy</span>
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            header.appendChild(langSpan);
+            header.appendChild(copyBtn);
+            
+            preEl.parentNode.insertBefore(wrapper, preEl);
+            wrapper.appendChild(header);
+            wrapper.appendChild(preEl);
+        });
+
+        // 3. Make all tables responsive
+        document.querySelectorAll('table').forEach(table => {
+            const container = document.createElement('div');
+            container.className = 'table-container';
+            table.parentNode.insertBefore(container, table);
+            container.appendChild(table);
+        });
+
+        // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
+        const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
+        allHeaders.forEach(header => {
+            if (header.textContent.toLowerCase().includes('interview questions')) {
+                // Find next sibling list
+                let listEl = header.nextElementSibling;
+                while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
+                       listEl.tagName !== 'H1' && listEl.tagName !== 'H2' && listEl.tagName !== 'H3') {
+                    listEl = listEl.nextElementSibling;
+                }
+                
+                if (listEl && (listEl.tagName === 'UL' || listEl.tagName === 'OL')) {
+                    const items = listEl.querySelectorAll('li');
+                    const accordion = document.createElement('div');
+                    accordion.className = 'qa-accordion';
+                    
+                    let hasQAs = false;
+                    items.forEach(li => {
+                        const text = li.innerText.trim();
+                        // Verify this list item represents a Q&A
+                        if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
+                            hasQAs = true;
+                            
+                            // Extract question text
+                            const qMatch = text.match(/^[Q|q]\s*:\s*([\s\S]+?)(?=[A|a]\s*:)/i);
+                            const questionText = qMatch ? qMatch[1].trim() : "Interview Question";
+                            
+                            // DOM-based extraction of answer element (preserves HTML structures)
+                            const liClone = li.cloneNode(true);
+                            const answerContainer = document.createElement('div');
+                            const p = liClone.querySelector('p') || liClone;
+                            
+                            let foundAnswer = false;
+                            const nodes = Array.from(p.childNodes);
+                            
+                            nodes.forEach(node => {
+                                if (foundAnswer) {
+                                    answerContainer.appendChild(node);
+                                } else if (node.nodeType === Node.TEXT_NODE) {
+                                    const aIndex = node.nodeValue.search(/[A|a]\s*:/);
+                                    if (aIndex !== -1) {
+                                        foundAnswer = true;
+                                        node.nodeValue = node.nodeValue.substring(aIndex + 2).trim();
+                                        answerContainer.appendChild(node);
+                                    }
+                                }
+                            });
+                            
+                            // Fallback if DOM extraction fails to find "A:"
+                            if (!foundAnswer) {
+                                const aMatch = text.match(/[A|a]\s*:\s*([\s\S]+)$/i);
+                                answerContainer.textContent = aMatch ? aMatch[1].trim() : text;
+                            }
+                            
+                            // Construct accordion card
+                            const card = document.createElement('div');
+                            card.className = 'qa-card';
+                            
+                            const cardHeader = document.createElement('div');
+                            cardHeader.className = 'qa-header';
+                            
+                            const titleSpan = document.createElement('span');
+                            titleSpan.className = 'qa-header-title';
+                            titleSpan.innerHTML = `<span class="qa-q-badge">Q</span> <span>${questionText}</span>`;
+                            
+                            const iconSpan = document.createElement('span');
+                            iconSpan.className = 'qa-icon';
+                            iconSpan.innerHTML = `
+                                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            `;
+                            
+                            cardHeader.appendChild(titleSpan);
+                            cardHeader.appendChild(iconSpan);
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'qa-body';
+                            cardBody.appendChild(answerContainer);
+                            
+                            cardHeader.addEventListener('click', () => {
+                                const isOpen = card.classList.contains('open');
+                                if (isOpen) {
+                                    card.classList.remove('open');
+                                    cardBody.style.display = 'none';
+                                } else {
+                                    card.classList.add('open');
+                                    cardBody.style.display = 'block';
+                                }
+                            });
+                            
+                            card.appendChild(cardHeader);
+                            card.appendChild(cardBody);
+                            accordion.appendChild(card);
+                        }
+                    });
+                    
+                    if (hasQAs) {
+                        listEl.parentNode.replaceChild(accordion, listEl);
+                    }
+                }
+            }
+        });
+
+        // 5. Generate Table of Contents (TOC) list items
+        const headings = contentWrapper.querySelectorAll('h1, h2');
+        headings.forEach((heading, idx) => {
+            if (!heading.id) {
+                heading.id = 'heading-' + idx;
+            }
+            
+            // Skip the TOC heading in the document itself to avoid duplication
+            if (heading.id === 'table-of-contents') return;
+
+            const li = document.createElement('li');
+            li.className = 'toc-item';
+            
+            const a = document.createElement('a');
+            a.href = '#' + heading.id;
+            a.className = 'toc-link ' + (heading.tagName === 'H1' ? 'toc-h1' : 'toc-h2');
+            a.textContent = heading.textContent;
+            
+            // Clean prefix digits if present
+            a.textContent = a.textContent.replace(/^\d+\.\s*/, '');
+            
+            a.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // 6. Intersection Observer Scrollspy for Table of Contents
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(link => {
+                        if (link.getAttribute('href') === '#' + id) {
+                            link.classList.add('active');
+                            link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(h => {
+            if (h.id !== 'table-of-contents') {
+                observer.observe(h);
+            }
+        });
+
+        // 7. Sidebar Filter / Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            tocLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const parent = link.parentElement;
+                if (text.includes(query)) {
+                    parent.style.display = 'block';
+                } else {
+                    parent.style.display = 'none';
+                }
+            });
+        });
+
+        // 8. Fuzzy scroll target matching for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href').substring(1);
+                if (!targetId) return;
+                
+                let target = document.getElementById(targetId);
+                
+                // Fuzzy matching search for IDs
+                if (!target) {
+                    const normalize = str => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const normalizedTarget = normalize(targetId);
+                    
+                    const allPageElements = contentWrapper.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    for (const el of allPageElements) {
+                        if (normalize(el.id) === normalizedTarget || normalize(el.textContent).includes(normalizedTarget)) {
+                            target = el;
+                            break;
+                        }
+                    }
+                }
+                
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
