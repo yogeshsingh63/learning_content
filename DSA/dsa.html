@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate DSA Revision Handbook</title>
+    <title>DSA Revision Handbook — Complete Mastery Guide</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -487,6 +487,65 @@
             background-color: rgba(30, 41, 59, 0.2);
         }
 
+        /* Premium Checklist Styling */
+        .task-list-item {
+            list-style-type: none !important;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.65rem;
+            padding: 0.5rem 0.75rem;
+            background-color: rgba(30, 41, 59, 0.15);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .task-list-item:hover {
+            border-color: rgba(245, 166, 35, 0.3);
+            background-color: rgba(30, 41, 59, 0.25);
+        }
+        .task-list-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.15rem;
+            height: 1.15rem;
+            border: 2px solid var(--text-muted);
+            border-radius: 4px;
+            background-color: transparent;
+            cursor: pointer;
+            display: grid;
+            place-content: center;
+            transition: all 0.2s ease;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        .task-list-item input[type="checkbox"]:checked {
+            border-color: var(--accent-color);
+            background-color: var(--accent-color);
+        }
+        .task-list-item input[type="checkbox"]::before {
+            content: "";
+            width: 0.55rem;
+            height: 0.55rem;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            background-color: var(--bg-primary);
+            transform-origin: bottom left;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        .task-list-item input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+        .task-list-item span {
+            font-size: 0.925rem;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+        .task-list-item input[type="checkbox"]:checked + span {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
         /* Q&A Accordions */
         .qa-accordion {
             margin: 1.5rem 0 2rem 0;
@@ -612,7 +671,7 @@
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
         </button>
-        <span class="mobile-title">DSA Handbook</span>
+        <span class="mobile-title">DSA Mastery Guide</span>
         <div style="width: 24px;"></div> <!-- Spacer -->
     </div>
 
@@ -623,12 +682,16 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-<svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
-    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-</svg>
-<span>DSA Revision</span>
-</div>
-<div class="sidebar-subtitle">Handbook Guide</div>
+                    <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20" stroke-width="2.5">
+                        <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"></path>
+                        <path d="M6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"></path>
+                        <path d="M10 6h4"></path>
+                        <path d="M10 12h4"></path>
+                        <path d="M10 18h4"></path>
+                    </svg>
+                    <span>DSA Handbook</span>
+                </div>
+                <div class="sidebar-subtitle">Complete Mastery</div>
             </div>
             
             <div class="search-container">
@@ -653,92 +716,168 @@
         <!-- Main Panel Content -->
         <main class="main-content">
             <article class="content-wrapper">
-<h1>Ultimate DSA Revision Handbook for Coding Interviews</h1>
-<p>1</p>
-<h1>DSA Roadmap Overview</h1>
+                <h1 id="ultimate-dsa-revision-handbook-for-coding-interviews">Ultimate DSA Revision Handbook for Coding Interviews</h1>
+<h2 id="dsa-roadmap-overview">DSA Roadmap Overview</h2>
 <p>This handbook is designed for someone who has <strong>completed DSA once</strong> (primarily in C++) and needs a structured, comprehensive revision before coding interviews. Each topic below builds upon the previous one. Follow this roadmap sequentially for maximum retention, or jump to any section for targeted revision.</p>
 <p><strong>How to use this handbook:</strong> Each section contains theory, intuition, C++ implementations, dry runs, complexity analysis, common mistakes, interview questions, and pattern recognition guides. Use the checkboxes to track your progress — your state is saved automatically in your browser.</p>
-<h3>The Complete Roadmap</h3>
-<p>Phase 1: Foundations ├── 1. Complexity Analysis (Big O, Amortized) ├── 2. Arrays (Prefix Sum, Kadane, DNF) ├── 3. Strings (KMP, Rabin-Karp, Z-Algo) └── 4. Hashing (Frequency, Lookup) Phase 2: Linear Data Structures ├── 5. Linked Lists (Fast-Slow, In-place Reversal) ├── 6. Stack (Monotonic Stack Patterns) └── 7. Queue / Deque (Sliding Window Max) Phase 3: Recursion &amp; Search ├── 8. Recursion (Call Stack, Subsequences) ├── 9. Backtracking (N-Queens, Sudoku) ├── 10. Binary Search (Search/Answer Space) ├── 11. Two Pointers (Pair Sum, 3Sum) └── 12. Sliding Window (Fixed/Variable) Phase 4: Sorting &amp; Trees ├── 13. Sorting (Merge, Quick, Heap Sort) ├── 14. Trees (Traversals, DFS, BFS) ├── 15. BST (Validate, LCA, Kth Smallest) ├── 16. Heap / Priority Queue (Top-K) └── 17. Trie (Prefix Matching) Phase 5: Graphs ├── 18. Graph Basics (BFS, DFS, Cycle Detection) └── 19. Advanced (Dijkstra, MST, Topo Sort, DSU) Phase 6: Paradigms ├── 20. Greedy (Activity Selection, Intervals) └── 21. Dynamic Programming (All Patterns) Phase 7: Advanced ├── 22. Bit Manipulation (XOR Tricks) ├── 23. Segment Tree (Range Queries) ├── 24. Fenwick Tree / BIT └── 25. Disjoint Set Union</p>
-<h3>Estimated Timeline</h3>
-<p>Phase</p>
-<p>Topics</p>
-<p>Suggested Days</p>
-<p>Phase 1</p>
-<p>Foundations</p>
-<p>4–5 days</p>
-<p>Phase 2</p>
-<p>Linear Structures</p>
-<p>3–4 days</p>
-<p>Phase 3</p>
-<p>Recursion &amp; Search</p>
-<p>5–6 days</p>
-<p>Phase 4</p>
-<p>Sorting &amp; Trees</p>
-<p>5–6 days</p>
-<p>Phase 5</p>
-<p>Graphs</p>
-<p>4–5 days</p>
-<p>Phase 6</p>
-<p>Paradigms</p>
-<p>7–10 days</p>
-<p>Phase 7</p>
-<p>Advanced</p>
-<p>3–4 days</p>
-<p>2</p>
-<h1>Complexity Analysis</h1>
-<h3>Asymptotic Notations</h3>
-<h4>Big O — O(f(n)) — Upper Bound</h4>
+<h3 id="the-complete-roadmap">The Complete Roadmap</h3>
+<p><strong>Phase 1: Foundations</strong>
+- 1. Complexity Analysis (Big O, Amortized)
+- 2. Arrays (Prefix Sum, Kadane, DNF)
+- 3. Strings (KMP, Rabin-Karp, Z-Algo, Manacher)
+- 4. Hashing (Frequency, Lookup)</p>
+<p><strong>Phase 2: Linear Data Structures</strong>
+- 5. Linked Lists (Fast-Slow, In-place Reversal)
+- 6. Stack (Monotonic Stack Patterns)
+- 7. Queue / Deque (Sliding Window Max)</p>
+<p><strong>Phase 3: Recursion &amp; Search</strong>
+- 8. Recursion (Call Stack, Subsequences)
+- 9. Backtracking (N-Queens, Sudoku)
+- 10. Binary Search (Search/Answer Space)
+- 11. Two Pointers (Pair Sum, 3Sum)
+- 12. Sliding Window (Fixed/Variable)</p>
+<p><strong>Phase 4: Sorting &amp; Trees</strong>
+- 13. Sorting (Merge, Quick, Heap, Counting, Radix)
+- 14. Trees (Traversals, DFS, BFS)
+- 15. BST (Validate, LCA, Kth Smallest)
+- 16. Heap / Priority Queue (Top-K)
+- 17. Trie (Prefix Matching)</p>
+<p><strong>Phase 5: Graphs</strong>
+- 18. Graph Basics (BFS, DFS, Cycle Detection)
+- 19. Advanced Graphs (Dijkstra, MST, Topo Sort, DSU, SCC, Bridges)</p>
+<p><strong>Phase 6: Paradigms</strong>
+- 20. Greedy (Activity Selection, Intervals, Huffman)
+- 21. Dynamic Programming (All Patterns)</p>
+<p><strong>Phase 7: Advanced</strong>
+- 22. Bit Manipulation (XOR Tricks)
+- 23. Segment Tree (Range Queries)
+- 24. Fenwick Tree / BIT
+- 25. Disjoint Set Union</p>
+<h3 id="estimated-timeline">Estimated Timeline</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Topics</th>
+<th>Suggested Days</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1</td>
+<td>Foundations</td>
+<td>4–5 days</td>
+</tr>
+<tr>
+<td>Phase 2</td>
+<td>Linear Structures</td>
+<td>3–4 days</td>
+</tr>
+<tr>
+<td>Phase 3</td>
+<td>Recursion &amp; Search</td>
+<td>5–6 days</td>
+</tr>
+<tr>
+<td>Phase 4</td>
+<td>Sorting &amp; Trees</td>
+<td>5–6 days</td>
+</tr>
+<tr>
+<td>Phase 5</td>
+<td>Graphs</td>
+<td>4–5 days</td>
+</tr>
+<tr>
+<td>Phase 6</td>
+<td>Paradigms</td>
+<td>7–10 days</td>
+</tr>
+<tr>
+<td>Phase 7</td>
+<td>Advanced</td>
+<td>3–4 days</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="complexity-analysis">Complexity Analysis</h2>
+<h3 id="asymptotic-notations">Asymptotic Notations</h3>
+<h4 id="big-o-ofn-upper-bound">Big O — O(f(n)) — Upper Bound</h4>
 <p><strong>Definition:</strong> f(n) = O(g(n)) if there exist constants c &gt; 0 and n₀ ≥ 0 such that f(n) ≤ c·g(n) for all n ≥ n₀. It describes the <strong>worst-case</strong> growth rate of an algorithm.</p>
 <p><strong>Intuition:</strong> "My algorithm will <em>never</em> be slower than this." It's the ceiling on performance. When someone says "this algorithm is O(n log n)", they mean: in the worst scenario, it grows at most proportional to n·log(n).</p>
-<h4>Big Omega — Ω(f(n)) — Lower Bound</h4>
+<h4 id="big-omega-fn-lower-bound">Big Omega — Ω(f(n)) — Lower Bound</h4>
 <p><strong>Definition:</strong> f(n) = Ω(g(n)) if there exist constants c &gt; 0 and n₀ such that f(n) ≥ c·g(n) for all n ≥ n₀. It describes the <strong>best-case</strong> growth rate.</p>
 <p><strong>Intuition:</strong> "My algorithm will <em>always</em> take at least this much time." Comparison-based sorting, for example, has Ω(n log n) — you can't do better.</p>
-<h4>Big Theta — Θ(f(n)) — Tight Bound</h4>
+<h4 id="big-theta-fn-tight-bound">Big Theta — Θ(f(n)) — Tight Bound</h4>
 <p><strong>Definition:</strong> f(n) = Θ(g(n)) if f(n) = O(g(n)) AND f(n) = Ω(g(n)). The function grows at <em>exactly</em> that rate asymptotically.</p>
 <p><strong>Intuition:</strong> "My algorithm is <em>precisely</em> this fast." Merge sort is Θ(n log n) — it's always n log n regardless of input order.</p>
-<h4>Amortized Analysis</h4>
+<h4 id="amortized-analysis">Amortized Analysis</h4>
 <p><strong>Definition:</strong> Average time per operation over a worst-case sequence of operations. Not the same as average-case analysis.</p>
 <p><strong>Classic Example — Dynamic Array (std::vector):</strong> Appending is usually O(1), but occasionally O(n) when the array doubles. Over n insertions, total cost is O(n), making the amortized cost per insertion O(1).</p>
 <p><strong>Interview Tip:</strong> When asked "Is push_back O(1) or O(n)?", the correct answer is "O(1) amortized." Explain the doubling strategy.</p>
-<h3>Common Complexities — Reference Table</h3>
-<p>Complexity</p>
-<p>Name</p>
-<p>n=10⁶ Operations</p>
-<p>Example Algorithms</p>
-<p>O(1)</p>
-<p>Constant</p>
-<p>1</p>
-<p>Array access, hash lookup</p>
-<p>O(log n)</p>
-<p>Logarithmic</p>
-<p>~20</p>
-<p>Binary search, balanced BST ops</p>
-<p>O(√n)</p>
-<p>Square Root</p>
-<p>~1000</p>
-<p>Trial division, sqrt decomposition</p>
-<p>O(n)</p>
-<p>Linear</p>
-<p>10⁶</p>
-<p>Linear search, single pass</p>
-<p>O(n log n)</p>
-<p>Linearithmic</p>
-<p>~2×10⁷</p>
-<p>Merge sort, heap sort</p>
-<p>O(n²)</p>
-<p>Quadratic</p>
-<p>10¹²</p>
-<p>Bubble sort, nested loops</p>
-<p>O(2ⁿ)</p>
-<p>Exponential</p>
-<p>Impossible</p>
-<p>Subsets, brute-force TSP</p>
-<p>O(n!)</p>
-<p>Factorial</p>
-<p>Impossible</p>
-<p>Permutations, brute-force</p>
-<h3>How to Analyze Complexity</h3>
+<h3 id="common-complexities-reference-table">Common Complexities — Reference Table</h3>
+<table>
+<thead>
+<tr>
+<th>Complexity</th>
+<th>Name</th>
+<th>n=10⁶ Operations</th>
+<th>Example Algorithms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(1)</td>
+<td>Constant</td>
+<td>1</td>
+<td>Array access, hash lookup</td>
+</tr>
+<tr>
+<td>O(log n)</td>
+<td>Logarithmic</td>
+<td>~20</td>
+<td>Binary search, balanced BST ops</td>
+</tr>
+<tr>
+<td>O(√n)</td>
+<td>Square Root</td>
+<td>~1000</td>
+<td>Trial division, sqrt decomposition</td>
+</tr>
+<tr>
+<td>O(n)</td>
+<td>Linear</td>
+<td>10⁶</td>
+<td>Linear search, single pass</td>
+</tr>
+<tr>
+<td>O(n log n)</td>
+<td>Linearithmic</td>
+<td>~2×10⁷</td>
+<td>Merge sort, heap sort</td>
+</tr>
+<tr>
+<td>O(n²)</td>
+<td>Quadratic</td>
+<td>10¹²</td>
+<td>Bubble sort, nested loops</td>
+</tr>
+<tr>
+<td>O(2ⁿ)</td>
+<td>Exponential</td>
+<td>Impossible</td>
+<td>Subsets, brute-force TSP</td>
+</tr>
+<tr>
+<td>O(n!)</td>
+<td>Factorial</td>
+<td>Impossible</td>
+<td>Permutations, brute-force</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-analyze-complexity">How to Analyze Complexity</h3>
 <ul>
 <li><strong>Single loop</strong> iterating n times → O(n)</li>
 <li><strong>Nested loops</strong>, both iterating n → O(n²)</li>
@@ -747,42 +886,53 @@
 <li><strong>Two separate sequential loops</strong> → O(n) + O(n) = O(n)</li>
 <li><strong>Recursive call</strong> with two branches of size n/2 and O(n) merge → O(n log n) (Master theorem)</li>
 </ul>
-<h3>Master Theorem Quick Reference</h3>
+<h3 id="master-theorem-quick-reference">Master Theorem Quick Reference</h3>
 <p>For recurrences of the form T(n) = a·T(n/b) + O(nᵈ):</p>
-<p>Condition</p>
-<p>Result</p>
-<p>d &gt; log_b(a)</p>
-<p>T(n) = O(nᵈ)</p>
-<p>d = log_b(a)</p>
-<p>T(n) = O(nᵈ · log n)</p>
-<p>d &lt; log_b(a)</p>
-<p>T(n) = O(n^(log_b(a)))</p>
-<h3>Space Complexity Rules</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d &gt; log_b(a)</td>
+<td>T(n) = O(nᵈ)</td>
+</tr>
+<tr>
+<td>d = log_b(a)</td>
+<td>T(n) = O(nᵈ · log n)</td>
+</tr>
+<tr>
+<td>d &lt; log_b(a)</td>
+<td>T(n) = O(n^(log_b(a)))</td>
+</tr>
+</tbody>
+</table>
+<h3 id="space-complexity-rules">Space Complexity Rules</h3>
 <ul>
 <li><strong>Iterative</strong> with constant extra vars → O(1) space</li>
 <li><strong>Recursive</strong> call stack depth d → O(d) space</li>
 <li><strong>Creating a copy</strong> of input → O(n) space</li>
 <li><strong>Matrix / 2D DP</strong> → O(n×m) space</li>
 </ul>
-<p>▶ Interview Questions — Complexity Analysis</p>
-<ul>
-<li>What is the time complexity of binary search? Why?</li>
-<li>Explain amortized analysis of vector::push_back.</li>
-<li>What is the difference between O, Ω, and Θ?</li>
-<li>What is the time complexity of finding all subsets of a set?</li>
-<li>Use the Master Theorem to solve T(n) = 2T(n/2) + n.</li>
-<li>Why is hash table lookup O(1) amortized but O(n) worst-case?</li>
-<li>What is the space complexity of merge sort vs quick sort?</li>
-</ul>
-<p>3</p>
-<h1>Arrays</h1>
+<p><strong>📝 Practice Problems — Complexity Analysis:</strong>
+- What is the time complexity of binary search? Why?
+- Explain amortized analysis of vector::push_back.
+- What is the difference between O, Ω, and Θ?
+- What is the time complexity of finding all subsets of a set?
+- Use the Master Theorem to solve T(n) = 2T(n/2) + n.
+- Why is hash table lookup O(1) amortized but O(n) worst-case?
+- What is the space complexity of merge sort vs quick sort?</p>
+<hr />
+<h2 id="arrays">Arrays</h2>
 <p>Arrays are the most fundamental data structure. Mastering array manipulation patterns is critical because nearly every interview starts with an array problem. The key insight is that array problems are pattern-matching exercises — once you recognize the pattern, the solution becomes mechanical.</p>
-<h3>Pattern 1: Prefix Sum</h3>
-<h4>Intuition</h4>
+<h3 id="pattern-1-prefix-sum">Pattern 1: Prefix Sum</h3>
+<h4 id="intuition">Intuition</h4>
 <p>Precompute cumulative sums so that any subarray sum can be answered in O(1). If prefix[i] stores sum of elements from index 0 to i, then sum(l..r) = prefix[r] - prefix[l-1].</p>
-<h4>When to Use</h4>
+<h4 id="when-to-use">When to Use</h4>
 <p>Any problem asking for <em>subarray sums</em>, <em>range queries</em>, or <em>cumulative frequency</em>.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Prefix Sum Template
 vector&lt;int&gt; buildPrefix(const vector&lt;int&gt;&amp; arr) {
     int n = arr.size();
@@ -798,10 +948,9 @@ int rangeSum(const vector&lt;int&gt;&amp; prefix, int l, int r) {
 }
 </code></pre>
 <p>Time: O(n) build, O(1) per query. Space: O(n)</p>
-<h3>Pattern 2: Kadane's Algorithm — Maximum Subarray Sum</h3>
-<h4>Intuition</h4>
+<h3 id="pattern-2-kadanes-algorithm-maximum-subarray-sum">Pattern 2: Kadane's Algorithm — Maximum Subarray Sum</h3>
+<h4 id="intuition_1">Intuition</h4>
 <p>At every index, decide: extend the current subarray, or start a new one. If the running sum drops below 0, starting fresh is always better. This is essentially a <em>local vs global</em> maximum decision at each step.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Kadane's Algorithm — Maximum Subarray Sum
 int maxSubarraySum(const vector&lt;int&gt;&amp; nums) {
     int maxSum = nums[0], curSum = nums[0];
@@ -833,11 +982,20 @@ pair&lt;int, pair&lt;int,int&gt;&gt; maxSubarrayWithIndices(const vector&lt;int&
 }
 </code></pre>
 <p>Time: O(n) Space: O(1)</p>
-<p>Dry Run: arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4] i=0: curSum = -2, maxSum = -2 i=1: curSum = max(1, -2+1) = 1, maxSum = 1 i=2: curSum = max(-3, 1-3) = -2, maxSum = 1 i=3: curSum = max(4, -2+4) = 4, maxSum = 4 i=4: curSum = max(-1, 4-1) = 3, maxSum = 4 i=5: curSum = max(2, 3+2) = 5, maxSum = 5 i=6: curSum = max(1, 5+1) = 6, maxSum = 6 ← answer i=7: curSum = max(-5, 6-5) = 1, maxSum = 6 i=8: curSum = max(4, 1+4) = 5, maxSum = 6 Answer: 6 (subarray [4,-1,2,1])</p>
-<h3>Pattern 3: Dutch National Flag (3-way Partition)</h3>
-<h4>Intuition</h4>
+<p><strong>Dry Run:</strong> arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+- i=0: curSum = -2, maxSum = -2
+- i=1: curSum = max(1, -2+1) = 1, maxSum = 1
+- i=2: curSum = max(-3, 1-3) = -2, maxSum = 1
+- i=3: curSum = max(4, -2+4) = 4, maxSum = 4
+- i=4: curSum = max(-1, 4-1) = 3, maxSum = 4
+- i=5: curSum = max(2, 3+2) = 5, maxSum = 5
+- i=6: curSum = max(1, 5+1) = 6, maxSum = 6 ← answer
+- i=7: curSum = max(-5, 6-5) = 1, maxSum = 6
+- i=8: curSum = max(4, 1+4) = 5, maxSum = 6
+- <strong>Answer: 6</strong> (subarray [4,-1,2,1])</p>
+<h3 id="pattern-3-dutch-national-flag-3-way-partition">Pattern 3: Dutch National Flag (3-way Partition)</h3>
+<h4 id="intuition_2">Intuition</h4>
 <p>Partition an array of 0s, 1s, and 2s in-place using three pointers: <em>low</em> (boundary of 0s), <em>mid</em> (current element), <em>high</em> (boundary of 2s). Process elements from left to right, swapping into the correct region.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Dutch National Flag — Sort 0s, 1s, 2s
 void sortColors(vector&lt;int&gt;&amp; nums) {
     int low = 0, mid = 0, high = nums.size() - 1;
@@ -857,8 +1015,9 @@ void sortColors(vector&lt;int&gt;&amp; nums) {
 </code></pre>
 <p>Time: O(n) single pass. Space: O(1)</p>
 <p><strong>Common Mistake:</strong> Incrementing <code>mid</code> after swapping with <code>high</code>. The swapped element hasn't been inspected yet — you must check it in the next iteration.</p>
-<h3>Pattern 4: Merge Intervals</h3>
-<p>C++Copy</p>
+<h3 id="pattern-4-merge-intervals">Pattern 4: Merge Intervals</h3>
+<h4 id="intuition_3">Intuition</h4>
+<p>Sort intervals by start time. Iterate through, merging overlapping intervals by extending the end of the last merged interval. Two intervals overlap if the start of the current is ≤ end of the last merged.</p>
 <pre><code class="language-cpp">// Merge Overlapping Intervals
 vector&lt;vector&lt;int&gt;&gt; merge(vector&lt;vector&lt;int&gt;&gt;&amp; intervals) {
     sort(intervals.begin(), intervals.end());
@@ -874,10 +1033,9 @@ vector&lt;vector&lt;int&gt;&gt; merge(vector&lt;vector&lt;int&gt;&gt;&amp; inter
 }
 </code></pre>
 <p>Time: O(n log n) due to sorting. Space: O(n)</p>
-<h3>Pattern 5: Difference Array</h3>
-<h4>Intuition</h4>
+<h3 id="pattern-5-difference-array">Pattern 5: Difference Array</h3>
+<h4 id="intuition_4">Intuition</h4>
 <p>When you need to apply many range-increment operations (add val to all elements from l to r), instead of updating each element, mark the start and end of each range in a difference array. Then reconstruct with a prefix sum.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Difference Array — Efficient Range Updates
 // Apply q range updates, each adding val to arr[l..r]
 vector&lt;int&gt; applyRangeUpdates(int n, vector&lt;tuple&lt;int,int,int&gt;&gt;&amp; updates) {
@@ -895,9 +1053,8 @@ vector&lt;int&gt; applyRangeUpdates(int n, vector&lt;tuple&lt;int,int,int&gt;&gt
 }
 </code></pre>
 <p>Time: O(n + q) for q updates on array of size n. Space: O(n)</p>
-<h3>Key Problems — Implementations</h3>
-<p>▶ Two Sum — Hash Map Approach</p>
-<p>C++Copy</p>
+<h3 id="key-problems-implementations">Key Problems — Implementations</h3>
+<p><strong>Two Sum — Hash Map Approach:</strong></p>
 <pre><code class="language-cpp">// Two Sum — O(n) using hash map
 vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
     unordered_map&lt;int, int&gt; seen; // value -&gt; index
@@ -911,10 +1068,8 @@ vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
 }
 </code></pre>
 <p>Time: O(n) Space: O(n)</p>
-<p>▶ Product of Array Except Self</p>
-<h5>Intuition</h5>
-<p>For each index i, the answer is (product of all elements left of i) × (product of all elements right of i). Build left-products in a forward pass, then multiply with right-products in a backward pass, reusing the output array.</p>
-<p>C++Copy</p>
+<p><strong>Product of Array Except Self:</strong></p>
+<p>The answer for each index i is (product of all elements left of i) × (product of all elements right of i). Build left-products in a forward pass, then multiply with right-products in a backward pass, reusing the output array.</p>
 <pre><code class="language-cpp">// Product of Array Except Self — No division, O(1) extra space
 vector&lt;int&gt; productExceptSelf(vector&lt;int&gt;&amp; nums) {
     int n = nums.size();
@@ -937,8 +1092,7 @@ vector&lt;int&gt; productExceptSelf(vector&lt;int&gt;&amp; nums) {
 }
 </code></pre>
 <p>Time: O(n) Space: O(1) (output array doesn't count)</p>
-<p>▶ Best Time to Buy and Sell Stock</p>
-<p>C++Copy</p>
+<p><strong>Best Time to Buy and Sell Stock:</strong></p>
 <pre><code class="language-cpp">// Best Time to Buy and Sell Stock — Single Transaction
 int maxProfit(vector&lt;int&gt;&amp; prices) {
     int minPrice = INT_MAX, maxProfit = 0;
@@ -950,10 +1104,8 @@ int maxProfit(vector&lt;int&gt;&amp; prices) {
 }
 </code></pre>
 <p>Time: O(n) Space: O(1)</p>
-<p>▶ Majority Element — Boyer-Moore Voting</p>
-<h5>Intuition</h5>
+<p><strong>Boyer-Moore Voting Algorithm:</strong></p>
 <p>If an element appears more than n/2 times, pair each occurrence with a different element. After cancellation, the majority element survives. Use a candidate and counter: increment if same, decrement if different. When counter hits 0, switch candidate.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Boyer-Moore Voting Algorithm
 int majorityElement(vector&lt;int&gt;&amp; nums) {
     int candidate = 0, count = 0;
@@ -965,10 +1117,8 @@ int majorityElement(vector&lt;int&gt;&amp; nums) {
 }
 </code></pre>
 <p>Time: O(n) Space: O(1)</p>
-<p>▶ Rotate Array</p>
-<h5>Intuition</h5>
+<p><strong>Rotate Array:</strong></p>
 <p>Rotating right by k is equivalent to: reverse the whole array, reverse the first k, reverse the rest. Three reverses, O(1) space.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Rotate Array — Right rotation by k steps
 void rotate(vector&lt;int&gt;&amp; nums, int k) {
     int n = nums.size();
@@ -979,30 +1129,47 @@ void rotate(vector&lt;int&gt;&amp; nums, int k) {
 }
 </code></pre>
 <p>Time: O(n) Space: O(1)</p>
-<p>▶ Common Mistakes &amp; Interview Tips — Arrays</p>
-<p><strong>Common Mistakes:</strong></p>
-<ul>
-<li>Off-by-one errors in prefix sum queries (0-indexed vs 1-indexed).</li>
-<li>Not handling empty arrays or single-element arrays.</li>
-<li>Forgetting to take k % n in rotation problems.</li>
-<li>Using int when products can overflow — use long long.</li>
-<li>Modifying array while iterating with index-based logic.</li>
-</ul>
-<p><strong>Interview Tips:</strong></p>
-<ul>
-<li>Always clarify: Is the array sorted? Are there duplicates? Can it be negative?</li>
-<li>Start by brute force, then optimize. Don't jump to the optimal solution.</li>
-<li>If asked "can you do it in O(1) space?", think: two pointers, swap-based, or reversal trick.</li>
-</ul>
-<p>4</p>
-<h1>Strings</h1>
+<p><strong>Common Mistakes:</strong>
+* Off-by-one errors in prefix sum queries (0-indexed vs 1-indexed).
+* Not handling empty arrays or single-element arrays.
+* Forgetting to take k % n in rotation problems.
+* Using int when products can overflow — use long long.
+* Modifying array while iterating with index-based logic.</p>
+<p><strong>Interview Tips:</strong>
+* Always clarify: Is the array sorted? Are there duplicates? Can it be negative?
+* Start by brute force, then optimize. Don't jump to the optimal solution.
+* If asked "can you do it in O(1) space?", think: two pointers, swap-based, or reversal trick.</p>
+<p><strong>📝 Practice Problems — Arrays:</strong>
+- Two Sum
+- Best Time to Buy and Sell Stock
+- Contains Duplicate
+- Product of Array Except Self
+- Maximum Subarray (Kadane's)
+- Maximum Product Subarray
+- Find Minimum in Rotated Sorted Array
+- Search in Rotated Sorted Array
+- Container With Most Water
+- 3Sum
+- Sort Colors (Dutch National Flag)
+- Merge Intervals
+- Insert Interval
+- Non-Overlapping Intervals
+- Set Matrix Zeroes
+- Spiral Matrix
+- Rotate Image
+- Next Permutation
+- First Missing Positive
+- Trapping Rain Water
+- Majority Element
+- Majority Element II</p>
+<hr />
+<h2 id="strings">Strings</h2>
 <p>String problems test your understanding of character manipulation, hashing, and pattern matching. In C++, <code>std::string</code> is mutable (unlike Java/Python), which gives you advantages for in-place operations.</p>
-<h3>KMP Algorithm — Knuth-Morris-Pratt</h3>
-<h4>Intuition</h4>
+<h3 id="kmp-algorithm-knuth-morris-pratt">KMP Algorithm — Knuth-Morris-Pratt</h3>
+<h4 id="intuition_5">Intuition</h4>
 <p>Naive pattern matching is O(n×m) because after a mismatch, you restart from the next character. KMP avoids this by precomputing a <strong>Longest Proper Prefix which is also Suffix (LPS)</strong> array for the pattern. When a mismatch occurs at pattern[j], instead of restarting, jump to LPS[j-1] — because that prefix has already been matched.</p>
-<h4>LPS Array Construction</h4>
+<h4 id="lps-array-construction">LPS Array Construction</h4>
 <p>LPS[i] = length of the longest proper prefix of pattern[0..i] which is also a suffix. This tells us "how much of the pattern we've already matched" after a mismatch.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// KMP Pattern Matching Algorithm
 vector&lt;int&gt; buildLPS(const string&amp; pattern) {
     int m = pattern.size();
@@ -1048,11 +1215,21 @@ vector&lt;int&gt; kmpSearch(const string&amp; text, const string&amp; pattern) {
 }
 </code></pre>
 <p>Time: O(n + m) Space: O(m)</p>
-<p>Dry Run — LPS for "AAACAAAA": pattern: A A A C A A A A index: 0 1 2 3 4 5 6 7 LPS[0] = 0 (by definition) LPS[1] = 1 (A == A, prefix "A" = suffix "A") LPS[2] = 2 (AA == AA) LPS[3] = 0 (no prefix = suffix ending in C) LPS[4] = 1 (A == A) LPS[5] = 2 (AA == AA) LPS[6] = 3 (AAA == AAA) LPS[7] = 3 (AAC ≠ AAA, fallback → 3) LPS = [0, 1, 2, 0, 1, 2, 3, 3]</p>
-<h3>Rabin-Karp Algorithm — Rolling Hash</h3>
-<h4>Intuition</h4>
+<p><strong>Dry Run — LPS for "AAACAAAA":</strong>
+- pattern: A A A C A A A A
+- index:   0 1 2 3 4 5 6 7
+- LPS[0] = 0 (by definition)
+- LPS[1] = 1 (A == A, prefix "A" = suffix "A")
+- LPS[2] = 2 (AA == AA)
+- LPS[3] = 0 (no prefix = suffix ending in C)
+- LPS[4] = 1 (A == A)
+- LPS[5] = 2 (AA == AA)
+- LPS[6] = 3 (AAA == AAA)
+- LPS[7] = 3 (AAC ≠ AAA, fallback → 3)
+- <strong>LPS = [0, 1, 2, 0, 1, 2, 3, 3]</strong></p>
+<h3 id="rabin-karp-algorithm-rolling-hash">Rabin-Karp Algorithm — Rolling Hash</h3>
+<h4 id="intuition_6">Intuition</h4>
 <p>Instead of comparing characters one by one, compute a hash of the pattern and compare it with hash of every window of the same size in the text. If hashes match, verify character by character (to handle collisions). Use a <strong>rolling hash</strong> to update the window hash in O(1).</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Rabin-Karp with Rolling Hash
 vector&lt;int&gt; rabinKarp(const string&amp; text, const string&amp; pattern) {
     int n = text.size(), m = pattern.size();
@@ -1085,10 +1262,9 @@ vector&lt;int&gt; rabinKarp(const string&amp; text, const string&amp; pattern) {
 }
 </code></pre>
 <p>Time: O(n + m) average, O(n × m) worst (hash collisions). Space: O(1)</p>
-<h3>Z Algorithm</h3>
-<h4>Intuition</h4>
+<h3 id="z-algorithm">Z Algorithm</h3>
+<h4 id="intuition_7">Intuition</h4>
 <p>Z[i] = length of the longest substring starting at i which is also a prefix of the string. For pattern matching, concatenate pattern + "$" + text and compute Z-array. Any Z[i] == m indicates a match.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Z Algorithm
 vector&lt;int&gt; zFunction(const string&amp; s) {
     int n = s.size();
@@ -1120,8 +1296,47 @@ vector&lt;int&gt; zSearch(const string&amp; text, const string&amp; pattern) {
 }
 </code></pre>
 <p>Time: O(n + m) Space: O(n + m)</p>
-<p>▶ More String Problems</p>
-<p>C++Copy</p>
+<h3 id="manachers-algorithm-longest-palindromic-substring">Manacher's Algorithm — Longest Palindromic Substring</h3>
+<h4 id="intuition_8">Intuition</h4>
+<p>Finds all palindromic substrings in O(n) by exploiting the symmetry of palindromes. Transform the string by inserting separators (e.g., "#a#b#a#") to handle even-length palindromes uniformly. Maintain a center and right boundary of the rightmost palindrome found so far; use mirror positions to skip redundant checks.</p>
+<pre><code class="language-cpp">// Manacher's Algorithm — O(n) Longest Palindromic Substring
+string longestPalindrome(const string&amp; s) {
+    // Transform: &quot;abc&quot; -&gt; &quot;^#a#b#c#$&quot;
+    string t = &quot;^#&quot;;
+    for (char c : s) { t += c; t += '#'; }
+    t += '$';
+    int n = t.size();
+    vector&lt;int&gt; p(n, 0);
+    int center = 0, right = 0;
+
+    for (int i = 1; i &lt; n - 1; i++) {
+        int mirror = 2 * center - i;
+        if (i &lt; right)
+            p[i] = min(right - i, p[mirror]);
+        // Expand around center i
+        while (t[i + p[i] + 1] == t[i - p[i] - 1])
+            p[i]++;
+        // Update rightmost palindrome
+        if (i + p[i] &gt; right) {
+            center = i;
+            right = i + p[i];
+        }
+    }
+
+    // Find max palindrome
+    int maxLen = 0, maxCenter = 0;
+    for (int i = 1; i &lt; n - 1; i++) {
+        if (p[i] &gt; maxLen) {
+            maxLen = p[i];
+            maxCenter = i;
+        }
+    }
+    int start = (maxCenter - maxLen) / 2;
+    return s.substr(start, maxLen);
+}
+</code></pre>
+<p>Time: O(n) Space: O(n)</p>
+<h3 id="more-string-problems">More String Problems</h3>
 <pre><code class="language-cpp">// Longest Common Prefix
 string longestCommonPrefix(vector&lt;string&gt;&amp; strs) {
     if (strs.empty()) return &quot;&quot;;
@@ -1144,11 +1359,42 @@ bool isAnagram(string s, string t) {
     for (int f : freq) if (f != 0) return false;
     return true;
 }
+
+// Check Palindrome (Two Pointers)
+bool isPalindrome(string s) {
+    int lo = 0, hi = s.size() - 1;
+    while (lo &lt; hi) {
+        while (lo &lt; hi &amp;&amp; !isalnum(s[lo])) lo++;
+        while (lo &lt; hi &amp;&amp; !isalnum(s[hi])) hi--;
+        if (tolower(s[lo]) != tolower(s[hi])) return false;
+        lo++; hi--;
+    }
+    return true;
+}
 </code></pre>
-<p>5</p>
-<h1>Linked Lists</h1>
-<h3>Node Structure</h3>
-<p>C++Copy</p>
+<p><strong>📝 Practice Problems — Strings:</strong>
+- Longest Palindromic Substring
+- Longest Common Prefix
+- Valid Anagram
+- Group Anagrams
+- Valid Parentheses
+- Longest Substring Without Repeating Characters
+- Minimum Window Substring
+- String to Integer (atoi)
+- Implement strStr (KMP/Rabin-Karp)
+- Palindromic Substrings (count)
+- Longest Palindromic Subsequence
+- Edit Distance
+- Longest Repeating Character Replacement
+- Decode String
+- Word Break
+- Repeated DNA Sequences
+- Count and Say
+- Wildcard Matching
+- Regular Expression Matching</p>
+<hr />
+<h2 id="linked-lists">Linked Lists</h2>
+<h3 id="node-structure">Node Structure</h3>
 <pre><code class="language-cpp">struct ListNode {
     int val;
     ListNode* next;
@@ -1162,10 +1408,9 @@ struct DListNode {
     DListNode(int x) : val(x), prev(nullptr), next(nullptr) {}
 };
 </code></pre>
-<h3>Pattern 1: Fast and Slow Pointer (Floyd's Tortoise and Hare)</h3>
-<h4>Intuition</h4>
+<h3 id="pattern-1-fast-and-slow-pointer-floyds-tortoise-and-hare">Pattern 1: Fast and Slow Pointer (Floyd's Tortoise and Hare)</h3>
+<h4 id="intuition_9">Intuition</h4>
 <p>Two pointers move at different speeds. <em>Slow</em> moves 1 step, <em>fast</em> moves 2 steps. If there's a cycle, fast will eventually lap slow (like runners on a circular track). If no cycle, fast reaches the end. This same technique finds the <strong>middle node</strong>: when fast reaches the end, slow is at the middle.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Find Middle of Linked List
 ListNode* middleNode(ListNode* head) {
     ListNode *slow = head, *fast = head;
@@ -1232,8 +1477,7 @@ bool isPalindrome(ListNode* head) {
     return true;
 }
 </code></pre>
-<h3>Pattern 2: In-place Reversal</h3>
-<p>C++Copy</p>
+<h3 id="pattern-2-in-place-reversal">Pattern 2: In-place Reversal</h3>
 <pre><code class="language-cpp">// Reverse Linked List — Iterative
 ListNode* reverseList(ListNode* head) {
     ListNode *prev = nullptr, *curr = head;
@@ -1284,8 +1528,7 @@ ListNode* reverseKGroup(ListNode* head, int k) {
     return prev;
 }
 </code></pre>
-<h3>Pattern 3: Merge</h3>
-<p>C++Copy</p>
+<h3 id="pattern-3-merge">Pattern 3: Merge</h3>
 <pre><code class="language-cpp">// Merge Two Sorted Lists
 ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     ListNode dummy(0);
@@ -1317,14 +1560,34 @@ ListNode* mergeKLists(vector&lt;ListNode*&gt;&amp; lists) {
 }
 </code></pre>
 <p>Time: O(N log k) where N = total nodes, k = number of lists. Space: O(1)</p>
-<p>6</p>
-<h1>Stack</h1>
-<h3>Monotonic Stack Pattern</h3>
-<h4>Intuition</h4>
+<p><strong>📝 Practice Problems — Linked Lists:</strong>
+- Reverse Linked List
+- Reverse Linked List II (between positions)
+- Merge Two Sorted Lists
+- Merge K Sorted Lists
+- Linked List Cycle
+- Linked List Cycle II (find start)
+- Middle of the Linked List
+- Remove Nth Node From End of List
+- Reorder List
+- Palindrome Linked List
+- Odd Even Linked List
+- Intersection of Two Linked Lists
+- Add Two Numbers
+- Copy List with Random Pointer
+- LRU Cache
+- Flatten a Multilevel Doubly Linked List
+- Reverse Nodes in k-Group
+- Sort List (Merge Sort on LL)
+- Swap Nodes in Pairs
+- Remove Duplicates from Sorted List</p>
+<hr />
+<h2 id="stack">Stack</h2>
+<h3 id="monotonic-stack-pattern">Monotonic Stack Pattern</h3>
+<h4 id="intuition_10">Intuition</h4>
 <p>A monotonic stack maintains elements in strictly increasing or decreasing order. When a new element violates the order, pop elements until the invariant is restored. This is the secret weapon for <em>"next greater element"</em>, <em>"previous smaller element"</em>, <em>"stock span"</em>, and <em>"largest rectangle"</em> problems.</p>
-<h4>When to Use</h4>
+<h4 id="when-to-use_1">When to Use</h4>
 <p>Whenever you see: "Find the next/previous greater/smaller element for every element in an array." This is almost always a monotonic stack problem.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Next Greater Element — Monotonic Decreasing Stack
 vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;&amp; nums) {
     int n = nums.size();
@@ -1407,27 +1670,91 @@ vector&lt;int&gt; stockSpan(vector&lt;int&gt;&amp; prices) {
     }
     return span;
 }
+
+// Min Stack — Supports getMin() in O(1)
+class MinStack {
+    stack&lt;pair&lt;int,int&gt;&gt; st; // {value, current_min}
+public:
+    void push(int val) {
+        int curMin = st.empty() ? val : min(val, st.top().second);
+        st.push({val, curMin});
+    }
+    void pop() { st.pop(); }
+    int top() { return st.top().first; }
+    int getMin() { return st.top().second; }
+};
+
+// Evaluate Reverse Polish Notation
+int evalRPN(vector&lt;string&gt;&amp; tokens) {
+    stack&lt;int&gt; st;
+    for (auto&amp; t : tokens) {
+        if (t == &quot;+&quot; || t == &quot;-&quot; || t == &quot;*&quot; || t == &quot;/&quot;) {
+            int b = st.top(); st.pop();
+            int a = st.top(); st.pop();
+            if (t == &quot;+&quot;) st.push(a + b);
+            else if (t == &quot;-&quot;) st.push(a - b);
+            else if (t == &quot;*&quot;) st.push(a * b);
+            else st.push(a / b);
+        } else {
+            st.push(stoi(t));
+        }
+    }
+    return st.top();
+}
 </code></pre>
 <p><strong>Pattern Recognition:</strong> If the problem involves finding relationships between elements and their <em>nearest</em> larger/smaller neighbors, reach for a monotonic stack. Time complexity drops from O(n²) brute force to O(n).</p>
-<p>7</p>
-<h1>Queue</h1>
-<h3>Types of Queues</h3>
-<p>Type</p>
-<p>C++ Container</p>
-<p>Key Property</p>
-<p>Queue</p>
-<p><code>queue&lt;int&gt;</code></p>
-<p>FIFO — First In First Out</p>
-<p>Deque</p>
-<p><code>deque&lt;int&gt;</code></p>
-<p>Insert/remove from both ends in O(1)</p>
-<p>Priority Queue</p>
-<p><code>priority_queue&lt;int&gt;</code></p>
-<p>Max-heap by default, top = largest</p>
-<p>Circular Queue</p>
-<p>Custom (array + modulo)</p>
-<p>Wraps around when reaching capacity</p>
-<p>C++Copy</p>
+<p><strong>📝 Practice Problems — Stack:</strong>
+- Valid Parentheses
+- Min Stack
+- Evaluate Reverse Polish Notation
+- Daily Temperatures
+- Next Greater Element I, II
+- Largest Rectangle in Histogram
+- Maximal Rectangle
+- Stock Span Problem
+- Trapping Rain Water
+- Online Stock Span
+- Asteroid Collision
+- Decode String
+- Basic Calculator I, II
+- Remove All Adjacent Duplicates in String
+- 132 Pattern
+- Sum of Subarray Minimums
+- Car Fleet</p>
+<hr />
+<h2 id="queue">Queue</h2>
+<h3 id="types-of-queues">Types of Queues</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>C++ Container</th>
+<th>Key Property</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Queue</td>
+<td><code>queue&lt;int&gt;</code></td>
+<td>FIFO — First In First Out</td>
+</tr>
+<tr>
+<td>Deque</td>
+<td><code>deque&lt;int&gt;</code></td>
+<td>Insert/remove from both ends in O(1)</td>
+</tr>
+<tr>
+<td>Priority Queue</td>
+<td><code>priority_queue&lt;int&gt;</code></td>
+<td>Max-heap by default, top = largest</td>
+</tr>
+<tr>
+<td>Circular Queue</td>
+<td>Custom (array + modulo)</td>
+<td>Wraps around when reaching capacity</td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-cpp">// Sliding Window Maximum — using Monotonic Deque
 vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) {
     deque&lt;int&gt; dq; // stores indices, front = max of current window
@@ -1465,24 +1792,45 @@ vector&lt;int&gt; firstNegative(vector&lt;int&gt;&amp; nums, int k) {
     return result;
 }
 </code></pre>
-<p>8</p>
-<h1>Hashing</h1>
-<h3>Core Concepts</h3>
+<p><strong>📝 Practice Problems — Queue:</strong>
+- Sliding Window Maximum
+- Design Circular Queue
+- Implement Queue using Stacks
+- Implement Stack using Queues
+- First Negative in Every Window of Size K
+- Rotting Oranges (Multi-source BFS)
+- Shortest Path in Binary Matrix</p>
+<hr />
+<h2 id="hashing">Hashing</h2>
+<h3 id="core-concepts">Core Concepts</h3>
 <p>Hash tables provide O(1) average-case lookup, insertion, and deletion. In C++, <code>unordered_map</code> and <code>unordered_set</code> use hash tables, while <code>map</code> and <code>set</code> use Red-Black Trees (O(log n)).</p>
-<h4>Collision Handling Strategies</h4>
-<p>Method</p>
-<p>Description</p>
-<p>Pros/Cons</p>
-<p>Chaining</p>
-<p>Each bucket is a linked list</p>
-<p>Simple; degrades to O(n) with many collisions</p>
-<p>Open Addressing</p>
-<p>Probe for next empty slot (linear/quadratic probing)</p>
-<p>Better cache; clustering issues</p>
-<p>Double Hashing</p>
-<p>Second hash function determines probe step</p>
-<p>Reduces clustering; more complex</p>
-<p>C++Copy</p>
+<h4 id="collision-handling-strategies">Collision Handling Strategies</h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Pros/Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chaining</td>
+<td>Each bucket is a linked list</td>
+<td>Simple; degrades to O(n) with many collisions</td>
+</tr>
+<tr>
+<td>Open Addressing</td>
+<td>Probe for next empty slot (linear/quadratic probing)</td>
+<td>Better cache; clustering issues</td>
+</tr>
+<tr>
+<td>Double Hashing</td>
+<td>Second hash function determines probe step</td>
+<td>Reduces clustering; more complex</td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-cpp">// Longest Consecutive Sequence — O(n) using HashSet
 int longestConsecutive(vector&lt;int&gt;&amp; nums) {
     unordered_set&lt;int&gt; numSet(nums.begin(), nums.end());
@@ -1530,16 +1878,41 @@ vector&lt;vector&lt;string&gt;&gt; groupAnagrams(vector&lt;string&gt;&amp; strs)
 }
 </code></pre>
 <p><strong>Interview Gotcha:</strong> <code>unordered_map</code> worst case is O(n) per operation (all keys hash to same bucket). If the interviewer asks about worst case, mention <code>map</code> (O(log n) guaranteed) or custom hash functions.</p>
-<p>9</p>
-<h1>Recursion</h1>
-<h3>The Three Pillars</h3>
+<p><strong>📝 Practice Problems — Hashing:</strong>
+- Two Sum
+- Longest Consecutive Sequence
+- Subarray Sum Equals K
+- Group Anagrams
+- Top K Frequent Elements
+- Valid Sudoku
+- Isomorphic Strings
+- Word Pattern
+- Longest Substring Without Repeating Characters
+- 4Sum II
+- Contiguous Array (Binary Subarray)
+- Encode and Decode TinyURL</p>
+<hr />
+<h2 id="recursion">Recursion</h2>
+<h3 id="the-three-pillars">The Three Pillars</h3>
 <ol>
 <li><strong>Base Case:</strong> The termination condition. Without it, infinite recursion → stack overflow.</li>
 <li><strong>Recursive Relation:</strong> How to reduce the problem to a smaller subproblem.</li>
 <li><strong>Call Stack:</strong> Each recursive call adds a frame. Stack depth = space complexity.</li>
 </ol>
-<p>Recursion Tree — fibonacci(5): fib(5) / \ fib(4) fib(3) / \ / \ fib(3) fib(2) fib(2) fib(1) / \ / \ / \ fib(2) fib(1) fib(1) fib(0) fib(1) fib(0) / \ fib(1) fib(0) Time: O(2^n) — exponential, many repeated subproblems Space: O(n) — max call stack depth</p>
-<p>C++Copy</p>
+<p><strong>Recursion Tree — fibonacci(5):</strong></p>
+<pre><code>          fib(5)
+         /      \
+      fib(4)    fib(3)
+      /    \     /    \
+   fib(3) fib(2) fib(2) fib(1)
+   /   \   /  \   /  \
+fib(2) fib(1) fib(1) fib(0) fib(1) fib(0)
+ /  \
+fib(1) fib(0)
+
+Time: O(2^n) — exponential, many repeated subproblems
+Space: O(n) — max call stack depth
+</code></pre>
 <pre><code class="language-cpp">// Generate All Subsequences — Power Set
 void generateSubsequences(vector&lt;int&gt;&amp; nums, int idx, vector&lt;int&gt;&amp; current,
                            vector&lt;vector&lt;int&gt;&gt;&amp; result) {
@@ -1576,11 +1949,20 @@ long long power(long long base, long long exp, long long mod) {
     return result;
 }
 </code></pre>
-<p>10</p>
-<h1>Backtracking</h1>
-<h3>The Backtracking Framework</h3>
+<p><strong>📝 Practice Problems — Recursion:</strong>
+- Generate All Subsequences / Power Set
+- Tower of Hanoi
+- Power(x, n)
+- Fibonacci Number
+- Print All Permutations
+- Reverse a String Recursively
+- Check if Array is Sorted (recursive)
+- Count Paths in Grid
+- Generate Parentheses</p>
+<hr />
+<h2 id="backtracking">Backtracking</h2>
+<h3 id="the-backtracking-framework">The Backtracking Framework</h3>
 <p>Backtracking is recursion with <strong>pruning</strong>. The general template is: <em>choose → explore → unchoose</em>. You make a choice, recurse on the reduced problem, then undo the choice to try the next option.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Generic Backtracking Template
 void backtrack(State&amp; state, vector&lt;Result&gt;&amp; results) {
     if (isGoalReached(state)) {
@@ -1596,8 +1978,7 @@ void backtrack(State&amp; state, vector&lt;Result&gt;&amp; results) {
     }
 }
 </code></pre>
-<h3>N-Queens</h3>
-<p>C++Copy</p>
+<h3 id="n-queens">N-Queens</h3>
 <pre><code class="language-cpp">// N-Queens Problem
 class NQueens {
     int n;
@@ -1632,8 +2013,7 @@ public:
     }
 };
 </code></pre>
-<h3>Sudoku Solver</h3>
-<p>C++Copy</p>
+<h3 id="sudoku-solver">Sudoku Solver</h3>
 <pre><code class="language-cpp">// Sudoku Solver
 bool solveSudoku(vector&lt;vector&lt;char&gt;&gt;&amp; board) {
     for (int i = 0; i &lt; 9; i++) {
@@ -1661,8 +2041,7 @@ bool isValidPlacement(vector&lt;vector&lt;char&gt;&gt;&amp; board, int row, int 
     return true;
 }
 </code></pre>
-<h3>Subsets, Permutations, Combination Sum</h3>
-<p>C++Copy</p>
+<h3 id="subsets-permutations-combination-sum">Subsets, Permutations, Combination Sum</h3>
 <pre><code class="language-cpp">// Subsets (Power Set)
 vector&lt;vector&lt;int&gt;&gt; subsets(vector&lt;int&gt;&amp; nums) {
     vector&lt;vector&lt;int&gt;&gt; result;
@@ -1714,12 +2093,25 @@ vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates
     return result;
 }
 </code></pre>
-<p>11</p>
-<h1>Binary Search</h1>
-<h3>Two Paradigms</h3>
+<p><strong>📝 Practice Problems — Backtracking:</strong>
+- Subsets / Subsets II (with duplicates)
+- Permutations / Permutations II
+- Combination Sum / Combination Sum II / III
+- Generate Parentheses
+- N-Queens / N-Queens II
+- Sudoku Solver
+- Word Search
+- Palindrome Partitioning
+- Letter Combinations of a Phone Number
+- Restore IP Addresses
+- Expression Add Operators
+- Beautiful Arrangement
+- Partition to K Equal Sum Subsets</p>
+<hr />
+<h2 id="binary-search">Binary Search</h2>
+<h3 id="two-paradigms">Two Paradigms</h3>
 <p><strong>1. Search Space Binary Search:</strong> Search for an element in a sorted array. The search space is the array itself.</p>
 <p><strong>2. Answer Space Binary Search (BS on Answer):</strong> The answer lies in a range [lo, hi]. For each mid, check if mid is a valid answer. Shrink the range based on feasibility. This is the more powerful pattern.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Classic Binary Search
 int binarySearch(vector&lt;int&gt;&amp; nums, int target) {
     int lo = 0, hi = nums.size() - 1;
@@ -1754,9 +2146,8 @@ int upperBound(vector&lt;int&gt;&amp; nums, int target) {
     return lo;
 }
 </code></pre>
-<h3>Binary Search on Answer</h3>
-<h4>Template</h4>
-<p>C++Copy</p>
+<h3 id="binary-search-on-answer">Binary Search on Answer</h3>
+<h4 id="template">Template</h4>
 <pre><code class="language-cpp">// BS on Answer Template — Minimize the Maximum / Maximize the Minimum
 int binarySearchOnAnswer(int lo, int hi) {
     int ans = -1;
@@ -1840,11 +2231,26 @@ int allocateBooks(vector&lt;int&gt;&amp; books, int students) {
 }
 </code></pre>
 <p><strong>Pattern Recognition:</strong> If the problem says "minimize the maximum" or "maximize the minimum", it's almost certainly <em>Binary Search on Answer</em>. The feasibility check function is the key — design it to run in O(n).</p>
-<p>12</p>
-<h1>Two Pointers</h1>
-<h3>Intuition</h3>
+<p><strong>📝 Practice Problems — Binary Search:</strong>
+- Binary Search (classic)
+- Search Insert Position
+- Find First and Last Position of Element
+- Search in Rotated Sorted Array / II
+- Find Minimum in Rotated Sorted Array / II
+- Search a 2D Matrix / II
+- Koko Eating Bananas
+- Capacity To Ship Packages Within D Days
+- Split Array Largest Sum
+- Aggressive Cows / Magnetic Balls
+- Allocate Books / Painter's Partition
+- Median of Two Sorted Arrays
+- Find Peak Element
+- Kth Smallest Element in a Sorted Matrix
+- Single Element in a Sorted Array</p>
+<hr />
+<h2 id="two-pointers">Two Pointers</h2>
+<h3 id="intuition_11">Intuition</h3>
 <p>Use two pointers when the brute force involves nested loops over a <strong>sorted/structured</strong> input. By moving pointers intelligently, you skip unnecessary comparisons and reduce O(n²) → O(n).</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Pair Sum in Sorted Array
 pair&lt;int,int&gt; pairSum(vector&lt;int&gt;&amp; nums, int target) {
     int lo = 0, hi = nums.size() - 1;
@@ -1902,11 +2308,41 @@ int removeDuplicates(vector&lt;int&gt;&amp; nums) {
     }
     return slow + 1;
 }
+
+// Trapping Rain Water — Two Pointer approach
+int trap(vector&lt;int&gt;&amp; height) {
+    int lo = 0, hi = height.size() - 1;
+    int leftMax = 0, rightMax = 0, water = 0;
+    while (lo &lt; hi) {
+        if (height[lo] &lt; height[hi]) {
+            leftMax = max(leftMax, height[lo]);
+            water += leftMax - height[lo];
+            lo++;
+        } else {
+            rightMax = max(rightMax, height[hi]);
+            water += rightMax - height[hi];
+            hi--;
+        }
+    }
+    return water;
+}
 </code></pre>
-<p>13</p>
-<h1>Sliding Window</h1>
-<h3>Fixed Window Template</h3>
-<p>C++Copy</p>
+<p><strong>📝 Practice Problems — Two Pointers:</strong>
+- Two Sum II (sorted array)
+- 3Sum / 4Sum
+- Container With Most Water
+- Trapping Rain Water
+- Remove Duplicates from Sorted Array / II
+- Remove Element
+- Sort Colors (Dutch National Flag)
+- Squares of a Sorted Array
+- Boats to Save People
+- Valid Palindrome / II
+- Longest Mountain in Array
+- Move Zeroes</p>
+<hr />
+<h2 id="sliding-window">Sliding Window</h2>
+<h3 id="fixed-window-template">Fixed Window Template</h3>
 <pre><code class="language-cpp">// Fixed Window — Maximum Sum Subarray of Size K
 int maxSumSubarray(vector&lt;int&gt;&amp; nums, int k) {
     int windowSum = 0, maxSum = INT_MIN;
@@ -1918,8 +2354,7 @@ int maxSumSubarray(vector&lt;int&gt;&amp; nums, int k) {
     return maxSum;
 }
 </code></pre>
-<h3>Variable Window Template</h3>
-<p>C++Copy</p>
+<h3 id="variable-window-template">Variable Window Template</h3>
 <pre><code class="language-cpp">// Variable Window Template
 // Find the longest/shortest subarray satisfying a condition
 int variableWindow(vector&lt;int&gt;&amp; nums) {
@@ -1993,59 +2428,109 @@ int totalFruit(vector&lt;int&gt;&amp; fruits) {
 }
 </code></pre>
 <p><strong>Key Insight:</strong> Fixed window → use when the window size is given. Variable window → use when you need to find the optimal window size. The left pointer only moves forward, making total time O(n) despite the while loop.</p>
-<p>14</p>
-<h1>Sorting</h1>
-<h3>Comparison Table</h3>
-<p>Algorithm</p>
-<p>Best</p>
-<p>Average</p>
-<p>Worst</p>
-<p>Space</p>
-<p>Stable?</p>
-<p>In-place?</p>
-<p>Bubble Sort</p>
-<p>O(n)</p>
-<p>O(n²)</p>
-<p>O(n²)</p>
-<p>O(1)</p>
-<p>Yes</p>
-<p>Yes</p>
-<p>Selection Sort</p>
-<p>O(n²)</p>
-<p>O(n²)</p>
-<p>O(n²)</p>
-<p>O(1)</p>
-<p>No</p>
-<p>Yes</p>
-<p>Insertion Sort</p>
-<p>O(n)</p>
-<p>O(n²)</p>
-<p>O(n²)</p>
-<p>O(1)</p>
-<p>Yes</p>
-<p>Yes</p>
-<p>Merge Sort</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n)</p>
-<p>Yes</p>
-<p>No</p>
-<p>Quick Sort</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n²)</p>
-<p>O(log n)</p>
-<p>No</p>
-<p>Yes</p>
-<p>Heap Sort</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(1)</p>
-<p>No</p>
-<p>Yes</p>
-<p>C++Copy</p>
+<p><strong>📝 Practice Problems — Sliding Window:</strong>
+- Maximum Sum Subarray of Size K
+- Longest Substring Without Repeating Characters
+- Minimum Window Substring
+- Longest Repeating Character Replacement
+- Permutation in String
+- Find All Anagrams in a String
+- Fruits Into Baskets
+- Sliding Window Maximum (Deque)
+- Minimum Size Subarray Sum
+- Substring with Concatenation of All Words
+- Max Consecutive Ones III
+- Subarrays with K Different Integers</p>
+<hr />
+<h2 id="sorting">Sorting</h2>
+<h3 id="comparison-table">Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Best</th>
+<th>Average</th>
+<th>Worst</th>
+<th>Space</th>
+<th>Stable?</th>
+<th>In-place?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bubble Sort</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Selection Sort</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Insertion Sort</td>
+<td>O(n)</td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Merge Sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Quick Sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n²)</td>
+<td>O(log n)</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Heap Sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(1)</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Counting Sort</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>O(k)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Radix Sort</td>
+<td>O(d·(n+k))</td>
+<td>O(d·(n+k))</td>
+<td>O(d·(n+k))</td>
+<td>O(n+k)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
 <pre><code class="language-cpp">// Merge Sort
 void merge(vector&lt;int&gt;&amp; arr, int l, int m, int r) {
     vector&lt;int&gt; left(arr.begin() + l, arr.begin() + m + 1);
@@ -2103,34 +2588,88 @@ void heapSort(vector&lt;int&gt;&amp; arr) {
         heapify(arr, i, 0);
     }
 }
+
+// Counting Sort — for integers in range [0, maxVal]
+void countingSort(vector&lt;int&gt;&amp; arr) {
+    int maxVal = *max_element(arr.begin(), arr.end());
+    vector&lt;int&gt; count(maxVal + 1, 0);
+    for (int x : arr) count[x]++;
+    int idx = 0;
+    for (int i = 0; i &lt;= maxVal; i++)
+        while (count[i]-- &gt; 0) arr[idx++] = i;
+}
+
+// Radix Sort — sorts by digit position, LSD first
+void radixSort(vector&lt;int&gt;&amp; arr) {
+    int maxVal = *max_element(arr.begin(), arr.end());
+    for (int exp = 1; maxVal / exp &gt; 0; exp *= 10) {
+        vector&lt;int&gt; output(arr.size()), count(10, 0);
+        for (int x : arr) count[(x / exp) % 10]++;
+        for (int i = 1; i &lt; 10; i++) count[i] += count[i - 1];
+        for (int i = arr.size() - 1; i &gt;= 0; i--) {
+            int digit = (arr[i] / exp) % 10;
+            output[--count[digit]] = arr[i];
+        }
+        arr = output;
+    }
+}
 </code></pre>
 <p><strong>Interview Tip:</strong> When asked "which sort is best?": <em>Merge Sort</em> for stability and guaranteed O(n log n). <em>Quick Sort</em> for average-case speed (in-place, cache-friendly). <em>Heap Sort</em> for O(1) space and guaranteed O(n log n). C++ <code>std::sort</code> uses IntroSort (Quick Sort + Heap Sort + Insertion Sort).</p>
-<p>15</p>
-<h1>Trees</h1>
-<h3>Node Structure &amp; Terminology</h3>
-<p>C++Copy</p>
+<p><strong>📝 Practice Problems — Sorting:</strong>
+- Sort an Array (implement from scratch)
+- Kth Largest Element (QuickSelect)
+- Sort Colors (Dutch National Flag)
+- Merge Intervals
+- Largest Number
+- Meeting Rooms / Meeting Rooms II
+- H-Index
+- Wiggle Sort II
+- Count of Smaller Numbers After Self
+- Reverse Pairs (merge sort variant)</p>
+<hr />
+<h2 id="trees">Trees</h2>
+<h3 id="node-structure-terminology">Node Structure &amp; Terminology</h3>
 <pre><code class="language-cpp">struct TreeNode {
     int val;
     TreeNode *left, *right;
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 </code></pre>
-<p>Term</p>
-<p>Definition</p>
-<p>Height</p>
-<p>Edges from node to deepest leaf. Height of tree = height of root.</p>
-<p>Depth</p>
-<p>Edges from root to the node. Root depth = 0.</p>
-<p>Degree</p>
-<p>Number of children a node has.</p>
-<p>Full Binary Tree</p>
-<p>Every node has 0 or 2 children.</p>
-<p>Complete Binary Tree</p>
-<p>All levels filled except possibly the last, which is filled left to right.</p>
-<p>Perfect Binary Tree</p>
-<p>All internal nodes have 2 children, all leaves at same level.</p>
-<h3>Traversals</h3>
-<p>C++Copy</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Height</td>
+<td>Edges from node to deepest leaf. Height of tree = height of root.</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>Edges from root to the node. Root depth = 0.</td>
+</tr>
+<tr>
+<td>Degree</td>
+<td>Number of children a node has.</td>
+</tr>
+<tr>
+<td>Full Binary Tree</td>
+<td>Every node has 0 or 2 children.</td>
+</tr>
+<tr>
+<td>Complete Binary Tree</td>
+<td>All levels filled except possibly the last, which is filled left to right.</td>
+</tr>
+<tr>
+<td>Perfect Binary Tree</td>
+<td>All internal nodes have 2 children, all leaves at same level.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="traversals">Traversals</h3>
 <pre><code class="language-cpp">// Preorder (Root → Left → Right)
 void preorder(TreeNode* root, vector&lt;int&gt;&amp; result) {
     if (!root) return;
@@ -2200,8 +2739,7 @@ vector&lt;int&gt; morrisInorder(TreeNode* root) {
     return result;
 }
 </code></pre>
-<h3>Classic Tree Problems</h3>
-<p>C++Copy</p>
+<h3 id="classic-tree-problems">Classic Tree Problems</h3>
 <pre><code class="language-cpp">// Height of Binary Tree
 int height(TreeNode* root) {
     if (!root) return 0;
@@ -2239,11 +2777,39 @@ TreeNode* LCA(TreeNode* root, TreeNode* p, TreeNode* q) {
     if (left &amp;&amp; right) return root;
     return left ? left : right;
 }
+
+// Binary Tree Maximum Path Sum
+int maxPathSum(TreeNode* root, int&amp; ans) {
+    if (!root) return 0;
+    int left = max(0, maxPathSum(root-&gt;left, ans));
+    int right = max(0, maxPathSum(root-&gt;right, ans));
+    ans = max(ans, left + right + root-&gt;val);
+    return root-&gt;val + max(left, right);
+}
 </code></pre>
-<p>16</p>
-<h1>Binary Search Tree</h1>
+<p><strong>📝 Practice Problems — Trees:</strong>
+- Maximum Depth of Binary Tree
+- Same Tree / Symmetric Tree
+- Invert Binary Tree
+- Subtree of Another Tree
+- Binary Tree Level Order Traversal
+- Zigzag Level Order Traversal
+- Binary Tree Right Side View
+- Diameter of Binary Tree
+- Balanced Binary Tree
+- Lowest Common Ancestor
+- Binary Tree Maximum Path Sum
+- Construct Binary Tree from Preorder and Inorder
+- Serialize and Deserialize Binary Tree
+- Path Sum / Path Sum II / III
+- Count Good Nodes in Binary Tree
+- Flatten Binary Tree to Linked List
+- Populating Next Right Pointers
+- Vertical Order Traversal
+- Boundary Traversal</p>
+<hr />
+<h2 id="binary-search-tree">Binary Search Tree</h2>
 <p><strong>BST Property:</strong> For every node, all values in the left subtree are smaller, and all values in the right subtree are larger. Inorder traversal of a BST produces sorted output.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Insert into BST
 TreeNode* insertBST(TreeNode* root, int val) {
     if (!root) return new TreeNode(val);
@@ -2299,9 +2865,20 @@ TreeNode* lcaBST(TreeNode* root, TreeNode* p, TreeNode* q) {
     return root;
 }
 </code></pre>
-<p>17</p>
-<h1>Heap / Priority Queue</h1>
-<h3>Key Facts</h3>
+<p><strong>📝 Practice Problems — BST:</strong>
+- Validate Binary Search Tree
+- Kth Smallest Element in a BST
+- Lowest Common Ancestor of a BST
+- Convert Sorted Array to BST
+- Inorder Successor in BST
+- Delete Node in a BST
+- Recover Binary Search Tree
+- Trim a Binary Search Tree
+- Two Sum IV (BST)
+- Binary Search Tree Iterator</p>
+<hr />
+<h2 id="heap-priority-queue">Heap / Priority Queue</h2>
+<h3 id="key-facts">Key Facts</h3>
 <ul>
 <li><strong>Min Heap:</strong> Parent ≤ children. Root = minimum.</li>
 <li><strong>Max Heap:</strong> Parent ≥ children. Root = maximum.</li>
@@ -2309,9 +2886,8 @@ TreeNode* lcaBST(TreeNode* root, TreeNode* p, TreeNode* q) {
 <li>For min-heap: <code>priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt;</code></li>
 <li>Insert: O(log n), Extract min/max: O(log n), Peek: O(1)</li>
 </ul>
-<h4>When to Use</h4>
+<h4 id="when-to-use_2">When to Use</h4>
 <p>Any problem involving "Top K", "Kth largest/smallest", "merge K sorted", or "median from stream".</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// K Largest Elements
 vector&lt;int&gt; kLargest(vector&lt;int&gt;&amp; nums, int k) {
     // Use min-heap of size k
@@ -2387,10 +2963,21 @@ public:
     }
 };
 </code></pre>
-<p>18</p>
-<h1>Trie (Prefix Tree)</h1>
+<p><strong>📝 Practice Problems — Heap:</strong>
+- Kth Largest Element in an Array
+- Top K Frequent Elements
+- Merge K Sorted Lists
+- Find Median from Data Stream
+- K Closest Points to Origin
+- Reorganize String
+- Task Scheduler
+- Ugly Number II
+- Sort Characters By Frequency
+- Smallest Range Covering Elements from K Lists
+- IPO (Capital Optimization)</p>
+<hr />
+<h2 id="trie-prefix-tree">Trie (Prefix Tree)</h2>
 <p>A Trie is a tree-like data structure for efficient storage and retrieval of strings. Each node represents a character, and paths from root to marked nodes form stored words. Lookup is O(L) where L = word length — independent of how many words are stored.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Trie Implementation
 class Trie {
     struct TrieNode {
@@ -2441,11 +3028,33 @@ private:
     }
 };
 </code></pre>
-<p>Trie after inserting: "app", "apple", "apt", "bat" root / \ a b | | p a / \ | p t* t* | l | e* * = isEnd (complete word)</p>
-<p>19</p>
-<h1>Graphs</h1>
-<h3>Representations</h3>
-<p>C++Copy</p>
+<p><strong>Trie Visualization after inserting: "app", "apple", "apt", "bat":</strong></p>
+<pre><code>          root
+         /    \
+        a      b
+        |      |
+        p      a
+       / \     |
+      p   t*   t*
+      |
+      l
+      |
+      e*
+
+  * = isEnd (complete word)
+</code></pre>
+<p><strong>📝 Practice Problems — Trie:</strong>
+- Implement Trie (Prefix Tree)
+- Design Add and Search Words Data Structure
+- Word Search II
+- Replace Words
+- Longest Word in Dictionary
+- Maximum XOR of Two Numbers in an Array
+- Palindrome Pairs
+- Search Suggestions System</p>
+<hr />
+<h2 id="graphs">Graphs</h2>
+<h3 id="representations">Representations</h3>
 <pre><code class="language-cpp">// Adjacency List (preferred for sparse graphs)
 vector&lt;vector&lt;int&gt;&gt; adj(n);
 adj[u].push_back(v); // directed edge u → v
@@ -2459,8 +3068,9 @@ adj[u].push_back({v, weight});
 vector&lt;vector&lt;int&gt;&gt; mat(n, vector&lt;int&gt;(n, 0));
 mat[u][v] = 1; // or weight
 </code></pre>
-<h3>BFS — Breadth First Search</h3>
-<p>C++Copy</p>
+<h3 id="bfs-breadth-first-search">BFS — Breadth First Search</h3>
+<h4 id="intuition_12">Intuition</h4>
+<p>Explore all nodes at distance d before exploring nodes at distance d+1. Uses a queue. Guarantees shortest path in unweighted graphs because it processes nodes layer by layer.</p>
 <pre><code class="language-cpp">// BFS from source — finds shortest path in unweighted graph
 vector&lt;int&gt; bfs(int src, vector&lt;vector&lt;int&gt;&gt;&amp; adj, int n) {
     vector&lt;int&gt; dist(n, -1);
@@ -2505,9 +3115,38 @@ int numIslands(vector&lt;vector&lt;char&gt;&gt;&amp; grid) {
     }
     return count;
 }
+
+// Multi-source BFS — Rotting Oranges
+int orangesRotting(vector&lt;vector&lt;int&gt;&gt;&amp; grid) {
+    int rows = grid.size(), cols = grid[0].size(), fresh = 0;
+    queue&lt;pair&lt;int,int&gt;&gt; q;
+    for (int i = 0; i &lt; rows; i++)
+        for (int j = 0; j &lt; cols; j++) {
+            if (grid[i][j] == 2) q.push({i, j});
+            if (grid[i][j] == 1) fresh++;
+        }
+    int dx[] = {0,0,1,-1}, dy[] = {1,-1,0,0}, time = 0;
+    while (!q.empty() &amp;&amp; fresh &gt; 0) {
+        int sz = q.size();
+        for (int i = 0; i &lt; sz; i++) {
+            auto [x, y] = q.front(); q.pop();
+            for (int d = 0; d &lt; 4; d++) {
+                int nx = x+dx[d], ny = y+dy[d];
+                if (nx &gt;= 0 &amp;&amp; nx &lt; rows &amp;&amp; ny &gt;= 0 &amp;&amp; ny &lt; cols &amp;&amp; grid[nx][ny] == 1) {
+                    grid[nx][ny] = 2;
+                    q.push({nx, ny});
+                    fresh--;
+                }
+            }
+        }
+        time++;
+    }
+    return fresh == 0 ? time : -1;
+}
 </code></pre>
-<h3>DFS — Depth First Search</h3>
-<p>C++Copy</p>
+<h3 id="dfs-depth-first-search">DFS — Depth First Search</h3>
+<h4 id="intuition_13">Intuition</h4>
+<p>Explore as far as possible along each branch before backtracking. Uses recursion (implicit stack) or explicit stack. Natural for detecting cycles, finding connected components, and topological sorting.</p>
 <pre><code class="language-cpp">// DFS — Recursive
 void dfs(int u, vector&lt;vector&lt;int&gt;&gt;&amp; adj, vector&lt;bool&gt;&amp; visited) {
     visited[u] = true;
@@ -2553,11 +3192,50 @@ bool hasCycleDirected(int u, vector&lt;vector&lt;int&gt;&gt;&amp; adj, vector&lt
     color[u] = 2;
     return false;
 }
+
+// Bipartite Check — BFS coloring
+bool isBipartite(int n, vector&lt;vector&lt;int&gt;&gt;&amp; adj) {
+    vector&lt;int&gt; color(n, -1);
+    for (int i = 0; i &lt; n; i++) {
+        if (color[i] != -1) continue;
+        queue&lt;int&gt; q;
+        q.push(i);
+        color[i] = 0;
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            for (int v : adj[u]) {
+                if (color[v] == -1) {
+                    color[v] = 1 - color[u];
+                    q.push(v);
+                } else if (color[v] == color[u]) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
 </code></pre>
-<p>20</p>
-<h1>Advanced Graph Algorithms</h1>
-<h3>Topological Sort</h3>
-<p>C++Copy</p>
+<p><strong>📝 Practice Problems — Graphs (Basic):</strong>
+- Number of Islands
+- Clone Graph
+- Number of Connected Components
+- Graph Valid Tree
+- Pacific Atlantic Water Flow
+- Surrounded Regions
+- Rotting Oranges
+- Walls and Gates
+- Is Graph Bipartite?
+- Flood Fill
+- Word Ladder / Word Ladder II
+- Shortest Path in Binary Matrix
+- 01 Matrix (multi-source BFS)
+- Course Schedule / Course Schedule II</p>
+<hr />
+<h2 id="advanced-graph-algorithms">Advanced Graph Algorithms</h2>
+<h3 id="topological-sort">Topological Sort</h3>
+<h4 id="intuition_14">Intuition</h4>
+<p>A linear ordering of vertices in a DAG such that for every edge u→v, u appears before v. Two approaches: Kahn's (BFS with in-degree tracking) or DFS (reverse post-order). Used for dependency resolution, build systems, course scheduling.</p>
 <pre><code class="language-cpp">// Kahn's Algorithm (BFS-based Topological Sort)
 vector&lt;int&gt; topoSortKahn(int n, vector&lt;vector&lt;int&gt;&gt;&amp; adj) {
     vector&lt;int&gt; inDeg(n, 0);
@@ -2588,8 +3266,9 @@ void topoDFS(int u, vector&lt;vector&lt;int&gt;&gt;&amp; adj, vector&lt;bool&gt;
     st.push(u);
 }
 </code></pre>
-<h3>Dijkstra's Algorithm</h3>
-<p>C++Copy</p>
+<h3 id="dijkstras-algorithm">Dijkstra's Algorithm</h3>
+<h4 id="intuition_15">Intuition</h4>
+<p>Greedy BFS for weighted graphs with non-negative edges. Always expand the closest unvisited node. Uses a min-heap to pick the next node. Key invariant: once a node is popped from the heap, its shortest distance is finalized.</p>
 <pre><code class="language-cpp">// Dijkstra — Shortest Path (non-negative weights)
 vector&lt;long long&gt; dijkstra(int src, vector&lt;vector&lt;pair&lt;int,int&gt;&gt;&gt;&amp; adj, int n) {
     vector&lt;long long&gt; dist(n, LLONG_MAX);
@@ -2611,8 +3290,9 @@ vector&lt;long long&gt; dijkstra(int src, vector&lt;vector&lt;pair&lt;int,int&gt
 }
 </code></pre>
 <p>Time: O((V + E) log V) with binary heap. Space: O(V)</p>
-<h3>Bellman-Ford</h3>
-<p>C++Copy</p>
+<h3 id="bellman-ford">Bellman-Ford</h3>
+<h4 id="intuition_16">Intuition</h4>
+<p>Relax all edges V-1 times. Unlike Dijkstra, handles negative weights. After V-1 iterations, if any edge can still be relaxed, a negative cycle exists. Slower but more versatile.</p>
 <pre><code class="language-cpp">// Bellman-Ford — handles negative weights, detects negative cycles
 struct Edge { int u, v, w; };
 
@@ -2634,8 +3314,9 @@ vector&lt;long long&gt; bellmanFord(int src, int n, vector&lt;Edge&gt;&amp; edge
 }
 </code></pre>
 <p>Time: O(V × E)</p>
-<h3>Floyd-Warshall</h3>
-<p>C++Copy</p>
+<h3 id="floyd-warshall">Floyd-Warshall</h3>
+<h4 id="intuition_17">Intuition</h4>
+<p>Dynamic programming for all-pairs shortest paths. Consider each vertex as an intermediate node and update the shortest path between every pair. Simple triple nested loop. Works with negative weights (but not negative cycles).</p>
 <pre><code class="language-cpp">// Floyd-Warshall — All-pairs shortest path
 void floydWarshall(vector&lt;vector&lt;long long&gt;&gt;&amp; dist, int n) {
     // dist[i][j] initialized to edge weight or INF
@@ -2647,8 +3328,9 @@ void floydWarshall(vector&lt;vector&lt;long long&gt;&gt;&amp; dist, int n) {
 }
 </code></pre>
 <p>Time: O(V³) Space: O(V²)</p>
-<h3>Minimum Spanning Tree</h3>
-<p>C++Copy</p>
+<h3 id="minimum-spanning-tree">Minimum Spanning Tree</h3>
+<h4 id="intuition_18">Intuition</h4>
+<p>A spanning tree with minimum total edge weight. Two classic algorithms: <strong>Kruskal</strong> (sort edges, greedily add smallest that doesn't create a cycle using DSU) and <strong>Prim</strong> (grow tree from any node, always add cheapest edge to an unvisited node using min-heap).</p>
 <pre><code class="language-cpp">// Kruskal's MST using DSU
 struct DSU {
     vector&lt;int&gt; parent, rank_;
@@ -2694,11 +3376,79 @@ int primMST(int n, vector&lt;vector&lt;pair&lt;int,int&gt;&gt;&gt;&amp; adj) {
     return mstWeight;
 }
 </code></pre>
-<p>21</p>
-<h1>Greedy</h1>
-<h3>How to Identify Greedy Problems</h3>
+<h3 id="bridges-articulation-points">Bridges &amp; Articulation Points</h3>
+<h4 id="intuition_19">Intuition</h4>
+<p>A <strong>bridge</strong> is an edge whose removal disconnects the graph. An <strong>articulation point</strong> is a vertex whose removal disconnects the graph. Found using Tarjan's algorithm with DFS discovery and low-link values.</p>
+<pre><code class="language-cpp">// Find Bridges (Critical Connections)
+void findBridges(int u, int parent, int&amp; timer, vector&lt;vector&lt;int&gt;&gt;&amp; adj,
+                 vector&lt;int&gt;&amp; disc, vector&lt;int&gt;&amp; low, vector&lt;pair&lt;int,int&gt;&gt;&amp; bridges) {
+    disc[u] = low[u] = timer++;
+    for (int v : adj[u]) {
+        if (v == parent) continue;
+        if (disc[v] == -1) {
+            findBridges(v, u, timer, adj, disc, low, bridges);
+            low[u] = min(low[u], low[v]);
+            if (low[v] &gt; disc[u])
+                bridges.push_back({u, v}); // u-v is a bridge
+        } else {
+            low[u] = min(low[u], disc[v]);
+        }
+    }
+}
+</code></pre>
+<h3 id="tarjans-scc-strongly-connected-components">Tarjan's SCC — Strongly Connected Components</h3>
+<h4 id="intuition_20">Intuition</h4>
+<p>In a directed graph, an SCC is a maximal set of vertices where every vertex is reachable from every other. Tarjan's algorithm uses DFS with a stack and low-link values to identify SCCs in a single pass.</p>
+<pre><code class="language-cpp">// Tarjan's SCC
+void tarjanSCC(int u, int&amp; timer, vector&lt;vector&lt;int&gt;&gt;&amp; adj,
+               vector&lt;int&gt;&amp; disc, vector&lt;int&gt;&amp; low, vector&lt;bool&gt;&amp; onStack,
+               stack&lt;int&gt;&amp; st, vector&lt;vector&lt;int&gt;&gt;&amp; sccs) {
+    disc[u] = low[u] = timer++;
+    st.push(u);
+    onStack[u] = true;
+
+    for (int v : adj[u]) {
+        if (disc[v] == -1) {
+            tarjanSCC(v, timer, adj, disc, low, onStack, st, sccs);
+            low[u] = min(low[u], low[v]);
+        } else if (onStack[v]) {
+            low[u] = min(low[u], disc[v]);
+        }
+    }
+
+    // If u is root of an SCC
+    if (low[u] == disc[u]) {
+        vector&lt;int&gt; scc;
+        while (true) {
+            int v = st.top(); st.pop();
+            onStack[v] = false;
+            scc.push_back(v);
+            if (v == u) break;
+        }
+        sccs.push_back(scc);
+    }
+}
+</code></pre>
+<p><strong>📝 Practice Problems — Graphs (Advanced):</strong>
+- Course Schedule / Course Schedule II (Topological Sort)
+- Alien Dictionary
+- Network Delay Time (Dijkstra)
+- Cheapest Flights Within K Stops (Bellman-Ford variant)
+- Path with Maximum Probability
+- Swim in Rising Water
+- Critical Connections in a Network (Bridges)
+- Minimum Spanning Tree (Kruskal/Prim)
+- Redundant Connection (DSU)
+- Number of Provinces
+- Accounts Merge
+- Making A Large Island
+- Shortest Path with Alternating Colors (0-1 BFS)
+- Find Eventual Safe States
+- Longest Path in DAG</p>
+<hr />
+<h2 id="greedy">Greedy</h2>
+<h3 id="how-to-identify-greedy-problems">How to Identify Greedy Problems</h3>
 <p><strong>Greedy works when:</strong> Making the locally optimal choice at each step leads to a globally optimal solution. Key signal: the problem has <em>optimal substructure</em> and the <em>greedy choice property</em> — you never need to reconsider past decisions.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Activity Selection — Maximum non-overlapping intervals
 int activitySelection(vector&lt;pair&lt;int,int&gt;&gt;&amp; activities) {
     sort(activities.begin(), activities.end(), [](auto&amp; a, auto&amp; b) {
@@ -2768,19 +3518,77 @@ int minMeetingRooms(vector&lt;vector&lt;int&gt;&gt;&amp; intervals) {
     }
     return maxRooms;
 }
+
+// Job Sequencing — Maximum profit with deadlines
+int jobSequencing(vector&lt;pair&lt;int,int&gt;&gt;&amp; jobs) {
+    // jobs[i] = {deadline, profit}
+    sort(jobs.begin(), jobs.end(), [](auto&amp; a, auto&amp; b) {
+        return a.second &gt; b.second; // Sort by profit descending
+    });
+    int maxDeadline = 0;
+    for (auto&amp; [d, p] : jobs) maxDeadline = max(maxDeadline, d);
+    vector&lt;bool&gt; slot(maxDeadline + 1, false);
+    int totalProfit = 0;
+    for (auto&amp; [deadline, profit] : jobs) {
+        for (int j = deadline; j &gt;= 1; j--) {
+            if (!slot[j]) {
+                slot[j] = true;
+                totalProfit += profit;
+                break;
+            }
+        }
+    }
+    return totalProfit;
+}
+
+// Fractional Knapsack
+double fractionalKnapsack(vector&lt;pair&lt;int,int&gt;&gt;&amp; items, int W) {
+    // items[i] = {weight, value}
+    sort(items.begin(), items.end(), [](auto&amp; a, auto&amp; b) {
+        return (double)a.second / a.first &gt; (double)b.second / b.first;
+    });
+    double totalValue = 0;
+    for (auto&amp; [w, v] : items) {
+        if (W &gt;= w) {
+            totalValue += v;
+            W -= w;
+        } else {
+            totalValue += (double)v * W / w;
+            break;
+        }
+    }
+    return totalValue;
+}
 </code></pre>
-<p>22</p>
-<h1>Dynamic Programming</h1>
+<p><strong>📝 Practice Problems — Greedy:</strong>
+- Activity Selection / Non-Overlapping Intervals
+- Jump Game / Jump Game II
+- Gas Station
+- Assign Cookies
+- Lemonade Change
+- Queue Reconstruction by Height
+- Meeting Rooms / Meeting Rooms II
+- Minimum Platforms
+- Job Sequencing Problem
+- Fractional Knapsack
+- Minimum Number of Arrows to Burst Balloons
+- Task Scheduler
+- Candy Distribution
+- Partition Labels
+- Boat to Save People
+- Reorganize String
+- Huffman Encoding (concept)</p>
+<hr />
+<h2 id="dynamic-programming">Dynamic Programming</h2>
 <p>DP is the most important topic for interviews. The core idea: if a problem has <strong>overlapping subproblems</strong> and <strong>optimal substructure</strong>, solve each subproblem once and store the result.</p>
-<h3>The 4 Steps</h3>
+<h3 id="the-4-steps">The 4 Steps</h3>
 <ol>
 <li><strong>Recursion:</strong> Write the brute-force recursive solution.</li>
 <li><strong>Memoization:</strong> Cache results of recursive calls (top-down).</li>
 <li><strong>Tabulation:</strong> Convert to iterative bottom-up with a DP table.</li>
 <li><strong>Space Optimization:</strong> Reduce the DP table dimensions if possible.</li>
 </ol>
-<h3>Pattern: Fibonacci / Climbing Stairs</h3>
-<p>C++Copy</p>
+<h3 id="pattern-fibonacci-climbing-stairs">Pattern: Fibonacci / Climbing Stairs</h3>
 <pre><code class="language-cpp">// Climbing Stairs — All 4 approaches
 
 // 1. Recursion — O(2^n) time
@@ -2816,8 +3624,9 @@ int climbOptimized(int n) {
     return prev1;
 }
 </code></pre>
-<h3>Pattern: 0/1 Knapsack</h3>
-<p>C++Copy</p>
+<h3 id="pattern-01-knapsack">Pattern: 0/1 Knapsack</h3>
+<h4 id="intuition_21">Intuition</h4>
+<p>For each item, you have two choices: take it or leave it. The state is (item index, remaining capacity). Iterate items and capacities, taking the maximum of including vs excluding each item.</p>
 <pre><code class="language-cpp">// 0/1 Knapsack — Tabulation + Space Optimization
 int knapsack(vector&lt;int&gt;&amp; wt, vector&lt;int&gt;&amp; val, int W) {
     int n = wt.size();
@@ -2845,8 +3654,7 @@ int knapsack1D(vector&lt;int&gt;&amp; wt, vector&lt;int&gt;&amp; val, int W) {
     return dp[W];
 }
 </code></pre>
-<h3>Pattern: Unbounded Knapsack / Coin Change</h3>
-<p>C++Copy</p>
+<h3 id="pattern-unbounded-knapsack-coin-change">Pattern: Unbounded Knapsack / Coin Change</h3>
 <pre><code class="language-cpp">// Coin Change — Minimum coins to make amount
 int coinChange(vector&lt;int&gt;&amp; coins, int amount) {
     vector&lt;int&gt; dp(amount + 1, INT_MAX);
@@ -2870,8 +3678,10 @@ int change(int amount, vector&lt;int&gt;&amp; coins) {
     return dp[amount];
 }
 </code></pre>
-<h3>Pattern: Longest Increasing Subsequence (LIS)</h3>
-<p>C++Copy</p>
+<h3 id="pattern-longest-increasing-subsequence-lis">Pattern: Longest Increasing Subsequence (LIS)</h3>
+<h4 id="intuition_22">Intuition</h4>
+<p><strong>O(n²) approach:</strong> For each element, find the longest increasing subsequence ending at it by checking all previous elements.</p>
+<p><strong>O(n log n) approach (patience sorting):</strong> Maintain an array of smallest tail elements for subsequences of each length. Use binary search to find where each new element fits.</p>
 <pre><code class="language-cpp">// LIS — O(n²) DP
 int lisDP(vector&lt;int&gt;&amp; nums) {
     int n = nums.size();
@@ -2897,8 +3707,9 @@ int lisBinarySearch(vector&lt;int&gt;&amp; nums) {
     return tails.size();
 }
 </code></pre>
-<h3>Pattern: Longest Common Subsequence (LCS)</h3>
-<p>C++Copy</p>
+<h3 id="pattern-longest-common-subsequence-lcs">Pattern: Longest Common Subsequence (LCS)</h3>
+<h4 id="intuition_23">Intuition</h4>
+<p>Two pointers on two strings. If characters match, both advance and add 1. If not, try advancing each one separately and take the max. Classic 2D DP.</p>
 <pre><code class="language-cpp">// LCS — Space Optimized
 int lcs(string&amp; a, string&amp; b) {
     int m = a.size(), n = b.size();
@@ -2916,8 +3727,30 @@ int lcs(string&amp; a, string&amp; b) {
     return prev[n];
 }
 </code></pre>
-<h3>Pattern: Grid DP</h3>
-<p>C++Copy</p>
+<h3 id="pattern-edit-distance-string-dp">Pattern: Edit Distance (String DP)</h3>
+<h4 id="intuition_24">Intuition</h4>
+<p>Transform string a into string b using minimum insertions, deletions, and replacements. If characters match, no operation needed. Otherwise, try all three operations and take the minimum.</p>
+<pre><code class="language-cpp">// Edit Distance — Minimum operations to transform a → b
+int editDistance(string&amp; a, string&amp; b) {
+    int m = a.size(), n = b.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(m + 1, vector&lt;int&gt;(n + 1));
+    for (int i = 0; i &lt;= m; i++) dp[i][0] = i;
+    for (int j = 0; j &lt;= n; j++) dp[0][j] = j;
+
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            if (a[i-1] == b[j-1])
+                dp[i][j] = dp[i-1][j-1];
+            else
+                dp[i][j] = 1 + min({dp[i-1][j],      // delete
+                                    dp[i][j-1],      // insert
+                                    dp[i-1][j-1]});  // replace
+        }
+    }
+    return dp[m][n];
+}
+</code></pre>
+<h3 id="pattern-grid-dp">Pattern: Grid DP</h3>
 <pre><code class="language-cpp">// Unique Paths
 int uniquePaths(int m, int n) {
     vector&lt;int&gt; dp(n, 1);
@@ -2941,8 +3774,9 @@ int minPathSum(vector&lt;vector&lt;int&gt;&gt;&amp; grid) {
     return dp[n-1];
 }
 </code></pre>
-<h3>Pattern: Partition DP (MCM)</h3>
-<p>C++Copy</p>
+<h3 id="pattern-partition-dp-mcm">Pattern: Partition DP (MCM)</h3>
+<h4 id="intuition_25">Intuition</h4>
+<p>For a sequence that can be split at different points, try every split position and combine the costs. Classic example: Matrix Chain Multiplication — find the optimal parenthesization.</p>
 <pre><code class="language-cpp">// Matrix Chain Multiplication
 int mcm(vector&lt;int&gt;&amp; dims) {
     int n = dims.size() - 1;
@@ -2960,55 +3794,196 @@ int mcm(vector&lt;int&gt;&amp; dims) {
     }
     return dp[0][n-1];
 }
+
+// Palindrome Partitioning — Minimum cuts
+int minCut(string&amp; s) {
+    int n = s.size();
+    vector&lt;vector&lt;bool&gt;&gt; isPalin(n, vector&lt;bool&gt;(n, false));
+    for (int len = 1; len &lt;= n; len++)
+        for (int i = 0; i &lt;= n - len; i++) {
+            int j = i + len - 1;
+            isPalin[i][j] = (s[i] == s[j]) &amp;&amp; (len &lt;= 2 || isPalin[i+1][j-1]);
+        }
+    vector&lt;int&gt; dp(n, 0);
+    for (int i = 0; i &lt; n; i++) {
+        if (isPalin[0][i]) { dp[i] = 0; continue; }
+        dp[i] = INT_MAX;
+        for (int j = 1; j &lt;= i; j++)
+            if (isPalin[j][i])
+                dp[i] = min(dp[i], dp[j-1] + 1);
+    }
+    return dp[n-1];
+}
 </code></pre>
-<p><strong>DP Pattern Recognition:</strong></p>
-<ul>
-<li><em>"Count the number of ways"</em> → DP (sum subproblems)</li>
-<li><em>"Find the minimum/maximum"</em> → DP (min/max subproblems)</li>
-<li><em>"Is it possible?"</em> → DP (boolean OR subproblems)</li>
-<li><em>Choices at each step + overlapping states</em> → DP</li>
-<li><em>String matching / edit distance</em> → 2D DP</li>
-</ul>
-<p>23</p>
-<h1>Bit Manipulation</h1>
-<h3>Essential Bit Operations</h3>
-<p>Operation</p>
-<p>Expression</p>
-<p>Description</p>
-<p>Check ith bit</p>
-<p><code>(n &gt;&gt; i) &amp; 1</code></p>
-<p>Returns 1 if bit i is set</p>
-<p>Set ith bit</p>
-<p><code>n | (1 &lt;&lt; i)</code></p>
-<p>Sets bit i to 1</p>
-<p>Clear ith bit</p>
-<p><code>n &amp; ~(1 &lt;&lt; i)</code></p>
-<p>Sets bit i to 0</p>
-<p>Toggle ith bit</p>
-<p><code>n ^ (1 &lt;&lt; i)</code></p>
-<p>Flips bit i</p>
-<p>Check odd/even</p>
-<p><code>n &amp; 1</code></p>
-<p>1 = odd, 0 = even</p>
-<p>Check power of 2</p>
-<p><code>n &amp; (n-1) == 0</code></p>
-<p>True if n is power of 2</p>
-<p>Count set bits</p>
-<p><code>__builtin_popcount(n)</code></p>
-<p>GCC built-in</p>
-<p>Lowest set bit</p>
-<p><code>n &amp; (-n)</code></p>
-<p>Isolates the rightmost 1</p>
-<p>Remove lowest set bit</p>
-<p><code>n &amp; (n-1)</code></p>
-<p>Turns off rightmost 1</p>
-<h3>Key XOR Properties</h3>
+<h3 id="pattern-stock-buy-and-sell-state-machine-dp">Pattern: Stock Buy and Sell (State Machine DP)</h3>
+<h4 id="intuition_26">Intuition</h4>
+<p>Model as state machine with states like "holding stock" and "not holding stock". Transitions: buy (not holding → holding), sell (holding → not holding), cooldown. Each variant adds constraints on transitions.</p>
+<pre><code class="language-cpp">// Best Time to Buy and Sell Stock with Cooldown
+int maxProfit(vector&lt;int&gt;&amp; prices) {
+    int n = prices.size();
+    if (n &lt; 2) return 0;
+    // hold: max profit while holding stock
+    // sold: max profit just after selling (cooldown next)
+    // rest: max profit while resting (can buy next)
+    int hold = -prices[0], sold = 0, rest = 0;
+    for (int i = 1; i &lt; n; i++) {
+        int prevHold = hold, prevSold = sold;
+        hold = max(hold, rest - prices[i]);    // buy or keep holding
+        sold = prevHold + prices[i];            // sell
+        rest = max(rest, prevSold);             // rest or finish cooldown
+    }
+    return max(sold, rest);
+}
+
+// Best Time to Buy and Sell Stock with K transactions
+int maxProfitK(int k, vector&lt;int&gt;&amp; prices) {
+    int n = prices.size();
+    if (n &lt; 2) return 0;
+    if (k &gt;= n / 2) { // Unlimited transactions
+        int profit = 0;
+        for (int i = 1; i &lt; n; i++)
+            profit += max(0, prices[i] - prices[i-1]);
+        return profit;
+    }
+    vector&lt;vector&lt;int&gt;&gt; dp(k + 1, vector&lt;int&gt;(n, 0));
+    for (int t = 1; t &lt;= k; t++) {
+        int maxDiff = -prices[0];
+        for (int d = 1; d &lt; n; d++) {
+            dp[t][d] = max(dp[t][d-1], prices[d] + maxDiff);
+            maxDiff = max(maxDiff, dp[t-1][d] - prices[d]);
+        }
+    }
+    return dp[k][n-1];
+}
+</code></pre>
+<h3 id="pattern-bitmask-dp">Pattern: Bitmask DP</h3>
+<h4 id="intuition_27">Intuition</h4>
+<p>When the state involves a subset of items (typically n ≤ 20), represent the subset as a bitmask. Iterate over all 2^n subsets and compute the answer.</p>
+<pre><code class="language-cpp">// Travelling Salesman Problem — O(n² · 2^n)
+int tsp(vector&lt;vector&lt;int&gt;&gt;&amp; dist) {
+    int n = dist.size();
+    vector&lt;vector&lt;int&gt;&gt; dp(1 &lt;&lt; n, vector&lt;int&gt;(n, INT_MAX));
+    dp[1][0] = 0; // Start at city 0
+
+    for (int mask = 1; mask &lt; (1 &lt;&lt; n); mask++) {
+        for (int u = 0; u &lt; n; u++) {
+            if (!(mask &amp; (1 &lt;&lt; u)) || dp[mask][u] == INT_MAX) continue;
+            for (int v = 0; v &lt; n; v++) {
+                if (mask &amp; (1 &lt;&lt; v)) continue; // Already visited
+                int newMask = mask | (1 &lt;&lt; v);
+                dp[newMask][v] = min(dp[newMask][v], dp[mask][u] + dist[u][v]);
+            }
+        }
+    }
+
+    int fullMask = (1 &lt;&lt; n) - 1, ans = INT_MAX;
+    for (int u = 0; u &lt; n; u++)
+        if (dp[fullMask][u] != INT_MAX)
+            ans = min(ans, dp[fullMask][u] + dist[u][0]);
+    return ans;
+}
+</code></pre>
+<p><strong>DP Pattern Recognition:</strong>
+* <em>"Count the number of ways"</em> → DP (sum subproblems)
+* <em>"Find the minimum/maximum"</em> → DP (min/max subproblems)
+* <em>"Is it possible?"</em> → DP (boolean OR subproblems)
+* <em>Choices at each step + overlapping states</em> → DP
+* <em>String matching / edit distance</em> → 2D DP
+* <em>Subset / assignment with n ≤ 20</em> → Bitmask DP
+* <em>Stock trading with states</em> → State Machine DP</p>
+<p><strong>📝 Practice Problems — Dynamic Programming:</strong>
+- Climbing Stairs
+- House Robber / House Robber II
+- Coin Change / Coin Change 2
+- Longest Increasing Subsequence
+- Longest Common Subsequence
+- Edit Distance
+- 0/1 Knapsack / Partition Equal Subset Sum
+- Word Break
+- Decode Ways
+- Unique Paths / Unique Paths II
+- Minimum Path Sum
+- Maximum Product Subarray
+- Palindrome Partitioning II (Min Cuts)
+- Matrix Chain Multiplication / Burst Balloons
+- Best Time to Buy and Sell Stock III / IV / with Cooldown / with Fee
+- Target Sum
+- Interleaving String
+- Regular Expression Matching
+- Longest Palindromic Subsequence
+- Count Different Palindromic Subsequences
+- Distinct Subsequences
+- Cherry Pickup
+- Shortest Common Supersequence
+- Minimum Cost to Cut a Stick
+- Stone Game variants
+- Travelling Salesman (Bitmask DP)
+- Partition to K Equal Sum Subsets (Bitmask DP)</p>
+<hr />
+<h2 id="bit-manipulation">Bit Manipulation</h2>
+<h3 id="essential-bit-operations">Essential Bit Operations</h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Expression</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Check ith bit</td>
+<td><code>(n &gt;&gt; i) &amp; 1</code></td>
+<td>Returns 1 if bit i is set</td>
+</tr>
+<tr>
+<td>Set ith bit</td>
+<td><code>n \| (1 &lt;&lt; i)</code></td>
+<td>Sets bit i to 1</td>
+</tr>
+<tr>
+<td>Clear ith bit</td>
+<td><code>n &amp; ~(1 &lt;&lt; i)</code></td>
+<td>Sets bit i to 0</td>
+</tr>
+<tr>
+<td>Toggle ith bit</td>
+<td><code>n ^ (1 &lt;&lt; i)</code></td>
+<td>Flips bit i</td>
+</tr>
+<tr>
+<td>Check odd/even</td>
+<td><code>n &amp; 1</code></td>
+<td>1 = odd, 0 = even</td>
+</tr>
+<tr>
+<td>Check power of 2</td>
+<td><code>n &amp; (n-1) == 0</code></td>
+<td>True if n is power of 2</td>
+</tr>
+<tr>
+<td>Count set bits</td>
+<td><code>__builtin_popcount(n)</code></td>
+<td>GCC built-in</td>
+</tr>
+<tr>
+<td>Lowest set bit</td>
+<td><code>n &amp; (-n)</code></td>
+<td>Isolates the rightmost 1</td>
+</tr>
+<tr>
+<td>Remove lowest set bit</td>
+<td><code>n &amp; (n-1)</code></td>
+<td>Turns off rightmost 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-xor-properties">Key XOR Properties</h3>
 <ul>
 <li>a ^ a = 0 (self-cancellation)</li>
 <li>a ^ 0 = a (identity)</li>
 <li>XOR is commutative and associative</li>
 </ul>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Single Number — every element appears twice except one
 int singleNumber(vector&lt;int&gt;&amp; nums) {
     int result = 0;
@@ -3047,11 +4022,35 @@ vector&lt;vector&lt;int&gt;&gt; subsetsViabit(vector&lt;int&gt;&amp; nums) {
     }
     return result;
 }
+
+// Two Numbers Appearing Once (all others appear twice)
+pair&lt;int,int&gt; singleNumberIII(vector&lt;int&gt;&amp; nums) {
+    int xorAll = 0;
+    for (int n : nums) xorAll ^= n;
+    int diffBit = xorAll &amp; (-xorAll); // Isolate any differing bit
+    int a = 0, b = 0;
+    for (int n : nums) {
+        if (n &amp; diffBit) a ^= n;
+        else b ^= n;
+    }
+    return {a, b};
+}
 </code></pre>
-<p>24</p>
-<h1>Segment Tree</h1>
+<p><strong>📝 Practice Problems — Bit Manipulation:</strong>
+- Single Number / Single Number II / III
+- Missing Number
+- Counting Bits
+- Number of 1 Bits
+- Reverse Bits
+- Sum of Two Integers (no + operator)
+- Power of Two
+- Subsets (bitmask approach)
+- Hamming Distance
+- Total Hamming Distance
+- Bitwise AND of Numbers Range</p>
+<hr />
+<h2 id="segment-tree">Segment Tree</h2>
 <p>A Segment Tree is a binary tree where each leaf represents an array element, and each internal node stores the result of a merge operation (sum, min, max, etc.) of its children. Supports both <strong>range queries</strong> and <strong>point updates</strong> in O(log n).</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Segment Tree — Range Sum Query with Point Update
 class SegmentTree {
     vector&lt;long long&gt; tree;
@@ -3098,10 +4097,15 @@ public:
 };
 </code></pre>
 <p>Build: O(n) Query/Update: O(log n) Space: O(4n)</p>
-<p>25</p>
-<h1>Fenwick Tree (Binary Indexed Tree)</h1>
+<p><strong>📝 Practice Problems — Segment Tree:</strong>
+- Range Sum Query - Mutable
+- Range Minimum Query
+- Count of Smaller Numbers After Self
+- Count of Range Sum
+- Falling Squares</p>
+<hr />
+<h2 id="fenwick-tree-binary-indexed-tree">Fenwick Tree (Binary Indexed Tree)</h2>
 <p>A Fenwick Tree supports prefix sum queries and point updates in O(log n) with much less code than a Segment Tree. The key insight: use the lowest set bit of the index to determine the range each node is responsible for.</p>
-<p>C++Copy</p>
 <pre><code class="language-cpp">// Fenwick Tree / BIT
 class FenwickTree {
     vector&lt;long long&gt; bit;
@@ -3127,350 +4131,532 @@ public:
     }
 };
 </code></pre>
-<h3>Segment Tree vs Fenwick Tree</h3>
-<p>Feature</p>
-<p>Segment Tree</p>
-<p>Fenwick Tree</p>
-<p>Code Complexity</p>
-<p>More (~40 lines)</p>
-<p>Minimal (~15 lines)</p>
-<p>Range Queries</p>
-<p>Sum, Min, Max, GCD</p>
-<p>Sum only (standard)</p>
-<p>Range Updates</p>
-<p>With lazy propagation</p>
-<p>Possible but tricky</p>
-<p>Space</p>
-<p>4n</p>
-<p>n+1</p>
-<p>Constant Factor</p>
-<p>Higher</p>
-<p>Lower (faster in practice)</p>
-<p>26</p>
-<h1>Complete Pattern Recognition Guide</h1>
+<h3 id="segment-tree-vs-fenwick-tree">Segment Tree vs Fenwick Tree</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Segment Tree</th>
+<th>Fenwick Tree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code Complexity</td>
+<td>More (~40 lines)</td>
+<td>Minimal (~15 lines)</td>
+</tr>
+<tr>
+<td>Range Queries</td>
+<td>Sum, Min, Max, GCD</td>
+<td>Sum only (standard)</td>
+</tr>
+<tr>
+<td>Range Updates</td>
+<td>With lazy propagation</td>
+<td>Possible but tricky</td>
+</tr>
+<tr>
+<td>Space</td>
+<td>4n</td>
+<td>n+1</td>
+</tr>
+<tr>
+<td>Constant Factor</td>
+<td>Higher</td>
+<td>Lower (faster in practice)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="complete-pattern-recognition-guide">Complete Pattern Recognition Guide</h2>
 <p>This is the most important section for interviews. When you see a problem, match its characteristics to a known pattern below:</p>
-<p>Problem Clue / Keywords</p>
-<p>Pattern to Use</p>
-<p>Key Data Structure</p>
-<p>Sorted array, search target</p>
-<p>Binary Search</p>
-<p>Array</p>
-<p>"Minimize the maximum" / "Maximize the minimum"</p>
-<p>Binary Search on Answer</p>
-<p>Array</p>
-<p>Contiguous subarray sum/product</p>
-<p>Sliding Window / Prefix Sum</p>
-<p>Array / HashMap</p>
-<p>"Longest substring with condition"</p>
-<p>Sliding Window (Variable)</p>
-<p>HashMap</p>
-<p>Pair sum in sorted array</p>
-<p>Two Pointers</p>
-<p>Array</p>
-<p>"Find all triplets/pairs"</p>
-<p>Two Pointers / Sorting</p>
-<p>Array</p>
-<p>Linked list cycle / middle</p>
-<p>Fast &amp; Slow Pointer</p>
-<p>Linked List</p>
-<p>"Next greater / smaller element"</p>
-<p>Monotonic Stack</p>
-<p>Stack</p>
-<p>Largest rectangle / histogram</p>
-<p>Monotonic Stack</p>
-<p>Stack</p>
-<p>Matching brackets / expressions</p>
-<p>Stack</p>
-<p>Stack</p>
-<p>Sliding window maximum</p>
-<p>Monotonic Deque</p>
-<p>Deque</p>
-<p>"Top K" / "K-th largest"</p>
-<p>Heap</p>
-<p>Priority Queue</p>
-<p>Merge K sorted</p>
-<p>Heap</p>
-<p>Priority Queue</p>
-<p>Frequency / lookup</p>
-<p>Hashing</p>
-<p>HashMap / HashSet</p>
-<p>Prefix / autocomplete / dictionary</p>
-<p>Trie</p>
-<p>Trie</p>
-<p>Shortest path (unweighted)</p>
-<p>BFS</p>
-<p>Queue</p>
-<p>Shortest path (weighted, no negatives)</p>
-<p>Dijkstra</p>
-<p>Min-Heap</p>
-<p>Shortest path (negative weights)</p>
-<p>Bellman-Ford</p>
-<p>Edge List</p>
-<p>All-pairs shortest path</p>
-<p>Floyd-Warshall</p>
-<p>2D Array</p>
-<p>Connected components / islands</p>
-<p>DFS / BFS / DSU</p>
-<p>Graph</p>
-<p>Cycle detection</p>
-<p>DFS (coloring)</p>
-<p>Graph</p>
-<p>Prerequisites / ordering</p>
-<p>Topological Sort</p>
-<p>DAG</p>
-<p>Minimum spanning tree</p>
-<p>Kruskal / Prim</p>
-<p>DSU / Heap</p>
-<p>Connectivity queries</p>
-<p>Disjoint Set Union</p>
-<p>DSU</p>
-<p>"Generate all" / "find all combinations"</p>
-<p>Backtracking</p>
-<p>Recursion</p>
-<p>N-Queens / Sudoku</p>
-<p>Backtracking</p>
-<p>Recursion</p>
-<p>Overlapping subproblems + optimal substructure</p>
-<p>Dynamic Programming</p>
-<p>Array / Table</p>
-<p>"Count ways" / "min cost"</p>
-<p>Dynamic Programming</p>
-<p>Array / Table</p>
-<p>Longest subsequence</p>
-<p>DP (LIS / LCS)</p>
-<p>Array</p>
-<p>Knapsack / subset sum</p>
-<p>DP (Knapsack)</p>
-<p>1D/2D Array</p>
-<p>Grid path counting</p>
-<p>DP (Grid)</p>
-<p>2D Array</p>
-<p>Range sum / range update queries</p>
-<p>Segment Tree / Fenwick</p>
-<p>Tree</p>
-<p>XOR tricks, single number</p>
-<p>Bit Manipulation</p>
-<p>Bitwise ops</p>
-<p>Local optimal → global optimal</p>
-<p>Greedy</p>
-<p>Sorting</p>
-<p>27</p>
-<h1>Blind 75 Revision Checklist</h1>
-<h3>Arrays &amp; Hashing</h3>
+<table>
+<thead>
+<tr>
+<th>Problem Clue / Keywords</th>
+<th>Pattern to Use</th>
+<th>Key Data Structure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sorted array, search target</td>
+<td>Binary Search</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>"Minimize the maximum" / "Maximize the minimum"</td>
+<td>Binary Search on Answer</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>Contiguous subarray sum/product</td>
+<td>Sliding Window / Prefix Sum</td>
+<td>Array / HashMap</td>
+</tr>
+<tr>
+<td>"Longest substring with condition"</td>
+<td>Sliding Window (Variable)</td>
+<td>HashMap</td>
+</tr>
+<tr>
+<td>Pair sum in sorted array</td>
+<td>Two Pointers</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>"Find all triplets/pairs"</td>
+<td>Two Pointers / Sorting</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>Linked list cycle / middle</td>
+<td>Fast &amp; Slow Pointer</td>
+<td>Linked List</td>
+</tr>
+<tr>
+<td>"Next greater / smaller element"</td>
+<td>Monotonic Stack</td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>Largest rectangle / histogram</td>
+<td>Monotonic Stack</td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>Matching brackets / expressions</td>
+<td>Stack</td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>Sliding window maximum</td>
+<td>Monotonic Deque</td>
+<td>Deque</td>
+</tr>
+<tr>
+<td>"Top K" / "K-th largest"</td>
+<td>Heap</td>
+<td>Priority Queue</td>
+</tr>
+<tr>
+<td>Merge K sorted</td>
+<td>Heap</td>
+<td>Priority Queue</td>
+</tr>
+<tr>
+<td>Frequency / lookup</td>
+<td>Hashing</td>
+<td>HashMap / HashSet</td>
+</tr>
+<tr>
+<td>Prefix / autocomplete / dictionary</td>
+<td>Trie</td>
+<td>Trie</td>
+</tr>
+<tr>
+<td>Shortest path (unweighted)</td>
+<td>BFS</td>
+<td>Queue</td>
+</tr>
+<tr>
+<td>Shortest path (weighted, no negatives)</td>
+<td>Dijkstra</td>
+<td>Min-Heap</td>
+</tr>
+<tr>
+<td>Shortest path (negative weights)</td>
+<td>Bellman-Ford</td>
+<td>Edge List</td>
+</tr>
+<tr>
+<td>All-pairs shortest path</td>
+<td>Floyd-Warshall</td>
+<td>2D Array</td>
+</tr>
+<tr>
+<td>Connected components / islands</td>
+<td>DFS / BFS / DSU</td>
+<td>Graph</td>
+</tr>
+<tr>
+<td>Cycle detection</td>
+<td>DFS (coloring)</td>
+<td>Graph</td>
+</tr>
+<tr>
+<td>Prerequisites / ordering</td>
+<td>Topological Sort</td>
+<td>DAG</td>
+</tr>
+<tr>
+<td>Minimum spanning tree</td>
+<td>Kruskal / Prim</td>
+<td>DSU / Heap</td>
+</tr>
+<tr>
+<td>Connectivity queries</td>
+<td>Disjoint Set Union</td>
+<td>DSU</td>
+</tr>
+<tr>
+<td>"Generate all" / "find all combinations"</td>
+<td>Backtracking</td>
+<td>Recursion</td>
+</tr>
+<tr>
+<td>N-Queens / Sudoku</td>
+<td>Backtracking</td>
+<td>Recursion</td>
+</tr>
+<tr>
+<td>Overlapping subproblems + optimal substructure</td>
+<td>Dynamic Programming</td>
+<td>Array / Table</td>
+</tr>
+<tr>
+<td>"Count ways" / "min cost"</td>
+<td>Dynamic Programming</td>
+<td>Array / Table</td>
+</tr>
+<tr>
+<td>Longest subsequence</td>
+<td>DP (LIS / LCS)</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>Knapsack / subset sum</td>
+<td>DP (Knapsack)</td>
+<td>1D/2D Array</td>
+</tr>
+<tr>
+<td>Grid path counting</td>
+<td>DP (Grid)</td>
+<td>2D Array</td>
+</tr>
+<tr>
+<td>Range sum / range update queries</td>
+<td>Segment Tree / Fenwick</td>
+<td>Tree</td>
+</tr>
+<tr>
+<td>XOR tricks, single number</td>
+<td>Bit Manipulation</td>
+<td>Bitwise ops</td>
+</tr>
+<tr>
+<td>Local optimal → global optimal</td>
+<td>Greedy</td>
+<td>Sorting</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="blind-75-revision-checklist">Blind 75 Revision Checklist</h2>
+<h3 id="arrays-hashing">Arrays &amp; Hashing</h3>
 <ul>
-<li>Two Sum Easy</li>
-<li>Best Time to Buy and Sell Stock Easy</li>
-<li>Contains Duplicate Easy</li>
-<li>Product of Array Except Self Medium</li>
-<li>Maximum Subarray Medium</li>
-<li>Maximum Product Subarray Medium</li>
-<li>Find Minimum in Rotated Sorted Array Medium</li>
-<li>Search in Rotated Sorted Array Medium</li>
-<li>3Sum Medium</li>
-<li>Container With Most Water Medium</li>
+<li class="task-list-item"><input type="checkbox" id="chk-0-twosumeasy" class="task-checkbox"><span class="task-text">Two Sum — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-1-besttimetobuyandsellstockeasy" class="task-checkbox"><span class="task-text">Best Time to Buy and Sell Stock — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-2-containsduplicateeasy" class="task-checkbox"><span class="task-text">Contains Duplicate — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-3-productofarrayexceptselfmedium" class="task-checkbox"><span class="task-text">Product of Array Except Self — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-4-maximumsubarraymedium" class="task-checkbox"><span class="task-text">Maximum Subarray — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-5-maximumproductsubarraymedium" class="task-checkbox"><span class="task-text">Maximum Product Subarray — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-6-findminimuminrotatedsortedarra" class="task-checkbox"><span class="task-text">Find Minimum in Rotated Sorted Array — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-7-searchinrotatedsortedarraymedi" class="task-checkbox"><span class="task-text">Search in Rotated Sorted Array — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-8-3summedium" class="task-checkbox"><span class="task-text">3Sum — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-9-containerwithmostwatermedium" class="task-checkbox"><span class="task-text">Container With Most Water — Medium</span></li>
 </ul>
-<h3>Two Pointers &amp; Sliding Window</h3>
+<h3 id="two-pointers-sliding-window">Two Pointers &amp; Sliding Window</h3>
 <ul>
-<li>Valid Palindrome Easy</li>
-<li>Longest Substring Without Repeating Characters Medium</li>
-<li>Longest Repeating Character Replacement Medium</li>
-<li>Minimum Window Substring Hard</li>
+<li class="task-list-item"><input type="checkbox" id="chk-10-validpalindromeeasy" class="task-checkbox"><span class="task-text">Valid Palindrome — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-11-longestsubstringwithoutrepeati" class="task-checkbox"><span class="task-text">Longest Substring Without Repeating Characters — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-12-longestrepeatingcharacterrepla" class="task-checkbox"><span class="task-text">Longest Repeating Character Replacement — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-13-minimumwindowsubstringhard" class="task-checkbox"><span class="task-text">Minimum Window Substring — Hard</span></li>
 </ul>
-<h3>Linked List</h3>
+<h3 id="linked-list">Linked List</h3>
 <ul>
-<li>Reverse Linked List Easy</li>
-<li>Merge Two Sorted Lists Easy</li>
-<li>Linked List Cycle Easy</li>
-<li>Remove Nth Node From End Medium</li>
-<li>Reorder List Medium</li>
-<li>Merge K Sorted Lists Hard</li>
+<li class="task-list-item"><input type="checkbox" id="chk-14-reverselinkedlisteasy" class="task-checkbox"><span class="task-text">Reverse Linked List — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-15-mergetwosortedlistseasy" class="task-checkbox"><span class="task-text">Merge Two Sorted Lists — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-16-linkedlistcycleeasy" class="task-checkbox"><span class="task-text">Linked List Cycle — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-17-removenthnodefromendmedium" class="task-checkbox"><span class="task-text">Remove Nth Node From End — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-18-reorderlistmedium" class="task-checkbox"><span class="task-text">Reorder List — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-19-mergeksortedlistshard" class="task-checkbox"><span class="task-text">Merge K Sorted Lists — Hard</span></li>
 </ul>
-<h3>Trees</h3>
+<h3 id="trees_1">Trees</h3>
 <ul>
-<li>Maximum Depth of Binary Tree Easy</li>
-<li>Same Tree Easy</li>
-<li>Invert Binary Tree Easy</li>
-<li>Subtree of Another Tree Easy</li>
-<li>Binary Tree Level Order Traversal Medium</li>
-<li>Validate BST Medium</li>
-<li>Kth Smallest Element in BST Medium</li>
-<li>LCA of BST Medium</li>
-<li>Construct Tree from Preorder &amp; Inorder Medium</li>
-<li>Binary Tree Maximum Path Sum Hard</li>
-<li>Serialize / Deserialize Binary Tree Hard</li>
+<li class="task-list-item"><input type="checkbox" id="chk-20-maximumdepthofbinarytreeeasy" class="task-checkbox"><span class="task-text">Maximum Depth of Binary Tree — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-21-sametreeeasy" class="task-checkbox"><span class="task-text">Same Tree — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-22-invertbinarytreeeasy" class="task-checkbox"><span class="task-text">Invert Binary Tree — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-23-subtreeofanothertreeeasy" class="task-checkbox"><span class="task-text">Subtree of Another Tree — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-24-binarytreelevelordertraversalm" class="task-checkbox"><span class="task-text">Binary Tree Level Order Traversal — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-25-validatebstmedium" class="task-checkbox"><span class="task-text">Validate BST — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-26-kthsmallestelementinbstmedium" class="task-checkbox"><span class="task-text">Kth Smallest Element in BST — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-27-lcaofbstmedium" class="task-checkbox"><span class="task-text">LCA of BST — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-28-constructtreefrompreorderampin" class="task-checkbox"><span class="task-text">Construct Tree from Preorder &amp; Inorder — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-29-binarytreemaximumpathsumhard" class="task-checkbox"><span class="task-text">Binary Tree Maximum Path Sum — Hard</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-30-serializedeserializebinarytree" class="task-checkbox"><span class="task-text">Serialize / Deserialize Binary Tree — Hard</span></li>
 </ul>
-<h3>Graphs</h3>
+<h3 id="graphs_1">Graphs</h3>
 <ul>
-<li>Number of Islands Medium</li>
-<li>Clone Graph Medium</li>
-<li>Course Schedule Medium</li>
-<li>Pacific Atlantic Water Flow Medium</li>
-<li>Number of Connected Components Medium</li>
-<li>Graph Valid Tree Medium</li>
+<li class="task-list-item"><input type="checkbox" id="chk-31-numberofislandsmedium" class="task-checkbox"><span class="task-text">Number of Islands — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-32-clonegraphmedium" class="task-checkbox"><span class="task-text">Clone Graph — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-33-courseschedulemedium" class="task-checkbox"><span class="task-text">Course Schedule — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-34-pacificatlanticwaterflowmedium" class="task-checkbox"><span class="task-text">Pacific Atlantic Water Flow — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-35-numberofconnectedcomponentsmed" class="task-checkbox"><span class="task-text">Number of Connected Components — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-36-graphvalidtreemedium" class="task-checkbox"><span class="task-text">Graph Valid Tree — Medium</span></li>
 </ul>
-<h3>Dynamic Programming</h3>
+<h3 id="dynamic-programming_1">Dynamic Programming</h3>
 <ul>
-<li>Climbing Stairs Easy</li>
-<li>House Robber Medium</li>
-<li>House Robber II Medium</li>
-<li>Longest Increasing Subsequence Medium</li>
-<li>Coin Change Medium</li>
-<li>Longest Common Subsequence Medium</li>
-<li>Word Break Medium</li>
-<li>Combination Sum IV Medium</li>
-<li>Unique Paths Medium</li>
-<li>Decode Ways Medium</li>
+<li class="task-list-item"><input type="checkbox" id="chk-37-climbingstairseasy" class="task-checkbox"><span class="task-text">Climbing Stairs — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-38-houserobbermedium" class="task-checkbox"><span class="task-text">House Robber — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-39-houserobberiimedium" class="task-checkbox"><span class="task-text">House Robber II — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-40-longestincreasingsubsequenceme" class="task-checkbox"><span class="task-text">Longest Increasing Subsequence — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-41-coinchangemedium" class="task-checkbox"><span class="task-text">Coin Change — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-42-longestcommonsubsequencemedium" class="task-checkbox"><span class="task-text">Longest Common Subsequence — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-43-wordbreakmedium" class="task-checkbox"><span class="task-text">Word Break — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-44-combinationsumivmedium" class="task-checkbox"><span class="task-text">Combination Sum IV — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-45-uniquepathsmedium" class="task-checkbox"><span class="task-text">Unique Paths — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-46-decodewaysmedium" class="task-checkbox"><span class="task-text">Decode Ways — Medium</span></li>
 </ul>
-<h3>Heap &amp; Intervals</h3>
+<h3 id="heap-intervals">Heap &amp; Intervals</h3>
 <ul>
-<li>Merge Intervals Medium</li>
-<li>Non-Overlapping Intervals Medium</li>
-<li>Insert Interval Medium</li>
-<li>Top K Frequent Elements Medium</li>
-<li>Find Median From Data Stream Hard</li>
+<li class="task-list-item"><input type="checkbox" id="chk-47-mergeintervalsmedium" class="task-checkbox"><span class="task-text">Merge Intervals — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-48-nonoverlappingintervalsmedium" class="task-checkbox"><span class="task-text">Non-Overlapping Intervals — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-49-insertintervalmedium" class="task-checkbox"><span class="task-text">Insert Interval — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-50-topkfrequentelementsmedium" class="task-checkbox"><span class="task-text">Top K Frequent Elements — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-51-findmedianfromdatastreamhard" class="task-checkbox"><span class="task-text">Find Median From Data Stream — Hard</span></li>
 </ul>
-<h3>Bit Manipulation &amp; Math</h3>
+<h3 id="bit-manipulation-math">Bit Manipulation &amp; Math</h3>
 <ul>
-<li>Sum of Two Integers Medium</li>
-<li>Number of 1 Bits Easy</li>
-<li>Counting Bits Easy</li>
-<li>Missing Number Easy</li>
-<li>Reverse Bits Easy</li>
+<li class="task-list-item"><input type="checkbox" id="chk-52-sumoftwointegersmedium" class="task-checkbox"><span class="task-text">Sum of Two Integers — Medium</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-53-numberof1bitseasy" class="task-checkbox"><span class="task-text">Number of 1 Bits — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-54-countingbitseasy" class="task-checkbox"><span class="task-text">Counting Bits — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-55-missingnumbereasy" class="task-checkbox"><span class="task-text">Missing Number — Easy</span></li>
+<li class="task-list-item"><input type="checkbox" id="chk-56-reversebitseasy" class="task-checkbox"><span class="task-text">Reverse Bits — Easy</span></li>
 </ul>
-<p>28</p>
-<h1>Interview Revision Cheat Sheet</h1>
-<h3>Complexity Cheat Sheet</h3>
-<p>Data Structure</p>
-<p>Access</p>
-<p>Search</p>
-<p>Insert</p>
-<p>Delete</p>
-<p>Array</p>
-<p>O(1)</p>
-<p>O(n)</p>
-<p>O(n)</p>
-<p>O(n)</p>
-<p>Linked List</p>
-<p>O(n)</p>
-<p>O(n)</p>
-<p>O(1)</p>
-<p>O(1)</p>
-<p>Stack/Queue</p>
-<p>O(n)</p>
-<p>O(n)</p>
-<p>O(1)</p>
-<p>O(1)</p>
-<p>Hash Table</p>
-<p>—</p>
-<p>O(1)*</p>
-<p>O(1)*</p>
-<p>O(1)*</p>
-<p>BST (balanced)</p>
-<p>O(log n)</p>
-<p>O(log n)</p>
-<p>O(log n)</p>
-<p>O(log n)</p>
-<p>Heap</p>
-<p>O(1)†</p>
-<p>O(n)</p>
-<p>O(log n)</p>
-<p>O(log n)</p>
-<p>Trie</p>
-<p>—</p>
-<p>O(L)</p>
-<p>O(L)</p>
-<p>O(L)</p>
+<hr />
+<h2 id="interview-revision-cheat-sheet">Interview Revision Cheat Sheet</h2>
+<h3 id="complexity-cheat-sheet">Complexity Cheat Sheet</h3>
+<table>
+<thead>
+<tr>
+<th>Data Structure</th>
+<th>Access</th>
+<th>Search</th>
+<th>Insert</th>
+<th>Delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Array</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Linked List</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Stack/Queue</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Hash Table</td>
+<td>—</td>
+<td>O(1)*</td>
+<td>O(1)*</td>
+<td>O(1)*</td>
+</tr>
+<tr>
+<td>BST (balanced)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>O(1)†</td>
+<td>O(n)</td>
+<td>O(log n)</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>Trie</td>
+<td>—</td>
+<td>O(L)</td>
+<td>O(L)</td>
+<td>O(L)</td>
+</tr>
+</tbody>
+</table>
 <p>* = amortized average. † = peek only (min/max).</p>
-<h3>Sorting Algorithms — Quick Reference</h3>
-<p>Algorithm</p>
-<p>Best</p>
-<p>Avg</p>
-<p>Worst</p>
-<p>Space</p>
-<p>Stable</p>
-<p>Merge Sort</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n)</p>
-<p>✓</p>
-<p>Quick Sort</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n²)</p>
-<p>O(log n)</p>
-<p>✗</p>
-<p>Heap Sort</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(n log n)</p>
-<p>O(1)</p>
-<p>✗</p>
-<p>Counting Sort</p>
-<p>O(n+k)</p>
-<p>O(n+k)</p>
-<p>O(n+k)</p>
-<p>O(k)</p>
-<p>✓</p>
-<h3>Graph Algorithms — Quick Reference</h3>
-<p>Algorithm</p>
-<p>Time</p>
-<p>Space</p>
-<p>Use Case</p>
-<p>BFS</p>
-<p>O(V+E)</p>
-<p>O(V)</p>
-<p>Shortest path (unweighted)</p>
-<p>DFS</p>
-<p>O(V+E)</p>
-<p>O(V)</p>
-<p>Components, cycle detection</p>
-<p>Dijkstra</p>
-<p>O((V+E)log V)</p>
-<p>O(V)</p>
-<p>Shortest path (positive weights)</p>
-<p>Bellman-Ford</p>
-<p>O(V×E)</p>
-<p>O(V)</p>
-<p>Negative weights</p>
-<p>Floyd-Warshall</p>
-<p>O(V³)</p>
-<p>O(V²)</p>
-<p>All-pairs shortest path</p>
-<p>Kruskal</p>
-<p>O(E log E)</p>
-<p>O(V)</p>
-<p>MST (sparse)</p>
-<p>Prim</p>
-<p>O((V+E)log V)</p>
-<p>O(V)</p>
-<p>MST (dense)</p>
-<p>Topological Sort</p>
-<p>O(V+E)</p>
-<p>O(V)</p>
-<p>DAG ordering</p>
-<h3>Important Formulas</h3>
-<p>Formula</p>
-<p>Value</p>
-<p>Sum 1..n</p>
-<p>n(n+1)/2</p>
-<p>Sum of squares 1²..n²</p>
-<p>n(n+1)(2n+1)/6</p>
-<p>Nodes in perfect binary tree (height h)</p>
-<p>2^(h+1) - 1</p>
-<p>Height of balanced binary tree (n nodes)</p>
-<p>⌊log₂(n)⌋</p>
-<p>Catalan number C(n)</p>
-<p>C(2n,n)/(n+1)</p>
-<p>nCr combinations</p>
-<p>n! / (r! × (n-r)!)</p>
-<p>Number of subsets</p>
-<p>2^n</p>
-<p>Number of subsequences</p>
-<p>2^n</p>
-<p>Number of permutations</p>
-<p>n!</p>
-<h3>Common Interview Traps</h3>
+<h3 id="sorting-algorithms-quick-reference">Sorting Algorithms — Quick Reference</h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Best</th>
+<th>Avg</th>
+<th>Worst</th>
+<th>Space</th>
+<th>Stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Merge Sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Quick Sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n²)</td>
+<td>O(log n)</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Heap Sort</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(1)</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Counting Sort</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>O(k)</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<h3 id="graph-algorithms-quick-reference">Graph Algorithms — Quick Reference</h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Time</th>
+<th>Space</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BFS</td>
+<td>O(V+E)</td>
+<td>O(V)</td>
+<td>Shortest path (unweighted)</td>
+</tr>
+<tr>
+<td>DFS</td>
+<td>O(V+E)</td>
+<td>O(V)</td>
+<td>Components, cycle detection</td>
+</tr>
+<tr>
+<td>Dijkstra</td>
+<td>O((V+E)log V)</td>
+<td>O(V)</td>
+<td>Shortest path (positive weights)</td>
+</tr>
+<tr>
+<td>Bellman-Ford</td>
+<td>O(V×E)</td>
+<td>O(V)</td>
+<td>Negative weights</td>
+</tr>
+<tr>
+<td>Floyd-Warshall</td>
+<td>O(V³)</td>
+<td>O(V²)</td>
+<td>All-pairs shortest path</td>
+</tr>
+<tr>
+<td>Kruskal</td>
+<td>O(E log E)</td>
+<td>O(V)</td>
+<td>MST (sparse)</td>
+</tr>
+<tr>
+<td>Prim</td>
+<td>O((V+E)log V)</td>
+<td>O(V)</td>
+<td>MST (dense)</td>
+</tr>
+<tr>
+<td>Topological Sort</td>
+<td>O(V+E)</td>
+<td>O(V)</td>
+<td>DAG ordering</td>
+</tr>
+</tbody>
+</table>
+<h3 id="important-formulas">Important Formulas</h3>
+<table>
+<thead>
+<tr>
+<th>Formula</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sum 1..n</td>
+<td>n(n+1)/2</td>
+</tr>
+<tr>
+<td>Sum of squares 1²..n²</td>
+<td>n(n+1)(2n+1)/6</td>
+</tr>
+<tr>
+<td>Nodes in perfect binary tree (height h)</td>
+<td>2^(h+1) - 1</td>
+</tr>
+<tr>
+<td>Height of balanced binary tree (n nodes)</td>
+<td>⌊log₂(n)⌋</td>
+</tr>
+<tr>
+<td>Catalan number C(n)</td>
+<td>C(2n,n)/(n+1)</td>
+</tr>
+<tr>
+<td>nCr combinations</td>
+<td>n! / (r! × (n-r)!)</td>
+</tr>
+<tr>
+<td>Number of subsets</td>
+<td>2^n</td>
+</tr>
+<tr>
+<td>Number of subsequences</td>
+<td>2^n</td>
+</tr>
+<tr>
+<td>Number of permutations</td>
+<td>n!</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-interview-traps">Common Interview Traps</h3>
 <ul>
 <li><strong>Integer Overflow:</strong> Use <code>long long</code> for products, sums of large numbers. <code>mid = lo + (hi-lo)/2</code> instead of <code>(lo+hi)/2</code>.</li>
 <li><strong>Off-by-one:</strong> Check &lt; vs &lt;=, array bounds, loop conditions.</li>
@@ -3481,69 +4667,116 @@ public:
 <li><strong>Passing by value:</strong> Large vectors/strings should be passed by reference (<code>&amp;</code>).</li>
 <li><strong>Global state:</strong> Not resetting visited arrays between test cases.</li>
 </ul>
-<p>29</p>
-<h1>C++ STL for Interviews</h1>
-<h3>Sequence Containers</h3>
-<p>Container</p>
-<p>Key Operations</p>
-<p>Time Complexity</p>
-<p>When to Use</p>
-<p><code>vector&lt;T&gt;</code></p>
-<p>push_back, pop_back, [], at</p>
-<p>O(1)* push_back, O(1) access</p>
-<p>Default container. Dynamic array.</p>
-<p><code>deque&lt;T&gt;</code></p>
-<p>push_front/back, pop_front/back</p>
-<p>O(1) both ends</p>
-<p>When you need both-end insertion.</p>
-<p><code>list&lt;T&gt;</code></p>
-<p>insert, erase, splice</p>
-<p>O(1) insert/delete (with iterator)</p>
-<p>Frequent insert/delete in middle.</p>
-<p><code>array&lt;T,N&gt;</code></p>
-<p>[], at, fill</p>
-<p>O(1) access</p>
-<p>Fixed-size, stack-allocated.</p>
-<h3>Associative Containers</h3>
-<p>Container</p>
-<p>Underlying Structure</p>
-<p>Key Operations</p>
-<p>Time</p>
-<p><code>set&lt;T&gt;</code></p>
-<p>Red-Black Tree</p>
-<p>insert, erase, find, lower_bound</p>
-<p>O(log n)</p>
-<p><code>multiset&lt;T&gt;</code></p>
-<p>Red-Black Tree</p>
-<p>Same as set, allows duplicates</p>
-<p>O(log n)</p>
-<p><code>map&lt;K,V&gt;</code></p>
-<p>Red-Black Tree</p>
-<p>[], insert, find, lower_bound</p>
-<p>O(log n)</p>
-<p><code>unordered_set&lt;T&gt;</code></p>
-<p>Hash Table</p>
-<p>insert, erase, find, count</p>
-<p>O(1)*</p>
-<p><code>unordered_map&lt;K,V&gt;</code></p>
-<p>Hash Table</p>
-<p>[], insert, find, count</p>
-<p>O(1)*</p>
-<h3>Container Adaptors</h3>
-<p>Container</p>
-<p>Operations</p>
-<p>Notes</p>
-<p><code>stack&lt;T&gt;</code></p>
-<p>push, pop, top, empty, size</p>
-<p>LIFO. Default: deque-backed.</p>
-<p><code>queue&lt;T&gt;</code></p>
-<p>push, pop, front, back, empty</p>
-<p>FIFO. Default: deque-backed.</p>
-<p><code>priority_queue&lt;T&gt;</code></p>
-<p>push, pop, top, empty</p>
-<p>Max-heap. For min-heap: <code>greater&lt;T&gt;</code></p>
-<h3>Essential Algorithms</h3>
-<p>C++Copy</p>
+<hr />
+<h2 id="c-stl-for-interviews">C++ STL for Interviews</h2>
+<h3 id="sequence-containers">Sequence Containers</h3>
+<table>
+<thead>
+<tr>
+<th>Container</th>
+<th>Key Operations</th>
+<th>Time Complexity</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vector&lt;T&gt;</code></td>
+<td>push_back, pop_back, [], at</td>
+<td>O(1)* push_back, O(1) access</td>
+<td>Default container. Dynamic array.</td>
+</tr>
+<tr>
+<td><code>deque&lt;T&gt;</code></td>
+<td>push_front/back, pop_front/back</td>
+<td>O(1) both ends</td>
+<td>When you need both-end insertion.</td>
+</tr>
+<tr>
+<td><code>list&lt;T&gt;</code></td>
+<td>insert, erase, splice</td>
+<td>O(1) insert/delete (with iterator)</td>
+<td>Frequent insert/delete in middle.</td>
+</tr>
+<tr>
+<td><code>array&lt;T,N&gt;</code></td>
+<td>[], at, fill</td>
+<td>O(1) access</td>
+<td>Fixed-size, stack-allocated.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="associative-containers">Associative Containers</h3>
+<table>
+<thead>
+<tr>
+<th>Container</th>
+<th>Underlying Structure</th>
+<th>Key Operations</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>set&lt;T&gt;</code></td>
+<td>Red-Black Tree</td>
+<td>insert, erase, find, lower_bound</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td><code>multiset&lt;T&gt;</code></td>
+<td>Red-Black Tree</td>
+<td>Same as set, allows duplicates</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td><code>map&lt;K,V&gt;</code></td>
+<td>Red-Black Tree</td>
+<td>[], insert, find, lower_bound</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td><code>unordered_set&lt;T&gt;</code></td>
+<td>Hash Table</td>
+<td>insert, erase, find, count</td>
+<td>O(1)*</td>
+</tr>
+<tr>
+<td><code>unordered_map&lt;K,V&gt;</code></td>
+<td>Hash Table</td>
+<td>[], insert, find, count</td>
+<td>O(1)*</td>
+</tr>
+</tbody>
+</table>
+<h3 id="container-adaptors">Container Adaptors</h3>
+<table>
+<thead>
+<tr>
+<th>Container</th>
+<th>Operations</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stack&lt;T&gt;</code></td>
+<td>push, pop, top, empty, size</td>
+<td>LIFO. Default: deque-backed.</td>
+</tr>
+<tr>
+<td><code>queue&lt;T&gt;</code></td>
+<td>push, pop, front, back, empty</td>
+<td>FIFO. Default: deque-backed.</td>
+</tr>
+<tr>
+<td><code>priority_queue&lt;T&gt;</code></td>
+<td>push, pop, top, empty</td>
+<td>Max-heap. For min-heap: <code>greater&lt;T&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="essential-algorithms">Essential Algorithms</h3>
 <pre><code class="language-cpp">// Sorting
 sort(v.begin(), v.end());                          // Ascending
 sort(v.begin(), v.end(), greater&lt;int&gt;());          // Descending
@@ -3579,67 +4812,96 @@ fill(v.begin(), v.end(), val);
 iota(v.begin(), v.end(), 0);                      // Fill with 0,1,2,3...
 partial_sum(v.begin(), v.end(), prefix.begin());   // Prefix sums
 </code></pre>
-<p>30</p>
-<h1>Pattern-Based Master Table</h1>
-<p>Pattern</p>
-<p>How to Identify</p>
-<p>Template Sketch</p>
-<p>Classic Problems</p>
-<p><strong>Fast &amp; Slow Pointer</strong></p>
-<p>Linked list cycle, middle element, palindrome check</p>
-<p>slow = slow.next; fast = fast.next.next</p>
-<p>Linked List Cycle, Middle Node, Happy Number</p>
-<p><strong>Sliding Window</strong></p>
-<p>"Longest/shortest subarray/substring with condition"</p>
-<p>Expand right, shrink left when invalid</p>
-<p>Min Window Substring, Longest Without Repeats, Fruits</p>
-<p><strong>Two Pointers</strong></p>
-<p>Sorted array + pair/triplet, partitioning</p>
-<p>lo = 0, hi = n-1; move based on comparison</p>
-<p>Two Sum II, 3Sum, Container With Most Water</p>
-<p><strong>Binary Search</strong></p>
-<p>Sorted data, monotonic predicate</p>
-<p>lo, hi, mid; check feasibility</p>
-<p>Search Element, Koko Bananas, Allocate Books</p>
-<p><strong>Monotonic Stack</strong></p>
-<p>Next/previous greater/smaller element</p>
-<p>Stack of indices; pop when current violates order</p>
-<p>Next Greater Element, Largest Rectangle, Daily Temps</p>
-<p><strong>Prefix Sum</strong></p>
-<p>Range sum queries, subarray sum equals K</p>
-<p>prefix[i] = prefix[i-1] + arr[i]; query = prefix[r] - prefix[l-1]</p>
-<p>Subarray Sum K, Range Sum Query, Continuous Subarray Sum</p>
-<p><strong>Greedy</strong></p>
-<p>Local optimal = global optimal, intervals</p>
-<p>Sort by end time/criteria; greedily select</p>
-<p>Activity Selection, Jump Game, Gas Station</p>
-<p><strong>Backtracking</strong></p>
-<p>"Generate all", combinations, permutations, constraints</p>
-<p>Choose → Explore → Unchoose</p>
-<p>N-Queens, Sudoku, Subsets, Permutations</p>
-<p><strong>DP — Fibonacci</strong></p>
-<p>State depends on previous 1-2 states</p>
-<p>dp[i] = dp[i-1] + dp[i-2]</p>
-<p>Climbing Stairs, House Robber, Decode Ways</p>
-<p><strong>DP — Knapsack</strong></p>
-<p>Include/exclude items, weight capacity</p>
-<p>dp[w] = max(dp[w], val[i] + dp[w-wt[i]])</p>
-<p>0/1 Knapsack, Subset Sum, Partition Equal Subset</p>
-<p><strong>DP — LIS</strong></p>
-<p>Longest increasing/decreasing subsequence</p>
-<p>dp[i] = max(dp[j]+1) for j</p>
-</article>
+<hr />
+<h2 id="pattern-based-master-table">Pattern-Based Master Table</h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>How to Identify</th>
+<th>Template Sketch</th>
+<th>Classic Problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fast &amp; Slow Pointer</strong></td>
+<td>Linked list cycle, middle element, palindrome check</td>
+<td>slow = slow.next; fast = fast.next.next</td>
+<td>Linked List Cycle, Middle Node, Happy Number</td>
+</tr>
+<tr>
+<td><strong>Sliding Window</strong></td>
+<td>"Longest/shortest subarray/substring with condition"</td>
+<td>Expand right, shrink left when invalid</td>
+<td>Min Window Substring, Longest Without Repeats, Fruits</td>
+</tr>
+<tr>
+<td><strong>Two Pointers</strong></td>
+<td>Sorted array + pair/triplet, partitioning</td>
+<td>lo = 0, hi = n-1; move based on comparison</td>
+<td>Two Sum II, 3Sum, Container With Most Water</td>
+</tr>
+<tr>
+<td><strong>Binary Search</strong></td>
+<td>Sorted data, monotonic predicate</td>
+<td>lo, hi, mid; check feasibility</td>
+<td>Search Element, Koko Bananas, Allocate Books</td>
+</tr>
+<tr>
+<td><strong>Monotonic Stack</strong></td>
+<td>Next/previous greater/smaller element</td>
+<td>Stack of indices; pop when current violates order</td>
+<td>Next Greater Element, Largest Rectangle, Daily Temps</td>
+</tr>
+<tr>
+<td><strong>Prefix Sum</strong></td>
+<td>Range sum queries, subarray sum equals K</td>
+<td>prefix[i] = prefix[i-1] + arr[i]; query = prefix[r] - prefix[l-1]</td>
+<td>Subarray Sum K, Range Sum Query, Continuous Subarray Sum</td>
+</tr>
+<tr>
+<td><strong>Greedy</strong></td>
+<td>Local optimal = global optimal, intervals</td>
+<td>Sort by end time/criteria; greedily select</td>
+<td>Activity Selection, Jump Game, Gas Station</td>
+</tr>
+<tr>
+<td><strong>Backtracking</strong></td>
+<td>"Generate all", combinations, permutations, constraints</td>
+<td>Choose → Explore → Unchoose</td>
+<td>N-Queens, Sudoku, Subsets, Permutations</td>
+</tr>
+<tr>
+<td><strong>DP — Fibonacci</strong></td>
+<td>State depends on previous 1-2 states</td>
+<td>dp[i] = dp[i-1] + dp[i-2]</td>
+<td>Climbing Stairs, House Robber, Decode Ways</td>
+</tr>
+<tr>
+<td><strong>DP — Knapsack</strong></td>
+<td>Include/exclude items, weight capacity</td>
+<td>dp[w] = max(dp[w], val[i] + dp[w-wt[i]])</td>
+<td>0/1 Knapsack, Subset Sum, Partition Equal Subset</td>
+</tr>
+<tr>
+<td><strong>DP — LIS</strong></td>
+<td>Longest increasing/decreasing subsequence</td>
+<td>dp[i] = max(dp[j]+1) for j</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+            </article>
         </main>
     </div>
 
     <!-- Prism.js Syntax Highlighting Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
 
     <script>
         // DOM Elements
@@ -3663,7 +4925,7 @@ partial_sum(v.begin(), v.end(), prefix.begin());   // Prefix sums
         document.querySelectorAll('pre code').forEach((codeEl) => {
             const preEl = codeEl.parentElement;
             
-            // Detect language from class e.g., language-java
+            // Detect language from class e.g., language-cpp
             let lang = 'Plain Text';
             const classes = codeEl.className.split(' ');
             for (const c of classes) {
@@ -3734,7 +4996,7 @@ partial_sum(v.begin(), v.end(), prefix.begin());   // Prefix sums
         // 4. Convert bulleted lists under "Interview Questions" into interactive accordions
         const allHeaders = contentWrapper.querySelectorAll('h1, h2, h3, h4');
         allHeaders.forEach(header => {
-            if (header.textContent.toLowerCase().includes('interview questions')) {
+            if (header.textContent.toLowerCase().includes('interview questions') || header.textContent.toLowerCase().includes('practice problems')) {
                 // Find next sibling list
                 let listEl = header.nextElementSibling;
                 while (listEl && listEl.tagName !== 'UL' && listEl.tagName !== 'OL' && 
@@ -3750,7 +5012,8 @@ partial_sum(v.begin(), v.end(), prefix.begin());   // Prefix sums
                     let hasQAs = false;
                     items.forEach(li => {
                         const text = li.innerText.trim();
-                        // Verify this list item represents a Q&A
+                        // Verify this list item represents a Q&A or a question that we can show in accordion
+                        // For practice problems, we can also accordion them if they have a description, or keep them
                         if (/^[Q|q]\s*:/i.test(text) && /[A|a]\s*:/i.test(text)) {
                             hasQAs = true;
                             
@@ -3937,6 +5200,35 @@ partial_sum(v.begin(), v.end(), prefix.begin());   // Prefix sums
                     e.preventDefault();
                     target.scrollIntoView({ behavior: 'smooth' });
                     history.pushState(null, null, '#' + target.id);
+                }
+            });
+        });
+
+        // 9. Checkbox state persistence in localStorage
+        const checkboxes = document.querySelectorAll('.task-checkbox');
+        checkboxes.forEach(cb => {
+            // Restore state
+            const saved = localStorage.getItem(cb.id);
+            if (saved === 'true') {
+                cb.checked = true;
+                const span = cb.nextElementSibling;
+                if (span) span.style.textDecoration = 'line-through';
+            } else if (saved === 'false') {
+                cb.checked = false;
+                const span = cb.nextElementSibling;
+                if (span) span.style.textDecoration = 'none';
+            }
+
+            // Save state on change
+            cb.addEventListener('change', (e) => {
+                localStorage.setItem(cb.id, cb.checked);
+                const span = cb.nextElementSibling;
+                if (span) {
+                    if (cb.checked) {
+                        span.style.textDecoration = 'line-through';
+                    } else {
+                        span.style.textDecoration = 'none';
+                    }
                 }
             });
         });
