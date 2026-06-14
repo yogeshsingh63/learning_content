@@ -1,8 +1,6 @@
 # Ultimate DSA Revision Handbook for Coding Interviews
 
-1
-
-# DSA Roadmap Overview
+## DSA Roadmap Overview
 
 This handbook is designed for someone who has **completed DSA once** (primarily in C++) and needs a structured, comprehensive revision before coding interviews. Each topic below builds upon the previous one. Follow this roadmap sequentially for maximum retention, or jump to any section for targeted revision.
 
@@ -10,61 +8,60 @@ This handbook is designed for someone who has **completed DSA once** (primarily 
 
 ### The Complete Roadmap
 
-Phase 1: Foundations ├── 1. Complexity Analysis (Big O, Amortized) ├── 2. Arrays (Prefix Sum, Kadane, DNF) ├── 3. Strings (KMP, Rabin-Karp, Z-Algo) └── 4. Hashing (Frequency, Lookup) Phase 2: Linear Data Structures ├── 5. Linked Lists (Fast-Slow, In-place Reversal) ├── 6. Stack (Monotonic Stack Patterns) └── 7. Queue / Deque (Sliding Window Max) Phase 3: Recursion & Search ├── 8. Recursion (Call Stack, Subsequences) ├── 9. Backtracking (N-Queens, Sudoku) ├── 10. Binary Search (Search/Answer Space) ├── 11. Two Pointers (Pair Sum, 3Sum) └── 12. Sliding Window (Fixed/Variable) Phase 4: Sorting & Trees ├── 13. Sorting (Merge, Quick, Heap Sort) ├── 14. Trees (Traversals, DFS, BFS) ├── 15. BST (Validate, LCA, Kth Smallest) ├── 16. Heap / Priority Queue (Top-K) └── 17. Trie (Prefix Matching) Phase 5: Graphs ├── 18. Graph Basics (BFS, DFS, Cycle Detection) └── 19. Advanced (Dijkstra, MST, Topo Sort, DSU) Phase 6: Paradigms ├── 20. Greedy (Activity Selection, Intervals) └── 21. Dynamic Programming (All Patterns) Phase 7: Advanced ├── 22. Bit Manipulation (XOR Tricks) ├── 23. Segment Tree (Range Queries) ├── 24. Fenwick Tree / BIT └── 25. Disjoint Set Union
+**Phase 1: Foundations**
+- 1\. Complexity Analysis (Big O, Amortized)
+- 2\. Arrays (Prefix Sum, Kadane, DNF)
+- 3\. Strings (KMP, Rabin-Karp, Z-Algo, Manacher)
+- 4\. Hashing (Frequency, Lookup)
+
+**Phase 2: Linear Data Structures**
+- 5\. Linked Lists (Fast-Slow, In-place Reversal)
+- 6\. Stack (Monotonic Stack Patterns)
+- 7\. Queue / Deque (Sliding Window Max)
+
+**Phase 3: Recursion & Search**
+- 8\. Recursion (Call Stack, Subsequences)
+- 9\. Backtracking (N-Queens, Sudoku)
+- 10\. Binary Search (Search/Answer Space)
+- 11\. Two Pointers (Pair Sum, 3Sum)
+- 12\. Sliding Window (Fixed/Variable)
+
+**Phase 4: Sorting & Trees**
+- 13\. Sorting (Merge, Quick, Heap, Counting, Radix)
+- 14\. Trees (Traversals, DFS, BFS)
+- 15\. BST (Validate, LCA, Kth Smallest)
+- 16\. Heap / Priority Queue (Top-K)
+- 17\. Trie (Prefix Matching)
+
+**Phase 5: Graphs**
+- 18\. Graph Basics (BFS, DFS, Cycle Detection)
+- 19\. Advanced Graphs (Dijkstra, MST, Topo Sort, DSU, SCC, Bridges)
+
+**Phase 6: Paradigms**
+- 20\. Greedy (Activity Selection, Intervals, Huffman)
+- 21\. Dynamic Programming (All Patterns)
+
+**Phase 7: Advanced**
+- 22\. Bit Manipulation (XOR Tricks)
+- 23\. Segment Tree (Range Queries)
+- 24\. Fenwick Tree / BIT
+- 25\. Disjoint Set Union
 
 ### Estimated Timeline
 
-Phase
+| Phase | Topics | Suggested Days |
+|-------|--------|----------------|
+| Phase 1 | Foundations | 4–5 days |
+| Phase 2 | Linear Structures | 3–4 days |
+| Phase 3 | Recursion & Search | 5–6 days |
+| Phase 4 | Sorting & Trees | 5–6 days |
+| Phase 5 | Graphs | 4–5 days |
+| Phase 6 | Paradigms | 7–10 days |
+| Phase 7 | Advanced | 3–4 days |
 
-Topics
+---
 
-Suggested Days
-
-Phase 1
-
-Foundations
-
-4–5 days
-
-Phase 2
-
-Linear Structures
-
-3–4 days
-
-Phase 3
-
-Recursion & Search
-
-5–6 days
-
-Phase 4
-
-Sorting & Trees
-
-5–6 days
-
-Phase 5
-
-Graphs
-
-4–5 days
-
-Phase 6
-
-Paradigms
-
-7–10 days
-
-Phase 7
-
-Advanced
-
-3–4 days
-
-2
-
-# Complexity Analysis
+## Complexity Analysis
 
 ### Asymptotic Notations
 
@@ -96,127 +93,55 @@ Advanced
 
 ### Common Complexities — Reference Table
 
-Complexity
-
-Name
-
-n=10⁶ Operations
-
-Example Algorithms
-
-O(1)
-
-Constant
-
-1
-
-Array access, hash lookup
-
-O(log n)
-
-Logarithmic
-
-~20
-
-Binary search, balanced BST ops
-
-O(√n)
-
-Square Root
-
-~1000
-
-Trial division, sqrt decomposition
-
-O(n)
-
-Linear
-
-10⁶
-
-Linear search, single pass
-
-O(n log n)
-
-Linearithmic
-
-~2×10⁷
-
-Merge sort, heap sort
-
-O(n²)
-
-Quadratic
-
-10¹²
-
-Bubble sort, nested loops
-
-O(2ⁿ)
-
-Exponential
-
-Impossible
-
-Subsets, brute-force TSP
-
-O(n!)
-
-Factorial
-
-Impossible
-
-Permutations, brute-force
+| Complexity | Name | n=10⁶ Operations | Example Algorithms |
+|------------|------|-------------------|-------------------|
+| O(1) | Constant | 1 | Array access, hash lookup |
+| O(log n) | Logarithmic | ~20 | Binary search, balanced BST ops |
+| O(√n) | Square Root | ~1000 | Trial division, sqrt decomposition |
+| O(n) | Linear | 10⁶ | Linear search, single pass |
+| O(n log n) | Linearithmic | ~2×10⁷ | Merge sort, heap sort |
+| O(n²) | Quadratic | 10¹² | Bubble sort, nested loops |
+| O(2ⁿ) | Exponential | Impossible | Subsets, brute-force TSP |
+| O(n!) | Factorial | Impossible | Permutations, brute-force |
 
 ### How to Analyze Complexity
 
-*   **Single loop** iterating n times → O(n)
-*   **Nested loops**, both iterating n → O(n²)
-*   **Loop dividing n by 2 each time** → O(log n)
-*   **Loop inside a halving loop** → O(n log n)
-*   **Two separate sequential loops** → O(n) + O(n) = O(n)
-*   **Recursive call** with two branches of size n/2 and O(n) merge → O(n log n) (Master theorem)
+* **Single loop** iterating n times → O(n)
+* **Nested loops**, both iterating n → O(n²)
+* **Loop dividing n by 2 each time** → O(log n)
+* **Loop inside a halving loop** → O(n log n)
+* **Two separate sequential loops** → O(n) + O(n) = O(n)
+* **Recursive call** with two branches of size n/2 and O(n) merge → O(n log n) (Master theorem)
 
 ### Master Theorem Quick Reference
 
 For recurrences of the form T(n) = a·T(n/b) + O(nᵈ):
 
-Condition
-
-Result
-
-d > log\_b(a)
-
-T(n) = O(nᵈ)
-
-d = log\_b(a)
-
-T(n) = O(nᵈ · log n)
-
-d < log\_b(a)
-
-T(n) = O(n^(log\_b(a)))
+| Condition | Result |
+|-----------|--------|
+| d > log\_b(a) | T(n) = O(nᵈ) |
+| d = log\_b(a) | T(n) = O(nᵈ · log n) |
+| d < log\_b(a) | T(n) = O(n^(log\_b(a))) |
 
 ### Space Complexity Rules
 
-*   **Iterative** with constant extra vars → O(1) space
-*   **Recursive** call stack depth d → O(d) space
-*   **Creating a copy** of input → O(n) space
-*   **Matrix / 2D DP** → O(n×m) space
+* **Iterative** with constant extra vars → O(1) space
+* **Recursive** call stack depth d → O(d) space
+* **Creating a copy** of input → O(n) space
+* **Matrix / 2D DP** → O(n×m) space
 
-▶ Interview Questions — Complexity Analysis
+**📝 Practice Problems — Complexity Analysis:**
+- What is the time complexity of binary search? Why?
+- Explain amortized analysis of vector::push\_back.
+- What is the difference between O, Ω, and Θ?
+- What is the time complexity of finding all subsets of a set?
+- Use the Master Theorem to solve T(n) = 2T(n/2) + n.
+- Why is hash table lookup O(1) amortized but O(n) worst-case?
+- What is the space complexity of merge sort vs quick sort?
 
-*    What is the time complexity of binary search? Why?
-*    Explain amortized analysis of vector::push\_back.
-*    What is the difference between O, Ω, and Θ?
-*    What is the time complexity of finding all subsets of a set?
-*    Use the Master Theorem to solve T(n) = 2T(n/2) + n.
-*    Why is hash table lookup O(1) amortized but O(n) worst-case?
-*    What is the space complexity of merge sort vs quick sort?
+---
 
-3
-
-# Arrays
+## Arrays
 
 Arrays are the most fundamental data structure. Mastering array manipulation patterns is critical because nearly every interview starts with an array problem. The key insight is that array problems are pattern-matching exercises — once you recognize the pattern, the solution becomes mechanical.
 
@@ -224,13 +149,11 @@ Arrays are the most fundamental data structure. Mastering array manipulation pat
 
 #### Intuition
 
-Precompute cumulative sums so that any subarray sum can be answered in O(1). If prefix\[i\] stores sum of elements from index 0 to i, then sum(l..r) = prefix\[r\] - prefix\[l-1\].
+Precompute cumulative sums so that any subarray sum can be answered in O(1). If prefix[i] stores sum of elements from index 0 to i, then sum(l..r) = prefix[r] - prefix[l-1].
 
 #### When to Use
 
 Any problem asking for _subarray sums_, _range queries_, or _cumulative frequency_.
-
-C++Copy
 
 ```cpp
 // Prefix Sum Template
@@ -255,8 +178,6 @@ Time: O(n) build, O(1) per query. Space: O(n)
 #### Intuition
 
 At every index, decide: extend the current subarray, or start a new one. If the running sum drops below 0, starting fresh is always better. This is essentially a _local vs global_ maximum decision at each step.
-
-C++Copy
 
 ```cpp
 // Kadane's Algorithm — Maximum Subarray Sum
@@ -292,15 +213,23 @@ pair<int, pair<int,int>> maxSubarrayWithIndices(const vector<int>& nums) {
 
 Time: O(n) Space: O(1)
 
-Dry Run: arr = \[-2, 1, -3, 4, -1, 2, 1, -5, 4\] i=0: curSum = -2, maxSum = -2 i=1: curSum = max(1, -2+1) = 1, maxSum = 1 i=2: curSum = max(-3, 1-3) = \-2, maxSum = 1 i=3: curSum = max(4, -2+4) = 4, maxSum = 4 i=4: curSum = max(-1, 4-1) = 3, maxSum = 4 i=5: curSum = max(2, 3+2) = 5, maxSum = 5 i=6: curSum = max(1, 5+1) = 6, maxSum = 6 ← answer i=7: curSum = max(-5, 6-5) = 1, maxSum = 6 i=8: curSum = max(4, 1+4) = 5, maxSum = 6 Answer: 6 (subarray \[4,-1,2,1\])
+**Dry Run:** arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+- i=0: curSum = -2, maxSum = -2
+- i=1: curSum = max(1, -2+1) = 1, maxSum = 1
+- i=2: curSum = max(-3, 1-3) = -2, maxSum = 1
+- i=3: curSum = max(4, -2+4) = 4, maxSum = 4
+- i=4: curSum = max(-1, 4-1) = 3, maxSum = 4
+- i=5: curSum = max(2, 3+2) = 5, maxSum = 5
+- i=6: curSum = max(1, 5+1) = 6, maxSum = 6 ← answer
+- i=7: curSum = max(-5, 6-5) = 1, maxSum = 6
+- i=8: curSum = max(4, 1+4) = 5, maxSum = 6
+- **Answer: 6** (subarray [4,-1,2,1])
 
 ### Pattern 3: Dutch National Flag (3-way Partition)
 
 #### Intuition
 
 Partition an array of 0s, 1s, and 2s in-place using three pointers: _low_ (boundary of 0s), _mid_ (current element), _high_ (boundary of 2s). Process elements from left to right, swapping into the correct region.
-
-C++Copy
 
 ```cpp
 // Dutch National Flag — Sort 0s, 1s, 2s
@@ -327,7 +256,9 @@ Time: O(n) single pass. Space: O(1)
 
 ### Pattern 4: Merge Intervals
 
-C++Copy
+#### Intuition
+
+Sort intervals by start time. Iterate through, merging overlapping intervals by extending the end of the last merged interval. Two intervals overlap if the start of the current is ≤ end of the last merged.
 
 ```cpp
 // Merge Overlapping Intervals
@@ -353,8 +284,6 @@ Time: O(n log n) due to sorting. Space: O(n)
 
 When you need to apply many range-increment operations (add val to all elements from l to r), instead of updating each element, mark the start and end of each range in a difference array. Then reconstruct with a prefix sum.
 
-C++Copy
-
 ```cpp
 // Difference Array — Efficient Range Updates
 // Apply q range updates, each adding val to arr[l..r]
@@ -377,9 +306,7 @@ Time: O(n + q) for q updates on array of size n. Space: O(n)
 
 ### Key Problems — Implementations
 
-▶ Two Sum — Hash Map Approach
-
-C++Copy
+**Two Sum — Hash Map Approach:**
 
 ```cpp
 // Two Sum — O(n) using hash map
@@ -397,13 +324,9 @@ vector<int> twoSum(vector<int>& nums, int target) {
 
 Time: O(n) Space: O(n)
 
-▶ Product of Array Except Self
+**Product of Array Except Self:**
 
-##### Intuition
-
-For each index i, the answer is (product of all elements left of i) × (product of all elements right of i). Build left-products in a forward pass, then multiply with right-products in a backward pass, reusing the output array.
-
-C++Copy
+The answer for each index i is (product of all elements left of i) × (product of all elements right of i). Build left-products in a forward pass, then multiply with right-products in a backward pass, reusing the output array.
 
 ```cpp
 // Product of Array Except Self — No division, O(1) extra space
@@ -430,9 +353,7 @@ vector<int> productExceptSelf(vector<int>& nums) {
 
 Time: O(n) Space: O(1) (output array doesn't count)
 
-▶ Best Time to Buy and Sell Stock
-
-C++Copy
+**Best Time to Buy and Sell Stock:**
 
 ```cpp
 // Best Time to Buy and Sell Stock — Single Transaction
@@ -448,13 +369,9 @@ int maxProfit(vector<int>& prices) {
 
 Time: O(n) Space: O(1)
 
-▶ Majority Element — Boyer-Moore Voting
-
-##### Intuition
+**Boyer-Moore Voting Algorithm:**
 
 If an element appears more than n/2 times, pair each occurrence with a different element. After cancellation, the majority element survives. Use a candidate and counter: increment if same, decrement if different. When counter hits 0, switch candidate.
-
-C++Copy
 
 ```cpp
 // Boyer-Moore Voting Algorithm
@@ -470,13 +387,9 @@ int majorityElement(vector<int>& nums) {
 
 Time: O(n) Space: O(1)
 
-▶ Rotate Array
-
-##### Intuition
+**Rotate Array:**
 
 Rotating right by k is equivalent to: reverse the whole array, reverse the first k, reverse the rest. Three reverses, O(1) space.
-
-C++Copy
 
 ```cpp
 // Rotate Array — Right rotation by k steps
@@ -491,25 +404,45 @@ void rotate(vector<int>& nums, int k) {
 
 Time: O(n) Space: O(1)
 
-▶ Common Mistakes & Interview Tips — Arrays
-
 **Common Mistakes:**
-
-*   Off-by-one errors in prefix sum queries (0-indexed vs 1-indexed).
-*   Not handling empty arrays or single-element arrays.
-*   Forgetting to take k % n in rotation problems.
-*   Using int when products can overflow — use long long.
-*   Modifying array while iterating with index-based logic.
+* Off-by-one errors in prefix sum queries (0-indexed vs 1-indexed).
+* Not handling empty arrays or single-element arrays.
+* Forgetting to take k % n in rotation problems.
+* Using int when products can overflow — use long long.
+* Modifying array while iterating with index-based logic.
 
 **Interview Tips:**
+* Always clarify: Is the array sorted? Are there duplicates? Can it be negative?
+* Start by brute force, then optimize. Don't jump to the optimal solution.
+* If asked "can you do it in O(1) space?", think: two pointers, swap-based, or reversal trick.
 
-*   Always clarify: Is the array sorted? Are there duplicates? Can it be negative?
-*   Start by brute force, then optimize. Don't jump to the optimal solution.
-*   If asked "can you do it in O(1) space?", think: two pointers, swap-based, or reversal trick.
+**📝 Practice Problems — Arrays:**
+- Two Sum
+- Best Time to Buy and Sell Stock
+- Contains Duplicate
+- Product of Array Except Self
+- Maximum Subarray (Kadane's)
+- Maximum Product Subarray
+- Find Minimum in Rotated Sorted Array
+- Search in Rotated Sorted Array
+- Container With Most Water
+- 3Sum
+- Sort Colors (Dutch National Flag)
+- Merge Intervals
+- Insert Interval
+- Non-Overlapping Intervals
+- Set Matrix Zeroes
+- Spiral Matrix
+- Rotate Image
+- Next Permutation
+- First Missing Positive
+- Trapping Rain Water
+- Majority Element
+- Majority Element II
 
-4
+---
 
-# Strings
+## Strings
 
 String problems test your understanding of character manipulation, hashing, and pattern matching. In C++, `std::string` is mutable (unlike Java/Python), which gives you advantages for in-place operations.
 
@@ -517,13 +450,11 @@ String problems test your understanding of character manipulation, hashing, and 
 
 #### Intuition
 
-Naive pattern matching is O(n×m) because after a mismatch, you restart from the next character. KMP avoids this by precomputing a **Longest Proper Prefix which is also Suffix (LPS)** array for the pattern. When a mismatch occurs at pattern\[j\], instead of restarting, jump to LPS\[j-1\] — because that prefix has already been matched.
+Naive pattern matching is O(n×m) because after a mismatch, you restart from the next character. KMP avoids this by precomputing a **Longest Proper Prefix which is also Suffix (LPS)** array for the pattern. When a mismatch occurs at pattern[j], instead of restarting, jump to LPS[j-1] — because that prefix has already been matched.
 
 #### LPS Array Construction
 
-LPS\[i\] = length of the longest proper prefix of pattern\[0..i\] which is also a suffix. This tells us "how much of the pattern we've already matched" after a mismatch.
-
-C++Copy
+LPS[i] = length of the longest proper prefix of pattern[0..i] which is also a suffix. This tells us "how much of the pattern we've already matched" after a mismatch.
 
 ```cpp
 // KMP Pattern Matching Algorithm
@@ -573,15 +504,24 @@ vector<int> kmpSearch(const string& text, const string& pattern) {
 
 Time: O(n + m) Space: O(m)
 
-Dry Run — LPS for "AAACAAAA": pattern: A A A C A A A A index: 0 1 2 3 4 5 6 7 LPS\[0\] = 0 (by definition) LPS\[1\] = 1 (A == A, prefix "A" = suffix "A") LPS\[2\] = 2 (AA == AA) LPS\[3\] = 0 (no prefix = suffix ending in C) LPS\[4\] = 1 (A == A) LPS\[5\] = 2 (AA == AA) LPS\[6\] = 3 (AAA == AAA) LPS\[7\] = 3 (AAC ≠ AAA, fallback → 3) LPS = \[0, 1, 2, 0, 1, 2, 3, 3\]
+**Dry Run — LPS for "AAACAAAA":**
+- pattern: A A A C A A A A
+- index:   0 1 2 3 4 5 6 7
+- LPS[0] = 0 (by definition)
+- LPS[1] = 1 (A == A, prefix "A" = suffix "A")
+- LPS[2] = 2 (AA == AA)
+- LPS[3] = 0 (no prefix = suffix ending in C)
+- LPS[4] = 1 (A == A)
+- LPS[5] = 2 (AA == AA)
+- LPS[6] = 3 (AAA == AAA)
+- LPS[7] = 3 (AAC ≠ AAA, fallback → 3)
+- **LPS = [0, 1, 2, 0, 1, 2, 3, 3]**
 
 ### Rabin-Karp Algorithm — Rolling Hash
 
 #### Intuition
 
 Instead of comparing characters one by one, compute a hash of the pattern and compare it with hash of every window of the same size in the text. If hashes match, verify character by character (to handle collisions). Use a **rolling hash** to update the window hash in O(1).
-
-C++Copy
 
 ```cpp
 // Rabin-Karp with Rolling Hash
@@ -622,9 +562,7 @@ Time: O(n + m) average, O(n × m) worst (hash collisions). Space: O(1)
 
 #### Intuition
 
-Z\[i\] = length of the longest substring starting at i which is also a prefix of the string. For pattern matching, concatenate pattern + "$" + text and compute Z-array. Any Z\[i\] == m indicates a match.
-
-C++Copy
+Z[i] = length of the longest substring starting at i which is also a prefix of the string. For pattern matching, concatenate pattern + "$" + text and compute Z-array. Any Z[i] == m indicates a match.
 
 ```cpp
 // Z Algorithm
@@ -660,9 +598,53 @@ vector<int> zSearch(const string& text, const string& pattern) {
 
 Time: O(n + m) Space: O(n + m)
 
-▶ More String Problems
+### Manacher's Algorithm — Longest Palindromic Substring
 
-C++Copy
+#### Intuition
+
+Finds all palindromic substrings in O(n) by exploiting the symmetry of palindromes. Transform the string by inserting separators (e.g., "#a#b#a#") to handle even-length palindromes uniformly. Maintain a center and right boundary of the rightmost palindrome found so far; use mirror positions to skip redundant checks.
+
+```cpp
+// Manacher's Algorithm — O(n) Longest Palindromic Substring
+string longestPalindrome(const string& s) {
+    // Transform: "abc" -> "^#a#b#c#$"
+    string t = "^#";
+    for (char c : s) { t += c; t += '#'; }
+    t += '$';
+    int n = t.size();
+    vector<int> p(n, 0);
+    int center = 0, right = 0;
+
+    for (int i = 1; i < n - 1; i++) {
+        int mirror = 2 * center - i;
+        if (i < right)
+            p[i] = min(right - i, p[mirror]);
+        // Expand around center i
+        while (t[i + p[i] + 1] == t[i - p[i] - 1])
+            p[i]++;
+        // Update rightmost palindrome
+        if (i + p[i] > right) {
+            center = i;
+            right = i + p[i];
+        }
+    }
+
+    // Find max palindrome
+    int maxLen = 0, maxCenter = 0;
+    for (int i = 1; i < n - 1; i++) {
+        if (p[i] > maxLen) {
+            maxLen = p[i];
+            maxCenter = i;
+        }
+    }
+    int start = (maxCenter - maxLen) / 2;
+    return s.substr(start, maxLen);
+}
+```
+
+Time: O(n) Space: O(n)
+
+### More String Problems
 
 ```cpp
 // Longest Common Prefix
@@ -687,15 +669,46 @@ bool isAnagram(string s, string t) {
     for (int f : freq) if (f != 0) return false;
     return true;
 }
+
+// Check Palindrome (Two Pointers)
+bool isPalindrome(string s) {
+    int lo = 0, hi = s.size() - 1;
+    while (lo < hi) {
+        while (lo < hi && !isalnum(s[lo])) lo++;
+        while (lo < hi && !isalnum(s[hi])) hi--;
+        if (tolower(s[lo]) != tolower(s[hi])) return false;
+        lo++; hi--;
+    }
+    return true;
+}
 ```
 
-5
+**📝 Practice Problems — Strings:**
+- Longest Palindromic Substring
+- Longest Common Prefix
+- Valid Anagram
+- Group Anagrams
+- Valid Parentheses
+- Longest Substring Without Repeating Characters
+- Minimum Window Substring
+- String to Integer (atoi)
+- Implement strStr (KMP/Rabin-Karp)
+- Palindromic Substrings (count)
+- Longest Palindromic Subsequence
+- Edit Distance
+- Longest Repeating Character Replacement
+- Decode String
+- Word Break
+- Repeated DNA Sequences
+- Count and Say
+- Wildcard Matching
+- Regular Expression Matching
 
-# Linked Lists
+---
+
+## Linked Lists
 
 ### Node Structure
-
-C++Copy
 
 ```cpp
 struct ListNode {
@@ -717,8 +730,6 @@ struct DListNode {
 #### Intuition
 
 Two pointers move at different speeds. _Slow_ moves 1 step, _fast_ moves 2 steps. If there's a cycle, fast will eventually lap slow (like runners on a circular track). If no cycle, fast reaches the end. This same technique finds the **middle node**: when fast reaches the end, slow is at the middle.
-
-C++Copy
 
 ```cpp
 // Find Middle of Linked List
@@ -790,8 +801,6 @@ bool isPalindrome(ListNode* head) {
 
 ### Pattern 2: In-place Reversal
 
-C++Copy
-
 ```cpp
 // Reverse Linked List — Iterative
 ListNode* reverseList(ListNode* head) {
@@ -846,8 +855,6 @@ ListNode* reverseKGroup(ListNode* head, int k) {
 
 ### Pattern 3: Merge
 
-C++Copy
-
 ```cpp
 // Merge Two Sorted Lists
 ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -882,9 +889,31 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
 
 Time: O(N log k) where N = total nodes, k = number of lists. Space: O(1)
 
-6
+**📝 Practice Problems — Linked Lists:**
+- Reverse Linked List
+- Reverse Linked List II (between positions)
+- Merge Two Sorted Lists
+- Merge K Sorted Lists
+- Linked List Cycle
+- Linked List Cycle II (find start)
+- Middle of the Linked List
+- Remove Nth Node From End of List
+- Reorder List
+- Palindrome Linked List
+- Odd Even Linked List
+- Intersection of Two Linked Lists
+- Add Two Numbers
+- Copy List with Random Pointer
+- LRU Cache
+- Flatten a Multilevel Doubly Linked List
+- Reverse Nodes in k-Group
+- Sort List (Merge Sort on LL)
+- Swap Nodes in Pairs
+- Remove Duplicates from Sorted List
 
-# Stack
+---
+
+## Stack
 
 ### Monotonic Stack Pattern
 
@@ -895,8 +924,6 @@ A monotonic stack maintains elements in strictly increasing or decreasing order.
 #### When to Use
 
 Whenever you see: "Find the next/previous greater/smaller element for every element in an array." This is almost always a monotonic stack problem.
-
-C++Copy
 
 ```cpp
 // Next Greater Element — Monotonic Decreasing Stack
@@ -981,47 +1008,72 @@ vector<int> stockSpan(vector<int>& prices) {
     }
     return span;
 }
+
+// Min Stack — Supports getMin() in O(1)
+class MinStack {
+    stack<pair<int,int>> st; // {value, current_min}
+public:
+    void push(int val) {
+        int curMin = st.empty() ? val : min(val, st.top().second);
+        st.push({val, curMin});
+    }
+    void pop() { st.pop(); }
+    int top() { return st.top().first; }
+    int getMin() { return st.top().second; }
+};
+
+// Evaluate Reverse Polish Notation
+int evalRPN(vector<string>& tokens) {
+    stack<int> st;
+    for (auto& t : tokens) {
+        if (t == "+" || t == "-" || t == "*" || t == "/") {
+            int b = st.top(); st.pop();
+            int a = st.top(); st.pop();
+            if (t == "+") st.push(a + b);
+            else if (t == "-") st.push(a - b);
+            else if (t == "*") st.push(a * b);
+            else st.push(a / b);
+        } else {
+            st.push(stoi(t));
+        }
+    }
+    return st.top();
+}
 ```
 
 **Pattern Recognition:** If the problem involves finding relationships between elements and their _nearest_ larger/smaller neighbors, reach for a monotonic stack. Time complexity drops from O(n²) brute force to O(n).
 
-7
+**📝 Practice Problems — Stack:**
+- Valid Parentheses
+- Min Stack
+- Evaluate Reverse Polish Notation
+- Daily Temperatures
+- Next Greater Element I, II
+- Largest Rectangle in Histogram
+- Maximal Rectangle
+- Stock Span Problem
+- Trapping Rain Water
+- Online Stock Span
+- Asteroid Collision
+- Decode String
+- Basic Calculator I, II
+- Remove All Adjacent Duplicates in String
+- 132 Pattern
+- Sum of Subarray Minimums
+- Car Fleet
 
-# Queue
+---
+
+## Queue
 
 ### Types of Queues
 
-Type
-
-C++ Container
-
-Key Property
-
-Queue
-
-`queue<int>`
-
-FIFO — First In First Out
-
-Deque
-
-`deque<int>`
-
-Insert/remove from both ends in O(1)
-
-Priority Queue
-
-`priority_queue<int>`
-
-Max-heap by default, top = largest
-
-Circular Queue
-
-Custom (array + modulo)
-
-Wraps around when reaching capacity
-
-C++Copy
+| Type | C++ Container | Key Property |
+|------|---------------|-------------|
+| Queue | `queue<int>` | FIFO — First In First Out |
+| Deque | `deque<int>` | Insert/remove from both ends in O(1) |
+| Priority Queue | `priority_queue<int>` | Max-heap by default, top = largest |
+| Circular Queue | Custom (array + modulo) | Wraps around when reaching capacity |
 
 ```cpp
 // Sliding Window Maximum — using Monotonic Deque
@@ -1062,9 +1114,18 @@ vector<int> firstNegative(vector<int>& nums, int k) {
 }
 ```
 
-8
+**📝 Practice Problems — Queue:**
+- Sliding Window Maximum
+- Design Circular Queue
+- Implement Queue using Stacks
+- Implement Stack using Queues
+- First Negative in Every Window of Size K
+- Rotting Oranges (Multi-source BFS)
+- Shortest Path in Binary Matrix
 
-# Hashing
+---
+
+## Hashing
 
 ### Core Concepts
 
@@ -1072,31 +1133,11 @@ Hash tables provide O(1) average-case lookup, insertion, and deletion. In C++, `
 
 #### Collision Handling Strategies
 
-Method
-
-Description
-
-Pros/Cons
-
-Chaining
-
-Each bucket is a linked list
-
-Simple; degrades to O(n) with many collisions
-
-Open Addressing
-
-Probe for next empty slot (linear/quadratic probing)
-
-Better cache; clustering issues
-
-Double Hashing
-
-Second hash function determines probe step
-
-Reduces clustering; more complex
-
-C++Copy
+| Method | Description | Pros/Cons |
+|--------|------------|-----------|
+| Chaining | Each bucket is a linked list | Simple; degrades to O(n) with many collisions |
+| Open Addressing | Probe for next empty slot (linear/quadratic probing) | Better cache; clustering issues |
+| Double Hashing | Second hash function determines probe step | Reduces clustering; more complex |
 
 ```cpp
 // Longest Consecutive Sequence — O(n) using HashSet
@@ -1148,19 +1189,45 @@ vector<vector<string>> groupAnagrams(vector<string>& strs) {
 
 **Interview Gotcha:** `unordered_map` worst case is O(n) per operation (all keys hash to same bucket). If the interviewer asks about worst case, mention `map` (O(log n) guaranteed) or custom hash functions.
 
-9
+**📝 Practice Problems — Hashing:**
+- Two Sum
+- Longest Consecutive Sequence
+- Subarray Sum Equals K
+- Group Anagrams
+- Top K Frequent Elements
+- Valid Sudoku
+- Isomorphic Strings
+- Word Pattern
+- Longest Substring Without Repeating Characters
+- 4Sum II
+- Contiguous Array (Binary Subarray)
+- Encode and Decode TinyURL
 
-# Recursion
+---
+
+## Recursion
 
 ### The Three Pillars
 
-1.  **Base Case:** The termination condition. Without it, infinite recursion → stack overflow.
-2.  **Recursive Relation:** How to reduce the problem to a smaller subproblem.
-3.  **Call Stack:** Each recursive call adds a frame. Stack depth = space complexity.
+1. **Base Case:** The termination condition. Without it, infinite recursion → stack overflow.
+2. **Recursive Relation:** How to reduce the problem to a smaller subproblem.
+3. **Call Stack:** Each recursive call adds a frame. Stack depth = space complexity.
 
-Recursion Tree — fibonacci(5): fib(5) / \\ fib(4) fib(3) / \\ / \\ fib(3) fib(2) fib(2) fib(1) / \\ / \\ / \\ fib(2) fib(1) fib(1) fib(0) fib(1) fib(0) / \\ fib(1) fib(0) Time: O(2^n) — exponential, many repeated subproblems Space: O(n) — max call stack depth
+**Recursion Tree — fibonacci(5):**
+```
+          fib(5)
+         /      \
+      fib(4)    fib(3)
+      /    \     /    \
+   fib(3) fib(2) fib(2) fib(1)
+   /   \   /  \   /  \
+fib(2) fib(1) fib(1) fib(0) fib(1) fib(0)
+ /  \
+fib(1) fib(0)
 
-C++Copy
+Time: O(2^n) — exponential, many repeated subproblems
+Space: O(n) — max call stack depth
+```
 
 ```cpp
 // Generate All Subsequences — Power Set
@@ -1200,15 +1267,24 @@ long long power(long long base, long long exp, long long mod) {
 }
 ```
 
-10
+**📝 Practice Problems — Recursion:**
+- Generate All Subsequences / Power Set
+- Tower of Hanoi
+- Power(x, n)
+- Fibonacci Number
+- Print All Permutations
+- Reverse a String Recursively
+- Check if Array is Sorted (recursive)
+- Count Paths in Grid
+- Generate Parentheses
 
-# Backtracking
+---
+
+## Backtracking
 
 ### The Backtracking Framework
 
 Backtracking is recursion with **pruning**. The general template is: _choose → explore → unchoose_. You make a choice, recurse on the reduced problem, then undo the choice to try the next option.
-
-C++Copy
 
 ```cpp
 // Generic Backtracking Template
@@ -1228,8 +1304,6 @@ void backtrack(State& state, vector<Result>& results) {
 ```
 
 ### N-Queens
-
-C++Copy
 
 ```cpp
 // N-Queens Problem
@@ -1269,8 +1343,6 @@ public:
 
 ### Sudoku Solver
 
-C++Copy
-
 ```cpp
 // Sudoku Solver
 bool solveSudoku(vector<vector<char>>& board) {
@@ -1301,8 +1373,6 @@ bool isValidPlacement(vector<vector<char>>& board, int row, int col, char c) {
 ```
 
 ### Subsets, Permutations, Combination Sum
-
-C++Copy
 
 ```cpp
 // Subsets (Power Set)
@@ -1357,17 +1427,30 @@ vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
 }
 ```
 
-11
+**📝 Practice Problems — Backtracking:**
+- Subsets / Subsets II (with duplicates)
+- Permutations / Permutations II
+- Combination Sum / Combination Sum II / III
+- Generate Parentheses
+- N-Queens / N-Queens II
+- Sudoku Solver
+- Word Search
+- Palindrome Partitioning
+- Letter Combinations of a Phone Number
+- Restore IP Addresses
+- Expression Add Operators
+- Beautiful Arrangement
+- Partition to K Equal Sum Subsets
 
-# Binary Search
+---
+
+## Binary Search
 
 ### Two Paradigms
 
-**1\. Search Space Binary Search:** Search for an element in a sorted array. The search space is the array itself.
+**1. Search Space Binary Search:** Search for an element in a sorted array. The search space is the array itself.
 
-**2\. Answer Space Binary Search (BS on Answer):** The answer lies in a range \[lo, hi\]. For each mid, check if mid is a valid answer. Shrink the range based on feasibility. This is the more powerful pattern.
-
-C++Copy
+**2. Answer Space Binary Search (BS on Answer):** The answer lies in a range [lo, hi]. For each mid, check if mid is a valid answer. Shrink the range based on feasibility. This is the more powerful pattern.
 
 ```cpp
 // Classic Binary Search
@@ -1408,8 +1491,6 @@ int upperBound(vector<int>& nums, int target) {
 ### Binary Search on Answer
 
 #### Template
-
-C++Copy
 
 ```cpp
 // BS on Answer Template — Minimize the Maximum / Maximize the Minimum
@@ -1497,15 +1578,30 @@ int allocateBooks(vector<int>& books, int students) {
 
 **Pattern Recognition:** If the problem says "minimize the maximum" or "maximize the minimum", it's almost certainly _Binary Search on Answer_. The feasibility check function is the key — design it to run in O(n).
 
-12
+**📝 Practice Problems — Binary Search:**
+- Binary Search (classic)
+- Search Insert Position
+- Find First and Last Position of Element
+- Search in Rotated Sorted Array / II
+- Find Minimum in Rotated Sorted Array / II
+- Search a 2D Matrix / II
+- Koko Eating Bananas
+- Capacity To Ship Packages Within D Days
+- Split Array Largest Sum
+- Aggressive Cows / Magnetic Balls
+- Allocate Books / Painter's Partition
+- Median of Two Sorted Arrays
+- Find Peak Element
+- Kth Smallest Element in a Sorted Matrix
+- Single Element in a Sorted Array
 
-# Two Pointers
+---
+
+## Two Pointers
 
 ### Intuition
 
 Use two pointers when the brute force involves nested loops over a **sorted/structured** input. By moving pointers intelligently, you skip unnecessary comparisons and reduce O(n²) → O(n).
-
-C++Copy
 
 ```cpp
 // Pair Sum in Sorted Array
@@ -1565,15 +1661,45 @@ int removeDuplicates(vector<int>& nums) {
     }
     return slow + 1;
 }
+
+// Trapping Rain Water — Two Pointer approach
+int trap(vector<int>& height) {
+    int lo = 0, hi = height.size() - 1;
+    int leftMax = 0, rightMax = 0, water = 0;
+    while (lo < hi) {
+        if (height[lo] < height[hi]) {
+            leftMax = max(leftMax, height[lo]);
+            water += leftMax - height[lo];
+            lo++;
+        } else {
+            rightMax = max(rightMax, height[hi]);
+            water += rightMax - height[hi];
+            hi--;
+        }
+    }
+    return water;
+}
 ```
 
-13
+**📝 Practice Problems — Two Pointers:**
+- Two Sum II (sorted array)
+- 3Sum / 4Sum
+- Container With Most Water
+- Trapping Rain Water
+- Remove Duplicates from Sorted Array / II
+- Remove Element
+- Sort Colors (Dutch National Flag)
+- Squares of a Sorted Array
+- Boats to Save People
+- Valid Palindrome / II
+- Longest Mountain in Array
+- Move Zeroes
 
-# Sliding Window
+---
+
+## Sliding Window
 
 ### Fixed Window Template
-
-C++Copy
 
 ```cpp
 // Fixed Window — Maximum Sum Subarray of Size K
@@ -1589,8 +1715,6 @@ int maxSumSubarray(vector<int>& nums, int k) {
 ```
 
 ### Variable Window Template
-
-C++Copy
 
 ```cpp
 // Variable Window Template
@@ -1668,111 +1792,36 @@ int totalFruit(vector<int>& fruits) {
 
 **Key Insight:** Fixed window → use when the window size is given. Variable window → use when you need to find the optimal window size. The left pointer only moves forward, making total time O(n) despite the while loop.
 
-14
+**📝 Practice Problems — Sliding Window:**
+- Maximum Sum Subarray of Size K
+- Longest Substring Without Repeating Characters
+- Minimum Window Substring
+- Longest Repeating Character Replacement
+- Permutation in String
+- Find All Anagrams in a String
+- Fruits Into Baskets
+- Sliding Window Maximum (Deque)
+- Minimum Size Subarray Sum
+- Substring with Concatenation of All Words
+- Max Consecutive Ones III
+- Subarrays with K Different Integers
 
-# Sorting
+---
+
+## Sorting
 
 ### Comparison Table
 
-Algorithm
-
-Best
-
-Average
-
-Worst
-
-Space
-
-Stable?
-
-In-place?
-
-Bubble Sort
-
-O(n)
-
-O(n²)
-
-O(n²)
-
-O(1)
-
-Yes
-
-Yes
-
-Selection Sort
-
-O(n²)
-
-O(n²)
-
-O(n²)
-
-O(1)
-
-No
-
-Yes
-
-Insertion Sort
-
-O(n)
-
-O(n²)
-
-O(n²)
-
-O(1)
-
-Yes
-
-Yes
-
-Merge Sort
-
-O(n log n)
-
-O(n log n)
-
-O(n log n)
-
-O(n)
-
-Yes
-
-No
-
-Quick Sort
-
-O(n log n)
-
-O(n log n)
-
-O(n²)
-
-O(log n)
-
-No
-
-Yes
-
-Heap Sort
-
-O(n log n)
-
-O(n log n)
-
-O(n log n)
-
-O(1)
-
-No
-
-Yes
-
-C++Copy
+| Algorithm | Best | Average | Worst | Space | Stable? | In-place? |
+|-----------|------|---------|-------|-------|---------|-----------|
+| Bubble Sort | O(n) | O(n²) | O(n²) | O(1) | Yes | Yes |
+| Selection Sort | O(n²) | O(n²) | O(n²) | O(1) | No | Yes |
+| Insertion Sort | O(n) | O(n²) | O(n²) | O(1) | Yes | Yes |
+| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | Yes | No |
+| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) | No | Yes |
+| Heap Sort | O(n log n) | O(n log n) | O(n log n) | O(1) | No | Yes |
+| Counting Sort | O(n+k) | O(n+k) | O(n+k) | O(k) | Yes | No |
+| Radix Sort | O(d·(n+k)) | O(d·(n+k)) | O(d·(n+k)) | O(n+k) | Yes | No |
 
 ```cpp
 // Merge Sort
@@ -1832,17 +1881,52 @@ void heapSort(vector<int>& arr) {
         heapify(arr, i, 0);
     }
 }
+
+// Counting Sort — for integers in range [0, maxVal]
+void countingSort(vector<int>& arr) {
+    int maxVal = *max_element(arr.begin(), arr.end());
+    vector<int> count(maxVal + 1, 0);
+    for (int x : arr) count[x]++;
+    int idx = 0;
+    for (int i = 0; i <= maxVal; i++)
+        while (count[i]-- > 0) arr[idx++] = i;
+}
+
+// Radix Sort — sorts by digit position, LSD first
+void radixSort(vector<int>& arr) {
+    int maxVal = *max_element(arr.begin(), arr.end());
+    for (int exp = 1; maxVal / exp > 0; exp *= 10) {
+        vector<int> output(arr.size()), count(10, 0);
+        for (int x : arr) count[(x / exp) % 10]++;
+        for (int i = 1; i < 10; i++) count[i] += count[i - 1];
+        for (int i = arr.size() - 1; i >= 0; i--) {
+            int digit = (arr[i] / exp) % 10;
+            output[--count[digit]] = arr[i];
+        }
+        arr = output;
+    }
+}
 ```
 
 **Interview Tip:** When asked "which sort is best?": _Merge Sort_ for stability and guaranteed O(n log n). _Quick Sort_ for average-case speed (in-place, cache-friendly). _Heap Sort_ for O(1) space and guaranteed O(n log n). C++ `std::sort` uses IntroSort (Quick Sort + Heap Sort + Insertion Sort).
 
-15
+**📝 Practice Problems — Sorting:**
+- Sort an Array (implement from scratch)
+- Kth Largest Element (QuickSelect)
+- Sort Colors (Dutch National Flag)
+- Merge Intervals
+- Largest Number
+- Meeting Rooms / Meeting Rooms II
+- H-Index
+- Wiggle Sort II
+- Count of Smaller Numbers After Self
+- Reverse Pairs (merge sort variant)
 
-# Trees
+---
+
+## Trees
 
 ### Node Structure & Terminology
-
-C++Copy
 
 ```cpp
 struct TreeNode {
@@ -1852,37 +1936,16 @@ struct TreeNode {
 };
 ```
 
-Term
-
-Definition
-
-Height
-
-Edges from node to deepest leaf. Height of tree = height of root.
-
-Depth
-
-Edges from root to the node. Root depth = 0.
-
-Degree
-
-Number of children a node has.
-
-Full Binary Tree
-
-Every node has 0 or 2 children.
-
-Complete Binary Tree
-
-All levels filled except possibly the last, which is filled left to right.
-
-Perfect Binary Tree
-
-All internal nodes have 2 children, all leaves at same level.
+| Term | Definition |
+|------|-----------|
+| Height | Edges from node to deepest leaf. Height of tree = height of root. |
+| Depth | Edges from root to the node. Root depth = 0. |
+| Degree | Number of children a node has. |
+| Full Binary Tree | Every node has 0 or 2 children. |
+| Complete Binary Tree | All levels filled except possibly the last, which is filled left to right. |
+| Perfect Binary Tree | All internal nodes have 2 children, all leaves at same level. |
 
 ### Traversals
-
-C++Copy
 
 ```cpp
 // Preorder (Root → Left → Right)
@@ -1957,8 +2020,6 @@ vector<int> morrisInorder(TreeNode* root) {
 
 ### Classic Tree Problems
 
-C++Copy
-
 ```cpp
 // Height of Binary Tree
 int height(TreeNode* root) {
@@ -1997,15 +2058,43 @@ TreeNode* LCA(TreeNode* root, TreeNode* p, TreeNode* q) {
     if (left && right) return root;
     return left ? left : right;
 }
+
+// Binary Tree Maximum Path Sum
+int maxPathSum(TreeNode* root, int& ans) {
+    if (!root) return 0;
+    int left = max(0, maxPathSum(root->left, ans));
+    int right = max(0, maxPathSum(root->right, ans));
+    ans = max(ans, left + right + root->val);
+    return root->val + max(left, right);
+}
 ```
 
-16
+**📝 Practice Problems — Trees:**
+- Maximum Depth of Binary Tree
+- Same Tree / Symmetric Tree
+- Invert Binary Tree
+- Subtree of Another Tree
+- Binary Tree Level Order Traversal
+- Zigzag Level Order Traversal
+- Binary Tree Right Side View
+- Diameter of Binary Tree
+- Balanced Binary Tree
+- Lowest Common Ancestor
+- Binary Tree Maximum Path Sum
+- Construct Binary Tree from Preorder and Inorder
+- Serialize and Deserialize Binary Tree
+- Path Sum / Path Sum II / III
+- Count Good Nodes in Binary Tree
+- Flatten Binary Tree to Linked List
+- Populating Next Right Pointers
+- Vertical Order Traversal
+- Boundary Traversal
 
-# Binary Search Tree
+---
+
+## Binary Search Tree
 
 **BST Property:** For every node, all values in the left subtree are smaller, and all values in the right subtree are larger. Inorder traversal of a BST produces sorted output.
-
-C++Copy
 
 ```cpp
 // Insert into BST
@@ -2064,23 +2153,33 @@ TreeNode* lcaBST(TreeNode* root, TreeNode* p, TreeNode* q) {
 }
 ```
 
-17
+**📝 Practice Problems — BST:**
+- Validate Binary Search Tree
+- Kth Smallest Element in a BST
+- Lowest Common Ancestor of a BST
+- Convert Sorted Array to BST
+- Inorder Successor in BST
+- Delete Node in a BST
+- Recover Binary Search Tree
+- Trim a Binary Search Tree
+- Two Sum IV (BST)
+- Binary Search Tree Iterator
 
-# Heap / Priority Queue
+---
+
+## Heap / Priority Queue
 
 ### Key Facts
 
-*   **Min Heap:** Parent ≤ children. Root = minimum.
-*   **Max Heap:** Parent ≥ children. Root = maximum.
-*   C++ `priority_queue<int>` is a **max-heap** by default.
-*   For min-heap: `priority_queue<int, vector<int>, greater<int>>`
-*   Insert: O(log n), Extract min/max: O(log n), Peek: O(1)
+* **Min Heap:** Parent ≤ children. Root = minimum.
+* **Max Heap:** Parent ≥ children. Root = maximum.
+* C++ `priority_queue<int>` is a **max-heap** by default.
+* For min-heap: `priority_queue<int, vector<int>, greater<int>>`
+* Insert: O(log n), Extract min/max: O(log n), Peek: O(1)
 
 #### When to Use
 
 Any problem involving "Top K", "Kth largest/smallest", "merge K sorted", or "median from stream".
-
-C++Copy
 
 ```cpp
 // K Largest Elements
@@ -2159,13 +2258,24 @@ public:
 };
 ```
 
-18
+**📝 Practice Problems — Heap:**
+- Kth Largest Element in an Array
+- Top K Frequent Elements
+- Merge K Sorted Lists
+- Find Median from Data Stream
+- K Closest Points to Origin
+- Reorganize String
+- Task Scheduler
+- Ugly Number II
+- Sort Characters By Frequency
+- Smallest Range Covering Elements from K Lists
+- IPO (Capital Optimization)
 
-# Trie (Prefix Tree)
+---
+
+## Trie (Prefix Tree)
 
 A Trie is a tree-like data structure for efficient storage and retrieval of strings. Each node represents a character, and paths from root to marked nodes form stored words. Lookup is O(L) where L = word length — independent of how many words are stored.
-
-C++Copy
 
 ```cpp
 // Trie Implementation
@@ -2219,15 +2329,38 @@ private:
 };
 ```
 
-Trie after inserting: "app", "apple", "apt", "bat" root / \\ a b | | p a / \\ | p t\* t\* | l | e\* \* = isEnd (complete word)
+**Trie Visualization after inserting: "app", "apple", "apt", "bat":**
+```
+          root
+         /    \
+        a      b
+        |      |
+        p      a
+       / \     |
+      p   t*   t*
+      |
+      l
+      |
+      e*
 
-19
+  * = isEnd (complete word)
+```
 
-# Graphs
+**📝 Practice Problems — Trie:**
+- Implement Trie (Prefix Tree)
+- Design Add and Search Words Data Structure
+- Word Search II
+- Replace Words
+- Longest Word in Dictionary
+- Maximum XOR of Two Numbers in an Array
+- Palindrome Pairs
+- Search Suggestions System
+
+---
+
+## Graphs
 
 ### Representations
-
-C++Copy
 
 ```cpp
 // Adjacency List (preferred for sparse graphs)
@@ -2246,7 +2379,9 @@ mat[u][v] = 1; // or weight
 
 ### BFS — Breadth First Search
 
-C++Copy
+#### Intuition
+
+Explore all nodes at distance d before exploring nodes at distance d+1. Uses a queue. Guarantees shortest path in unweighted graphs because it processes nodes layer by layer.
 
 ```cpp
 // BFS from source — finds shortest path in unweighted graph
@@ -2293,11 +2428,41 @@ int numIslands(vector<vector<char>>& grid) {
     }
     return count;
 }
+
+// Multi-source BFS — Rotting Oranges
+int orangesRotting(vector<vector<int>>& grid) {
+    int rows = grid.size(), cols = grid[0].size(), fresh = 0;
+    queue<pair<int,int>> q;
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++) {
+            if (grid[i][j] == 2) q.push({i, j});
+            if (grid[i][j] == 1) fresh++;
+        }
+    int dx[] = {0,0,1,-1}, dy[] = {1,-1,0,0}, time = 0;
+    while (!q.empty() && fresh > 0) {
+        int sz = q.size();
+        for (int i = 0; i < sz; i++) {
+            auto [x, y] = q.front(); q.pop();
+            for (int d = 0; d < 4; d++) {
+                int nx = x+dx[d], ny = y+dy[d];
+                if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && grid[nx][ny] == 1) {
+                    grid[nx][ny] = 2;
+                    q.push({nx, ny});
+                    fresh--;
+                }
+            }
+        }
+        time++;
+    }
+    return fresh == 0 ? time : -1;
+}
 ```
 
 ### DFS — Depth First Search
 
-C++Copy
+#### Intuition
+
+Explore as far as possible along each branch before backtracking. Uses recursion (implicit stack) or explicit stack. Natural for detecting cycles, finding connected components, and topological sorting.
 
 ```cpp
 // DFS — Recursive
@@ -2345,15 +2510,56 @@ bool hasCycleDirected(int u, vector<vector<int>>& adj, vector<int>& color) {
     color[u] = 2;
     return false;
 }
+
+// Bipartite Check — BFS coloring
+bool isBipartite(int n, vector<vector<int>>& adj) {
+    vector<int> color(n, -1);
+    for (int i = 0; i < n; i++) {
+        if (color[i] != -1) continue;
+        queue<int> q;
+        q.push(i);
+        color[i] = 0;
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            for (int v : adj[u]) {
+                if (color[v] == -1) {
+                    color[v] = 1 - color[u];
+                    q.push(v);
+                } else if (color[v] == color[u]) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
 ```
 
-20
+**📝 Practice Problems — Graphs (Basic):**
+- Number of Islands
+- Clone Graph
+- Number of Connected Components
+- Graph Valid Tree
+- Pacific Atlantic Water Flow
+- Surrounded Regions
+- Rotting Oranges
+- Walls and Gates
+- Is Graph Bipartite?
+- Flood Fill
+- Word Ladder / Word Ladder II
+- Shortest Path in Binary Matrix
+- 01 Matrix (multi-source BFS)
+- Course Schedule / Course Schedule II
 
-# Advanced Graph Algorithms
+---
+
+## Advanced Graph Algorithms
 
 ### Topological Sort
 
-C++Copy
+#### Intuition
+
+A linear ordering of vertices in a DAG such that for every edge u→v, u appears before v. Two approaches: Kahn's (BFS with in-degree tracking) or DFS (reverse post-order). Used for dependency resolution, build systems, course scheduling.
 
 ```cpp
 // Kahn's Algorithm (BFS-based Topological Sort)
@@ -2389,7 +2595,9 @@ void topoDFS(int u, vector<vector<int>>& adj, vector<bool>& visited, stack<int>&
 
 ### Dijkstra's Algorithm
 
-C++Copy
+#### Intuition
+
+Greedy BFS for weighted graphs with non-negative edges. Always expand the closest unvisited node. Uses a min-heap to pick the next node. Key invariant: once a node is popped from the heap, its shortest distance is finalized.
 
 ```cpp
 // Dijkstra — Shortest Path (non-negative weights)
@@ -2417,7 +2625,9 @@ Time: O((V + E) log V) with binary heap. Space: O(V)
 
 ### Bellman-Ford
 
-C++Copy
+#### Intuition
+
+Relax all edges V-1 times. Unlike Dijkstra, handles negative weights. After V-1 iterations, if any edge can still be relaxed, a negative cycle exists. Slower but more versatile.
 
 ```cpp
 // Bellman-Ford — handles negative weights, detects negative cycles
@@ -2445,7 +2655,9 @@ Time: O(V × E)
 
 ### Floyd-Warshall
 
-C++Copy
+#### Intuition
+
+Dynamic programming for all-pairs shortest paths. Consider each vertex as an intermediate node and update the shortest path between every pair. Simple triple nested loop. Works with negative weights (but not negative cycles).
 
 ```cpp
 // Floyd-Warshall — All-pairs shortest path
@@ -2463,7 +2675,9 @@ Time: O(V³) Space: O(V²)
 
 ### Minimum Spanning Tree
 
-C++Copy
+#### Intuition
+
+A spanning tree with minimum total edge weight. Two classic algorithms: **Kruskal** (sort edges, greedily add smallest that doesn't create a cycle using DSU) and **Prim** (grow tree from any node, always add cheapest edge to an unvisited node using min-heap).
 
 ```cpp
 // Kruskal's MST using DSU
@@ -2512,15 +2726,93 @@ int primMST(int n, vector<vector<pair<int,int>>>& adj) {
 }
 ```
 
-21
+### Bridges & Articulation Points
 
-# Greedy
+#### Intuition
+
+A **bridge** is an edge whose removal disconnects the graph. An **articulation point** is a vertex whose removal disconnects the graph. Found using Tarjan's algorithm with DFS discovery and low-link values.
+
+```cpp
+// Find Bridges (Critical Connections)
+void findBridges(int u, int parent, int& timer, vector<vector<int>>& adj,
+                 vector<int>& disc, vector<int>& low, vector<pair<int,int>>& bridges) {
+    disc[u] = low[u] = timer++;
+    for (int v : adj[u]) {
+        if (v == parent) continue;
+        if (disc[v] == -1) {
+            findBridges(v, u, timer, adj, disc, low, bridges);
+            low[u] = min(low[u], low[v]);
+            if (low[v] > disc[u])
+                bridges.push_back({u, v}); // u-v is a bridge
+        } else {
+            low[u] = min(low[u], disc[v]);
+        }
+    }
+}
+```
+
+### Tarjan's SCC — Strongly Connected Components
+
+#### Intuition
+
+In a directed graph, an SCC is a maximal set of vertices where every vertex is reachable from every other. Tarjan's algorithm uses DFS with a stack and low-link values to identify SCCs in a single pass.
+
+```cpp
+// Tarjan's SCC
+void tarjanSCC(int u, int& timer, vector<vector<int>>& adj,
+               vector<int>& disc, vector<int>& low, vector<bool>& onStack,
+               stack<int>& st, vector<vector<int>>& sccs) {
+    disc[u] = low[u] = timer++;
+    st.push(u);
+    onStack[u] = true;
+
+    for (int v : adj[u]) {
+        if (disc[v] == -1) {
+            tarjanSCC(v, timer, adj, disc, low, onStack, st, sccs);
+            low[u] = min(low[u], low[v]);
+        } else if (onStack[v]) {
+            low[u] = min(low[u], disc[v]);
+        }
+    }
+
+    // If u is root of an SCC
+    if (low[u] == disc[u]) {
+        vector<int> scc;
+        while (true) {
+            int v = st.top(); st.pop();
+            onStack[v] = false;
+            scc.push_back(v);
+            if (v == u) break;
+        }
+        sccs.push_back(scc);
+    }
+}
+```
+
+**📝 Practice Problems — Graphs (Advanced):**
+- Course Schedule / Course Schedule II (Topological Sort)
+- Alien Dictionary
+- Network Delay Time (Dijkstra)
+- Cheapest Flights Within K Stops (Bellman-Ford variant)
+- Path with Maximum Probability
+- Swim in Rising Water
+- Critical Connections in a Network (Bridges)
+- Minimum Spanning Tree (Kruskal/Prim)
+- Redundant Connection (DSU)
+- Number of Provinces
+- Accounts Merge
+- Making A Large Island
+- Shortest Path with Alternating Colors (0-1 BFS)
+- Find Eventual Safe States
+- Longest Path in DAG
+
+---
+
+## Greedy
 
 ### How to Identify Greedy Problems
 
 **Greedy works when:** Making the locally optimal choice at each step leads to a globally optimal solution. Key signal: the problem has _optimal substructure_ and the _greedy choice property_ — you never need to reconsider past decisions.
-
-C++Copy
 
 ```cpp
 // Activity Selection — Maximum non-overlapping intervals
@@ -2592,24 +2884,82 @@ int minMeetingRooms(vector<vector<int>>& intervals) {
     }
     return maxRooms;
 }
+
+// Job Sequencing — Maximum profit with deadlines
+int jobSequencing(vector<pair<int,int>>& jobs) {
+    // jobs[i] = {deadline, profit}
+    sort(jobs.begin(), jobs.end(), [](auto& a, auto& b) {
+        return a.second > b.second; // Sort by profit descending
+    });
+    int maxDeadline = 0;
+    for (auto& [d, p] : jobs) maxDeadline = max(maxDeadline, d);
+    vector<bool> slot(maxDeadline + 1, false);
+    int totalProfit = 0;
+    for (auto& [deadline, profit] : jobs) {
+        for (int j = deadline; j >= 1; j--) {
+            if (!slot[j]) {
+                slot[j] = true;
+                totalProfit += profit;
+                break;
+            }
+        }
+    }
+    return totalProfit;
+}
+
+// Fractional Knapsack
+double fractionalKnapsack(vector<pair<int,int>>& items, int W) {
+    // items[i] = {weight, value}
+    sort(items.begin(), items.end(), [](auto& a, auto& b) {
+        return (double)a.second / a.first > (double)b.second / b.first;
+    });
+    double totalValue = 0;
+    for (auto& [w, v] : items) {
+        if (W >= w) {
+            totalValue += v;
+            W -= w;
+        } else {
+            totalValue += (double)v * W / w;
+            break;
+        }
+    }
+    return totalValue;
+}
 ```
 
-22
+**📝 Practice Problems — Greedy:**
+- Activity Selection / Non-Overlapping Intervals
+- Jump Game / Jump Game II
+- Gas Station
+- Assign Cookies
+- Lemonade Change
+- Queue Reconstruction by Height
+- Meeting Rooms / Meeting Rooms II
+- Minimum Platforms
+- Job Sequencing Problem
+- Fractional Knapsack
+- Minimum Number of Arrows to Burst Balloons
+- Task Scheduler
+- Candy Distribution
+- Partition Labels
+- Boat to Save People
+- Reorganize String
+- Huffman Encoding (concept)
 
-# Dynamic Programming
+---
+
+## Dynamic Programming
 
 DP is the most important topic for interviews. The core idea: if a problem has **overlapping subproblems** and **optimal substructure**, solve each subproblem once and store the result.
 
 ### The 4 Steps
 
-1.  **Recursion:** Write the brute-force recursive solution.
-2.  **Memoization:** Cache results of recursive calls (top-down).
-3.  **Tabulation:** Convert to iterative bottom-up with a DP table.
-4.  **Space Optimization:** Reduce the DP table dimensions if possible.
+1. **Recursion:** Write the brute-force recursive solution.
+2. **Memoization:** Cache results of recursive calls (top-down).
+3. **Tabulation:** Convert to iterative bottom-up with a DP table.
+4. **Space Optimization:** Reduce the DP table dimensions if possible.
 
 ### Pattern: Fibonacci / Climbing Stairs
-
-C++Copy
 
 ```cpp
 // Climbing Stairs — All 4 approaches
@@ -2650,7 +3000,9 @@ int climbOptimized(int n) {
 
 ### Pattern: 0/1 Knapsack
 
-C++Copy
+#### Intuition
+
+For each item, you have two choices: take it or leave it. The state is (item index, remaining capacity). Iterate items and capacities, taking the maximum of including vs excluding each item.
 
 ```cpp
 // 0/1 Knapsack — Tabulation + Space Optimization
@@ -2683,8 +3035,6 @@ int knapsack1D(vector<int>& wt, vector<int>& val, int W) {
 
 ### Pattern: Unbounded Knapsack / Coin Change
 
-C++Copy
-
 ```cpp
 // Coin Change — Minimum coins to make amount
 int coinChange(vector<int>& coins, int amount) {
@@ -2712,7 +3062,11 @@ int change(int amount, vector<int>& coins) {
 
 ### Pattern: Longest Increasing Subsequence (LIS)
 
-C++Copy
+#### Intuition
+
+**O(n²) approach:** For each element, find the longest increasing subsequence ending at it by checking all previous elements.
+
+**O(n log n) approach (patience sorting):** Maintain an array of smallest tail elements for subsequences of each length. Use binary search to find where each new element fits.
 
 ```cpp
 // LIS — O(n²) DP
@@ -2743,7 +3097,9 @@ int lisBinarySearch(vector<int>& nums) {
 
 ### Pattern: Longest Common Subsequence (LCS)
 
-C++Copy
+#### Intuition
+
+Two pointers on two strings. If characters match, both advance and add 1. If not, try advancing each one separately and take the max. Classic 2D DP.
 
 ```cpp
 // LCS — Space Optimized
@@ -2764,9 +3120,35 @@ int lcs(string& a, string& b) {
 }
 ```
 
-### Pattern: Grid DP
+### Pattern: Edit Distance (String DP)
 
-C++Copy
+#### Intuition
+
+Transform string a into string b using minimum insertions, deletions, and replacements. If characters match, no operation needed. Otherwise, try all three operations and take the minimum.
+
+```cpp
+// Edit Distance — Minimum operations to transform a → b
+int editDistance(string& a, string& b) {
+    int m = a.size(), n = b.size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+    for (int i = 0; i <= m; i++) dp[i][0] = i;
+    for (int j = 0; j <= n; j++) dp[0][j] = j;
+
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (a[i-1] == b[j-1])
+                dp[i][j] = dp[i-1][j-1];
+            else
+                dp[i][j] = 1 + min({dp[i-1][j],      // delete
+                                    dp[i][j-1],      // insert
+                                    dp[i-1][j-1]});  // replace
+        }
+    }
+    return dp[m][n];
+}
+```
+
+### Pattern: Grid DP
 
 ```cpp
 // Unique Paths
@@ -2795,7 +3177,9 @@ int minPathSum(vector<vector<int>>& grid) {
 
 ### Pattern: Partition DP (MCM)
 
-C++Copy
+#### Intuition
+
+For a sequence that can be split at different points, try every split position and combine the costs. Classic example: Matrix Chain Multiplication — find the optimal parenthesization.
 
 ```cpp
 // Matrix Chain Multiplication
@@ -2815,89 +3199,167 @@ int mcm(vector<int>& dims) {
     }
     return dp[0][n-1];
 }
+
+// Palindrome Partitioning — Minimum cuts
+int minCut(string& s) {
+    int n = s.size();
+    vector<vector<bool>> isPalin(n, vector<bool>(n, false));
+    for (int len = 1; len <= n; len++)
+        for (int i = 0; i <= n - len; i++) {
+            int j = i + len - 1;
+            isPalin[i][j] = (s[i] == s[j]) && (len <= 2 || isPalin[i+1][j-1]);
+        }
+    vector<int> dp(n, 0);
+    for (int i = 0; i < n; i++) {
+        if (isPalin[0][i]) { dp[i] = 0; continue; }
+        dp[i] = INT_MAX;
+        for (int j = 1; j <= i; j++)
+            if (isPalin[j][i])
+                dp[i] = min(dp[i], dp[j-1] + 1);
+    }
+    return dp[n-1];
+}
+```
+
+### Pattern: Stock Buy and Sell (State Machine DP)
+
+#### Intuition
+
+Model as state machine with states like "holding stock" and "not holding stock". Transitions: buy (not holding → holding), sell (holding → not holding), cooldown. Each variant adds constraints on transitions.
+
+```cpp
+// Best Time to Buy and Sell Stock with Cooldown
+int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    if (n < 2) return 0;
+    // hold: max profit while holding stock
+    // sold: max profit just after selling (cooldown next)
+    // rest: max profit while resting (can buy next)
+    int hold = -prices[0], sold = 0, rest = 0;
+    for (int i = 1; i < n; i++) {
+        int prevHold = hold, prevSold = sold;
+        hold = max(hold, rest - prices[i]);    // buy or keep holding
+        sold = prevHold + prices[i];            // sell
+        rest = max(rest, prevSold);             // rest or finish cooldown
+    }
+    return max(sold, rest);
+}
+
+// Best Time to Buy and Sell Stock with K transactions
+int maxProfitK(int k, vector<int>& prices) {
+    int n = prices.size();
+    if (n < 2) return 0;
+    if (k >= n / 2) { // Unlimited transactions
+        int profit = 0;
+        for (int i = 1; i < n; i++)
+            profit += max(0, prices[i] - prices[i-1]);
+        return profit;
+    }
+    vector<vector<int>> dp(k + 1, vector<int>(n, 0));
+    for (int t = 1; t <= k; t++) {
+        int maxDiff = -prices[0];
+        for (int d = 1; d < n; d++) {
+            dp[t][d] = max(dp[t][d-1], prices[d] + maxDiff);
+            maxDiff = max(maxDiff, dp[t-1][d] - prices[d]);
+        }
+    }
+    return dp[k][n-1];
+}
+```
+
+### Pattern: Bitmask DP
+
+#### Intuition
+
+When the state involves a subset of items (typically n ≤ 20), represent the subset as a bitmask. Iterate over all 2^n subsets and compute the answer.
+
+```cpp
+// Travelling Salesman Problem — O(n² · 2^n)
+int tsp(vector<vector<int>>& dist) {
+    int n = dist.size();
+    vector<vector<int>> dp(1 << n, vector<int>(n, INT_MAX));
+    dp[1][0] = 0; // Start at city 0
+
+    for (int mask = 1; mask < (1 << n); mask++) {
+        for (int u = 0; u < n; u++) {
+            if (!(mask & (1 << u)) || dp[mask][u] == INT_MAX) continue;
+            for (int v = 0; v < n; v++) {
+                if (mask & (1 << v)) continue; // Already visited
+                int newMask = mask | (1 << v);
+                dp[newMask][v] = min(dp[newMask][v], dp[mask][u] + dist[u][v]);
+            }
+        }
+    }
+
+    int fullMask = (1 << n) - 1, ans = INT_MAX;
+    for (int u = 0; u < n; u++)
+        if (dp[fullMask][u] != INT_MAX)
+            ans = min(ans, dp[fullMask][u] + dist[u][0]);
+    return ans;
+}
 ```
 
 **DP Pattern Recognition:**
+* _"Count the number of ways"_ → DP (sum subproblems)
+* _"Find the minimum/maximum"_ → DP (min/max subproblems)
+* _"Is it possible?"_ → DP (boolean OR subproblems)
+* _Choices at each step + overlapping states_ → DP
+* _String matching / edit distance_ → 2D DP
+* _Subset / assignment with n ≤ 20_ → Bitmask DP
+* _Stock trading with states_ → State Machine DP
 
-*   _"Count the number of ways"_ → DP (sum subproblems)
-*   _"Find the minimum/maximum"_ → DP (min/max subproblems)
-*   _"Is it possible?"_ → DP (boolean OR subproblems)
-*   _Choices at each step + overlapping states_ → DP
-*   _String matching / edit distance_ → 2D DP
+**📝 Practice Problems — Dynamic Programming:**
+- Climbing Stairs
+- House Robber / House Robber II
+- Coin Change / Coin Change 2
+- Longest Increasing Subsequence
+- Longest Common Subsequence
+- Edit Distance
+- 0/1 Knapsack / Partition Equal Subset Sum
+- Word Break
+- Decode Ways
+- Unique Paths / Unique Paths II
+- Minimum Path Sum
+- Maximum Product Subarray
+- Palindrome Partitioning II (Min Cuts)
+- Matrix Chain Multiplication / Burst Balloons
+- Best Time to Buy and Sell Stock III / IV / with Cooldown / with Fee
+- Target Sum
+- Interleaving String
+- Regular Expression Matching
+- Longest Palindromic Subsequence
+- Count Different Palindromic Subsequences
+- Distinct Subsequences
+- Cherry Pickup
+- Shortest Common Supersequence
+- Minimum Cost to Cut a Stick
+- Stone Game variants
+- Travelling Salesman (Bitmask DP)
+- Partition to K Equal Sum Subsets (Bitmask DP)
 
-23
+---
 
-# Bit Manipulation
+## Bit Manipulation
 
 ### Essential Bit Operations
 
-Operation
-
-Expression
-
-Description
-
-Check ith bit
-
-`(n >> i) & 1`
-
-Returns 1 if bit i is set
-
-Set ith bit
-
-`n | (1 << i)`
-
-Sets bit i to 1
-
-Clear ith bit
-
-`n & ~(1 << i)`
-
-Sets bit i to 0
-
-Toggle ith bit
-
-`n ^ (1 << i)`
-
-Flips bit i
-
-Check odd/even
-
-`n & 1`
-
-1 = odd, 0 = even
-
-Check power of 2
-
-`n & (n-1) == 0`
-
-True if n is power of 2
-
-Count set bits
-
-`__builtin_popcount(n)`
-
-GCC built-in
-
-Lowest set bit
-
-`n & (-n)`
-
-Isolates the rightmost 1
-
-Remove lowest set bit
-
-`n & (n-1)`
-
-Turns off rightmost 1
+| Operation | Expression | Description |
+|-----------|-----------|-------------|
+| Check ith bit | `(n >> i) & 1` | Returns 1 if bit i is set |
+| Set ith bit | `n \| (1 << i)` | Sets bit i to 1 |
+| Clear ith bit | `n & ~(1 << i)` | Sets bit i to 0 |
+| Toggle ith bit | `n ^ (1 << i)` | Flips bit i |
+| Check odd/even | `n & 1` | 1 = odd, 0 = even |
+| Check power of 2 | `n & (n-1) == 0` | True if n is power of 2 |
+| Count set bits | `__builtin_popcount(n)` | GCC built-in |
+| Lowest set bit | `n & (-n)` | Isolates the rightmost 1 |
+| Remove lowest set bit | `n & (n-1)` | Turns off rightmost 1 |
 
 ### Key XOR Properties
 
-*   a ^ a = 0 (self-cancellation)
-*   a ^ 0 = a (identity)
-*   XOR is commutative and associative
-
-C++Copy
+* a ^ a = 0 (self-cancellation)
+* a ^ 0 = a (identity)
+* XOR is commutative and associative
 
 ```cpp
 // Single Number — every element appears twice except one
@@ -2938,15 +3400,39 @@ vector<vector<int>> subsetsViabit(vector<int>& nums) {
     }
     return result;
 }
+
+// Two Numbers Appearing Once (all others appear twice)
+pair<int,int> singleNumberIII(vector<int>& nums) {
+    int xorAll = 0;
+    for (int n : nums) xorAll ^= n;
+    int diffBit = xorAll & (-xorAll); // Isolate any differing bit
+    int a = 0, b = 0;
+    for (int n : nums) {
+        if (n & diffBit) a ^= n;
+        else b ^= n;
+    }
+    return {a, b};
+}
 ```
 
-24
+**📝 Practice Problems — Bit Manipulation:**
+- Single Number / Single Number II / III
+- Missing Number
+- Counting Bits
+- Number of 1 Bits
+- Reverse Bits
+- Sum of Two Integers (no + operator)
+- Power of Two
+- Subsets (bitmask approach)
+- Hamming Distance
+- Total Hamming Distance
+- Bitwise AND of Numbers Range
 
-# Segment Tree
+---
+
+## Segment Tree
 
 A Segment Tree is a binary tree where each leaf represents an array element, and each internal node stores the result of a merge operation (sum, min, max, etc.) of its children. Supports both **range queries** and **point updates** in O(log n).
-
-C++Copy
 
 ```cpp
 // Segment Tree — Range Sum Query with Point Update
@@ -2997,13 +3483,18 @@ public:
 
 Build: O(n) Query/Update: O(log n) Space: O(4n)
 
-25
+**📝 Practice Problems — Segment Tree:**
+- Range Sum Query - Mutable
+- Range Minimum Query
+- Count of Smaller Numbers After Self
+- Count of Range Sum
+- Falling Squares
 
-# Fenwick Tree (Binary Indexed Tree)
+---
+
+## Fenwick Tree (Binary Indexed Tree)
 
 A Fenwick Tree supports prefix sum queries and point updates in O(log n) with much less code than a Segment Tree. The key insight: use the lowest set bit of the index to determine the range each node is responsible for.
-
-C++Copy
 
 ```cpp
 // Fenwick Tree / BIT
@@ -3034,745 +3525,239 @@ public:
 
 ### Segment Tree vs Fenwick Tree
 
-Feature
+| Feature | Segment Tree | Fenwick Tree |
+|---------|-------------|-------------|
+| Code Complexity | More (~40 lines) | Minimal (~15 lines) |
+| Range Queries | Sum, Min, Max, GCD | Sum only (standard) |
+| Range Updates | With lazy propagation | Possible but tricky |
+| Space | 4n | n+1 |
+| Constant Factor | Higher | Lower (faster in practice) |
 
-Segment Tree
+---
 
-Fenwick Tree
-
-Code Complexity
-
-More (~40 lines)
-
-Minimal (~15 lines)
-
-Range Queries
-
-Sum, Min, Max, GCD
-
-Sum only (standard)
-
-Range Updates
-
-With lazy propagation
-
-Possible but tricky
-
-Space
-
-4n
-
-n+1
-
-Constant Factor
-
-Higher
-
-Lower (faster in practice)
-
-26
-
-# Complete Pattern Recognition Guide
+## Complete Pattern Recognition Guide
 
 This is the most important section for interviews. When you see a problem, match its characteristics to a known pattern below:
 
-Problem Clue / Keywords
-
-Pattern to Use
-
-Key Data Structure
-
-Sorted array, search target
-
-Binary Search
-
-Array
-
-"Minimize the maximum" / "Maximize the minimum"
-
-Binary Search on Answer
-
-Array
-
-Contiguous subarray sum/product
-
-Sliding Window / Prefix Sum
-
-Array / HashMap
-
-"Longest substring with condition"
-
-Sliding Window (Variable)
-
-HashMap
-
-Pair sum in sorted array
-
-Two Pointers
-
-Array
-
-"Find all triplets/pairs"
-
-Two Pointers / Sorting
-
-Array
-
-Linked list cycle / middle
-
-Fast & Slow Pointer
-
-Linked List
-
-"Next greater / smaller element"
-
-Monotonic Stack
-
-Stack
-
-Largest rectangle / histogram
-
-Monotonic Stack
-
-Stack
-
-Matching brackets / expressions
-
-Stack
-
-Stack
-
-Sliding window maximum
-
-Monotonic Deque
-
-Deque
-
-"Top K" / "K-th largest"
-
-Heap
-
-Priority Queue
-
-Merge K sorted
-
-Heap
-
-Priority Queue
-
-Frequency / lookup
-
-Hashing
-
-HashMap / HashSet
-
-Prefix / autocomplete / dictionary
-
-Trie
-
-Trie
-
-Shortest path (unweighted)
-
-BFS
-
-Queue
-
-Shortest path (weighted, no negatives)
-
-Dijkstra
-
-Min-Heap
-
-Shortest path (negative weights)
-
-Bellman-Ford
-
-Edge List
-
-All-pairs shortest path
-
-Floyd-Warshall
-
-2D Array
-
-Connected components / islands
-
-DFS / BFS / DSU
-
-Graph
-
-Cycle detection
-
-DFS (coloring)
-
-Graph
-
-Prerequisites / ordering
-
-Topological Sort
-
-DAG
-
-Minimum spanning tree
-
-Kruskal / Prim
-
-DSU / Heap
-
-Connectivity queries
-
-Disjoint Set Union
-
-DSU
-
-"Generate all" / "find all combinations"
-
-Backtracking
-
-Recursion
-
-N-Queens / Sudoku
-
-Backtracking
-
-Recursion
-
-Overlapping subproblems + optimal substructure
-
-Dynamic Programming
-
-Array / Table
-
-"Count ways" / "min cost"
-
-Dynamic Programming
-
-Array / Table
-
-Longest subsequence
-
-DP (LIS / LCS)
-
-Array
-
-Knapsack / subset sum
-
-DP (Knapsack)
-
-1D/2D Array
-
-Grid path counting
-
-DP (Grid)
-
-2D Array
-
-Range sum / range update queries
-
-Segment Tree / Fenwick
-
-Tree
-
-XOR tricks, single number
-
-Bit Manipulation
-
-Bitwise ops
-
-Local optimal → global optimal
-
-Greedy
-
-Sorting
-
-27
-
-# Blind 75 Revision Checklist
+| Problem Clue / Keywords | Pattern to Use | Key Data Structure |
+|--------------------------|---------------|-------------------|
+| Sorted array, search target | Binary Search | Array |
+| "Minimize the maximum" / "Maximize the minimum" | Binary Search on Answer | Array |
+| Contiguous subarray sum/product | Sliding Window / Prefix Sum | Array / HashMap |
+| "Longest substring with condition" | Sliding Window (Variable) | HashMap |
+| Pair sum in sorted array | Two Pointers | Array |
+| "Find all triplets/pairs" | Two Pointers / Sorting | Array |
+| Linked list cycle / middle | Fast & Slow Pointer | Linked List |
+| "Next greater / smaller element" | Monotonic Stack | Stack |
+| Largest rectangle / histogram | Monotonic Stack | Stack |
+| Matching brackets / expressions | Stack | Stack |
+| Sliding window maximum | Monotonic Deque | Deque |
+| "Top K" / "K-th largest" | Heap | Priority Queue |
+| Merge K sorted | Heap | Priority Queue |
+| Frequency / lookup | Hashing | HashMap / HashSet |
+| Prefix / autocomplete / dictionary | Trie | Trie |
+| Shortest path (unweighted) | BFS | Queue |
+| Shortest path (weighted, no negatives) | Dijkstra | Min-Heap |
+| Shortest path (negative weights) | Bellman-Ford | Edge List |
+| All-pairs shortest path | Floyd-Warshall | 2D Array |
+| Connected components / islands | DFS / BFS / DSU | Graph |
+| Cycle detection | DFS (coloring) | Graph |
+| Prerequisites / ordering | Topological Sort | DAG |
+| Minimum spanning tree | Kruskal / Prim | DSU / Heap |
+| Connectivity queries | Disjoint Set Union | DSU |
+| "Generate all" / "find all combinations" | Backtracking | Recursion |
+| N-Queens / Sudoku | Backtracking | Recursion |
+| Overlapping subproblems + optimal substructure | Dynamic Programming | Array / Table |
+| "Count ways" / "min cost" | Dynamic Programming | Array / Table |
+| Longest subsequence | DP (LIS / LCS) | Array |
+| Knapsack / subset sum | DP (Knapsack) | 1D/2D Array |
+| Grid path counting | DP (Grid) | 2D Array |
+| Range sum / range update queries | Segment Tree / Fenwick | Tree |
+| XOR tricks, single number | Bit Manipulation | Bitwise ops |
+| Local optimal → global optimal | Greedy | Sorting |
+
+---
+
+## Blind 75 Revision Checklist
 
 ### Arrays & Hashing
 
-*    Two Sum Easy
-*    Best Time to Buy and Sell Stock Easy
-*    Contains Duplicate Easy
-*    Product of Array Except Self Medium
-*    Maximum Subarray Medium
-*    Maximum Product Subarray Medium
-*    Find Minimum in Rotated Sorted Array Medium
-*    Search in Rotated Sorted Array Medium
-*    3Sum Medium
-*    Container With Most Water Medium
+- [ ] Two Sum — Easy
+- [ ] Best Time to Buy and Sell Stock — Easy
+- [ ] Contains Duplicate — Easy
+- [ ] Product of Array Except Self — Medium
+- [ ] Maximum Subarray — Medium
+- [ ] Maximum Product Subarray — Medium
+- [ ] Find Minimum in Rotated Sorted Array — Medium
+- [ ] Search in Rotated Sorted Array — Medium
+- [ ] 3Sum — Medium
+- [ ] Container With Most Water — Medium
 
 ### Two Pointers & Sliding Window
 
-*    Valid Palindrome Easy
-*    Longest Substring Without Repeating Characters Medium
-*    Longest Repeating Character Replacement Medium
-*    Minimum Window Substring Hard
+- [ ] Valid Palindrome — Easy
+- [ ] Longest Substring Without Repeating Characters — Medium
+- [ ] Longest Repeating Character Replacement — Medium
+- [ ] Minimum Window Substring — Hard
 
 ### Linked List
 
-*    Reverse Linked List Easy
-*    Merge Two Sorted Lists Easy
-*    Linked List Cycle Easy
-*    Remove Nth Node From End Medium
-*    Reorder List Medium
-*    Merge K Sorted Lists Hard
+- [ ] Reverse Linked List — Easy
+- [ ] Merge Two Sorted Lists — Easy
+- [ ] Linked List Cycle — Easy
+- [ ] Remove Nth Node From End — Medium
+- [ ] Reorder List — Medium
+- [ ] Merge K Sorted Lists — Hard
 
 ### Trees
 
-*    Maximum Depth of Binary Tree Easy
-*    Same Tree Easy
-*    Invert Binary Tree Easy
-*    Subtree of Another Tree Easy
-*    Binary Tree Level Order Traversal Medium
-*    Validate BST Medium
-*    Kth Smallest Element in BST Medium
-*    LCA of BST Medium
-*    Construct Tree from Preorder & Inorder Medium
-*    Binary Tree Maximum Path Sum Hard
-*    Serialize / Deserialize Binary Tree Hard
+- [ ] Maximum Depth of Binary Tree — Easy
+- [ ] Same Tree — Easy
+- [ ] Invert Binary Tree — Easy
+- [ ] Subtree of Another Tree — Easy
+- [ ] Binary Tree Level Order Traversal — Medium
+- [ ] Validate BST — Medium
+- [ ] Kth Smallest Element in BST — Medium
+- [ ] LCA of BST — Medium
+- [ ] Construct Tree from Preorder & Inorder — Medium
+- [ ] Binary Tree Maximum Path Sum — Hard
+- [ ] Serialize / Deserialize Binary Tree — Hard
 
 ### Graphs
 
-*    Number of Islands Medium
-*    Clone Graph Medium
-*    Course Schedule Medium
-*    Pacific Atlantic Water Flow Medium
-*    Number of Connected Components Medium
-*    Graph Valid Tree Medium
+- [ ] Number of Islands — Medium
+- [ ] Clone Graph — Medium
+- [ ] Course Schedule — Medium
+- [ ] Pacific Atlantic Water Flow — Medium
+- [ ] Number of Connected Components — Medium
+- [ ] Graph Valid Tree — Medium
 
 ### Dynamic Programming
 
-*    Climbing Stairs Easy
-*    House Robber Medium
-*    House Robber II Medium
-*    Longest Increasing Subsequence Medium
-*    Coin Change Medium
-*    Longest Common Subsequence Medium
-*    Word Break Medium
-*    Combination Sum IV Medium
-*    Unique Paths Medium
-*    Decode Ways Medium
+- [ ] Climbing Stairs — Easy
+- [ ] House Robber — Medium
+- [ ] House Robber II — Medium
+- [ ] Longest Increasing Subsequence — Medium
+- [ ] Coin Change — Medium
+- [ ] Longest Common Subsequence — Medium
+- [ ] Word Break — Medium
+- [ ] Combination Sum IV — Medium
+- [ ] Unique Paths — Medium
+- [ ] Decode Ways — Medium
 
 ### Heap & Intervals
 
-*    Merge Intervals Medium
-*    Non-Overlapping Intervals Medium
-*    Insert Interval Medium
-*    Top K Frequent Elements Medium
-*    Find Median From Data Stream Hard
+- [ ] Merge Intervals — Medium
+- [ ] Non-Overlapping Intervals — Medium
+- [ ] Insert Interval — Medium
+- [ ] Top K Frequent Elements — Medium
+- [ ] Find Median From Data Stream — Hard
 
 ### Bit Manipulation & Math
 
-*    Sum of Two Integers Medium
-*    Number of 1 Bits Easy
-*    Counting Bits Easy
-*    Missing Number Easy
-*    Reverse Bits Easy
+- [ ] Sum of Two Integers — Medium
+- [ ] Number of 1 Bits — Easy
+- [ ] Counting Bits — Easy
+- [ ] Missing Number — Easy
+- [ ] Reverse Bits — Easy
 
-28
+---
 
-# Interview Revision Cheat Sheet
+## Interview Revision Cheat Sheet
 
 ### Complexity Cheat Sheet
 
-Data Structure
-
-Access
-
-Search
-
-Insert
-
-Delete
-
-Array
-
-O(1)
-
-O(n)
-
-O(n)
-
-O(n)
-
-Linked List
-
-O(n)
-
-O(n)
-
-O(1)
-
-O(1)
-
-Stack/Queue
-
-O(n)
-
-O(n)
-
-O(1)
-
-O(1)
-
-Hash Table
-
-—
-
-O(1)\*
-
-O(1)\*
-
-O(1)\*
-
-BST (balanced)
-
-O(log n)
-
-O(log n)
-
-O(log n)
-
-O(log n)
-
-Heap
-
-O(1)†
-
-O(n)
-
-O(log n)
-
-O(log n)
-
-Trie
-
-—
-
-O(L)
-
-O(L)
-
-O(L)
+| Data Structure | Access | Search | Insert | Delete |
+|---------------|--------|--------|--------|--------|
+| Array | O(1) | O(n) | O(n) | O(n) |
+| Linked List | O(n) | O(n) | O(1) | O(1) |
+| Stack/Queue | O(n) | O(n) | O(1) | O(1) |
+| Hash Table | — | O(1)* | O(1)* | O(1)* |
+| BST (balanced) | O(log n) | O(log n) | O(log n) | O(log n) |
+| Heap | O(1)† | O(n) | O(log n) | O(log n) |
+| Trie | — | O(L) | O(L) | O(L) |
 
 \* = amortized average. † = peek only (min/max).
 
 ### Sorting Algorithms — Quick Reference
 
-Algorithm
-
-Best
-
-Avg
-
-Worst
-
-Space
-
-Stable
-
-Merge Sort
-
-O(n log n)
-
-O(n log n)
-
-O(n log n)
-
-O(n)
-
-✓
-
-Quick Sort
-
-O(n log n)
-
-O(n log n)
-
-O(n²)
-
-O(log n)
-
-✗
-
-Heap Sort
-
-O(n log n)
-
-O(n log n)
-
-O(n log n)
-
-O(1)
-
-✗
-
-Counting Sort
-
-O(n+k)
-
-O(n+k)
-
-O(n+k)
-
-O(k)
-
-✓
+| Algorithm | Best | Avg | Worst | Space | Stable |
+|-----------|------|-----|-------|-------|--------|
+| Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | ✓ |
+| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) | ✗ |
+| Heap Sort | O(n log n) | O(n log n) | O(n log n) | O(1) | ✗ |
+| Counting Sort | O(n+k) | O(n+k) | O(n+k) | O(k) | ✓ |
 
 ### Graph Algorithms — Quick Reference
 
-Algorithm
-
-Time
-
-Space
-
-Use Case
-
-BFS
-
-O(V+E)
-
-O(V)
-
-Shortest path (unweighted)
-
-DFS
-
-O(V+E)
-
-O(V)
-
-Components, cycle detection
-
-Dijkstra
-
-O((V+E)log V)
-
-O(V)
-
-Shortest path (positive weights)
-
-Bellman-Ford
-
-O(V×E)
-
-O(V)
-
-Negative weights
-
-Floyd-Warshall
-
-O(V³)
-
-O(V²)
-
-All-pairs shortest path
-
-Kruskal
-
-O(E log E)
-
-O(V)
-
-MST (sparse)
-
-Prim
-
-O((V+E)log V)
-
-O(V)
-
-MST (dense)
-
-Topological Sort
-
-O(V+E)
-
-O(V)
-
-DAG ordering
+| Algorithm | Time | Space | Use Case |
+|-----------|------|-------|----------|
+| BFS | O(V+E) | O(V) | Shortest path (unweighted) |
+| DFS | O(V+E) | O(V) | Components, cycle detection |
+| Dijkstra | O((V+E)log V) | O(V) | Shortest path (positive weights) |
+| Bellman-Ford | O(V×E) | O(V) | Negative weights |
+| Floyd-Warshall | O(V³) | O(V²) | All-pairs shortest path |
+| Kruskal | O(E log E) | O(V) | MST (sparse) |
+| Prim | O((V+E)log V) | O(V) | MST (dense) |
+| Topological Sort | O(V+E) | O(V) | DAG ordering |
 
 ### Important Formulas
 
-Formula
-
-Value
-
-Sum 1..n
-
-n(n+1)/2
-
-Sum of squares 1²..n²
-
-n(n+1)(2n+1)/6
-
-Nodes in perfect binary tree (height h)
-
-2^(h+1) - 1
-
-Height of balanced binary tree (n nodes)
-
-⌊log₂(n)⌋
-
-Catalan number C(n)
-
-C(2n,n)/(n+1)
-
-nCr combinations
-
-n! / (r! × (n-r)!)
-
-Number of subsets
-
-2^n
-
-Number of subsequences
-
-2^n
-
-Number of permutations
-
-n!
+| Formula | Value |
+|---------|-------|
+| Sum 1..n | n(n+1)/2 |
+| Sum of squares 1²..n² | n(n+1)(2n+1)/6 |
+| Nodes in perfect binary tree (height h) | 2^(h+1) - 1 |
+| Height of balanced binary tree (n nodes) | ⌊log₂(n)⌋ |
+| Catalan number C(n) | C(2n,n)/(n+1) |
+| nCr combinations | n! / (r! × (n-r)!) |
+| Number of subsets | 2^n |
+| Number of subsequences | 2^n |
+| Number of permutations | n! |
 
 ### Common Interview Traps
 
-*   **Integer Overflow:** Use `long long` for products, sums of large numbers. `mid = lo + (hi-lo)/2` instead of `(lo+hi)/2`.
-*   **Off-by-one:** Check < vs <=, array bounds, loop conditions.
-*   **Empty input:** Always handle n=0 or empty strings/arrays.
-*   **Negative numbers:** Kadane fails without proper initialization. XOR works on negatives.
-*   **Modular arithmetic:** (a + b) % MOD is not (a%MOD + b%MOD) if it exceeds MOD. Use `((a%MOD) + (b%MOD)) % MOD`.
-*   **Unordered containers:** Worst case O(n). In competitive programming, use custom hash or ordered containers.
-*   **Passing by value:** Large vectors/strings should be passed by reference (`&`).
-*   **Global state:** Not resetting visited arrays between test cases.
+* **Integer Overflow:** Use `long long` for products, sums of large numbers. `mid = lo + (hi-lo)/2` instead of `(lo+hi)/2`.
+* **Off-by-one:** Check < vs <=, array bounds, loop conditions.
+* **Empty input:** Always handle n=0 or empty strings/arrays.
+* **Negative numbers:** Kadane fails without proper initialization. XOR works on negatives.
+* **Modular arithmetic:** (a + b) % MOD is not (a%MOD + b%MOD) if it exceeds MOD. Use `((a%MOD) + (b%MOD)) % MOD`.
+* **Unordered containers:** Worst case O(n). In competitive programming, use custom hash or ordered containers.
+* **Passing by value:** Large vectors/strings should be passed by reference (`&`).
+* **Global state:** Not resetting visited arrays between test cases.
 
-29
+---
 
-# C++ STL for Interviews
+## C++ STL for Interviews
 
 ### Sequence Containers
 
-Container
-
-Key Operations
-
-Time Complexity
-
-When to Use
-
-`vector<T>`
-
-push\_back, pop\_back, \[\], at
-
-O(1)\* push\_back, O(1) access
-
-Default container. Dynamic array.
-
-`deque<T>`
-
-push\_front/back, pop\_front/back
-
-O(1) both ends
-
-When you need both-end insertion.
-
-`list<T>`
-
-insert, erase, splice
-
-O(1) insert/delete (with iterator)
-
-Frequent insert/delete in middle.
-
-`array<T,N>`
-
-\[\], at, fill
-
-O(1) access
-
-Fixed-size, stack-allocated.
+| Container | Key Operations | Time Complexity | When to Use |
+|-----------|---------------|-----------------|-------------|
+| `vector<T>` | push\_back, pop\_back, [], at | O(1)* push\_back, O(1) access | Default container. Dynamic array. |
+| `deque<T>` | push\_front/back, pop\_front/back | O(1) both ends | When you need both-end insertion. |
+| `list<T>` | insert, erase, splice | O(1) insert/delete (with iterator) | Frequent insert/delete in middle. |
+| `array<T,N>` | [], at, fill | O(1) access | Fixed-size, stack-allocated. |
 
 ### Associative Containers
 
-Container
-
-Underlying Structure
-
-Key Operations
-
-Time
-
-`set<T>`
-
-Red-Black Tree
-
-insert, erase, find, lower\_bound
-
-O(log n)
-
-`multiset<T>`
-
-Red-Black Tree
-
-Same as set, allows duplicates
-
-O(log n)
-
-`map<K,V>`
-
-Red-Black Tree
-
-\[\], insert, find, lower\_bound
-
-O(log n)
-
-`unordered_set<T>`
-
-Hash Table
-
-insert, erase, find, count
-
-O(1)\*
-
-`unordered_map<K,V>`
-
-Hash Table
-
-\[\], insert, find, count
-
-O(1)\*
+| Container | Underlying Structure | Key Operations | Time |
+|-----------|---------------------|---------------|------|
+| `set<T>` | Red-Black Tree | insert, erase, find, lower\_bound | O(log n) |
+| `multiset<T>` | Red-Black Tree | Same as set, allows duplicates | O(log n) |
+| `map<K,V>` | Red-Black Tree | [], insert, find, lower\_bound | O(log n) |
+| `unordered_set<T>` | Hash Table | insert, erase, find, count | O(1)* |
+| `unordered_map<K,V>` | Hash Table | [], insert, find, count | O(1)* |
 
 ### Container Adaptors
 
-Container
-
-Operations
-
-Notes
-
-`stack<T>`
-
-push, pop, top, empty, size
-
-LIFO. Default: deque-backed.
-
-`queue<T>`
-
-push, pop, front, back, empty
-
-FIFO. Default: deque-backed.
-
-`priority_queue<T>`
-
-push, pop, top, empty
-
-Max-heap. For min-heap: `greater<T>`
+| Container | Operations | Notes |
+|-----------|-----------|-------|
+| `stack<T>` | push, pop, top, empty, size | LIFO. Default: deque-backed. |
+| `queue<T>` | push, pop, front, back, empty | FIFO. Default: deque-backed. |
+| `priority_queue<T>` | push, pop, top, empty | Max-heap. For min-heap: `greater<T>` |
 
 ### Essential Algorithms
-
-C++Copy
 
 ```cpp
 // Sorting
@@ -3811,160 +3796,31 @@ iota(v.begin(), v.end(), 0);                      // Fill with 0,1,2,3...
 partial_sum(v.begin(), v.end(), prefix.begin());   // Prefix sums
 ```
 
-30
-
-# Pattern-Based Master Table
-
-Pattern
-
-How to Identify
-
-Template Sketch
-
-Classic Problems
-
-**Fast & Slow Pointer**
-
-Linked list cycle, middle element, palindrome check
-
-slow = slow.next; fast = fast.next.next
-
-Linked List Cycle, Middle Node, Happy Number
-
-**Sliding Window**
-
-"Longest/shortest subarray/substring with condition"
-
-Expand right, shrink left when invalid
-
-Min Window Substring, Longest Without Repeats, Fruits
-
-**Two Pointers**
-
-Sorted array + pair/triplet, partitioning
-
-lo = 0, hi = n-1; move based on comparison
-
-Two Sum II, 3Sum, Container With Most Water
-
-**Binary Search**
-
-Sorted data, monotonic predicate
-
-lo, hi, mid; check feasibility
-
-Search Element, Koko Bananas, Allocate Books
-
-**Monotonic Stack**
-
-Next/previous greater/smaller element
-
-Stack of indices; pop when current violates order
-
-Next Greater Element, Largest Rectangle, Daily Temps
-
-**Prefix Sum**
-
-Range sum queries, subarray sum equals K
-
-prefix\[i\] = prefix\[i-1\] + arr\[i\]; query = prefix\[r\] - prefix\[l-1\]
-
-Subarray Sum K, Range Sum Query, Continuous Subarray Sum
-
-**Greedy**
-
-Local optimal = global optimal, intervals
-
-Sort by end time/criteria; greedily select
-
-Activity Selection, Jump Game, Gas Station
-
-**Backtracking**
-
-"Generate all", combinations, permutations, constraints
-
-Choose → Explore → Unchoose
-
-N-Queens, Sudoku, Subsets, Permutations
-
-**DP — Fibonacci**
-
-State depends on previous 1-2 states
-
-dp\[i\] = dp\[i-1\] + dp\[i-2\]
-
-Climbing Stairs, House Robber, Decode Ways
-
-**DP — Knapsack**
-
-Include/exclude items, weight capacity
-
-dp\[w\] = max(dp\[w\], val\[i\] + dp\[w-wt\[i\]\])
-
-0/1 Knapsack, Subset Sum, Partition Equal Subset
-
-**DP — LIS**
-
-Longest increasing/decreasing subsequence
-
-dp\[i\] = max(dp\[j\]+1) for j<i, a\[j\]<a\[i\] or Binary Search
-
-LIS, Russian Doll Envelopes
-
-**DP — LCS**
-
-Two strings, longest common subsequence/substring
-
-dp\[i\]\[j\] = dp\[i-1\]\[j-1\]+1 if match, else max of neighbors
-
-LCS, Edit Distance, Shortest Common Supersequence
-
-**Trie**
-
-Prefix search, autocomplete, dictionary
-
-Node with 26 children + isEnd flag
-
-Implement Trie, Word Search II, Autocomplete
-
-**Heap / Top-K**
-
-"K largest/smallest", running median
-
-Min-heap of size K for K largest
-
-Top K Frequent, Kth Largest, Merge K Sorted
-
-**DSU / Union-Find**
-
-Connectivity, components, dynamic "is connected?"
-
-find with path compression + union by rank
-
-Number of Provinces, Redundant Connection, MST
-
-**BFS**
-
-Shortest path unweighted, level-order, grid exploration
-
-Queue; process level by level
-
-Word Ladder, Number of Islands, Rotten Oranges
-
-**DFS**
-
-Components, paths, tree traversal, cycle detection
-
-Recursive or stack-based
-
-Connected Components, Path Sum, Clone Graph
-
-**Topological Sort**
-
-Prerequisites, ordering, dependency resolution
-
-Kahn (BFS with in-degree) or DFS post-order
-
-Course Schedule, Alien Dictionary, Build Order
+---
+
+## Pattern-Based Master Table
+
+| Pattern | How to Identify | Template Sketch | Classic Problems |
+|---------|----------------|-----------------|-----------------|
+| **Fast & Slow Pointer** | Linked list cycle, middle element, palindrome check | slow = slow.next; fast = fast.next.next | Linked List Cycle, Middle Node, Happy Number |
+| **Sliding Window** | "Longest/shortest subarray/substring with condition" | Expand right, shrink left when invalid | Min Window Substring, Longest Without Repeats, Fruits |
+| **Two Pointers** | Sorted array + pair/triplet, partitioning | lo = 0, hi = n-1; move based on comparison | Two Sum II, 3Sum, Container With Most Water |
+| **Binary Search** | Sorted data, monotonic predicate | lo, hi, mid; check feasibility | Search Element, Koko Bananas, Allocate Books |
+| **Monotonic Stack** | Next/previous greater/smaller element | Stack of indices; pop when current violates order | Next Greater Element, Largest Rectangle, Daily Temps |
+| **Prefix Sum** | Range sum queries, subarray sum equals K | prefix[i] = prefix[i-1] + arr[i]; query = prefix[r] - prefix[l-1] | Subarray Sum K, Range Sum Query, Continuous Subarray Sum |
+| **Greedy** | Local optimal = global optimal, intervals | Sort by end time/criteria; greedily select | Activity Selection, Jump Game, Gas Station |
+| **Backtracking** | "Generate all", combinations, permutations, constraints | Choose → Explore → Unchoose | N-Queens, Sudoku, Subsets, Permutations |
+| **DP — Fibonacci** | State depends on previous 1-2 states | dp[i] = dp[i-1] + dp[i-2] | Climbing Stairs, House Robber, Decode Ways |
+| **DP — Knapsack** | Include/exclude items, weight capacity | dp[w] = max(dp[w], val[i] + dp[w-wt[i]]) | 0/1 Knapsack, Subset Sum, Partition Equal Subset |
+| **DP — LIS** | Longest increasing/decreasing subsequence | dp[i] = max(dp[j]+1) for j<i, a[j]<a[i] or Binary Search | LIS, Russian Doll Envelopes |
+| **DP — LCS** | Two strings, longest common subsequence/substring | dp[i][j] = dp[i-1][j-1]+1 if match, else max of neighbors | LCS, Edit Distance, Shortest Common Supersequence |
+| **DP — State Machine** | Stock buy/sell, state transitions | hold/sold/rest states, transitions per day | Stock problems, Paint House |
+| **DP — Bitmask** | Subset assignment, n ≤ 20 | dp[mask][i] = min over transitions | TSP, Partition to K Equal Subsets |
+| **Trie** | Prefix search, autocomplete, dictionary | Node with 26 children + isEnd flag | Implement Trie, Word Search II, Autocomplete |
+| **Heap / Top-K** | "K largest/smallest", running median | Min-heap of size K for K largest | Top K Frequent, Kth Largest, Merge K Sorted |
+| **DSU / Union-Find** | Connectivity, components, dynamic "is connected?" | find with path compression + union by rank | Number of Provinces, Redundant Connection, MST |
+| **BFS** | Shortest path unweighted, level-order, grid exploration | Queue; process level by level | Word Ladder, Number of Islands, Rotten Oranges |
+| **DFS** | Components, paths, tree traversal, cycle detection | Recursive or stack-based | Connected Components, Path Sum, Clone Graph |
+| **Topological Sort** | Prerequisites, ordering, dependency resolution | Kahn (BFS with in-degree) or DFS post-order | Course Schedule, Alien Dictionary, Build Order |
 
 **Final Advice:** In an interview, spend 5 minutes understanding the problem and identifying the pattern before writing code. 70% of the battle is recognizing which pattern to apply. The implementation is just mechanical after that.
